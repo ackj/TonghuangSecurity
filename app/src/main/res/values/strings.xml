@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">s1</string>
+    <string name="app_name">S1</string>
+
+    <string name="security">安防</string>
+    <string name="room">房间</string>
+    <string name="scene">场景</string>
+    <string name="hisotry">历史</string>
+    <string name="more">更多</string>
+
+
 </resources>
