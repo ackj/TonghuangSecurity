@@ -1,4 +1,4 @@
-package com.aglhz.s1.adapter;
+package com.aglhz.s1.room;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,18 +13,18 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Email: liujia95me@126.com
  */
 
-public class RoomAdapter extends FragmentPagerAdapter {
+public class RoomPVAdapter extends FragmentPagerAdapter {
 
     private List<SupportFragment> fragments;
     private String[] titles = {"卧室","大厅","厨房"};
 
-    public RoomAdapter(List<SupportFragment> fragments, FragmentManager fm){
+    public RoomPVAdapter(List<SupportFragment> fragments, FragmentManager fm){
         this(fm);
         this.fragments = fragments;
     }
 
 
-    public RoomAdapter(FragmentManager fm) {
+    public RoomPVAdapter(FragmentManager fm) {
         super(fm);
     }
 

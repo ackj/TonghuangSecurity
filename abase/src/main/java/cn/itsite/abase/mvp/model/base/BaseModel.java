@@ -16,8 +16,6 @@ public abstract class BaseModel {
     //每一套mvp应该拥有一个独立的RxManager
     public RxManager mRxManager = new RxManager();
 
-
-
     //生命周期结束，用于控制Model的资源释放
     public void clear() {
         ALog.e(TAG + "clear()");

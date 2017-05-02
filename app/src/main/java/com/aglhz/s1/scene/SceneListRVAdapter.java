@@ -1,4 +1,4 @@
-package com.aglhz.s1.adapter;
+package com.aglhz.s1.scene;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.SceneBean;
@@ -13,9 +13,9 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Email: liujia95me@126.com
  */
 
-public class SceneListAdapter extends BaseRecyclerViewAdapter<SceneBean, BaseViewHolder> {
+public class SceneListRVAdapter extends BaseRecyclerViewAdapter<SceneBean, BaseViewHolder> {
 
-    public SceneListAdapter(List<SceneBean> data) {
+    public SceneListRVAdapter(List<SceneBean> data) {
         super(R.layout.item_scene, data);
     }
 

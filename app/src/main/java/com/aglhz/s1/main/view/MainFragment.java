@@ -1,4 +1,4 @@
-package com.aglhz.s1.main;
+package com.aglhz.s1.main.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,17 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.history.HistoryFragment;
-import com.aglhz.s1.room.RoomFragment;
-import com.aglhz.s1.scene.SceneFragment;
-import com.aglhz.s1.security.SecurityFragment;
-import com.aglhz.s1.settings.SettingsFragment;
+import com.aglhz.s1.history.view.HistoryFragment;
+import com.aglhz.s1.room.view.RoomFragment;
+import com.aglhz.s1.scene.view.SceneFragment;
+import com.aglhz.s1.security.view.SecurityFragment;
+import com.aglhz.s1.settings.view.SettingsFragment;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.itsite.abase.mvp.view.base.BaseFragment;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -25,7 +26,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Email: liujia95me@126.com
  */
 
-public class MainFragment extends SupportFragment {
+public class MainFragment extends BaseFragment {
 
     private AHBottomNavigation ahbn;
     private SupportFragment[] fragments = new SupportFragment[5];
@@ -52,7 +53,7 @@ public class MainFragment extends SupportFragment {
             fragments[2] = SceneFragment.newInstance();
             fragments[3] = HistoryFragment.newInstance();
             fragments[4] = SettingsFragment.newInstance();
-            loadMultipleRootFragment(R.id.fl_container_main_fragment, 0, fragments[0], fragments[1], fragments[2], fragments[3],fragments[4]);
+            loadMultipleRootFragment(R.id.fl_container_main_fragment, 0, fragments[0], fragments[1], fragments[2], fragments[3], fragments[4]);
         } else {
             fragments[0] = findFragment(SecurityFragment.class);
             fragments[1] = findFragment(RoomFragment.class);

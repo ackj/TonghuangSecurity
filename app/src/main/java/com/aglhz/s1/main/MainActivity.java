@@ -1,9 +1,9 @@
-package com.aglhz.s1;
+package com.aglhz.s1.main;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.aglhz.s1.main.MainFragment;
+import com.aglhz.s1.R;
+import com.aglhz.s1.main.view.MainFragment;
 
 import cn.itsite.abase.mvp.view.base.BaseActivity;
 
@@ -17,4 +17,5 @@ public class MainActivity extends BaseActivity {
             loadRootFragment(R.id.fl_main_activity, MainFragment.newInstance());
         }
     }
+
 }

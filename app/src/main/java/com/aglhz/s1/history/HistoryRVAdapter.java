@@ -1,4 +1,4 @@
-package com.aglhz.s1.adapter;
+package com.aglhz.s1.history;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.HistoryBean;
@@ -13,9 +13,9 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Email: liujia95me@126.com
  */
 
-public class HistoryAdapter extends BaseRecyclerViewAdapter<HistoryBean, BaseViewHolder> {
+public class HistoryRVAdapter extends BaseRecyclerViewAdapter<HistoryBean, BaseViewHolder> {
 
-    public HistoryAdapter(List<HistoryBean> data) {
+    public HistoryRVAdapter(List<HistoryBean> data) {
         super(R.layout.item_history, data);
     }
 

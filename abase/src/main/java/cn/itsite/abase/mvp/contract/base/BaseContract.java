@@ -12,7 +12,7 @@ public interface BaseContract {
 
     interface View {
 
-        void start();
+        void start(Object response);
 
         void error(Throwable t);
     }

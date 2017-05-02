@@ -1,4 +1,4 @@
-package com.aglhz.s1.adapter;
+package com.aglhz.s1.security;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.SecurityBean;
@@ -13,9 +13,9 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Email: liujia95me@126.com
  */
 
-public class SecurityAdapter extends BaseRecyclerViewAdapter<SecurityBean, BaseViewHolder> {
+public class SecurityRVAdapter extends BaseRecyclerViewAdapter<SecurityBean, BaseViewHolder> {
 
-    public SecurityAdapter(List<SecurityBean> data) {
+    public SecurityRVAdapter(List<SecurityBean> data) {
         super(R.layout.item_security, data);
     }
 
