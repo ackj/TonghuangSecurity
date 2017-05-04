@@ -22,8 +22,8 @@ public class SettingsRVAdapter extends BaseRecyclerViewAdapter<SettingsBean, Bas
 
     @Override
     protected void convert(BaseViewHolder helper, SettingsBean item) {
-        helper.setText(R.id.tv_title, item.title)
-                .setText(R.id.tv_value, item.data)
-                .setImageResource(R.id.iv_icon, item.icon);
+        helper.setText(R.id.tv_title_item_settings, item.title)
+                .setText(R.id.tv_value_item_settings, item.data)
+                .setImageResource(R.id.iv_icon_item_settings, item.icon);
     }
 }

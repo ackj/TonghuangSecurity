@@ -2,6 +2,7 @@ package com.aglhz.s1.room.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -10,6 +11,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.bean.SecurityBean;
+import com.aglhz.s1.security.SecurityRVAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,9 +59,23 @@ public class AddDeviceFragment extends BaseFragment {
     private void initToolbar() {
         initStateBar(toolbar);
         toolbarTitle.setText("添加设备");
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _mActivity.onBackPressedSupport();
+            }
+        });
     }
 
     private void initData() {
+        List<SecurityBean> datas = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            datas.add(new SecurityBean(R.mipmap.ic_launcher, "插座"));
+        }
+        SecurityRVAdapter adapter = new SecurityRVAdapter(datas);
+        recyclerview.setLayoutManager(new GridLayoutManager(_mActivity,4));
+        recyclerview.setAdapter(adapter);
     }
 
     private void initListener() {

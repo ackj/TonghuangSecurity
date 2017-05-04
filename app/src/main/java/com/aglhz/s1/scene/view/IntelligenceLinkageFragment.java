@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.SceneBean;
 import com.aglhz.s1.scene.SceneListRVAdapter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class IntelligenceLinkageFragment extends SupportFragment {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
     Unbinder unbinder;
+    private SceneListRVAdapter adapter;
 
     public static IntelligenceLinkageFragment newInstance() {
         return new IntelligenceLinkageFragment();
@@ -52,18 +54,26 @@ public class IntelligenceLinkageFragment extends SupportFragment {
 
     private void initData() {
         List<SceneBean> sceneBeans = new ArrayList<>();
-        sceneBeans.add(new SceneBean("洗澡", false));
-        sceneBeans.add(new SceneBean("洗澡", true));
-        sceneBeans.add(new SceneBean("洗澡", true));
-        sceneBeans.add(new SceneBean("洗澡", true));
-        sceneBeans.add(new SceneBean("起床", true));
-        SceneListRVAdapter adapter = new SceneListRVAdapter(sceneBeans);
+        for (int i = 0;i<100;i++){
+            sceneBeans.add(new SceneBean("洗澡", true));
+        }
+        adapter = new SceneListRVAdapter(sceneBeans);
         recyclerview.setLayoutManager(new LinearLayoutManager(_mActivity));
         recyclerview.setAdapter(adapter);
     }
 
     private void initListener() {
-
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public boolean onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.tv_delete_item_scene:
+                        adapter.remove(position);
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     @Override

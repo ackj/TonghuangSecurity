@@ -31,5 +31,10 @@ dependencies {
     //黄油刀系列
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
-
+    //switch-button
+    compile 'com.kyleduo.switchbutton:library:1.4.6'
+    //progress-button
+    compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
+    //swipe-layout
+    compile "com.daimajia.swipelayout:library:1.2.0@aar"
 }

@@ -2,12 +2,15 @@ package com.aglhz.s1.settings.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.aglhz.s1.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
@@ -18,7 +21,10 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
  */
 
 public class AddHostFragment extends BaseFragment {
-
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     private Unbinder unbinder;
 
     public static AddHostFragment newInstance() {
@@ -42,6 +48,15 @@ public class AddHostFragment extends BaseFragment {
     }
 
     private void initToolbar() {
+        initStateBar(toolbar);
+        toolbarTitle.setText("添加主机");
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _mActivity.onBackPressedSupport();
+            }
+        });
     }
 
     private void initData() {

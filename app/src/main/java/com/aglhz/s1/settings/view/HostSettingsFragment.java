@@ -61,7 +61,14 @@ public class HostSettingsFragment extends BaseFragment {
 
     private void initToolbar() {
         initStateBar(toolbar);
-        toolbarTitle.setText("更多");
+        toolbarTitle.setText("主机设置");
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _mActivity.onBackPressedSupport();
+            }
+        });
     }
 
     private void initData() {

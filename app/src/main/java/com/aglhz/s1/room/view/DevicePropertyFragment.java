@@ -10,9 +10,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.dd.CircularProgressButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 
@@ -26,8 +28,9 @@ public class DevicePropertyFragment extends BaseFragment {
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.recyclerview)
-    RelativeLayout recyclerview;
+    @BindView(R.id.cpb_delete_fragment_device_property)
+    CircularProgressButton cpbDelete;
+
     Unbinder unbinder;
 
     public static DevicePropertyFragment newInstance() {
@@ -53,7 +56,31 @@ public class DevicePropertyFragment extends BaseFragment {
     private void initToolbar() {
         initStateBar(toolbar);
         toolbarTitle.setText("设备属性");
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _mActivity.onBackPressedSupport();
+            }
+        });
     }
+
+    @OnClick(R.id.cpb_delete_fragment_device_property)
+    public void onViewClicked() {
+        cpbDelete.setIndeterminateProgressMode(true);
+
+        cpbDelete.setProgress(50);
+        cpbDelete.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                cpbDelete.setProgress(100);
+                cpbDelete.setProgress(0);
+            }
+        }, 1000);
+
+
+    }
+
 
     private void initData() {
     }

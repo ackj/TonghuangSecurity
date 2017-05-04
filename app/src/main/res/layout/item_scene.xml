@@ -1,28 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="10dp"
-    android:background="@color/white"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:show_mode="pull_out">
 
     <TextView
-        android:id="@+id/tv_scene"
-        android:layout_width="0dp"
+        android:id="@+id/tv_delete_item_scene"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:background="@color/red"
         android:gravity="center"
-        android:text="起床" />
+        android:text="删除"
+        android:textColor="@color/white"
+        android:weightSum="1">
+        <!--What you want to show-->
+    </TextView>
 
-    <TextView
-        android:id="@+id/tv_toggle"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/light_blue"
-        android:gravity="center"
-        android:text="启动场景" />
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_scene_item_scene"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="起床" />
+
+        <TextView
+            android:id="@+id/tv_toggle_item_scene"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/light_blue"
+            android:gravity="center"
+            android:text="启动场景" />
+
+    </LinearLayout>
+</com.daimajia.swipe.SwipeLayout>

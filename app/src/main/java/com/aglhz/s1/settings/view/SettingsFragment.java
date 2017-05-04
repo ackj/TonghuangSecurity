@@ -90,16 +90,16 @@ public class SettingsFragment extends BaseFragment {
 
                         break;
                     case 1:
-                        start(SetWifiFragment.newInstance());
+                        _mActivity.start(SetWifiFragment.newInstance());
                         break;
                     case 2:
-                        start(AddHostFragment.newInstance());
+                        _mActivity.start(AddHostFragment.newInstance());
                         break;
                     case 3:
-                        start(HostSettingsFragment.newInstance());
+                        _mActivity.start(HostSettingsFragment.newInstance());
                         break;
                     case 4:
-                        start(RoomManagerFragment.newInstance());
+                        _mActivity.start(RoomManagerFragment.newInstance());
                         break;
                     case 5:
                         break;

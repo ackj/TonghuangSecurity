@@ -6,20 +6,20 @@
     android:padding="5dp">
 
     <TextView
-        android:id="@+id/tv_id"
+        android:id="@+id/tv_id_item_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="F0F0F00F0F0F0" />
 
     <TextView
-        android:id="@+id/tv_content"
+        android:id="@+id/tv_content_item_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="DoorSensor2" />
 
     <TextView
-        android:id="@+id/tv_time"
+        android:id="@+id/tv_time_item_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

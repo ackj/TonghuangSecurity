@@ -21,8 +21,8 @@ public class HistoryRVAdapter extends BaseRecyclerViewAdapter<HistoryBean, BaseV
 
     @Override
     protected void convert(BaseViewHolder helper, HistoryBean item) {
-        helper.setText(R.id.tv_id, item.id)
-                .setText(R.id.tv_content, item.content)
-                .setText(R.id.tv_time, item.time);
+        helper.setText(R.id.tv_id_item_history, item.id)
+                .setText(R.id.tv_content_item_history, item.content)
+                .setText(R.id.tv_time_item_history, item.time);
     }
 }

@@ -2,14 +2,23 @@ package com.aglhz.s1.security.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.bean.SecurityBean;
+import com.aglhz.s1.security.SecurityRVAdapter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +38,7 @@ public class AddDetectorFragment extends BaseFragment {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
     Unbinder unbinder;
+    private SecurityRVAdapter adapter;
 
     public static AddDetectorFragment newInstance() {
         return new AddDetectorFragment();
@@ -53,13 +63,32 @@ public class AddDetectorFragment extends BaseFragment {
     private void initToolbar() {
         initStateBar(toolbar);
         toolbarTitle.setText("选择添加探测器");
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _mActivity.onBackPressedSupport();
+            }
+        });
     }
 
     private void initData() {
-
+        List<SecurityBean> datas = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            datas.add(new SecurityBean(R.mipmap.ic_launcher, "门磁"));
+        }
+        adapter = new SecurityRVAdapter(datas);
+        recyclerview.setLayoutManager(new GridLayoutManager(_mActivity,4));
+        recyclerview.setAdapter(adapter);
     }
 
     private void initListener() {
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Toast.makeText(_mActivity, position + "", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

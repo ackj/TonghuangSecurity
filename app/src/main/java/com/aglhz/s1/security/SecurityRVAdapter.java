@@ -21,8 +21,8 @@ public class SecurityRVAdapter extends BaseRecyclerViewAdapter<SecurityBean, Bas
 
     @Override
     protected void convert(BaseViewHolder helper, SecurityBean item) {
-        helper.setText(R.id.tv_name, item.name)
-                .setImageResource(R.id.iv_icon, item.icon);
+        helper.setText(R.id.tv_name_item_security, item.name)
+                .setImageResource(R.id.iv_icon_item_security, item.icon);
 
     }
 }
