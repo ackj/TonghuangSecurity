@@ -3,7 +3,6 @@ package com.aglhz.s1.security.view;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -13,12 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.SecurityBean;
+import com.aglhz.s1.data.SecurityData;
+import com.aglhz.s1.dialog.SelectorDialogFragment;
 import com.aglhz.s1.security.SecurityRVAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,12 +70,8 @@ public class AddDetectorFragment extends BaseFragment {
     }
 
     private void initData() {
-        List<SecurityBean> datas = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            datas.add(new SecurityBean(R.mipmap.ic_launcher, "门磁"));
-        }
-        adapter = new SecurityRVAdapter(datas);
-        recyclerview.setLayoutManager(new GridLayoutManager(_mActivity,4));
+        adapter = new SecurityRVAdapter(SecurityData.getInstance().getAllSecuritys());
+        recyclerview.setLayoutManager(new GridLayoutManager(_mActivity, 4));
         recyclerview.setAdapter(adapter);
     }
 
@@ -87,6 +80,8 @@ public class AddDetectorFragment extends BaseFragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Toast.makeText(_mActivity, position + "", Toast.LENGTH_SHORT).show();
+                SelectorDialogFragment editNameDialog = new SelectorDialogFragment();
+                editNameDialog.show(getFragmentManager(), "EditNameDialog");
             }
         });
     }

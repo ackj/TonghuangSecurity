@@ -23,7 +23,6 @@ public class RoomPVAdapter extends FragmentPagerAdapter {
         this.fragments = fragments;
     }
 
-
     public RoomPVAdapter(FragmentManager fm) {
         super(fm);
     }

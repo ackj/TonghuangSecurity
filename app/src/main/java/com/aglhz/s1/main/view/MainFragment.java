@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.history.view.HistoryFragment;
-import com.aglhz.s1.room.view.RoomFragment;
+import com.aglhz.s1.room.view.RoomFragment2;
 import com.aglhz.s1.scene.view.SceneFragment;
 import com.aglhz.s1.security.view.SecurityFragment;
 import com.aglhz.s1.settings.view.SettingsFragment;
@@ -49,14 +49,14 @@ public class MainFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         if (savedInstanceState == null) {
             fragments[0] = SecurityFragment.newInstance();
-            fragments[1] = RoomFragment.newInstance();
+            fragments[1] = RoomFragment2.newInstance();
             fragments[2] = SceneFragment.newInstance();
             fragments[3] = HistoryFragment.newInstance();
             fragments[4] = SettingsFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_container_main_fragment, 0, fragments[0], fragments[1], fragments[2], fragments[3], fragments[4]);
         } else {
             fragments[0] = findFragment(SecurityFragment.class);
-            fragments[1] = findFragment(RoomFragment.class);
+            fragments[1] = findFragment(RoomFragment2.class);
             fragments[2] = findFragment(SceneFragment.class);
             fragments[3] = findFragment(HistoryFragment.class);
             fragments[4] = findFragment(SettingsFragment.class);
@@ -66,11 +66,11 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initData() {
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.security, R.mipmap.ic_launcher, R.color.white);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.room, R.mipmap.ic_launcher, R.color.white);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.scene, R.mipmap.ic_launcher, R.color.white);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.hisotry, R.mipmap.ic_launcher, R.color.white);
-        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.more, R.mipmap.ic_launcher, R.color.white);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.security, R.drawable.ic_navigationsecurity_black_78px, R.color.white);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.room, R.drawable.ic_navigationroom_black_78px, R.color.white);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.scene, R.drawable.ic_navigationscenes_black_78px, R.color.white);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.hisotry, R.drawable.ic_navigationhistory_black_78px, R.color.white);
+        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.more, R.drawable.ic_navigationmore_black_78px, R.color.white);
         List<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
         bottomNavigationItems.add(item1);
         bottomNavigationItems.add(item2);

@@ -37,7 +37,9 @@ public class RoomFragment extends BaseFragment {
     TabLayout tablayout;
     @BindView(R.id.viewpager)
     ViewPager viewpager;
+
     Unbinder unbinder;
+
 
 
     public static RoomFragment newInstance() {

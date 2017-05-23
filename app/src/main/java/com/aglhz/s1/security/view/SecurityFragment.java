@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.SecurityBean;
+import com.aglhz.s1.data.SecurityData;
 import com.aglhz.s1.security.SecurityRVAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.utils.DensityUtils;
 
 
 /**
@@ -69,22 +70,23 @@ public class SecurityFragment extends BaseFragment {
 
     private void initData() {
         recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 4));
-        List<SecurityBean> data = new ArrayList<>();
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "门槛"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "红外"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "红外对射"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "玻璃破碎"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "漏水"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "紧急按钮"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "气体"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "添加探测器"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "添加"));
 
-        adapter = new SecurityRVAdapter(data);
-        View headerView = LayoutInflater.from(_mActivity).inflate(R.layout.item_security_header, null);
-        adapter.setHeaderView(headerView);
+        adapter = new SecurityRVAdapter(SecurityData.getInstance().getAlreadyAddSecuritys());
+        adapter.setHeaderView(initHeaderView());
         recyclerView.setAdapter(adapter);
 
+    }
+
+    private View initHeaderView() {
+        View headerView = LayoutInflater.from(_mActivity).inflate(R.layout.item_security_header, null);
+        TextView tvDescHeader = (TextView) headerView.findViewById(R.id.tv_desc_security_header);
+        String title = "离家布防：";
+        String desc = "当主机处于离家布防状态时，所有开启的探测器都处于防御状态。";
+        tvDescHeader.setText(title + desc);
+        Spannable span = new SpannableString(tvDescHeader.getText());
+        span.setSpan(new AbsoluteSizeSpan(DensityUtils.sp2px(_mActivity, 18)), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tvDescHeader.setText(span);
+        return headerView;
     }
 
     private void initListener() {
@@ -94,7 +96,6 @@ public class SecurityFragment extends BaseFragment {
                 ALog.e("onItemclick position:" + position + " size:" + adapter.getData().size());
                 if (position == adapter.getData().size() - 1) {
                     _mActivity.start(AddDetectorFragment.newInstance());
-
                 } else {
                     _mActivity.start(DetectorPropertyFragment.newInstance());
                 }

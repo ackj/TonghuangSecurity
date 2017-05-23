@@ -1,12 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#B000"
     android:orientation="vertical">
 
-    <View
+    <TextView
+        android:id="@+id/tv_desc_security_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginTop="20dp"
+        android:lineSpacingExtra="15dp"
+        android:text="离家布防：当主机当主机当主机当主机当主机当主机当主机当主机当主机"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@color/colorAccent" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/selector_disarmed"
+            android:gravity="center"
+            android:text="撤防"
+            android:textColor="@color/selector_textcolor_gray_red" />
+
+        <TextView
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/selector_homedisarmed"
+            android:gravity="center"
+            android:text="在家布防"
+            android:textColor="@color/selector_textcolor_gray_red" />
+
+        <TextView
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/selector_awaydisarmed"
+            android:gravity="center"
+            android:text="离家布防"
+            android:textColor="@color/selector_textcolor_gray_red" />
+
+        <TextView
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/selector_leavemessage"
+            android:gravity="center"
+            android:text="留言"
+            android:textColor="@color/selector_textcolor_gray_red" />
+    </LinearLayout>
 
 </LinearLayout>

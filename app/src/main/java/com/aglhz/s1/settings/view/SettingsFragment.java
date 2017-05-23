@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.SettingsBean;
+import com.aglhz.s1.login.view.LoginFragment;
 import com.aglhz.s1.settings.SettingsRVAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -102,6 +103,11 @@ public class SettingsFragment extends BaseFragment {
                         _mActivity.start(RoomManagerFragment.newInstance());
                         break;
                     case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        _mActivity.start(LoginFragment.newInstance());
                         break;
                 }
             }
