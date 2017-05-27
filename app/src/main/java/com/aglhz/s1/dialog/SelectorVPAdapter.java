@@ -74,7 +74,7 @@ public class SelectorVPAdapter extends PagerAdapter {
         final int vpPosition = position;
         rvAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public boolean onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.text1:
                         //获取点击该item的信息
@@ -102,7 +102,6 @@ public class SelectorVPAdapter extends PagerAdapter {
                         }
                         break;
                 }
-                return false;
             }
         });
 

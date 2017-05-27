@@ -11,7 +11,7 @@ import com.aglhz.s1.history.view.HistoryFragment;
 import com.aglhz.s1.room.view.RoomFragment2;
 import com.aglhz.s1.scene.view.SceneFragment;
 import com.aglhz.s1.security.view.SecurityFragment;
-import com.aglhz.s1.settings.view.SettingsFragment;
+import com.aglhz.s1.settings.view.MoreFragment;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
@@ -52,14 +52,14 @@ public class MainFragment extends BaseFragment {
             fragments[1] = RoomFragment2.newInstance();
             fragments[2] = SceneFragment.newInstance();
             fragments[3] = HistoryFragment.newInstance();
-            fragments[4] = SettingsFragment.newInstance();
+            fragments[4] = MoreFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_container_main_fragment, 0, fragments[0], fragments[1], fragments[2], fragments[3], fragments[4]);
         } else {
             fragments[0] = findFragment(SecurityFragment.class);
             fragments[1] = findFragment(RoomFragment2.class);
             fragments[2] = findFragment(SceneFragment.class);
             fragments[3] = findFragment(HistoryFragment.class);
-            fragments[4] = findFragment(SettingsFragment.class);
+            fragments[4] = findFragment(MoreFragment.class);
         }
         initData();
         initListener();

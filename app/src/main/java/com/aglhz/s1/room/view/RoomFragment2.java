@@ -133,7 +133,6 @@ public class RoomFragment2 extends BaseFragment {
         float pivotX = dx_value_0 * positionOffset;
         float pivotY = dy_value_0 * positionOffset;
 
-
         ALog.d(TAG,"setButtonXY2 pivotX:"+pivotX);
         ALog.d(TAG,"setButtonXY2 pivotY:"+pivotY);
 

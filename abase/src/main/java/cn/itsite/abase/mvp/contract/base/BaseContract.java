@@ -9,12 +9,11 @@ import android.support.annotation.UiThread;
  * 所有契约接口的基类接口，定义了各层对象的生命周期。
  */
 public interface BaseContract {
-
     interface View {
 
         void start(Object response);
 
-        void error(Throwable t);
+        void error(String errorMessage);
     }
 
     interface Presenter {

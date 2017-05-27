@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.aglhz.s1.main.MainActivity;
 import com.aglhz.s1.R;
-import com.aglhz.s1.commen.Contacts;
+import com.aglhz.s1.common.Constants;
 
 import cn.itsite.abase.cache.SPCache;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
@@ -38,7 +38,7 @@ public class GuideFragment extends BaseFragment {
     }
 
     private void initData() {
-        SPCache.put(_mActivity, Contacts.IS_FIRST_ENTER, true);
+        SPCache.put(_mActivity, Constants.IS_FIRST_ENTER, true);
         startActivity(new Intent(_mActivity, MainActivity.class));
         _mActivity.finish();
     }

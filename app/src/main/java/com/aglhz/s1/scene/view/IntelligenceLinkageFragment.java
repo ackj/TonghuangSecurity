@@ -65,13 +65,12 @@ public class IntelligenceLinkageFragment extends SupportFragment {
     private void initListener() {
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public boolean onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tv_delete_item_scene:
                         adapter.remove(position);
                         break;
                 }
-                return false;
             }
         });
     }

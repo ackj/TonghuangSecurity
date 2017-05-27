@@ -1,5 +1,6 @@
 package com.aglhz.s1.settings.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +13,8 @@ import android.widget.TextView;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.SettingsBean;
-import com.aglhz.s1.login.view.LoginFragment;
+import com.aglhz.s1.net.NetActivity;
+import com.aglhz.s1.net.view.SetWifiFragment;
 import com.aglhz.s1.settings.SettingsRVAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -30,7 +32,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Email: liujia95me@126.com
  */
 
-public class SettingsFragment extends BaseFragment {
+public class MoreFragment extends BaseFragment {
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -43,7 +45,7 @@ public class SettingsFragment extends BaseFragment {
     private SettingsRVAdapter adapter;
 
     public static SupportFragment newInstance() {
-        return new SettingsFragment();
+        return new MoreFragment();
     }
 
     @Nullable
@@ -107,7 +109,11 @@ public class SettingsFragment extends BaseFragment {
                     case 6:
                         break;
                     case 7:
-                        _mActivity.start(LoginFragment.newInstance());
+//                        _mActivity.start(LoginFragment.newInstance());
+
+                        _mActivity.startActivity(new Intent(_mActivity, NetActivity.class));
+
+
                         break;
                 }
             }

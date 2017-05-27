@@ -2,8 +2,9 @@ package com.aglhz.s1.launch;
 
 import android.os.Bundle;
 
+import com.aglhz.s1.BaseApplication;
 import com.aglhz.s1.R;
-import com.aglhz.s1.commen.Contacts;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.launch.view.GuideFragment;
 import com.aglhz.s1.launch.view.SplashFragment;
 
@@ -20,7 +21,7 @@ public class LaunchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
         if(savedInstanceState == null){
-            boolean isFirstEnter = (boolean) SPCache.get(this, Contacts.IS_FIRST_ENTER,true);
+            boolean isFirstEnter = (boolean) SPCache.get(BaseApplication.mContext, Constants.IS_FIRST_ENTER,true);
             //第一次启动应用进入引导页
             if(isFirstEnter){
                 loadRootFragment(R.id.fl_launch_activity, GuideFragment.newInstance());

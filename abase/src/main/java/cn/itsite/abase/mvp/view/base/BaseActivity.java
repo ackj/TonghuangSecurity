@@ -1,15 +1,21 @@
 package cn.itsite.abase.mvp.view.base;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.WindowManager;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import cn.itsite.abase.common.ActivityManager;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.contract.base.BaseContract;
-import cn.itsite.abase.utils.NetworkUtils;
+import cn.itsite.abase.network.http.LoggingInterceptor;
+import me.yokeyword.fragmentation.anim.DefaultNoAnimator;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
 import me.yokeyword.fragmentation_swipeback.SwipeBackActivity;
 
 
@@ -27,7 +33,6 @@ public abstract class BaseActivity<P extends BaseContract.Presenter> extends Swi
         super.onCreate(savedInstanceState);
         initActivity();
         initStateBar();
-        netWorkTips();
         mPresenter = createPresenter();
     }
 
@@ -35,6 +40,8 @@ public abstract class BaseActivity<P extends BaseContract.Presenter> extends Swi
         if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
             // 透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //实现透明导航栏
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
 
@@ -51,23 +58,6 @@ public abstract class BaseActivity<P extends BaseContract.Presenter> extends Swi
         ALog.e(TAG);
     }
 
-    public void netWorkTips() {
-        if (!NetworkUtils.isConnected(getApplicationContext())) {
-//            View view = getWindow().getDecorView();
-//            Snackbar mSnackbar = Snackbar.make(view, "当前网络已断开！", Snackbar.LENGTH_LONG)
-//                    .setAction("设置网络", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            // 跳转到系统的网络设置界面
-//                            NetworkUtils.openSetting(BaseActivity.this);
-//                        }
-//                    });
-//            View v = mSnackbar.getView();
-//            v.setBackgroundColor(Color.parseColor("#FFCC00"));
-//            mSnackbar.show();
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -80,7 +70,6 @@ public abstract class BaseActivity<P extends BaseContract.Presenter> extends Swi
 
     @Override
     protected void onDestroy() {
-        ALog.e(TAG + "onDestroy()");
 
         if (mPresenter != null) {
             mPresenter.clear();
@@ -89,5 +78,34 @@ public abstract class BaseActivity<P extends BaseContract.Presenter> extends Swi
         //把每一个Activity弹出栈
         ActivityManager.getInstance().removeActivity(this);
         super.onDestroy();
+    }
+
+    @Override
+    protected FragmentAnimator onCreateFragmentAnimator() {
+        return new DefaultNoAnimator();
+    }
+
+    @Override
+    public boolean swipeBackPriority() {
+        return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginoutEvent(LoggingInterceptor event) {
+
+        Intent intent = new Intent("LoginActivity");
+        startActivity(intent);
     }
 }

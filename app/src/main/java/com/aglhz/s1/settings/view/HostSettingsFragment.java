@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.SettingsBean;
+import com.aglhz.s1.net.view.SetWifiFragment;
 import com.aglhz.s1.settings.HostSettingsRVAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -87,19 +88,16 @@ public class HostSettingsFragment extends BaseFragment {
     }
 
     private void initListener() {
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (position){
-                    case 0:
-                        break;
-                    case 1:
-                        start(SetWifiFragment.newInstance());
-                        break;
-                    case 2:
-                        start(AddHostFragment.newInstance());
-                        break;
-                }
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            switch (position){
+                case 0:
+                    break;
+                case 1:
+                    start(SetWifiFragment.newInstance());
+                    break;
+                case 2:
+                    start(AddHostFragment.newInstance());
+                    break;
             }
         });
     }

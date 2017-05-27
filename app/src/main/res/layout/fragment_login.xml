@@ -58,7 +58,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/shape_stroke_white"
+        android:background="@drawable/shape_stroke_base_color"
         android:text="注册"
         android:textColor="@color/base_color"
         android:textSize="15sp" />
