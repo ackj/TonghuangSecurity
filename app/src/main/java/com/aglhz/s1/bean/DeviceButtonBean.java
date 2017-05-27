@@ -11,8 +11,6 @@ import cn.itsite.abase.utils.DensityUtils;
 
 public class DeviceButtonBean {
 
-    public float percentX;
-    public float percentY;
     public int x;
     public int y;
 
@@ -21,6 +19,7 @@ public class DeviceButtonBean {
 
     public DeviceButtonBean(float percentX, float percentY) {
         x = (int) (DensityUtils.getDisplayWidth(BaseApplication.mContext) * percentX);
-        y = (int) (DensityUtils.getDisplayHeight(BaseApplication.mContext) * percentY);
+        int displayHeight = DensityUtils.getDisplayHeight(BaseApplication.mContext)-DensityUtils.dp2px(BaseApplication.mContext,56);
+        y = (int) (displayHeight * percentY);
     }
 }

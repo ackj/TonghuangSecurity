@@ -41,6 +41,8 @@ public class RoomFragment2 extends BaseFragment {
     @BindView(R.id.tv_roomdevicebutton_4)
     TextView tvRoomdevicebutton4;
 
+    List<TextView> textViews;
+
     Unbinder unbinder;
 
     private List<List<DeviceButtonBean>> coordinateLists = new ArrayList<>();
@@ -69,33 +71,43 @@ public class RoomFragment2 extends BaseFragment {
         viewpager.setAdapter(adapter);
 
         List<DeviceButtonBean> list1 = new ArrayList<>();
-        list1.add(new DeviceButtonBean(0.65f, 0.2f));
-        list1.add(new DeviceButtonBean(0.4f, 0.65f));
-        list1.add(new DeviceButtonBean(0.8f, 0.65f));
-        list1.add(new DeviceButtonBean(0.15f, 0.2f));
+        list1.add(new DeviceButtonBean(0.493f, 0.162f));
+        list1.add(new DeviceButtonBean(0.32f, 0.540f));
+        list1.add(new DeviceButtonBean(0.64f, 0.540f));
+        list1.add(new DeviceButtonBean(0.0987f, 0.129f));
 
         List<DeviceButtonBean> list2 = new ArrayList<>();
-        list2.add(new DeviceButtonBean(0.65f, 0.2f));
-        list2.add(new DeviceButtonBean(0.2f, 0.65f));
-        list2.add(new DeviceButtonBean(0.85f, 0.8f));
-        list2.add(new DeviceButtonBean(-0.1f, -0.1f));
+        list2.add(new DeviceButtonBean(0.493f, 0.162f));
+        list2.add(new DeviceButtonBean(0.112f, 0.534f));
+        list2.add(new DeviceButtonBean(0.693f, 0.703f));
+        list2.add(new DeviceButtonBean(-0.3f, 0.129f));
 
         List<DeviceButtonBean> list3 = new ArrayList<>();
-        list3.add(new DeviceButtonBean(0.3f, 0.2f));
-        list3.add(new DeviceButtonBean(0.2f, 0.65f));
-        list3.add(new DeviceButtonBean(0.85f, 0.8f));
-        list3.add(new DeviceButtonBean(-0.1f, -0.1f));
+        list3.add(new DeviceButtonBean(0.267f, 0.146f));
+        list3.add(new DeviceButtonBean(0.08f, 0.518f));
+        list3.add(new DeviceButtonBean(0.68f, 0.761f));
+        list3.add(new DeviceButtonBean(-0.3f, 0.129f));
 
         List<DeviceButtonBean> list4 = new ArrayList<>();
-        list4.add(new DeviceButtonBean(0.1f, 0.2f));
-        list4.add(new DeviceButtonBean(0.6f, 0.55f));
-        list4.add(new DeviceButtonBean(0.1f, 0.8f));
-        list4.add(new DeviceButtonBean(-0.1f, -0.1f));
+        list4.add(new DeviceButtonBean(0.08f, 0.092f));
+        list4.add(new DeviceButtonBean(0.52f, 0.461f));
+        list4.add(new DeviceButtonBean(0.053f, 0.738f));
+        list4.add(new DeviceButtonBean(-0.3f, 0.129f));
 
         coordinateLists.add(list1);
         coordinateLists.add(list2);
         coordinateLists.add(list3);
         coordinateLists.add(list4);
+
+        textViews = new ArrayList<>();
+        textViews.add(tvRoomdevicebutton1);
+        textViews.add(tvRoomdevicebutton2);
+        textViews.add(tvRoomdevicebutton3);
+        textViews.add(tvRoomdevicebutton4);
+        for (int i = 0; i < list1.size(); i++) {
+            textViews.get(i).setX(list1.get(i).x);
+            textViews.get(i).setY(list1.get(i).y);
+        }
     }
 
     private void initListener() {
@@ -103,12 +115,12 @@ public class RoomFragment2 extends BaseFragment {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 ALog.e(TAG, "onPageScrolled --> position:" + position + " --positionOffset:" + positionOffset + " --positionOffsetPixels:" + positionOffsetPixels);
-                setButtonXY2(position,positionOffset);
+                setButtonXY2(position, positionOffset);
             }
 
             @Override
             public void onPageSelected(int position) {
-                setButtonXY(position);
+
             }
 
             @Override
@@ -118,42 +130,31 @@ public class RoomFragment2 extends BaseFragment {
         });
     }
 
-    public void setButtonXY2(int position,float positionOffset) {
+    public void setButtonXY2(int position, float positionOffset) {
+        if (position == coordinateLists.size() - 1) {
+            return;
+        }
+
         List<DeviceButtonBean> buttonBeanList1 = coordinateLists.get(position);
-        int buttonBean1_0X = buttonBeanList1.get(0).x;
-        int buttonBean1_0Y = buttonBeanList1.get(0).y;
 
         List<DeviceButtonBean> buttonBeanList2 = coordinateLists.get(position + 1);
-        int buttonBean2_0X = buttonBeanList2.get(0).x;
-        int buttonBean2_0Y = buttonBeanList2.get(0).y;
-
-        int dx_value_0 =  buttonBean2_0X - buttonBean1_0X;
-        int dy_value_0 =  buttonBean2_0Y - buttonBean1_0Y;
-
-        float pivotX = dx_value_0 * positionOffset;
-        float pivotY = dy_value_0 * positionOffset;
-
-        ALog.d(TAG,"setButtonXY2 pivotX:"+pivotX);
-        ALog.d(TAG,"setButtonXY2 pivotY:"+pivotY);
-
-        tvRoomdevicebutton1.setTranslationX(pivotX);
-        tvRoomdevicebutton1.setTranslationY(pivotY);
-
-    }
-
-    public void setButtonXY(int position) {
-        List<DeviceButtonBean> buttonBeanList = coordinateLists.get(position);
-        tvRoomdevicebutton1.setPivotX(buttonBeanList.get(0).x);
-        tvRoomdevicebutton1.setPivotY(buttonBeanList.get(0).y);
-
-        tvRoomdevicebutton2.setPivotX(buttonBeanList.get(1).x);
-        tvRoomdevicebutton2.setPivotY(buttonBeanList.get(1).y);
-
-        tvRoomdevicebutton3.setPivotX(buttonBeanList.get(2).x);
-        tvRoomdevicebutton3.setPivotY(buttonBeanList.get(2).y);
-
-        tvRoomdevicebutton4.setPivotX(buttonBeanList.get(3).x);
-        tvRoomdevicebutton4.setPivotY(buttonBeanList.get(3).y);
+        for (int i = 0; i < textViews.size(); i++) {
+            //拿到此时坐标
+            int buttonBean1_0X = buttonBeanList1.get(i).x;
+            int buttonBean1_0Y = buttonBeanList1.get(i).y;
+            //拿到未来坐标
+            int buttonBean2_0X = buttonBeanList2.get(i).x;
+            int buttonBean2_0Y = buttonBeanList2.get(i).y;
+            //拿到两者坐标差值
+            int dx_value_0 = buttonBean2_0X - buttonBean1_0X;
+            int dy_value_0 = buttonBean2_0Y - buttonBean1_0Y;
+            float pivotX = dx_value_0 * positionOffset;
+            float pivotY = dy_value_0 * positionOffset;
+            int x = (int) (buttonBean1_0X + pivotX);
+            int y = (int) (buttonBean1_0Y + pivotY);
+            textViews.get(i).setX(x);
+            textViews.get(i).setY(y);
+        }
     }
 
     @Override
@@ -166,7 +167,6 @@ public class RoomFragment2 extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_roomdevicebutton_1:
-
                 break;
             case R.id.tv_roomdevicebutton_2:
                 break;
