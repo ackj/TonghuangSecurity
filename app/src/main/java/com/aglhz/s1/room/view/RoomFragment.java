@@ -40,8 +40,6 @@ public class RoomFragment extends BaseFragment {
 
     Unbinder unbinder;
 
-
-
     public static RoomFragment newInstance() {
         return new RoomFragment();
     }
