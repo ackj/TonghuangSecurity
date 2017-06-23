@@ -1,11 +1,9 @@
 package com.aglhz.s1.scene.view;
 
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +11,6 @@ import android.view.ViewGroup;
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.SceneBean;
 import com.aglhz.s1.scene.SceneListRVAdapter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
-import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +49,7 @@ public class IntelligenceSceneFragment extends SupportFragment {
         super.onViewCreated(view, savedInstanceState);
         initData();
         initListener();
+
     }
 
     private void initData() {
@@ -67,14 +63,11 @@ public class IntelligenceSceneFragment extends SupportFragment {
     }
 
     private void initListener() {
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()) {
-                    case R.id.tv_delete_item_scene:
-                        adapter.remove(position);
-                        break;
-                }
+        adapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.tv_delete_item_scene:
+                    adapter.remove(position);
+                    break;
             }
         });
     }

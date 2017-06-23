@@ -1,4 +1,4 @@
-package com.aglhz.s1.settings;
+package com.aglhz.s1.more;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.SettingsBean;

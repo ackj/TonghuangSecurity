@@ -1,4 +1,4 @@
-package com.aglhz.s1.settings.view;
+package com.aglhz.s1.more.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,8 +13,7 @@ import android.widget.TextView;
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.SettingsBean;
 import com.aglhz.s1.net.view.SetWifiFragment;
-import com.aglhz.s1.settings.HostSettingsRVAdapter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.aglhz.s1.more.HostSettingsRVAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

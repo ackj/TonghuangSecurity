@@ -20,6 +20,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.utils.ToastUtils;
 
 /**
  * Author: LiuJia on 2017/5/17 0017 09:41.
@@ -42,8 +43,8 @@ public class RoomFragment2 extends BaseFragment {
     TextView tvRoomdevicebutton4;
 
     List<TextView> textViews;
-
     Unbinder unbinder;
+    private int selectPostion;
 
     private List<List<DeviceButtonBean>> coordinateLists = new ArrayList<>();
 
@@ -69,36 +70,30 @@ public class RoomFragment2 extends BaseFragment {
     private void initData() {
         RoomVPAdapter adapter = new RoomVPAdapter();
         viewpager.setAdapter(adapter);
-
         List<DeviceButtonBean> list1 = new ArrayList<>();
         list1.add(new DeviceButtonBean(0.493f, 0.162f));
         list1.add(new DeviceButtonBean(0.32f, 0.540f));
         list1.add(new DeviceButtonBean(0.64f, 0.540f));
         list1.add(new DeviceButtonBean(0.0987f, 0.129f));
-
         List<DeviceButtonBean> list2 = new ArrayList<>();
         list2.add(new DeviceButtonBean(0.493f, 0.162f));
         list2.add(new DeviceButtonBean(0.112f, 0.534f));
         list2.add(new DeviceButtonBean(0.693f, 0.703f));
         list2.add(new DeviceButtonBean(-0.3f, 0.129f));
-
         List<DeviceButtonBean> list3 = new ArrayList<>();
         list3.add(new DeviceButtonBean(0.267f, 0.146f));
         list3.add(new DeviceButtonBean(0.08f, 0.518f));
         list3.add(new DeviceButtonBean(0.68f, 0.761f));
         list3.add(new DeviceButtonBean(-0.3f, 0.129f));
-
         List<DeviceButtonBean> list4 = new ArrayList<>();
         list4.add(new DeviceButtonBean(0.08f, 0.092f));
         list4.add(new DeviceButtonBean(0.52f, 0.461f));
         list4.add(new DeviceButtonBean(0.053f, 0.738f));
         list4.add(new DeviceButtonBean(-0.3f, 0.129f));
-
         coordinateLists.add(list1);
         coordinateLists.add(list2);
         coordinateLists.add(list3);
         coordinateLists.add(list4);
-
         textViews = new ArrayList<>();
         textViews.add(tvRoomdevicebutton1);
         textViews.add(tvRoomdevicebutton2);
@@ -115,12 +110,12 @@ public class RoomFragment2 extends BaseFragment {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 ALog.e(TAG, "onPageScrolled --> position:" + position + " --positionOffset:" + positionOffset + " --positionOffsetPixels:" + positionOffsetPixels);
-                setButtonXY2(position, positionOffset);
+                setButtonXY(position, positionOffset);
             }
 
             @Override
             public void onPageSelected(int position) {
-
+                selectPostion = position;
             }
 
             @Override
@@ -130,13 +125,12 @@ public class RoomFragment2 extends BaseFragment {
         });
     }
 
-    public void setButtonXY2(int position, float positionOffset) {
+    //动态设置按钮的XY坐标
+    public void setButtonXY(int position, float positionOffset) {
         if (position == coordinateLists.size() - 1) {
             return;
         }
-
         List<DeviceButtonBean> buttonBeanList1 = coordinateLists.get(position);
-
         List<DeviceButtonBean> buttonBeanList2 = coordinateLists.get(position + 1);
         for (int i = 0; i < textViews.size(); i++) {
             //拿到此时坐标
@@ -167,14 +161,22 @@ public class RoomFragment2 extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_roomdevicebutton_1:
+                clickButtonFromPos("灯光");
                 break;
             case R.id.tv_roomdevicebutton_2:
+                clickButtonFromPos("插座");
                 break;
             case R.id.tv_roomdevicebutton_3:
+                clickButtonFromPos("警号");
                 break;
             case R.id.tv_roomdevicebutton_4:
+                clickButtonFromPos("监控");
                 break;
         }
+    }
+
+    private void clickButtonFromPos(String name){
+        ToastUtils.showToast(_mActivity,name+selectPostion);
     }
 
 }

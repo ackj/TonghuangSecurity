@@ -4,12 +4,12 @@
     android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_marginTop="1dp"
     app:show_mode="pull_out">
 
     <TextView
         android:id="@+id/tv_delete_item_scene"
-        android:layout_width="50dp"
+        android:layout_width="75dp"
         android:layout_height="match_parent"
         android:background="@color/red"
         android:gravity="center"
@@ -25,7 +25,9 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="@color/white"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -33,19 +35,22 @@
             android:id="@+id/tv_scene_item_scene"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="起床" />
+            android:text="起床"
+            android:textColor="@color/base_black"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_toggle_item_scene"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/light_blue"
+            android:layout_width="85dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/shape_solid_blue"
             android:gravity="center"
-            android:text="启动场景" />
+            android:text="启动场景"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 </com.daimajia.swipe.SwipeLayout>

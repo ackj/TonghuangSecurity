@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.aglhz.s1.R;
 import com.aglhz.s1.data.SecurityData;
 import com.aglhz.s1.security.SecurityRVAdapter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,17 +89,14 @@ public class SecurityFragment extends BaseFragment {
     }
 
     private void initListener() {
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ALog.e("onItemclick position:" + position + " size:" + adapter.getData().size());
-                if (position == adapter.getData().size() - 1) {
-                    _mActivity.start(AddDetectorFragment.newInstance());
-                } else {
-                    _mActivity.start(DetectorPropertyFragment.newInstance());
-                }
-                Toast.makeText(_mActivity, "clickItem", Toast.LENGTH_SHORT).show();
+        adapter.setOnItemClickListener((adapter, view, position) -> {
+            ALog.e("onItemclick position:" + position + " size:" + adapter.getData().size());
+            if (position == adapter.getData().size() - 1) {
+                _mActivity.start(AddDetectorFragment.newInstance());
+            } else {
+                _mActivity.start(DetectorPropertyFragment.newInstance());
             }
+            Toast.makeText(_mActivity, "clickItem", Toast.LENGTH_SHORT).show();
         });
     }
 

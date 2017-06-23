@@ -18,4 +18,6 @@ public class BaseApplication extends Application {
         mContext=this;
         Fragmentation.builder().stackViewMode(Fragmentation.BUBBLE).install();
     }
+
+
 }

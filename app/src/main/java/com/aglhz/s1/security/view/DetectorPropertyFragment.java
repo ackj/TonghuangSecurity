@@ -71,33 +71,14 @@ public class DetectorPropertyFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-//    Handler handler = new Handler(new Handler.Callback() {
-//        int i = 0;
-//
-//        @Override
-//        public boolean handleMessage(Message msg) {
-//            if (i <= 100) {
-//                cpbDeleteDetector.setProgress(i);
-//                handler.sendEmptyMessageDelayed(100, 30);
-//                i++;
-//            }
-//            return false;
-//        }
-//    });
-
     @OnClick(R.id.cpb_delete_fragment_detector_property)
     public void onViewClicked() {
-//        handler.sendEmptyMessageDelayed(100, 30);
-
         cpbDelete.setIndeterminateProgressMode(true);
 
         cpbDelete.setProgress(50);
-        cpbDelete.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                cpbDelete.setProgress(100);
-                cpbDelete.setProgress(0);
-            }
+        cpbDelete.postDelayed(() -> {
+            cpbDelete.setProgress(100);
+            cpbDelete.setProgress(0);
         }, 1000);
 
 

@@ -11,6 +11,11 @@ public class Params {
     public static String token;
     public String sc = "AglhzYsq";
 
+    public static Params getInstance(){
+        Params params = new Params();
+        return params;
+    }
+
     @Override
     public String toString() {
         return "Params{" +

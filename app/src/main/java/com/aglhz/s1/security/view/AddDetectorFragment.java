@@ -15,7 +15,6 @@ import com.aglhz.s1.R;
 import com.aglhz.s1.data.SecurityData;
 import com.aglhz.s1.dialog.SelectorDialogFragment;
 import com.aglhz.s1.security.SecurityRVAdapter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +45,7 @@ public class AddDetectorFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_detector, container, false);
         unbinder = ButterKnife.bind(this, view);
-        return view;
+        return attachToSwipeBack(view);
     }
 
     @Override
@@ -76,13 +75,10 @@ public class AddDetectorFragment extends BaseFragment {
     }
 
     private void initListener() {
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Toast.makeText(_mActivity, position + "", Toast.LENGTH_SHORT).show();
-                SelectorDialogFragment editNameDialog = new SelectorDialogFragment();
-                editNameDialog.show(getFragmentManager(), "EditNameDialog");
-            }
+        adapter.setOnItemClickListener((adapter, view, position) -> {
+            Toast.makeText(_mActivity, position + "", Toast.LENGTH_SHORT).show();
+            SelectorDialogFragment editNameDialog = new SelectorDialogFragment();
+            editNameDialog.show(getFragmentManager(), "EditNameDialog");
         });
     }
 

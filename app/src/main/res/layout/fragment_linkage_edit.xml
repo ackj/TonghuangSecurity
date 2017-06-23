@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout style="@style/LinkageEditItem_LinearLayoutStyle">
+
+        <TextView
+            style="@style/LinkageEditItem_TitleStyle"
+            android:text="场景名称" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="起床"
+            android:textColor="@color/base_black"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <View style="@style/NormalLineStyle" />
+
+    <LinearLayout style="@style/LinkageEditItem_LinearLayoutStyle">
+
+        <TextView
+            style="@style/LinkageEditItem_TitleStyle"
+            android:text="触发类型" />
+
+        <TextView
+            style="@style/LinkageEditItem_SelectTextStyle"
+            android:text="传感器" />
+    </LinearLayout>
+
+    <View style="@style/NormalLineStyle" />
+
+
+    <LinearLayout style="@style/LinkageEditItem_LinearLayoutStyle">
+
+        <TextView
+            style="@style/LinkageEditItem_TitleStyle"
+            android:text="传感器" />
+
+        <TextView
+            style="@style/LinkageEditItem_SelectTextStyle"
+            android:text="门磁" />
+    </LinearLayout>
+
+    <View style="@style/NormalLineStyle" />
+
+    <LinearLayout style="@style/LinkageEditItem_LinearLayoutStyle">
+
+        <TextView
+            style="@style/LinkageEditItem_TitleStyle"
+            android:text="触发动作" />
+
+        <TextView
+            style="@style/LinkageEditItem_SelectTextStyle"
+            android:text="打开" />
+    </LinearLayout>
+
+    <View style="@style/NormalLineStyle" />
+
+    <LinearLayout style="@style/LinkageEditItem_LinearLayoutStyle">
+
+        <TextView
+            style="@style/LinkageEditItem_TitleStyle"
+            android:text="联动类型" />
+
+        <TextView
+            style="@style/LinkageEditItem_SelectTextStyle"
+            android:text="设备" />
+    </LinearLayout>
+
+    <View style="@style/NormalLineStyle" />
+
+    <LinearLayout style="@style/LinkageEditItem_LinearLayoutStyle">
+
+        <TextView
+            style="@style/LinkageEditItem_TitleStyle"
+            android:text="联动到" />
+
+        <TextView
+            style="@style/LinkageEditItem_SelectTextStyle"
+            android:text="插座" />
+    </LinearLayout>
+
+    <View style="@style/NormalLineStyle" />
+
+    <LinearLayout style="@style/LinkageEditItem_LinearLayoutStyle">
+
+        <TextView
+            style="@style/LinkageEditItem_TitleStyle"
+            android:text="联动动作" />
+
+        <TextView
+            style="@style/LinkageEditItem_SelectTextStyle"
+            android:text="关闭" />
+    </LinearLayout>
+
+    <View style="@style/NormalLineStyle" />
+
+    <LinearLayout style="@style/LinkageEditItem_LinearLayoutStyle">
+
+        <TextView
+            style="@style/LinkageEditItem_TitleStyle"
+            android:text="延时" />
+
+        <TextView
+            style="@style/LinkageEditItem_SelectTextStyle"
+            android:text="1s" />
+    </LinearLayout>
+
+    <View style="@style/NormalLineStyle" />
+
+    <LinearLayout style="@style/LinkageEditItem_LinearLayoutStyle">
+
+        <TextView
+            style="@style/LinkageEditItem_TitleStyle"
+            android:text="延时联动动作" />
+
+        <TextView
+            style="@style/LinkageEditItem_SelectTextStyle"
+            android:text="关闭" />
+    </LinearLayout>
+
+    <View style="@style/NormalLineStyle" />
+
+</LinearLayout>

@@ -17,4 +17,5 @@ public class SettingsBean {
     public String title;
     public String data;
 
+
 }

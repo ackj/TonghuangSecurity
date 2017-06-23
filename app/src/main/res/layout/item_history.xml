@@ -3,27 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
 
     <TextView
         android:id="@+id/tv_id_item_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="F0F0F00F0F0F0" />
+        android:text="F0F0F00F0F0F0"
+        android:textColor="@color/base_black"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/tv_content_item_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="DoorSensor2" />
+        android:text="DoorSensor2"
+        android:textColor="@color/base_black"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/tv_time_item_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="2017-03-07 11：35" />
+        android:text="2017-03-07 11：35"
+        android:textSize="13sp" />
 
     <View
         android:layout_width="match_parent"

@@ -73,7 +73,7 @@
     <com.dd.CircularProgressButton
         android:id="@+id/cpb_delete_fragment_device_property"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:background="@color/red"

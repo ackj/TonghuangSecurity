@@ -11,7 +11,7 @@ import com.aglhz.s1.history.view.HistoryFragment;
 import com.aglhz.s1.room.view.RoomFragment2;
 import com.aglhz.s1.scene.view.SceneFragment;
 import com.aglhz.s1.security.view.SecurityFragment;
-import com.aglhz.s1.settings.view.MoreFragment;
+import com.aglhz.s1.more.view.MoreFragment;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 

@@ -8,20 +8,20 @@
     android:gravity="center"
     android:orientation="vertical"
     android:paddingBottom="10dp"
-    android:paddingTop="15dp">
+    android:paddingTop="20dp">
 
     <ImageView
-        android:id="@+id/iv_icon_item_security"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="5dp"
-        android:src="@drawable/ic_equipment_gassolenoidvalve_180px" />
+        android:id="@+id/iv_icon_item_room_type"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="8dp"
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
-        android:id="@+id/tv_name_item_security"
+        android:id="@+id/tv_name_item_room_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="门槛"
+        android:text="大厅"
         android:textColor="@color/base_black"
         android:textSize="15sp" />
 

@@ -12,7 +12,6 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Author: LiuJia on 2017/4/27 0027 08:49.
  * Email: liujia95me@126.com
  */
-
 public class SecurityRVAdapter extends BaseRecyclerViewAdapter<SecurityBean, BaseViewHolder> {
 
     public SecurityRVAdapter(List<SecurityBean> data) {
