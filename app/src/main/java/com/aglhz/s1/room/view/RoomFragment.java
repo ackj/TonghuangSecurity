@@ -27,9 +27,9 @@ import cn.itsite.abase.utils.ToastUtils;
  * Email: liujia95me@126.com
  */
 
-public class RoomFragment2 extends BaseFragment {
+public class RoomFragment extends BaseFragment {
 
-    private static final String TAG = RoomFragment2.class.getSimpleName();
+    private static final String TAG = RoomFragment.class.getSimpleName();
 
     @BindView(R.id.viewpager_room_fragment)
     ViewPager viewpager;
@@ -48,14 +48,14 @@ public class RoomFragment2 extends BaseFragment {
 
     private List<List<DeviceButtonBean>> coordinateLists = new ArrayList<>();
 
-    public static RoomFragment2 newInstance() {
-        return new RoomFragment2();
+    public static RoomFragment newInstance() {
+        return new RoomFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_room_2, container, false);
+        View view = inflater.inflate(R.layout.fragment_room, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }

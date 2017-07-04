@@ -1,0 +1,31 @@
+package com.aglhz.s1.security.model;
+
+import com.aglhz.s1.bean.BaseBean;
+import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Params;
+import com.aglhz.s1.security.contract.DetectorPropertyContract;
+
+import cn.itsite.abase.mvp.model.base.BaseModel;
+import cn.itsite.abase.network.http.HttpHelper;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
+
+/**
+ * Author: LiuJia on 2017/7/4 0004 15:04.
+ * Email: liujia95me@126.com
+ */
+
+public class DetectorPropertyModel extends BaseModel implements DetectorPropertyContract.Model{
+
+
+    @Override
+    public void start(Object request) {
+
+    }
+
+    @Override
+    public Observable<BaseBean> requestDetectorProperty(Params params) {
+        return HttpHelper.getService(ApiService.class).requestDetectorProperty(ApiService.requestDetectorProperty)
+                .subscribeOn(Schedulers.io());
+    }
+}

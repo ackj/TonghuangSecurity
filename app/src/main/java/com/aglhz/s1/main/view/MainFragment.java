@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.history.view.HistoryFragment;
-import com.aglhz.s1.room.view.RoomFragment2;
+import com.aglhz.s1.room.view.RoomFragment;
 import com.aglhz.s1.scene.view.SceneFragment;
 import com.aglhz.s1.security.view.SecurityFragment;
 import com.aglhz.s1.more.view.MoreFragment;
@@ -31,6 +31,7 @@ public class MainFragment extends BaseFragment {
     private AHBottomNavigation ahbn;
     private SupportFragment[] fragments = new SupportFragment[5];
     private int bottomNavigationPreposition;
+    private static final String KEY_CURR_POSITION = "bottomNavigationPreposition";
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -49,21 +50,23 @@ public class MainFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         if (savedInstanceState == null) {
             fragments[0] = SecurityFragment.newInstance();
-            fragments[1] = RoomFragment2.newInstance();
+            fragments[1] = RoomFragment.newInstance();
             fragments[2] = SceneFragment.newInstance();
             fragments[3] = HistoryFragment.newInstance();
             fragments[4] = MoreFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_container_main_fragment, 0, fragments[0], fragments[1], fragments[2], fragments[3], fragments[4]);
         } else {
-            fragments[0] = findFragment(SecurityFragment.class);
-            fragments[1] = findFragment(RoomFragment2.class);
-            fragments[2] = findFragment(SceneFragment.class);
-            fragments[3] = findFragment(HistoryFragment.class);
-            fragments[4] = findFragment(MoreFragment.class);
+            fragments[0] = findChildFragment(SecurityFragment.class);
+            fragments[1] = findChildFragment(RoomFragment.class);
+            fragments[2] = findChildFragment(SceneFragment.class);
+            fragments[3] = findChildFragment(HistoryFragment.class);
+            fragments[4] = findChildFragment(MoreFragment.class);
+            bottomNavigationPreposition = savedInstanceState.getInt(KEY_CURR_POSITION);
         }
         initData();
         initListener();
     }
+
 
     private void initData() {
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.security, R.drawable.ic_navigationsecurity_black_78px, R.color.white);
@@ -85,15 +88,18 @@ public class MainFragment extends BaseFragment {
         ahbn.setAccentColor(getResources().getColor(R.color.base_color));
         ahbn.setInactiveColor(getResources().getColor(R.color.black));
         ahbn.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
-        ahbn.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public boolean onTabSelected(int position, final boolean wasSelected) {
-                showHideFragment(fragments[position], fragments[bottomNavigationPreposition]);
-                bottomNavigationPreposition = position;
-                return true;
-            }
+        ahbn.setOnTabSelectedListener((position, wasSelected) -> {
+            showHideFragment(fragments[position], fragments[bottomNavigationPreposition]);
+            bottomNavigationPreposition = position;
+            return true;
         });
-        ahbn.setCurrentItem(0);
+        ahbn.setCurrentItem(bottomNavigationPreposition);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_CURR_POSITION, bottomNavigationPreposition);
     }
 
     private void initListener() {

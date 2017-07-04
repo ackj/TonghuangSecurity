@@ -5,6 +5,7 @@ package com.aglhz.s1.common;
  */
 public class Constants {
     public static final String TAG = Constants.class.getSimpleName();
+    public static final int RESPONSE_CODE_NOMAL = 200;
 
     //不允许new
     private Constants() {

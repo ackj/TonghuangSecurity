@@ -1,6 +1,7 @@
 package com.aglhz.s1.security.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.bean.BaseBean;
+import com.aglhz.s1.bean.HostListBean;
+import com.aglhz.s1.bean.SecurityBean;
+import com.aglhz.s1.common.DialogHelper;
 import com.aglhz.s1.data.SecurityData;
 import com.aglhz.s1.security.SecurityRVAdapter;
+import com.aglhz.s1.security.contract.SecurityContract;
+import com.aglhz.s1.security.presenter.SecurityPresenter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +40,7 @@ import cn.itsite.abase.utils.DensityUtils;
  * Email: liujia95me@126.com
  */
 
-public class SecurityFragment extends BaseFragment {
+public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> implements SecurityContract.View {
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -44,6 +53,12 @@ public class SecurityFragment extends BaseFragment {
 
     public static SecurityFragment newInstance() {
         return new SecurityFragment();
+    }
+
+    @NonNull
+    @Override
+    protected SecurityContract.Presenter createPresenter() {
+        return new SecurityPresenter(this);
     }
 
     @Nullable
@@ -104,5 +119,30 @@ public class SecurityFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void start(Object response) {
+
+    }
+
+    @Override
+    public void error(String errorMessage) {
+        DialogHelper.warningSnackbar(getView(), errorMessage);
+    }
+
+    @Override
+    public void responseSecurity(List<SecurityBean> listRecord) {
+        //todo:
+    }
+
+    @Override
+    public void responseHostList(HostListBean hostListBean) {
+
+    }
+
+    @Override
+    public void responseChangedHostStatusSuccess(BaseBean baseBean) {
+
     }
 }
