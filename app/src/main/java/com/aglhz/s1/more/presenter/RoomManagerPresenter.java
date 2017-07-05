@@ -38,5 +38,4 @@ public class RoomManagerPresenter extends BasePresenter<RoomManagerContract.View
                 }, this::error));
     }
 
-    
 }
