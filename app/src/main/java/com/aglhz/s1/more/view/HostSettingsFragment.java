@@ -36,6 +36,7 @@ public class HostSettingsFragment extends BaseFragment {
     Toolbar toolbar;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
+
     private Unbinder unbinder;
     private HostSettingsRVAdapter adapter;
 
