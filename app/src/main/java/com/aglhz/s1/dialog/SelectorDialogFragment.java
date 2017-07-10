@@ -12,7 +12,7 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.aglhz.s1.BaseApplication;
+import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 
 import butterknife.BindView;
@@ -66,7 +66,7 @@ public class SelectorDialogFragment extends DialogFragment {
         Window window = dialog.getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = DensityUtils.dp2px(BaseApplication.mContext, 326);
+        lp.height = DensityUtils.dp2px(App.mContext, 326);
         lp.gravity = Gravity.BOTTOM; // 紧贴底部
         window.setAttributes(lp);
 

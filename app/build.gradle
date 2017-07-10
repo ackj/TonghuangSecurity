@@ -31,8 +31,10 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile 'junit:junit:4.12'
+
+    //基础依赖Module
     compile project(':abase')
+    //底部导航栏
     compile 'com.aurelhubert:ahbottomnavigation:2.0.6'
     //黄油刀系列
     compile 'com.jakewharton:butterknife:8.4.0'
