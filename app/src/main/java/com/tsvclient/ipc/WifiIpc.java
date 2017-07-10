@@ -12,12 +12,10 @@ public class WifiIpc {
         System.loadLibrary("tsvipc");//载入本地库
     }
 
-
     native private static String TSV_C_SendXmlCommand(String ipaddr, int port, int cmdId, int cmdIndex, String xmlData, String version);
 
     public static String TSV_C_SendXmlCommand(String ipaddr, int port, int cmdId, int cmdIndex, String xmlData) {
         Log.i("ipc", "TSV_C_SendXmlCommand ip=" + ipaddr + " port=" + port + " version=" + VERSION);
         return TSV_C_SendXmlCommand(ipaddr, port, cmdId, cmdIndex, xmlData, VERSION);
     }
-
 }
