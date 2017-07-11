@@ -16,6 +16,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    publishNonDefault true  //用于解决依赖Module无法区分debug个版本的。
 }
 
 dependencies {

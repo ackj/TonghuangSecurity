@@ -33,7 +33,8 @@ dependencies {
     })
 
     //基础依赖Module
-    compile project(':abase')
+    debugCompile project(path: ':abase', configuration: 'debug')
+    releaseCompile project(path: ':abase', configuration: 'release')
     //底部导航栏
     compile 'com.aurelhubert:ahbottomnavigation:2.0.6'
     //黄油刀系列
