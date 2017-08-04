@@ -32,6 +32,7 @@ public class SelectorDialogFragment extends DialogFragment {
     @BindView(R.id.viewpager)
     ViewPager viewpager;
     private Unbinder unbinder;
+
 //
 //    @Nullable
 //    @Override
@@ -46,8 +47,6 @@ public class SelectorDialogFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @SuppressLint("WrongConstant")

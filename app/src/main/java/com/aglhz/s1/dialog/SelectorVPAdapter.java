@@ -104,7 +104,6 @@ public class SelectorVPAdapter extends PagerAdapter {
                 }
             }
         });
-
         return recyclerView;
     }
 
