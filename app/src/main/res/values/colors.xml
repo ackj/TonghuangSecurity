@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#E95E5B</color>
-    <color name="colorPrimaryDark">#E95E5B</color>
-    <color name="colorAccent">#E95E5B</color>
+    <color name="colorPrimary">#2F9FE8</color>
+    <color name="colorPrimaryDark">#2F9FE8</color>
+    <color name="colorAccent">#2F9FE8</color>
 
     <!-- 常用颜色值 -->
-    <color name="base_color">#E95E5B</color>
+    <color name="base_color">#2F9FE8</color>
     <color name="base_line">#E7E7E7</color>
     <color name="base_gray">#F3F5F7</color>
     <color name="base_black">#222222</color>
