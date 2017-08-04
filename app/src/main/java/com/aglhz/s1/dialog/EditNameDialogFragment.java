@@ -15,12 +15,11 @@ import com.aglhz.s1.R;
  * 自定义dialog，是所有自定义dialog的基类
  */
 
-public class EditNameDialogFragment extends DialogFragment{
+public class EditNameDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view = inflater.inflate(R.layout.fragment_dialog_selector, container);
         return view;

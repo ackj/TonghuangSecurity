@@ -25,7 +25,6 @@ public class SelectorItemRVAdapter extends BaseRecyclerViewAdapter<ItemBean, Bas
     protected void convert(BaseViewHolder helper, ItemBean item) {
         helper.setTextColor(R.id.text1, item.isSelect ? Color.RED : 0xFF222222)
                 .setText(R.id.text1, item.name)
-                .addOnClickListener(R.id.text1)
-        ;
+                .addOnClickListener(R.id.text1);
     }
 }
