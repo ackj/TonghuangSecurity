@@ -7,7 +7,7 @@ import android.view.View;
 import com.trycatch.mysnackbar.Prompt;
 import com.trycatch.mysnackbar.TSnackbar;
 
-import cn.itsite.abase.widget.Dialog.LoadingDialog;
+import cn.itsite.abase.widget.dialog.LoadingDialog;
 
 /**
  * Author：leguang on 2016/11/11 0011 18:50

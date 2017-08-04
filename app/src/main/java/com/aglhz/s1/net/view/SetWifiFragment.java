@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aglhz.s1.BaseApplication;
+import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.DialogHelper;
@@ -119,8 +119,8 @@ public class SetWifiFragment extends BaseFragment {
 
     private void initData() {
         handler = new MyHandler(this);
-        String name = (String) SPCache.get(BaseApplication.mContext, Constants.WIFI_NAME, "");
-        String password = (String) SPCache.get(BaseApplication.mContext, Constants.WIFI_PASSWORD, "");
+        String name = (String) SPCache.get(App.mContext, Constants.WIFI_NAME, "");
+        String password = (String) SPCache.get(App.mContext, Constants.WIFI_PASSWORD, "");
         etWifiName.setText(name);
         etWifiPassword.setText(password);
     }
@@ -132,7 +132,7 @@ public class SetWifiFragment extends BaseFragment {
         loadingDialog.show();
 
         IPC_DispatchText(IP, E_SRV_START_SCAN_APLIST, E_SRV_START_SCAN_APLIST, "");
-        Toast.makeText(BaseApplication.mContext, "scaning AP.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(App.mContext, "scaning AP.", Toast.LENGTH_SHORT).show();
 
         timerScan = new Timer();
         timerScan.schedule(createTimerTaskAP(), 3000, 2000);
@@ -226,7 +226,7 @@ public class SetWifiFragment extends BaseFragment {
                         fragment.timerGetInfo.schedule(fragment.createTimerTask(), 2000, 3000);
 
                     } else {//send fail
-                        Toast.makeText(BaseApplication.mContext, "send password Fail", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(App.mContext, "send password Fail", Toast.LENGTH_SHORT).show();
 
                     }
                     break;
@@ -235,11 +235,11 @@ public class SetWifiFragment extends BaseFragment {
                 case GET_WIFI_STATE: {
                     switch (msg.arg1) {
                         case E_WIFI_BOND_CONNECTING: {
-                            Toast.makeText(BaseApplication.mContext, "connecting wifi", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(App.mContext, "connecting wifi", Toast.LENGTH_SHORT).show();
                             break;
                         }
                         case E_WIFI_BOND_SUCESS: {
-                            Toast.makeText(BaseApplication.mContext, "set Wifi OK!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(App.mContext, "set Wifi OK!", Toast.LENGTH_SHORT).show();
                             if (fragment.timerGetInfo != null) {
                                 fragment.timerGetInfo.cancel();
                                 fragment.timerGetInfo = null;
@@ -247,7 +247,7 @@ public class SetWifiFragment extends BaseFragment {
                             break;
                         }
                         case E_WIFI_BOND_SSID_NEXIST: {
-                            Toast.makeText(BaseApplication.mContext, "wrong SSID", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(App.mContext, "wrong SSID", Toast.LENGTH_SHORT).show();
                             if (fragment.timerGetInfo != null) {
                                 fragment.timerGetInfo.cancel();
                                 fragment.timerGetInfo = null;
@@ -255,7 +255,7 @@ public class SetWifiFragment extends BaseFragment {
                             break;
                         }
                         case E_WIFI_BOND_PWD_WRONG: {
-                            Toast.makeText(BaseApplication.mContext, "Wifi wrong password", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(App.mContext, "Wifi wrong password", Toast.LENGTH_SHORT).show();
                             if (fragment.timerGetInfo != null) {
                                 fragment.timerGetInfo.cancel();
                                 fragment.timerGetInfo = null;
@@ -263,7 +263,7 @@ public class SetWifiFragment extends BaseFragment {
                             break;
                         }
                         case E_WIFI_BOND_CONNECT_ERR: {
-                            Toast.makeText(BaseApplication.mContext, "Wifi connect error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(App.mContext, "Wifi connect error", Toast.LENGTH_SHORT).show();
                             if (fragment.timerGetInfo != null) {
                                 fragment.timerGetInfo.cancel();
                                 fragment.timerGetInfo = null;
@@ -271,7 +271,7 @@ public class SetWifiFragment extends BaseFragment {
                             break;
                         }
                         case E_WIFI_BOND_ERROR: {
-                            Toast.makeText(BaseApplication.mContext, "Wifi error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(App.mContext, "Wifi error", Toast.LENGTH_SHORT).show();
                             if (fragment.timerGetInfo != null) {
                                 fragment.timerGetInfo.cancel();
                                 fragment.timerGetInfo = null;
@@ -279,7 +279,7 @@ public class SetWifiFragment extends BaseFragment {
                             break;
                         }
                         default:
-                            Toast.makeText(BaseApplication.mContext, "errorCode:" + msg.arg1, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(App.mContext, "errorCode:" + msg.arg1, Toast.LENGTH_SHORT).show();
                             if (fragment.timerGetInfo != null) {
                                 fragment.timerGetInfo.cancel();
                                 fragment.timerGetInfo = null;
@@ -301,14 +301,14 @@ public class SetWifiFragment extends BaseFragment {
                             fragment.timerScan = null;
                         }
 
-                        Toast.makeText(BaseApplication.mContext, "got ap list size=" + arrayAP.length, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(App.mContext, "got ap list size=" + arrayAP.length, Toast.LENGTH_SHORT).show();
                         //TODO: Here we get wifi info list data, please handle it.
 
                         fragment.showDialog(arrayAP);
 
                     } else {
                         if (fragment.scan_time == TIMEOUT_SCAN) {
-                            Toast.makeText(BaseApplication.mContext, "scan AP failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(App.mContext, "scan AP failed", Toast.LENGTH_SHORT).show();
                             if (fragment.timerScan != null) {
                                 fragment.timerScan.cancel();
                                 fragment.timerScan = null;
@@ -318,7 +318,7 @@ public class SetWifiFragment extends BaseFragment {
                     break;
                 }
                 case GET_AP_FAILED: {
-                    Toast.makeText(BaseApplication.mContext, "scan AP failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(App.mContext, "scan AP failed", Toast.LENGTH_SHORT).show();
                     if (fragment.timerScan != null) {
                         fragment.timerScan.cancel();
                         fragment.timerScan = null;

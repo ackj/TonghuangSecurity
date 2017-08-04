@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aglhz.s1.BaseApplication;
+import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.database.DBManager;
 import com.aglhz.s1.database.ItemBean;
@@ -30,7 +30,7 @@ public class SelectorVPAdapter extends PagerAdapter {
     public SelectorVPAdapter() {
         //数据初始化
         mTitles.add("请选择");
-        dbManager = new DBManager(BaseApplication.mContext);
+        dbManager = new DBManager(App.mContext);
         List<ItemBean> province = dbManager.query(null, "Province");
         mHmDatas.put(0, province);
     }

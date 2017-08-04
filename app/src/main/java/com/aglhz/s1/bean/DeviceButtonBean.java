@@ -1,6 +1,6 @@
 package com.aglhz.s1.bean;
 
-import com.aglhz.s1.BaseApplication;
+import com.aglhz.s1.App;
 
 import cn.itsite.abase.utils.DensityUtils;
 
@@ -18,8 +18,8 @@ public class DeviceButtonBean {
     }
 
     public DeviceButtonBean(float percentX, float percentY) {
-        x = (int) (DensityUtils.getDisplayWidth(BaseApplication.mContext) * percentX);
-        int displayHeight = DensityUtils.getDisplayHeight(BaseApplication.mContext)-DensityUtils.dp2px(BaseApplication.mContext,56);
+        x = (int) (DensityUtils.getDisplayWidth(App.mContext) * percentX);
+        int displayHeight = DensityUtils.getDisplayHeight(App.mContext)-DensityUtils.dp2px(App.mContext,56);
         y = (int) (displayHeight * percentY);
     }
 }

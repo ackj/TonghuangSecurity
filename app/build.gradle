@@ -31,8 +31,11 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile 'junit:junit:4.12'
-    compile project(':abase')
+
+    //基础依赖Module
+    debugCompile project(path: ':abase', configuration: 'debug')
+    releaseCompile project(path: ':abase', configuration: 'release')
+    //底部导航栏
     compile 'com.aurelhubert:ahbottomnavigation:2.0.6'
     //黄油刀系列
     compile 'com.jakewharton:butterknife:8.4.0'
@@ -45,4 +48,7 @@ dependencies {
     compile "com.daimajia.swipelayout:library:1.2.0@aar"
     //自定义的snackbar
     compile 'com.trycatch.android:mysnackbar:1.2.2'
+    //页面状态管理
+    compile 'com.github.leguang:StateManager:1.0.1'
+
 }
