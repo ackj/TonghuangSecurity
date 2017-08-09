@@ -2,6 +2,7 @@ package com.aglhz.s1.common;
 
 import com.aglhz.s1.bean.BaseBean;
 import com.aglhz.s1.bean.CheckTokenBean;
+import com.aglhz.s1.bean.DevicesBean;
 import com.aglhz.s1.bean.GatewaysBean;
 import com.aglhz.s1.bean.HostListBean;
 import com.aglhz.s1.bean.SecurityBean;
@@ -99,6 +100,32 @@ public interface ApiService {
             , @Field("page") int page
             , @Field("pageSize") int pageSize
     );
+
+    //----------------------------- 探测器相关 ---------------------------------
+    //获取探测器列表
+    String requestSensorTypeList = BASE_URL+"/client/info/sensorTypeList";
+
+    @FormUrlEncoded
+    @POST
+    Observable<DevicesBean> requestSensorTypeList(@Url String url
+            , @Field("token") String token
+            , @Field("page") int page
+            , @Field("pageSize") int pageSize
+    );
+
+    //添加探测器
+    String reqeuestNewsensor = BASE_URL +"/client/newsensor";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> reqeuestNewsensor(@Url String url
+            , @Field("token") String token
+            , @Field("sensorType") String sensorType
+            , @Field("name") String name
+            , @Field("defenseLevel") String defenseLevel
+            , @Field("roomFid") String roomFid
+    );
+
 
     //*************以下基础路径*******************
     String BASE_USER = Constants.BASE_USER;           //用户

@@ -17,19 +17,20 @@ import android.widget.Toast;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.BaseBean;
+import com.aglhz.s1.bean.DevicesBean;
 import com.aglhz.s1.bean.HostListBean;
 import com.aglhz.s1.bean.SecurityBean;
-import cn.itsite.abase.common.DialogHelper;
-import com.aglhz.s1.data.SecurityData;
 import com.aglhz.s1.security.SecurityRVAdapter;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.DensityUtils;
@@ -50,6 +51,8 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     RecyclerView recyclerView;
     Unbinder unbinder;
     private SecurityRVAdapter adapter;
+
+    private DevicesBean.DataBean.DeviceTypeListBean addIconDevice;
 
     public static SecurityFragment newInstance() {
         return new SecurityFragment();
@@ -85,9 +88,16 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     private void initData() {
         recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 4));
 
-        adapter = new SecurityRVAdapter(SecurityData.getInstance().getAlreadyAddSecuritys());
+        addIconDevice = new DevicesBean.DataBean.DeviceTypeListBean();
+        addIconDevice.setIcon("add_icon");
+        addIconDevice.setName("添加探测器");
+
+        adapter = new SecurityRVAdapter();
         adapter.setHeaderView(initHeaderView());
         recyclerView.setAdapter(adapter);
+        List<DevicesBean.DataBean.DeviceTypeListBean> data = new ArrayList<>();
+        data.add(addIconDevice);
+        adapter.setNewData(data);
 
     }
 

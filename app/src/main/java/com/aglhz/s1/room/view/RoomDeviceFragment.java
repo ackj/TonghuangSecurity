@@ -64,7 +64,7 @@ public class RoomDeviceFragment extends SupportFragment {
         data.add(new SecurityBean(R.mipmap.ic_launcher, "气体"));
         data.add(new SecurityBean(R.mipmap.ic_launcher, "添加探测器"));
         data.add(new SecurityBean(R.mipmap.ic_launcher, "添加"));
-        adapter = new SecurityRVAdapter(data);
+        adapter = new SecurityRVAdapter();
         View headerView = LayoutInflater.from(_mActivity).inflate(R.layout.item_security_header, null);
         adapter.setHeaderView(headerView);
         recyclerView.setAdapter(adapter);

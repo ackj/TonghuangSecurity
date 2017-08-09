@@ -24,6 +24,10 @@ public class Params {
     public String password1;
     public String password2;
     public String phoneNo = "";
+    public String sensorType;
+    public String name;
+    public String defenseLevel;
+    public String roomFid;
 
     public static Params getInstance() {
         Params params = new Params();

@@ -1,6 +1,7 @@
 package com.aglhz.s1.security.model;
 
 import com.aglhz.s1.bean.BaseBean;
+import com.aglhz.s1.bean.DevicesBean;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.security.contract.AddDetectorContract;
@@ -17,15 +18,15 @@ public class AddDetectorModel extends BaseModel implements AddDetectorContract.M
     }
 
 	@Override
-    public Observable<BaseBean> requestDetectorList(Params params) {
-        return HttpHelper.getService(ApiService.class).requestDetectorList(ApiService.requestDetectorList
-        )
+    public Observable<DevicesBean> requestDetectorList(Params params) {
+        return HttpHelper.getService(ApiService.class).requestSensorTypeList(ApiService.requestSensorTypeList
+                ,params.token,params.page,params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 	@Override
     public Observable<BaseBean> requestAddDetector(Params params) {
-        return HttpHelper.getService(ApiService.class).requestAddDetector(ApiService.requestAddDetector
-                )
+        return HttpHelper.getService(ApiService.class).reqeuestNewsensor(ApiService.reqeuestNewsensor
+                ,params.token,params.sensorType,params.name,params.defenseLevel,params.roomFid)
                 .subscribeOn(Schedulers.io());
     }
 

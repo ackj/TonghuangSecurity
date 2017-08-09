@@ -73,7 +73,7 @@ public class AddDeviceFragment extends BaseFragment {
         for (int i = 0; i < 100; i++) {
             datas.add(new SecurityBean(R.mipmap.ic_launcher, "插座"));
         }
-        SecurityRVAdapter adapter = new SecurityRVAdapter(datas);
+        SecurityRVAdapter adapter = new SecurityRVAdapter();
         recyclerview.setLayoutManager(new GridLayoutManager(_mActivity,4));
         recyclerview.setAdapter(adapter);
     }
