@@ -1,11 +1,14 @@
 package cn.itsite.abase.network.http;
 
 
+import android.content.Intent;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
+import cn.itsite.abase.BaseApplication;
 import cn.itsite.abase.log.ALog;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -48,6 +51,7 @@ public class LogInterceptor implements Interceptor {
                     jsonObject.toString()));
             String code = jsonOther.optString("code");
             if ("123".equals(code)) {
+                BaseApplication.mContext.startActivity(new Intent("LoginActivity"));
             }
 
         } catch (JSONException e) {
