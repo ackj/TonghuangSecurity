@@ -34,8 +34,10 @@ public class BaseApplication extends MultiDexApplication {
 
             // 初始化卡顿监听
 //        BlockCanary.install(this, new AppContext()).start();
+            ALog.init(true, "S1");
 
         } else {
+            ALog.init(false, "S1");//在release版中禁止打印log。
             Thread.setDefaultUncaughtExceptionHandler(AppExceptionHandler.getInstance(this));//在release版中处理全局异常。
         }
     }
