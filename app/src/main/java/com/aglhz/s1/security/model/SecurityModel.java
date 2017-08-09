@@ -6,6 +6,7 @@ import com.aglhz.s1.bean.SecurityBean;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.security.contract.SecurityContract;
+import com.aglhz.s1.security.presenter.SecurityPresenter;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;
@@ -18,6 +19,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class SecurityModel extends BaseModel implements SecurityContract.Model {
+    public static final String TAG = SecurityModel.class.getSimpleName();
 
     @Override
     public void start(Object request) {
@@ -26,19 +28,22 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
 
     @Override
     public Observable<SecurityBean> requestSecurity(Params params) {
-        return HttpHelper.getService(ApiService.class).requestSecurity(ApiService.requestSecurity)
+        return HttpHelper.getService(ApiService.class)
+                .requestSecurity(ApiService.requestSecurity)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<HostListBean> requestHostList(Params params) {
-        return HttpHelper.getService(ApiService.class).requestHostList(ApiService.requestHostList)
+        return HttpHelper.getService(ApiService.class)
+                .requestHostList(ApiService.requestHostList)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<BaseBean> responseChangedHostStatus(Params params) {
-        return HttpHelper.getService(ApiService.class).requestChangedHostStatus(ApiService.requestChangedHostStatus)
+        return HttpHelper.getService(ApiService.class)
+                .requestChangedHostStatus(ApiService.requestChangedHostStatus)
                 .subscribeOn(Schedulers.io());
     }
 

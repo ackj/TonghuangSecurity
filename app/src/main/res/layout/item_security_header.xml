@@ -13,7 +13,6 @@
         android:layout_marginRight="33dp"
         android:layout_marginTop="20dp"
         android:lineSpacingExtra="15dp"
-        android:text="离家布防：当主机当主机当主机当主机当主机当主机当主机当主机当主机"
         android:textColor="@color/white"
         android:textSize="15sp" />
 

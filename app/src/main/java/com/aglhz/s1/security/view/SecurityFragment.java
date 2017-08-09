@@ -83,11 +83,9 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
     private void initData() {
         recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 4));
-
         adapter = new SecurityRVAdapter(SecurityData.getInstance().getAlreadyAddSecuritys());
         adapter.setHeaderView(initHeaderView());
         recyclerView.setAdapter(adapter);
-
     }
 
     private View initHeaderView() {

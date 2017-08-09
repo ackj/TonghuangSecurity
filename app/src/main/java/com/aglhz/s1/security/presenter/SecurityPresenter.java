@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.model.SecurityModel;
+import com.aglhz.s1.security.view.SecurityFragment;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -15,11 +16,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  */
 
 public class SecurityPresenter extends BasePresenter<SecurityContract.View, SecurityContract.Model> implements SecurityContract.Presenter {
-    /**
-     * 创建Presenter的时候就绑定View和创建model。
-     *
-     * @param mView 所要绑定的view层对象，一般在View层创建Presenter的时候通过this把自己传过来。
-     */
+    public static final String TAG = SecurityPresenter.class.getSimpleName();
+
     public SecurityPresenter(SecurityContract.View mView) {
         super(mView);
     }
