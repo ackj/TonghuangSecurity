@@ -19,9 +19,7 @@ import com.aglhz.s1.R;
 import com.aglhz.s1.bean.BaseBean;
 import com.aglhz.s1.bean.HostListBean;
 import com.aglhz.s1.bean.SecurityBean;
-import cn.itsite.abase.common.DialogHelper;
 import com.aglhz.s1.data.SecurityData;
-import com.aglhz.s1.security.SecurityRVAdapter;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
 
@@ -30,6 +28,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.DensityUtils;
@@ -41,7 +40,7 @@ import cn.itsite.abase.utils.DensityUtils;
  */
 
 public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> implements SecurityContract.View {
-
+    public static final String TAG = SecurityFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)

@@ -1,4 +1,4 @@
-package com.aglhz.s1.security;
+package com.aglhz.s1.security.view;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.SecurityBean;

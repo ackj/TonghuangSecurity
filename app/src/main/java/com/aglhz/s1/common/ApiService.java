@@ -23,6 +23,84 @@ public interface ApiService {
 
     String BASE_URL = "http://119.23.129.133:8096/gas";
 
+    //*************以下基础路径*******************
+    String BASE_USER = Constants.BASE_USER;           //用户
+
+    //*************以上基础路径*******************
+
+    //-----------------以下为推送相关---------------------
+    //友盟用户登记接口
+    String requestRegisterUMeng = BASE_USER + "/client/logUMengParams.do";
+
+    @POST
+    Observable<BaseBean> requestRegisterUMeng(@Url String url,
+                                              @Query("token") String token,
+                                              @Query("deviceToken") String deviceToken,
+                                              @Query("alias") String alias,
+                                              @Query("aliasType") String aliasType);
+    //-----------------以上为推送相关---------------------
+
+
+    //----------以下为Launch模块--------------
+    //登录
+    String requestLogin = BASE_USER + "/client/login.do";
+
+    @POST
+    Observable<UserBean> requestLogin(@Url String url
+            , @Query("sc") String sc
+            , @Query("user") String user
+            , @Query("pwd") String pwd);
+
+    //注册
+    String requestRegister = BASE_USER + "/client/register.do";
+
+    @POST
+    Observable<BaseBean> requestRegister(@Url String url,
+                                         @Query("sc") String sc,
+                                         @Query("account") String account,
+                                         @Query("code") String code,
+                                         @Query("Password1") String password1,
+                                         @Query("Password2") String password2);
+
+    //获取验证码
+    String requestVerifyCode = BASE_USER + "/client/validCode.do";
+
+    @POST
+    Observable<BaseBean> requestVerifyCode(@Url String url,
+                                           @Query("sc") String sc,
+                                           @Query("phone") String phone,
+                                           @Query("type") String type);
+
+
+    //重置密码
+    String requestResetPassword = BASE_USER + "/client/renewMemberPwd.do";
+
+    @POST
+    Observable<BaseBean> requestResetPassword(@Url String url,
+                                              @Query("sc") String sc,
+                                              @Query("account") String account,
+                                              @Query("code") String code,
+                                              @Query("pwd1") String password1,
+                                              @Query("pwd2") String password2);
+
+    //登录验证
+    String requestCheckToken = BASE_USER + "/client/checkIfTokenInvalid.do";
+
+    @POST
+    Observable<CheckTokenBean> requestCheckToken(@Url String url,
+                                                 @Query("token") String token);
+
+    //登出
+    String requestLogout = BASE_USER + "/client/logout.do";
+
+    @POST
+    Observable<BaseBean> requestLogout(
+            @Url String url,
+            @Query("token") String token);
+
+    //----------以上为Launch模块--------------
+
+
     // 确认主机结束安装
     String requestConfirmInstallFinished = "/client/confirmInstallFinished";
 
@@ -99,76 +177,6 @@ public interface ApiService {
             , @Field("page") int page
             , @Field("pageSize") int pageSize
     );
-
-    //*************以下基础路径*******************
-    String BASE_USER = Constants.BASE_USER;           //用户
-
-    //*************以上基础路径*******************
-
-    //-----------------以下为推送相关---------------------
-    //友盟用户登记接口
-    String requestRegisterUMeng = BASE_USER + "/client/logUMengParams.do";
-
-    @POST
-    Observable<BaseBean> requestRegisterUMeng(@Url String url,
-                                              @Query("token") String token,
-                                              @Query("deviceToken") String deviceToken,
-                                              @Query("alias") String alias,
-                                              @Query("aliasType") String aliasType);
-    //-----------------以上为推送相关---------------------
-
-
-    //----------以下为Launch模块--------------
-    //登录
-    String requestLogin = BASE_USER + "/client/login.do";
-
-    @POST
-    Observable<UserBean> requestLogin(@Url String url
-            , @Query("sc") String sc
-            , @Query("user") String user
-            , @Query("pwd") String pwd);
-
-    //注册
-    String requestRegister = BASE_USER + "/client/register.do";
-
-    @POST
-    Observable<BaseBean> requestRegister(@Url String url,
-                                         @Query("sc") String sc,
-                                         @Query("account") String account,
-                                         @Query("code") String code,
-                                         @Query("Password1") String password1,
-                                         @Query("Password2") String password2);
-
-    //获取验证码
-    String requestVerifyCode = BASE_USER + "/client/validCode.do";
-
-    @POST
-    Observable<BaseBean> requestVerifyCode(@Url String url,
-                                           @Query("sc") String sc,
-                                           @Query("phone") String phone,
-                                           @Query("type") String type);
-
-
-    //重置密码
-    String requestResetPassword = BASE_USER + "/client/renewMemberPwd.do";
-
-    @POST
-    Observable<BaseBean> requestResetPassword(@Url String url,
-                                              @Query("sc") String sc,
-                                              @Query("account") String account,
-                                              @Query("code") String code,
-                                              @Query("pwd1") String password1,
-                                              @Query("pwd2") String password2);
-
-    //登录验证
-    String requestCheckToken = BASE_USER + "/client/checkIfTokenInvalid.do";
-
-    @POST
-    Observable<CheckTokenBean> requestCheckToken(@Url String url,
-                                                 @Query("token") String token);
-
-
-    //----------以上为Launch模块--------------
 
 
     //----------------------------- 安防 ----------------------------------

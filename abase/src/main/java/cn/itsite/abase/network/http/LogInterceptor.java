@@ -3,6 +3,7 @@ package cn.itsite.abase.network.http;
 
 import android.content.Intent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,6 +53,7 @@ public class LogInterceptor implements Interceptor {
             String code = jsonOther.optString("code");
             if ("123".equals(code)) {
                 BaseApplication.mContext.startActivity(new Intent("LoginActivity"));
+                EventBus.getDefault().post(new LogInterceptor());
             }
 
         } catch (JSONException e) {

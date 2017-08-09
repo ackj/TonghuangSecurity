@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.aglhz.s1.R;
 import com.aglhz.s1.data.SecurityData;
 import com.aglhz.s1.dialog.SelectorDialogFragment;
-import com.aglhz.s1.security.SecurityRVAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

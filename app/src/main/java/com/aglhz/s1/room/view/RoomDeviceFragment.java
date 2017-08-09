@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.SecurityBean;
-import com.aglhz.s1.security.SecurityRVAdapter;
+import com.aglhz.s1.security.view.SecurityRVAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
