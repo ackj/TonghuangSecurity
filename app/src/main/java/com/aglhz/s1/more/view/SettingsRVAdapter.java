@@ -1,4 +1,4 @@
-package com.aglhz.s1.more;
+package com.aglhz.s1.more.view;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.SettingsBean;
@@ -13,9 +13,10 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Email: liujia95me@126.com
  */
 
-public class HostSettingsRVAdapter extends BaseRecyclerViewAdapter<SettingsBean, BaseViewHolder> {
+public class SettingsRVAdapter extends BaseRecyclerViewAdapter<SettingsBean, BaseViewHolder> {
 
-    public HostSettingsRVAdapter(List<SettingsBean> data) {
+
+    public SettingsRVAdapter(List<SettingsBean> data) {
         super(R.layout.item_settings, data);
     }
 

@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.data.RoomData;
-import com.aglhz.s1.more.RoomManagerRVAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

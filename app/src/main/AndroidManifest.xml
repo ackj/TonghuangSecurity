@@ -36,6 +36,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".login.LoginActivity"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.Transparent">
+            <intent-filter>
+                <action android:name="com.aglhz.s1.login.LoginActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".main.MainActivity"
             android:launchMode="singleTask"

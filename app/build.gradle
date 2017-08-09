@@ -50,8 +50,7 @@ dependencies {
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
     //swipe-layout
     compile "com.daimajia.swipelayout:library:1.2.0@aar"
-    //自定义的snackbar
-    compile 'com.trycatch.android:mysnackbar:1.2.2'
+
     //页面状态管理
     compile 'com.github.leguang:StateManager:1.0.1'
 

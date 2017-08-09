@@ -14,24 +14,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.BaseBean;
+import cn.itsite.abase.common.DialogHelper;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.common.SmsHelper;
 import com.aglhz.s1.common.UserHelper;
-import com.aglhz.s1.login.contract.RegisterContract;
-import com.aglhz.s1.login.presenter.RegisterPresenter;
+import com.aglhz.s1.login.contract.ResetPasswordContract;
+import com.aglhz.s1.login.presenter.ResetPasswordPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.utils.ToastUtils;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -39,9 +40,13 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Email：langmanleguang@qq.com
  */
 
-public class RegisterFragment extends BaseFragment<RegisterPresenter> implements RegisterContract.View {
-    public static final String TAG = RegisterFragment.class.getSimpleName();
-    @BindView(R.id.et_username)
+public class ResetPasswordFragment extends BaseFragment<ResetPasswordContract.Presenter> implements ResetPasswordContract.View {
+    public static final String TAG = ResetPasswordFragment.class.getSimpleName();
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.et_phoneNo)
     EditText etPhoneNo;
     @BindView(R.id.et_verify_code)
     EditText etVerifyCode;
@@ -49,30 +54,14 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
     TextView tvGetVerify;
     @BindView(R.id.et_password)
     EditText etPassword;
-    @BindView(R.id.cb_agree)
-    CheckBox cbAgree;
-    @BindView(R.id.btn_submit)
-    Button btSubmit;
     @BindView(R.id.et_again_password)
     EditText etAgainPassword;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    private Thread getVerifyThread;
+    @BindView(R.id.btn_submit)
+    Button btnSubmit;
     private Unbinder unbinder;
     private SmsHelper smsHelper;
+    private Thread getVerifyThread;
     private Params params = Params.getInstance();
-
-    public static RegisterFragment newInstance() {
-        return new RegisterFragment();
-    }
-
-    @NonNull
-    @Override
-    protected RegisterPresenter createPresenter() {
-        return new RegisterPresenter(this);
-    }
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -92,10 +81,20 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
         }
     };
 
+    @NonNull
+    @Override
+    protected ResetPasswordContract.Presenter createPresenter() {
+        return new ResetPasswordPresenter(this);
+    }
+
+    public static ResetPasswordFragment newInstance() {
+        return new ResetPasswordFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_register, container, false);
+        View view = inflater.inflate(R.layout.fragment_forget_password, container, false);
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }
@@ -105,36 +104,17 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
         initData();
+        initListener();
     }
-
-    TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            checkIsInputComplete();
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
 
     private void initToolbar() {
         initStateBar(toolbar);
+        toolbarTitle.setText("重置密码");
         toolbar.setNavigationIcon(R.drawable.ic_back_blue_60_60);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
 
     private void initData() {
-        etPhoneNo.addTextChangedListener(textWatcher);
-        etPassword.addTextChangedListener(textWatcher);
-        etVerifyCode.addTextChangedListener(textWatcher);
-        etAgainPassword.addTextChangedListener(textWatcher);
         getVerifyThread = new Thread(() -> {
             for (int i = 60; i >= 0; i--) {
                 if (getVerifyThread == null) return;
@@ -154,34 +134,37 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
         smsHelper.register();
     }
 
-    @OnClick(R.id.btn_submit)
-    public void btRegister(View view) {
-        String phoneNo = etPhoneNo.getText().toString();
-        String password = etPassword.getText().toString();
-        String againPassword = etAgainPassword.getText().toString();
-        String verCode = etVerifyCode.getText().toString();
-
-        if (!password.equals(againPassword)) {
-            DialogHelper.errorSnackbar(getView(), "两次密码输入不一致！");
-            return;
-        }
-        if (!(password.length() >= 6 && password.length() <= 12)) {
-            DialogHelper.errorSnackbar(getView(), "请设置6-12位密码！");
-            return;
-        }
-        params.account = phoneNo;
-        params.verifyCode = verCode;
-        params.password1 = password;
-        params.password2 = againPassword;
-        mPresenter.requestRegister(params);
+    private void initListener() {
+        etPhoneNo.addTextChangedListener(textWatcher);
+        etPassword.addTextChangedListener(textWatcher);
+        etVerifyCode.addTextChangedListener(textWatcher);
+        etAgainPassword.addTextChangedListener(textWatcher);
     }
+
+    TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            checkIsInputComplete();
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
 
     @OnClick(R.id.tv_get_verify)
     public void getVerify(View view) {
         String phoneNo = etPhoneNo.getText().toString();
         Params params = Params.getInstance();
         params.phoneNo = phoneNo;
-        params.verifyType = "v_regPhone";
+        params.verifyType = "v_rePwd";
         mPresenter.requestVerifyCode(params);
 
         getVerifyThread = new Thread(() -> {
@@ -198,20 +181,53 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
         getVerifyThread.start();
     }
 
+    @OnClick(R.id.btn_submit)
+    public void btnReset(View view) {
+        String phoneNo = etPhoneNo.getText().toString();
+        String password = etPassword.getText().toString();
+        String againPassword = etAgainPassword.getText().toString();
+        String verCode = etVerifyCode.getText().toString();
+
+        if (!password.equals(againPassword)) {
+            ToastUtils.showToast(_mActivity, "两次输入密码不一致");
+            return;
+        }
+        if (!(password.length() >= 6 && password.length() <= 12)) {
+            ToastUtils.showToast(_mActivity, "请设置6-12位密码");
+            return;
+        }
+
+        params.account = phoneNo;
+        params.verifyCode = verCode;
+        params.password1 = password;
+        params.password2 = againPassword;
+
+        mPresenter.requestReset(params);
+    }
+
     //检查是否输入完全
     private void checkIsInputComplete() {
-        boolean agree = !cbAgree.isChecked();
         boolean userName = TextUtils.isEmpty(etPhoneNo.getText().toString());
         boolean password = TextUtils.isEmpty(etPassword.getText().toString());
         boolean againPassword = TextUtils.isEmpty(etAgainPassword.getText().toString());
         boolean verCode = TextUtils.isEmpty(etVerifyCode.getText().toString());
 
-        boolean all = agree || userName || password || againPassword || verCode;
+        boolean all = userName || password || againPassword || verCode;
 
-        btSubmit.setEnabled(!all);
+        btnSubmit.setEnabled(!all);
         if (tvGetVerify.getText().toString().equals("获取验证码")) {
             tvGetVerify.setEnabled(!userName);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (getVerifyThread != null) {
+            getVerifyThread.interrupt();
+            getVerifyThread = null;
+        }
+        unbinder.unbind();
     }
 
     @Override
@@ -225,8 +241,8 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
     }
 
     @Override
-    public void registerSuccess(BaseBean baseBean) {
-        DialogHelper.successSnackbar(getView(), "恭喜您注册成功！");
+    public void reponseResetSuccess(BaseBean baseBean) {
+        DialogHelper.successSnackbar(getView(), "重置密码成功！");
         Bundle bundle = new Bundle();
         bundle.putString(UserHelper.ACCOUNT, params.account);
         bundle.putString(UserHelper.PASSWORD, params.password1);
@@ -235,18 +251,8 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
     }
 
     @Override
-    public void getVerfyCodeSuccess(BaseBean baseBean) {
+    public void responseVerfyCodeSuccess(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), "获取验证码成功！");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (getVerifyThread != null) {
-            getVerifyThread.interrupt();
-            getVerifyThread = null;
-        }
-        unbinder.unbind();
     }
 
     @Override

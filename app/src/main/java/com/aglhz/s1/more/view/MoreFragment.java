@@ -1,5 +1,6 @@
 package com.aglhz.s1.more.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -10,13 +11,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.common.UserHelper;
+import com.aglhz.s1.event.EventLogin;
+import com.aglhz.s1.login.LoginActivity;
 import com.aglhz.s1.net.view.SetWifiFragment;
+import com.bumptech.glide.Glide;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -25,7 +36,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 
 public class MoreFragment extends BaseFragment {
-
+    public static final String TAG = MoreFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -33,6 +44,10 @@ public class MoreFragment extends BaseFragment {
     Unbinder unbinder;
     @BindView(R.id.iv_avatar)
     ImageView ivAvatar;
+    @BindView(R.id.tv_nickname)
+    TextView tvNickname;
+    @BindView(R.id.tv_phone_number)
+    TextView tvPhoneNumber;
 
     public static SupportFragment newInstance() {
         return new MoreFragment();
@@ -43,6 +58,7 @@ public class MoreFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_more, container, false);
         unbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -51,7 +67,6 @@ public class MoreFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
         initData();
-        initListener();
     }
 
     private void initToolbar() {
@@ -60,51 +75,23 @@ public class MoreFragment extends BaseFragment {
     }
 
     private void initData() {
-    }
-
-    private void initListener() {
-//        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                switch (position) {
-//                    case 0:
-//
-//                        break;
-//                    case 1:
-//                        _mActivity.start(SetWifiFragment.newInstance());
-//                        break;
-//                    case 2:
-//                        _mActivity.start(AddHostFragment.newInstance());
-//                        break;
-//                    case 3:
-//                        _mActivity.start(HostSettingsFragment.newInstance());
-//                        break;
-//                    case 4:
-//                        _mActivity.start(RoomManagerFragment.newInstance());
-//                        break;
-//                    case 5:
-//                        break;
-//                    case 6:
-//                        break;
-//                    case 7:
-////                        _mActivity.start(LoginFragment.newInstance());
-//
-//                        _mActivity.startActivity(new Intent(_mActivity, NetActivity.class));
-//
-//
-//                        break;
-//                }
-//            }
-//        });
+        updataView();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.ll_room_manager, R.id.ll_host_setting, R.id.ll_wifi_setting, R.id.ll_add_host, R.id.ll_host_manager, R.id.ll_about, R.id.ll_logout})
+    @OnClick({R.id.ll_room_manager,
+            R.id.ll_host_setting,
+            R.id.ll_wifi_setting,
+            R.id.ll_add_host,
+            R.id.ll_host_manager,
+            R.id.ll_about,
+            R.id.ll_logout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_room_manager:
@@ -124,7 +111,28 @@ public class MoreFragment extends BaseFragment {
             case R.id.ll_about:
                 break;
             case R.id.ll_logout:
+                startActivity(new Intent(_mActivity, LoginActivity.class));
                 break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginEvent(EventLogin event) {
+        updataView();
+    }
+
+    private void updataView() {
+
+        if (UserHelper.isLogined()) {
+            Glide.with(this)
+                    .load(UserHelper.userInfo.getFace())
+                    .placeholder(R.drawable.ic_more_avatar_black_180px)
+                    .error(R.drawable.ic_more_avatar_black_180px)
+                    .bitmapTransform(new CropCircleTransformation(_mActivity))
+                    .into(ivAvatar);
+
+            tvNickname.setText(UserHelper.userInfo.getNickName());
+            tvPhoneNumber.setText(UserHelper.userInfo.getMobile());
         }
     }
 }

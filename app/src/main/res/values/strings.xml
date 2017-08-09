@@ -17,4 +17,8 @@
         \n第二步：打开手机“WLAN”列表,选择报警主机的热点“IWTAC_...”进行连接,主机热点的默认密码为“123456789”。
         \n第三步：打开手机APP点击”更多”，选择“Wifi设置”进入,App提示“扫描热点中”，然后app会出现所有扫描到的wifi热点，用户选择家庭wifi热点并输入正确的wifi密码。</string>
 
+
+    <!--Launch模块-->
+    <string name="login">登录</string>
+
 </resources>

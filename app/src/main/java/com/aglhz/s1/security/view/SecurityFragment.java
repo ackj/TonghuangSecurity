@@ -19,7 +19,7 @@ import com.aglhz.s1.R;
 import com.aglhz.s1.bean.BaseBean;
 import com.aglhz.s1.bean.HostListBean;
 import com.aglhz.s1.bean.SecurityBean;
-import com.aglhz.s1.common.DialogHelper;
+import cn.itsite.abase.common.DialogHelper;
 import com.aglhz.s1.data.SecurityData;
 import com.aglhz.s1.security.SecurityRVAdapter;
 import com.aglhz.s1.security.contract.SecurityContract;
