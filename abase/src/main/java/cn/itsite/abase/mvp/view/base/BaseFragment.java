@@ -6,6 +6,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
+import org.json.JSONException;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import cn.itsite.abase.utils.ScreenUtils;
@@ -107,5 +115,25 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
     @Override
     public void error(String errorMessage) {
 
+    }
+
+    public void error(Throwable throwable) {
+        if (throwable == null) {
+            DialogHelper.errorSnackbar(getView(), "数据异常");
+            return;
+        }
+        if (throwable instanceof ConnectException) {
+            DialogHelper.errorSnackbar(getView(), "网络异常");
+        } else if (throwable instanceof HttpException) {
+            DialogHelper.errorSnackbar(getView(), "服务器异常");
+        } else if (throwable instanceof SocketTimeoutException) {
+            DialogHelper.errorSnackbar(getView(), "连接超时");
+        } else if (throwable instanceof JSONException) {
+            DialogHelper.errorSnackbar(getView(), "解析异常");
+        } else {
+            DialogHelper.errorSnackbar(getView(), "数据异常");
+        }
+        throwable.printStackTrace();
+        ALog.e(TAG, throwable);
     }
 }

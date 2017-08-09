@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.GatewaysBean;
-import com.aglhz.s1.common.DialogHelper;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.gateway.contract.GatewayListContract;
 import com.aglhz.s1.gateway.presenter.GatewayListPresenter;
@@ -23,6 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 
 public class GatewayListFragment extends BaseFragment<GatewayListContract.Presenter> implements GatewayListContract.View {

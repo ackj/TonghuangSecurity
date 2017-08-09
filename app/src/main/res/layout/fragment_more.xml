@@ -35,22 +35,21 @@
                     android:src="@drawable/ic_more_avatar_black_180px" />
 
                 <TextView
-                    android:id="@+id/tv_basic_info"
+                    android:id="@+id/tv_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_toRightOf="@id/iv_avatar"
-                    android:text="基本信息"
                     android:textColor="@color/base_black"
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/tv_phone_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_basic_info"
+                    android:layout_below="@id/tv_nickname"
                     android:layout_marginTop="5dp"
                     android:layout_toRightOf="@id/iv_avatar"
-                    android:text="18888888888"
                     android:textColor="@color/gray"
                     android:textSize="15sp" />
             </RelativeLayout>

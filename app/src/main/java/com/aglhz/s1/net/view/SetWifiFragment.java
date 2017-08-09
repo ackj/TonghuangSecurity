@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
-import com.aglhz.s1.common.DialogHelper;
+import cn.itsite.abase.common.DialogHelper;
 import com.tsvclient.ipc.WifiIpc;
 
 import org.json.JSONArray;

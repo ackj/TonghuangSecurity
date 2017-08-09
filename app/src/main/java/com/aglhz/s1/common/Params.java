@@ -8,10 +8,22 @@ package com.aglhz.s1.common;
 
 public class Params {
     private static final String TAG = Params.class.getSimpleName();
-    public static String token = "tk_cdeac90e-5690-4163-9da4-1f276d293608";//测试用
-    public String sc = "AglhzSmart";
+    public static String test_token = "tk_cdeac90e-5690-4163-9da4-1f276d293608";//测试用
     public int page;
     public int pageSize;
+    public static String token;
+    public String sc = "AglhzSmart";
+    public String user = "";
+    public String pwd = "";
+    public String pwd0 = "";
+    public String pwd1 = "";
+    public String pwd2 = "";
+    public String account;
+    public String verifyCode;
+    public String verifyType;
+    public String password1;
+    public String password2;
+    public String phoneNo = "";
 
     public static Params getInstance() {
         Params params = new Params();
@@ -22,6 +34,11 @@ public class Params {
     public String toString() {
         return "Params{" +
                 "sc='" + sc + '\'' +
+                ", user='" + user + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", pwd0='" + pwd0 + '\'' +
+                ", pwd1='" + pwd1 + '\'' +
+                ", pwd2='" + pwd2 + '\'' +
                 '}';
     }
 }

@@ -1,12 +1,6 @@
 package com.aglhz.s1.bean;
 
-/**
- * Author: LiuJia on 2017/6/5 0005 14:46.
- * Email: liujia95me@126.com
- */
-
 public class BaseBean {
-
 
     /**
      * other : {"code":200,"currpage":1,"first":"http://119.23.129.133:8096/gas/client/info/homePage?page=1&pageSize=10","forward":"","message":"data success","next":"http://119.23.129.133:8096/gas/client/info/homePage?page=2&pageSize=10","refresh":"http://119.23.129.133:8096/gas/client/info/homePage?page=1&pageSize=10","time":""}

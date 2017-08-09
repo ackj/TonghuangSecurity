@@ -7,6 +7,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.UserHelper;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.MsgConstant;
 import com.umeng.message.PushAgent;
@@ -17,6 +19,9 @@ import com.umeng.message.entity.UMessage;
 
 import cn.itsite.abase.BaseApplication;
 import cn.itsite.abase.log.ALog;
+import cn.itsite.abase.network.http.HttpHelper;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Author： Administrator on 2017/5/2 0002.
@@ -28,7 +33,12 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
     @Override
     public void onCreate() {
         super.onCreate();
+        initDate();
         initPush();//初始化友盟推送。
+    }
+
+    private void initDate() {
+        UserHelper.init();
     }
 
     //初始化友盟推送
@@ -56,11 +66,11 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
 
                 ALog.e(TAG, "deviceToken-->" + deviceToken);
 
-//                HttpHelper.getService(ApiService.class)
-//                        .requestUMeng(ApiService.requestUMeng, UserHelper.token, "and_" + deviceToken, UserHelper.account, "userType")
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(baseBean -> ALog.e(TAG, baseBean.getOther().getMessage()));
+                HttpHelper.getService(ApiService.class)
+                        .requestRegisterUMeng(ApiService.requestRegisterUMeng, "tk_cdeac90e-5690-4163-9da4-1f276d293608", "and_" + deviceToken, "13556269720", "userType")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(baseBean -> ALog.e(TAG, baseBean.getOther().getMessage()));
             }
 
             @Override

@@ -1,4 +1,4 @@
-package com.aglhz.s1.more;
+package com.aglhz.s1.more.view;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.RoomBean;

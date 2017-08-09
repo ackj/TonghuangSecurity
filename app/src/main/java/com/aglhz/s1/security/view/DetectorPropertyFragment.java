@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.BaseBean;
-import com.aglhz.s1.common.DialogHelper;
+import cn.itsite.abase.common.DialogHelper;
 import com.aglhz.s1.security.contract.DetectorPropertyContract;
 import com.aglhz.s1.security.presenter.DetectorPropertyPresenter;
 import com.dd.CircularProgressButton;
