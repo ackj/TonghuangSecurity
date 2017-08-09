@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.gateway.view.GatewayListFragment;
 import com.aglhz.s1.net.view.SetWifiFragment;
 
 import butterknife.BindView;
@@ -120,6 +121,7 @@ public class MoreFragment extends BaseFragment {
                 _mActivity.start(AddHostFragment.newInstance());
                 break;
             case R.id.ll_host_manager:
+                _mActivity.start(GatewayListFragment.newInstance());
                 break;
             case R.id.ll_about:
                 break;

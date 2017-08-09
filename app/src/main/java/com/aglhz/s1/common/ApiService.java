@@ -1,10 +1,13 @@
 package com.aglhz.s1.common;
 
 import com.aglhz.s1.bean.BaseBean;
+import com.aglhz.s1.bean.GatewaysBean;
 import com.aglhz.s1.bean.HostListBean;
 import com.aglhz.s1.bean.SecurityBean;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import retrofit2.http.Url;
 
@@ -15,7 +18,7 @@ import retrofit2.http.Url;
 
 public interface ApiService {
 
-    String BASE_URL = "";
+    String BASE_URL = "http://119.23.129.133:8096/gas";
 
     // 确认主机结束安装
     String requestConfirmInstallFinished = "/client/confirmInstallFinished";
@@ -82,6 +85,18 @@ public interface ApiService {
 
     //添加探测器(传感器)
     String requestNewsensor = "/client/newsensor";
+
+    //----------------------------- 主机 ---------------------------------
+    String requestgatewayList = BASE_URL + "/client/info/gatewayList";
+
+    @FormUrlEncoded
+    @POST
+    Observable<GatewaysBean> requestgatewayList(@Url String url
+            , @Field("token") String token
+            , @Field("page") int page
+            , @Field("pageSize") int pageSize
+    );
+
 
     //----------------------------- 安防 ----------------------------------
 

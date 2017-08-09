@@ -9,9 +9,11 @@ package com.aglhz.s1.common;
 public class Params {
     private static final String TAG = Params.class.getSimpleName();
     public static String token = "tk_cdeac90e-5690-4163-9da4-1f276d293608";//测试用
-    public String sc = "AglhzYsq";
+    public String sc = "AglhzSmart";
+    public int page;
+    public int pageSize;
 
-    public static Params getInstance(){
+    public static Params getInstance() {
         Params params = new Params();
         return params;
     }

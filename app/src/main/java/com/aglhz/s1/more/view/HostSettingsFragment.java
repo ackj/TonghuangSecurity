@@ -98,6 +98,8 @@ public class HostSettingsFragment extends BaseFragment {
                 case 2:
                     start(AddHostFragment.newInstance());
                     break;
+                case 4:
+                    break;
             }
         });
     }
