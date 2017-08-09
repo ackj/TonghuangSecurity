@@ -50,3 +50,4 @@ captures/
 # Keystore files
 *.jks
 >>>>>>> b03b903fe2d5d51cf0f2185b61ddd4cb95738c47
+/.idea
