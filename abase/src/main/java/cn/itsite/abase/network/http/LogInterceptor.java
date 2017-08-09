@@ -50,9 +50,13 @@ public class LogInterceptor implements Interceptor {
             ALog.e(String.format("Received response for %s%nin %.1fms%n%sResponse Json: %s",
                     response.request().url(), (t2 - t1) / 1e6d, response.headers(),
                     jsonObject.toString()));
-            String code = jsonOther.optString("code");
-            if ("123".equals(code)) {
-                BaseApplication.mContext.startActivity(new Intent("LoginActivity"));
+            int code = jsonOther.optInt("code");
+            if (code == 123) {
+                ALog.e("code-->" + code);
+                Intent intent = new Intent("com.aglhz.s1.login.LoginActivity");
+                //不添加这个Flag则会报如下错误：Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag. Is this really what you want?
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                BaseApplication.mContext.startActivity(intent);
                 EventBus.getDefault().post(new LogInterceptor());
             }
 

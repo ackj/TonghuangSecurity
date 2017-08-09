@@ -24,43 +24,50 @@
         android:orientation="horizontal">
 
         <TextView
-            android:clickable="true"
+            android:id="@+id/tv_cancel_item_security_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="true"
             android:drawablePadding="10dp"
             android:drawableTop="@drawable/selector_disarmed"
             android:gravity="center"
+            android:tag="cancle"
             android:text="撤防"
             android:textColor="@color/selector_textcolor_gray_red" />
 
         <TextView
-            android:clickable="true"
+            android:id="@+id/tv_home_item_security_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="true"
             android:drawablePadding="10dp"
             android:drawableTop="@drawable/selector_homedisarmed"
             android:gravity="center"
+            android:tag="home"
             android:text="在家布防"
             android:textColor="@color/selector_textcolor_gray_red" />
 
         <TextView
-            android:clickable="true"
+            android:id="@+id/tv_faraway_item_security_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="true"
             android:drawablePadding="10dp"
             android:drawableTop="@drawable/selector_awaydisarmed"
             android:gravity="center"
+            android:tag="faraway"
             android:text="离家布防"
             android:textColor="@color/selector_textcolor_gray_red" />
 
         <TextView
-            android:clickable="true"
+            android:id="@+id/tv_message_item_security_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="true"
             android:drawablePadding="10dp"
             android:drawableTop="@drawable/selector_leavemessage"
             android:gravity="center"

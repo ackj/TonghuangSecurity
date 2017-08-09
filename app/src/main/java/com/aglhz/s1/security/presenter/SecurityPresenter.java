@@ -2,10 +2,10 @@ package com.aglhz.s1.security.presenter;
 
 import android.support.annotation.NonNull;
 
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.model.SecurityModel;
-import com.aglhz.s1.security.view.SecurityFragment;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -48,20 +48,28 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
     }
 
     @Override
-    public void requestHostList(Params params) {
-        mRxManager.add(mModel.requestHostList(params)
+    public void requestGateways(Params params) {
+        mRxManager.add(mModel.requestGateways(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(hostListBean -> {
-                    //todo:update
+                .subscribe(gatewaysBean -> {
+                    if (gatewaysBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseGateways(gatewaysBean);
+                    } else {
+                        getView().error(gatewaysBean.getOther().getMessage());
+                    }
                 }, this::error));
     }
 
     @Override
-    public void responseChangedHostStatus(Params params) {
-        mRxManager.add(mModel.responseChangedHostStatus(params)
+    public void requestSwichGateway(Params params) {
+        mRxManager.add(mModel.requestSwichGateway(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
-                    //todo:update
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseSwichGateway(baseBean);
+                    } else {
+                        getView().error(baseBean.getOther().getMessage());
+                    }
                 }, this::error));
     }
 }

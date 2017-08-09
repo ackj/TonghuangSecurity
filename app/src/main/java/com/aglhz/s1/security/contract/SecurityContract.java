@@ -1,7 +1,7 @@
 package com.aglhz.s1.security.contract;
 
 import com.aglhz.s1.bean.BaseBean;
-import com.aglhz.s1.bean.HostListBean;
+import com.aglhz.s1.bean.GatewaysBean;
 import com.aglhz.s1.bean.SecurityBean;
 import com.aglhz.s1.common.Params;
 
@@ -18,21 +18,31 @@ import io.reactivex.Observable;
 public interface SecurityContract {
 
     interface View extends BaseContract.View {
+
         void responseSecurity(List<SecurityBean> listRecord);
-        void responseHostList(HostListBean hostListBean);
-        void responseChangedHostStatusSuccess(BaseBean baseBean);
+
+        void responseGateways(GatewaysBean gatewaysBean);
+
+        void responseSwichGateway(BaseBean baseBean);
+
     }
 
     interface Presenter extends BaseContract.Presenter {
+
         void requestSecurity(Params params);
-        void requestHostList(Params params);
-        void responseChangedHostStatus(Params params);
+
+        void requestGateways(Params params);
+
+        void requestSwichGateway(Params params);
     }
 
     interface Model extends BaseContract.Model {
+
         Observable<SecurityBean> requestSecurity(Params params);
-        Observable<HostListBean> requestHostList(Params params);
-        Observable<BaseBean> responseChangedHostStatus(Params params);
+
+        Observable<GatewaysBean> requestGateways(Params params);
+
+        Observable<BaseBean> requestSwichGateway(Params params);
     }
 
 }

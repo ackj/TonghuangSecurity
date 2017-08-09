@@ -17,12 +17,14 @@ import android.widget.Toast;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.BaseBean;
-import com.aglhz.s1.bean.HostListBean;
+import com.aglhz.s1.bean.GatewaysBean;
 import com.aglhz.s1.bean.SecurityBean;
+import com.aglhz.s1.common.Params;
 import com.aglhz.s1.data.SecurityData;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,6 +34,7 @@ import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.DensityUtils;
+import cn.itsite.multiselector.MultiSelectorDialog;
 
 
 /**
@@ -48,7 +51,16 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
     Unbinder unbinder;
+    @BindView(R.id.toolbar_menu)
+    TextView toolbarMenu;
     private SecurityRVAdapter adapter;
+    private Params params = Params.getInstance();
+    private MultiSelectorDialog switchGatewayDialog;
+    private GatewaysBean gateways;
+    private TextView tvHome;
+    private TextView tvCancel;
+    private TextView tvFaraway;
+    private TextView tvMessage;
 
     public static SecurityFragment newInstance() {
         return new SecurityFragment();
@@ -79,6 +91,11 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     private void initToolbar() {
         initStateBar(toolbar);
         toolbarTitle.setText("GS-S1智能安防");
+        toolbarMenu.setText("切换主机");
+        toolbarMenu.setOnClickListener(v -> {
+            mPresenter.requestGateways(params);
+            showLoading();
+        });
     }
 
     private void initData() {
@@ -86,6 +103,17 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         adapter = new SecurityRVAdapter(SecurityData.getInstance().getAlreadyAddSecuritys());
         adapter.setHeaderView(initHeaderView());
         recyclerView.setAdapter(adapter);
+
+        switchGatewayDialog = MultiSelectorDialog.builder(_mActivity)
+                .setTitle("请选择您要切换的主机")
+                .setTabVisible(false)
+                .setOnItemClickListener((pagerPosition, optionPosition, option) -> {
+                    switchGatewayDialog.dismiss();
+                    ALog.e("pagerPosition-->" + pagerPosition + "\r\noptionPosition-->" + optionPosition + "\r\noption-->" + option);
+                    params.gateway = gateways.getData().get(optionPosition).getFid();
+                    mPresenter.requestSwichGateway(params);
+                })
+                .build();
     }
 
     private View initHeaderView() {
@@ -97,6 +125,30 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         Spannable span = new SpannableString(tvDescHeader.getText());
         span.setSpan(new AbsoluteSizeSpan(DensityUtils.sp2px(_mActivity, 18)), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvDescHeader.setText(span);
+
+        //初始化撤防、布防等View。
+        tvCancel = (TextView) headerView.findViewById(R.id.tv_cancel_item_security_header);
+        tvHome = (TextView) headerView.findViewById(R.id.tv_home_item_security_header);
+        tvFaraway = (TextView) headerView.findViewById(R.id.tv_faraway_item_security_header);
+        tvMessage = (TextView) headerView.findViewById(R.id.tv_message_item_security_header);
+        //设置状态。
+        tvCancel.setOnClickListener(v -> {
+            tvCancel.setPressed(true);
+            tvHome.setPressed(false);
+            tvFaraway.setPressed(false);
+        });
+
+        tvHome.setOnClickListener(v -> {
+            tvHome.setPressed(true);
+            tvCancel.setPressed(false);
+            tvFaraway.setPressed(false);
+        });
+
+        tvFaraway.setOnClickListener(v -> {
+            tvFaraway.setPressed(true);
+            tvCancel.setPressed(false);
+            tvFaraway.setPressed(false);
+        });
         return headerView;
     }
 
@@ -125,6 +177,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
     @Override
     public void error(String errorMessage) {
+        dismissLoading();
         DialogHelper.warningSnackbar(getView(), errorMessage);
     }
 
@@ -134,12 +187,25 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     }
 
     @Override
-    public void responseHostList(HostListBean hostListBean) {
-
+    public void responseGateways(GatewaysBean gateways) {
+        this.gateways = gateways;
+        dismissLoading();
+        switchGatewayDialog.show();
+        if (gateways != null && gateways.getData() != null) {
+            List<String> list = new ArrayList<>();
+            for (GatewaysBean.DataBean dataBean : gateways.getData()) {
+                ALog.e("dataBean.getName()--》" + dataBean.getName());
+                list.add(dataBean.getName());
+            }
+            getView().post(() -> switchGatewayDialog.notifyDataSetChanged(list));
+        } else {
+            DialogHelper.errorSnackbar(getView(), "您尚未配置网关！");
+        }
     }
 
     @Override
-    public void responseChangedHostStatusSuccess(BaseBean baseBean) {
-
+    public void responseSwichGateway(BaseBean baseBean) {
+        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
     }
+
 }

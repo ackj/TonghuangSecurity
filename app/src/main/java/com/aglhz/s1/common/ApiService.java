@@ -3,7 +3,6 @@ package com.aglhz.s1.common;
 import com.aglhz.s1.bean.BaseBean;
 import com.aglhz.s1.bean.CheckTokenBean;
 import com.aglhz.s1.bean.GatewaysBean;
-import com.aglhz.s1.bean.HostListBean;
 import com.aglhz.s1.bean.SecurityBean;
 import com.aglhz.s1.bean.UserBean;
 
@@ -167,16 +166,27 @@ public interface ApiService {
     //添加探测器(传感器)
     String requestNewsensor = "/client/newsensor";
 
-    //----------------------------- 主机 ---------------------------------
-    String requestgatewayList = BASE_URL + "/client/info/gatewayList";
+    //----------------------------- 以下为主机操作相关 ---------------------------------
+    //获取主机列表
+    String requestGateways = BASE_URL + "/client/info/gatewayList";
 
     @FormUrlEncoded
     @POST
-    Observable<GatewaysBean> requestgatewayList(@Url String url
+    Observable<GatewaysBean> requestGateways(@Url String url
             , @Field("token") String token
             , @Field("page") int page
             , @Field("pageSize") int pageSize
     );
+
+    //切换主机
+    String requestSwichGateway = BASE_URL + "/client/gatewaySW";
+
+    @POST
+    Observable<BaseBean> requestSwichGateway(@Url String url,
+                                             @Query("token") String token,
+                                             @Query("gateway") String gateway);
+
+    //----------------------------- 以上为主机操作相关 ---------------------------------
 
 
     //----------------------------- 安防 ----------------------------------
@@ -187,17 +197,6 @@ public interface ApiService {
     @POST
     Observable<SecurityBean> requestSecurity(@Url String url);
 
-    //获取主机列表
-    String requestHostList = BASE_URL + "";
-
-    @POST
-    Observable<HostListBean> requestHostList(@Url String url);
-
-    //状态切换
-    String requestChangedHostStatus = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestChangedHostStatus(@Url String url);
 
     //探测器属性显示
     String requestDetectorProperty = BASE_URL + "";
