@@ -3,7 +3,7 @@ package com.aglhz.s1.bean;
 public class BaseBean {
 
     /**
-     * other : {"code":500,"message":"手机号 不能为空","time":"","currpage":0,"next":"","forward":"","refresh":"","first":""}
+     * other : {"code":200,"currpage":1,"first":"http://119.23.129.133:8096/gas/client/info/homePage?page=1&pageSize=10","forward":"","message":"data success","next":"http://119.23.129.133:8096/gas/client/info/homePage?page=2&pageSize=10","refresh":"http://119.23.129.133:8096/gas/client/info/homePage?page=1&pageSize=10","time":""}
      */
 
     private OtherBean other;
@@ -18,24 +18,24 @@ public class BaseBean {
 
     public static class OtherBean {
         /**
-         * code : 500
-         * message : 手机号 不能为空
-         * time :
-         * currpage : 0
-         * next :
+         * code : 200
+         * currpage : 1
+         * first : http://119.23.129.133:8096/gas/client/info/homePage?page=1&pageSize=10
          * forward :
-         * refresh :
-         * first :
+         * message : data success
+         * next : http://119.23.129.133:8096/gas/client/info/homePage?page=2&pageSize=10
+         * refresh : http://119.23.129.133:8096/gas/client/info/homePage?page=1&pageSize=10
+         * time :
          */
 
         private int code;
-        private String message;
-        private String time;
         private int currpage;
-        private String next;
-        private String forward;
-        private String refresh;
         private String first;
+        private String forward;
+        private String message;
+        private String next;
+        private String refresh;
+        private String time;
 
         public int getCode() {
             return code;
@@ -43,22 +43,6 @@ public class BaseBean {
 
         public void setCode(int code) {
             this.code = code;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
         }
 
         public int getCurrpage() {
@@ -69,12 +53,12 @@ public class BaseBean {
             this.currpage = currpage;
         }
 
-        public String getNext() {
-            return next;
+        public String getFirst() {
+            return first;
         }
 
-        public void setNext(String next) {
-            this.next = next;
+        public void setFirst(String first) {
+            this.first = first;
         }
 
         public String getForward() {
@@ -85,6 +69,22 @@ public class BaseBean {
             this.forward = forward;
         }
 
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public String getNext() {
+            return next;
+        }
+
+        public void setNext(String next) {
+            this.next = next;
+        }
+
         public String getRefresh() {
             return refresh;
         }
@@ -93,33 +93,12 @@ public class BaseBean {
             this.refresh = refresh;
         }
 
-        public String getFirst() {
-            return first;
+        public String getTime() {
+            return time;
         }
 
-        public void setFirst(String first) {
-            this.first = first;
+        public void setTime(String time) {
+            this.time = time;
         }
-
-        @Override
-        public String toString() {
-            return "OtherBean{" +
-                    "code=" + code +
-                    ", message='" + message + '\'' +
-                    ", time='" + time + '\'' +
-                    ", currpage=" + currpage +
-                    ", next='" + next + '\'' +
-                    ", forward='" + forward + '\'' +
-                    ", refresh='" + refresh + '\'' +
-                    ", first='" + first + '\'' +
-                    '}';
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "BaseBean{" +
-                "other=" + other +
-                '}';
     }
 }

@@ -2,16 +2,17 @@ package com.aglhz.s1.common;
 
 import com.aglhz.s1.bean.BaseBean;
 import com.aglhz.s1.bean.CheckTokenBean;
+import com.aglhz.s1.bean.GatewaysBean;
 import com.aglhz.s1.bean.HostListBean;
 import com.aglhz.s1.bean.SecurityBean;
 import com.aglhz.s1.bean.UserBean;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
-
-import static cn.itsite.abase.network.http.HttpHelper.BASE_URL;
 
 /**
  * Author: LiuJia on 2017/7/4 0004 09:21.
@@ -20,6 +21,84 @@ import static cn.itsite.abase.network.http.HttpHelper.BASE_URL;
 
 public interface ApiService {
 
+    String BASE_URL = "http://119.23.129.133:8096/gas";
+
+    // 确认主机结束安装
+    String requestConfirmInstallFinished = "/client/confirmInstallFinished";
+
+    // 确认主机开始安装
+    String requestConfirmInstallStart = "/client/confirmInstallStart";
+
+    // 删除设备(非传感器类)
+    String requestDeldevice = "/client/deldevice ";
+
+    // 删除设备日志消息记录；主机管理员可删除
+    String requestDeldevicelog = "/client/deldevicelog";
+
+    // 删除主机
+    String requestDelgateway = "/client/delgateway";
+
+    // 删除探测器(传感器)
+    String requestDelsensor = "/client/delsensor";
+
+    // 控制设备开关
+    String requestDevicectrl = "/client/devicectrl";
+
+    //  信息反馈
+    String requestFeedback = "/client/feedback";
+
+    // 会员主机布防状态设置
+    String requestGatewayDSS = "/client/gatewayDSS";
+
+    // 会员主机切换
+    String requestGatewaySW = "/client/gatewaySW";
+
+    //修改控制类设备(非传感器类)的属性
+    String requestModdevice = "/client/moddevice";
+
+    //修改场景
+    String requestModscene = "/client/modscene";
+
+    // 修改探测器(传感器)的属性
+    String requestModsensor = "/client/modsensor";
+
+    // 消息处理登记
+    String requestMsgprocl = "/client/msgprocl";
+
+    //消息已读登记
+    String requestMsgread = "/client/msgread";
+
+    //添加控制类设备(非传感器类)
+    String requestNewdevice = "/client/newdevice";
+
+    //会员扫描添加主机
+    String requestNewgateway = "/client/newgateway";
+
+    //会员扫描添加主机跳过安装
+    String requestNewgateway2 = "/client/newgateway2";
+
+    // 添加联动
+    String requestNewlinkage = "/client/newlinkage";
+
+    // 添加房间
+    String requestNewroom = "/client/newroom";
+
+    // 添加场景
+    String requestNewscene = "/client/newscene";
+
+    //添加探测器(传感器)
+    String requestNewsensor = "/client/newsensor";
+
+    //----------------------------- 主机 ---------------------------------
+    String requestgatewayList = BASE_URL + "/client/info/gatewayList";
+
+    @FormUrlEncoded
+    @POST
+    Observable<GatewaysBean> requestgatewayList(@Url String url
+            , @Field("token") String token
+            , @Field("page") int page
+            , @Field("pageSize") int pageSize
+    );
 
     //*************以下基础路径*******************
     String BASE_USER = Constants.BASE_USER;           //用户

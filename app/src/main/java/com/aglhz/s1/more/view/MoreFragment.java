@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.event.EventLogin;
+import com.aglhz.s1.gateway.view.GatewayListFragment;
 import com.aglhz.s1.login.LoginActivity;
 import com.aglhz.s1.net.view.SetWifiFragment;
 import com.bumptech.glide.Glide;
@@ -25,7 +26,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -107,6 +107,7 @@ public class MoreFragment extends BaseFragment {
                 _mActivity.start(AddHostFragment.newInstance());
                 break;
             case R.id.ll_host_manager:
+                _mActivity.start(GatewayListFragment.newInstance());
                 break;
             case R.id.ll_about:
                 break;

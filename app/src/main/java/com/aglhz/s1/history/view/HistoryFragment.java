@@ -26,7 +26,6 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
  * Author: LiuJia on 2017/4/27 0027 16:13.
  * Email: liujia95me@126.com
  */
-
 public class HistoryFragment extends BaseFragment {
 
     @BindView(R.id.toolbar_title)
