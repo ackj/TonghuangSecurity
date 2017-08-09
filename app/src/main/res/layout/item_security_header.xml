@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_desc_security_header"
+        android:id="@+id/tv_des_security_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="33dp"
@@ -31,8 +31,9 @@
             android:clickable="true"
             android:drawablePadding="10dp"
             android:drawableTop="@drawable/selector_disarmed"
+            android:focusable="true"
             android:gravity="center"
-            android:tag="cancle"
+            android:tag="cancel"
             android:text="撤防"
             android:textColor="@color/selector_textcolor_gray_red" />
 
@@ -44,6 +45,7 @@
             android:clickable="true"
             android:drawablePadding="10dp"
             android:drawableTop="@drawable/selector_homedisarmed"
+            android:focusable="true"
             android:gravity="center"
             android:tag="home"
             android:text="在家布防"

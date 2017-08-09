@@ -29,7 +29,7 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
     @Override
     public Observable<SecurityBean> requestSecurity(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestSecurity(ApiService.requestSecurity)
+                .requestSecurity(ApiService.requestSecurity, params.test_token)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -51,6 +51,15 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
                 .requestSwichGateway(ApiService.requestSwichGateway,
                         params.test_token,
                         params.gateway)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseBean> requestSwichState(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestSwichState(ApiService.requestSwichState,
+                        params.test_token,
+                        params.dstatus)
                 .subscribeOn(Schedulers.io());
     }
 

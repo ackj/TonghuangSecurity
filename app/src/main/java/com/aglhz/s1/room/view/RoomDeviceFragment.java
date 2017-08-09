@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.SecurityBean;
+import com.aglhz.s1.bean.SecurityBean1;
 import com.aglhz.s1.security.view.SecurityRVAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -54,16 +54,16 @@ public class RoomDeviceFragment extends SupportFragment {
 
     private void initData() {
         recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 4));
-        List<SecurityBean> data = new ArrayList<>();
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "门槛"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "红外"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "红外对射"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "玻璃破碎"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "漏水"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "紧急按钮"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "气体"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "添加探测器"));
-        data.add(new SecurityBean(R.mipmap.ic_launcher, "添加"));
+        List<SecurityBean1> data = new ArrayList<>();
+        data.add(new SecurityBean1(R.mipmap.ic_launcher, "门槛"));
+        data.add(new SecurityBean1(R.mipmap.ic_launcher, "红外"));
+        data.add(new SecurityBean1(R.mipmap.ic_launcher, "红外对射"));
+        data.add(new SecurityBean1(R.mipmap.ic_launcher, "玻璃破碎"));
+        data.add(new SecurityBean1(R.mipmap.ic_launcher, "漏水"));
+        data.add(new SecurityBean1(R.mipmap.ic_launcher, "紧急按钮"));
+        data.add(new SecurityBean1(R.mipmap.ic_launcher, "气体"));
+        data.add(new SecurityBean1(R.mipmap.ic_launcher, "添加探测器"));
+        data.add(new SecurityBean1(R.mipmap.ic_launcher, "添加"));
         adapter = new SecurityRVAdapter(data);
         View headerView = LayoutInflater.from(_mActivity).inflate(R.layout.item_security_header, null);
         adapter.setHeaderView(headerView);

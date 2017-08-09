@@ -25,6 +25,7 @@ public class Params {
     public String password2;
     public String phoneNo = "";
     public String gateway = "";
+    public String dstatus = "";
 
     public static Params getInstance() {
         Params params = new Params();

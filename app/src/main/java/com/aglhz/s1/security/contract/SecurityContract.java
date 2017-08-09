@@ -5,8 +5,6 @@ import com.aglhz.s1.bean.GatewaysBean;
 import com.aglhz.s1.bean.SecurityBean;
 import com.aglhz.s1.common.Params;
 
-import java.util.List;
-
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import io.reactivex.Observable;
 
@@ -19,11 +17,13 @@ public interface SecurityContract {
 
     interface View extends BaseContract.View {
 
-        void responseSecurity(List<SecurityBean> listRecord);
+        void responseSecurity(SecurityBean securityBean);
 
         void responseGateways(GatewaysBean gatewaysBean);
 
         void responseSwichGateway(BaseBean baseBean);
+
+        void responseSwichState(BaseBean baseBean);
 
     }
 
@@ -34,6 +34,9 @@ public interface SecurityContract {
         void requestGateways(Params params);
 
         void requestSwichGateway(Params params);
+
+        void requestSwichState(Params params);
+
     }
 
     interface Model extends BaseContract.Model {
@@ -43,6 +46,7 @@ public interface SecurityContract {
         Observable<GatewaysBean> requestGateways(Params params);
 
         Observable<BaseBean> requestSwichGateway(Params params);
-    }
 
+        Observable<BaseBean> requestSwichState(Params params);
+    }
 }

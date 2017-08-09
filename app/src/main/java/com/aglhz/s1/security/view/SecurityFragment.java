@@ -6,9 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +16,7 @@ import com.aglhz.s1.R;
 import com.aglhz.s1.bean.BaseBean;
 import com.aglhz.s1.bean.GatewaysBean;
 import com.aglhz.s1.bean.SecurityBean;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.data.SecurityData;
 import com.aglhz.s1.security.contract.SecurityContract;
@@ -33,7 +31,6 @@ import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
-import cn.itsite.abase.utils.DensityUtils;
 import cn.itsite.multiselector.MultiSelectorDialog;
 
 
@@ -61,6 +58,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     private TextView tvCancel;
     private TextView tvFaraway;
     private TextView tvMessage;
+    private TextView tvDes;
 
     public static SecurityFragment newInstance() {
         return new SecurityFragment();
@@ -94,11 +92,12 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         toolbarMenu.setText("切换主机");
         toolbarMenu.setOnClickListener(v -> {
             mPresenter.requestGateways(params);
-            showLoading();
         });
     }
 
     private void initData() {
+        mPresenter.requestSecurity(params);
+
         recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 4));
         adapter = new SecurityRVAdapter(SecurityData.getInstance().getAlreadyAddSecuritys());
         adapter.setHeaderView(initHeaderView());
@@ -118,36 +117,27 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
     private View initHeaderView() {
         View headerView = LayoutInflater.from(_mActivity).inflate(R.layout.item_security_header, null);
-        TextView tvDescHeader = (TextView) headerView.findViewById(R.id.tv_desc_security_header);
-        String title = "离家布防：";
-        String desc = "当主机处于离家布防状态时，所有开启的探测器都处于防御状态。";
-        tvDescHeader.setText(title + desc);
-        Spannable span = new SpannableString(tvDescHeader.getText());
-        span.setSpan(new AbsoluteSizeSpan(DensityUtils.sp2px(_mActivity, 18)), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tvDescHeader.setText(span);
-
         //初始化撤防、布防等View。
+        tvDes = (TextView) headerView.findViewById(R.id.tv_des_security_header);
+
         tvCancel = (TextView) headerView.findViewById(R.id.tv_cancel_item_security_header);
         tvHome = (TextView) headerView.findViewById(R.id.tv_home_item_security_header);
         tvFaraway = (TextView) headerView.findViewById(R.id.tv_faraway_item_security_header);
         tvMessage = (TextView) headerView.findViewById(R.id.tv_message_item_security_header);
         //设置状态。
         tvCancel.setOnClickListener(v -> {
-            tvCancel.setPressed(true);
-            tvHome.setPressed(false);
-            tvFaraway.setPressed(false);
+            params.dstatus = Constants.GATEWAY_STATE_CANCLE;
+            mPresenter.requestSwichState(params);
         });
 
         tvHome.setOnClickListener(v -> {
-            tvHome.setPressed(true);
-            tvCancel.setPressed(false);
-            tvFaraway.setPressed(false);
+            params.dstatus = Constants.GATEWAY_STATE_HOME;
+            mPresenter.requestSwichState(params);
         });
 
         tvFaraway.setOnClickListener(v -> {
-            tvFaraway.setPressed(true);
-            tvCancel.setPressed(false);
-            tvFaraway.setPressed(false);
+            params.dstatus = Constants.GATEWAY_STATE_FARAWAY;
+            mPresenter.requestSwichState(params);
         });
         return headerView;
     }
@@ -171,25 +161,23 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     }
 
     @Override
-    public void start(Object response) {
+    public void responseSecurity(SecurityBean securityBean) {
+        ALog.e("securityBean-->" + securityBean.getData().getGateway().getDefenseStatus());
 
-    }
+        TextView tv = (TextView) adapter.getHeaderLayout()
+                .findViewWithTag(securityBean.getData().getGateway().getDefenseStatus());
+        tvCancel.setSelected(false);
+        tvHome.setSelected(false);
+        tvFaraway.setSelected(false);
+        tv.setSelected(true);
 
-    @Override
-    public void error(String errorMessage) {
-        dismissLoading();
-        DialogHelper.warningSnackbar(getView(), errorMessage);
-    }
+        tvDes.setText(securityBean.getData().getGateway().getDefenseStatusDes());
 
-    @Override
-    public void responseSecurity(List<SecurityBean> listRecord) {
-        //todo:
     }
 
     @Override
     public void responseGateways(GatewaysBean gateways) {
         this.gateways = gateways;
-        dismissLoading();
         switchGatewayDialog.show();
         if (gateways != null && gateways.getData() != null) {
             List<String> list = new ArrayList<>();
@@ -206,6 +194,28 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     @Override
     public void responseSwichGateway(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
+    }
+
+    @Override
+    public void responseSwichState(BaseBean baseBean) {
+        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
+        switch (params.dstatus) {
+            case Constants.GATEWAY_STATE_CANCLE:
+                tvCancel.setSelected(true);
+                tvHome.setSelected(false);
+                tvFaraway.setSelected(false);
+                break;
+            case Constants.GATEWAY_STATE_HOME:
+                tvHome.setSelected(true);
+                tvCancel.setSelected(false);
+                tvFaraway.setSelected(false);
+                break;
+            case Constants.GATEWAY_STATE_FARAWAY:
+                tvFaraway.setSelected(true);
+                tvHome.setSelected(false);
+                tvCancel.setSelected(false);
+                break;
+        }
     }
 
 }

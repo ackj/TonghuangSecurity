@@ -29,22 +29,16 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
     }
 
     @Override
-    public void start(Object request) {
-
-    }
-
-    @Override
     public void requestSecurity(Params params) {
         mRxManager.add(mModel.requestSecurity(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(securityBean -> {
-                    //todo:update
-//                    if (securityBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
-//                        getView().responseSecurity(securityBean);
-//                    } else {
-//                        getView().error(securityBean.getOther().getMessage());
-//                    }
-                }, this::error));
+                .subscribe(securityBean ->{
+                    if (securityBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseSecurity(securityBean);
+                    } else {
+                        getView().error(securityBean.getOther().getMessage());
+                    }
+                } , this::error, this::complete, disposable -> start(null)));
     }
 
     @Override
@@ -57,7 +51,7 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
                     } else {
                         getView().error(gatewaysBean.getOther().getMessage());
                     }
-                }, this::error));
+                }, this::error, this::complete, disposable -> start(null)));
     }
 
     @Override
@@ -70,6 +64,19 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
                     } else {
                         getView().error(baseBean.getOther().getMessage());
                     }
-                }, this::error));
+                }, this::error, this::complete, disposable -> start(null)));
+    }
+
+    @Override
+    public void requestSwichState(Params params) {
+        mRxManager.add(mModel.requestSwichState(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(baseBean -> {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseSwichState(baseBean);
+                    } else {
+                        getView().error(baseBean.getOther().getMessage());
+                    }
+                }, this::error, this::complete, disposable -> start(null)));
     }
 }

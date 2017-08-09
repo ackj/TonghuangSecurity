@@ -186,16 +186,25 @@ public interface ApiService {
                                              @Query("token") String token,
                                              @Query("gateway") String gateway);
 
+    //切换主机
+    String requestSwichState = BASE_URL + "/client/gatewayDSS";
+
+    @POST
+    Observable<BaseBean> requestSwichState(@Url String url,
+                                           @Query("token") String token,
+                                           @Query("dstatus") String dstatus);
+
+    //主页显示内容
+    String requestSecurity = BASE_URL + "/client/info/homePage ";
+
+    @POST
+    Observable<SecurityBean> requestSecurity(@Url String url,
+                                             @Query("token") String token);
+
     //----------------------------- 以上为主机操作相关 ---------------------------------
 
 
     //----------------------------- 安防 ----------------------------------
-
-    //主页显示内容
-    String requestSecurity = BASE_URL + "";
-
-    @POST
-    Observable<SecurityBean> requestSecurity(@Url String url);
 
 
     //探测器属性显示
