@@ -201,6 +201,17 @@ public interface ApiService {
     Observable<SecurityBean> requestSecurity(@Url String url,
                                              @Query("token") String token);
 
+
+    //添加主机
+    String requestAddHost = BASE_URL + "/client/info/homePage ";
+
+    @POST
+    Observable<BaseBean> requestAddHost(@Url String url,
+                                        @Query("token") String token,
+                                        @Query("no") String no,
+                                        @Query("name") String name);
+
+
     //----------------------------- 以上为主机操作相关 ---------------------------------
 
 

@@ -42,5 +42,8 @@ public class Constants {
     public static final String GATEWAY_STATE_HOME = "home";
     public static final String GATEWAY_STATE_FARAWAY = "faraway";
 
+    //key
+    public static final String KEY_HOST_NUMBER = "host_number";
+
 
 }

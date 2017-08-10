@@ -24,6 +24,7 @@ import com.aglhz.s1.login.LoginActivity;
 import com.aglhz.s1.more.contract.MoreContract;
 import com.aglhz.s1.more.presenter.MorePresenter;
 import com.aglhz.s1.net.view.SetWifiFragment;
+import com.aglhz.s1.qrcode.ScanQRCodeActivity;
 import com.bumptech.glide.Glide;
 import com.umeng.message.PushAgent;
 
@@ -132,7 +133,10 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
                 _mActivity.start(SetWifiFragment.newInstance());
                 break;
             case R.id.ll_add_host:
-                _mActivity.start(AddHostFragment.newInstance());
+                startActivity(new Intent(_mActivity, ScanQRCodeActivity.class));
+
+//                _mActivity.start(AddHostFragment.newInstance());
+
                 break;
             case R.id.ll_host_manager:
                 _mActivity.start(GatewayListFragment.newInstance());

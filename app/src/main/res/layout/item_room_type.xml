@@ -15,7 +15,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginBottom="8dp"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_logo" />
 
     <TextView
         android:id="@+id/tv_name_item_room_type"

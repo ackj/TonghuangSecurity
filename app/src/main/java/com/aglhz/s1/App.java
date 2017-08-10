@@ -52,7 +52,7 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
 
 //        ALog.e(TAG, "UserHelper.account-->" + UserHelper.account);
 //
-        mPushAgent.addExclusiveAlias("139", "userType", new UTrack.ICallBack() {
+        mPushAgent.addExclusiveAlias("13556269720", "userType", new UTrack.ICallBack() {
             @Override
             public void onMessage(boolean b, String s) {
                 ALog.e(TAG, "addAlias-->" + b + "……" + s);

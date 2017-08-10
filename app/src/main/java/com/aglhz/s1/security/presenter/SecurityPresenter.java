@@ -32,13 +32,13 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
     public void requestSecurity(Params params) {
         mRxManager.add(mModel.requestSecurity(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(securityBean ->{
+                .subscribe(securityBean -> {
                     if (securityBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
                         getView().responseSecurity(securityBean);
                     } else {
                         getView().error(securityBean.getOther().getMessage());
                     }
-                } , this::error, this::complete, disposable -> start(null)));
+                }, this::error, this::complete, disposable -> start(null)));
     }
 
     @Override
@@ -51,7 +51,8 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
                     } else {
                         getView().error(gatewaysBean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null)));
+                }, this::error, this::complete, disposable -> start(null))
+        );
     }
 
     @Override
@@ -64,7 +65,8 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
                     } else {
                         getView().error(baseBean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null)));
+                }, this::error, this::complete, disposable -> start(null))
+        );
     }
 
     @Override
@@ -77,6 +79,7 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
                     } else {
                         getView().error(baseBean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null)));
+                }, this::error, this::complete, disposable -> start(null))
+        );
     }
 }

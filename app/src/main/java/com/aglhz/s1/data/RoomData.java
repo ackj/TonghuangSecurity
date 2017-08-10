@@ -32,10 +32,10 @@ public class RoomData {
     }
 
     private static void initData() {
-        allRooms.add(new RoomBean(R.mipmap.ic_launcher, "大厅"));
-        allRooms.add(new RoomBean(R.mipmap.ic_launcher, "厨房"));
-        allRooms.add(new RoomBean(R.mipmap.ic_launcher, "厕所"));
-        allRooms.add(new RoomBean(R.mipmap.ic_launcher, "书房"));
+        allRooms.add(new RoomBean(R.mipmap.ic_logo, "大厅"));
+        allRooms.add(new RoomBean(R.mipmap.ic_logo, "厨房"));
+        allRooms.add(new RoomBean(R.mipmap.ic_logo, "厕所"));
+        allRooms.add(new RoomBean(R.mipmap.ic_logo, "书房"));
 
         alreadyAddRooms.addAll(allRooms);
         alreadyAddRooms.addLast(new RoomBean(R.drawable.ic_add_security_140px, "添加房间"));

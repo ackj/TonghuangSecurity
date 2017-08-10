@@ -26,6 +26,8 @@ public class Params {
     public String phoneNo = "";
     public String gateway = "";
     public String dstatus = "";
+    public String no = "";
+    public String name = "";
 
     public static Params getInstance() {
         Params params = new Params();

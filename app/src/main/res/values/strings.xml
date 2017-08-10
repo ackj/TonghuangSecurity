@@ -21,4 +21,6 @@
     <!--Launch模块-->
     <string name="login">登录</string>
 
+    <string name="name_4_host">请为主机取一个名字吧</string>
+
 </resources>

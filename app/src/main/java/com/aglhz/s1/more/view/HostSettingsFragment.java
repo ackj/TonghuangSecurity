@@ -73,14 +73,14 @@ public class HostSettingsFragment extends BaseFragment {
 
     private void initData() {
         List<SettingsBean> settingsBeans = new ArrayList<>();
-        settingsBeans.add(new SettingsBean(R.mipmap.ic_launcher, "报警延时", "5s"));
-        settingsBeans.add(new SettingsBean(R.mipmap.ic_launcher, "报警延时", "5s"));
-        settingsBeans.add(new SettingsBean(R.mipmap.ic_launcher, "报警延时", "5s"));
-        settingsBeans.add(new SettingsBean(R.mipmap.ic_launcher, "报警延时", "5s"));
-        settingsBeans.add(new SettingsBean(R.mipmap.ic_launcher, "报警延时", "5s"));
-        settingsBeans.add(new SettingsBean(R.mipmap.ic_launcher, "报警延时", "5s"));
-        settingsBeans.add(new SettingsBean(R.mipmap.ic_launcher, "报警延时", "5s"));
-        settingsBeans.add(new SettingsBean(R.mipmap.ic_launcher, "报警延时", "5s"));
+        settingsBeans.add(new SettingsBean(R.mipmap.ic_logo, "报警延时", "5s"));
+        settingsBeans.add(new SettingsBean(R.mipmap.ic_logo, "报警延时", "5s"));
+        settingsBeans.add(new SettingsBean(R.mipmap.ic_logo, "报警延时", "5s"));
+        settingsBeans.add(new SettingsBean(R.mipmap.ic_logo, "报警延时", "5s"));
+        settingsBeans.add(new SettingsBean(R.mipmap.ic_logo, "报警延时", "5s"));
+        settingsBeans.add(new SettingsBean(R.mipmap.ic_logo, "报警延时", "5s"));
+        settingsBeans.add(new SettingsBean(R.mipmap.ic_logo, "报警延时", "5s"));
+        settingsBeans.add(new SettingsBean(R.mipmap.ic_logo, "报警延时", "5s"));
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter = new HostSettingsRVAdapter(settingsBeans);
         recyclerView.setAdapter(adapter);
@@ -95,7 +95,7 @@ public class HostSettingsFragment extends BaseFragment {
                     start(SetWifiFragment.newInstance());
                     break;
                 case 2:
-                    start(AddHostFragment.newInstance());
+                    start(AddHostFragment.newInstance(""));
                     break;
                 case 4:
                     break;
