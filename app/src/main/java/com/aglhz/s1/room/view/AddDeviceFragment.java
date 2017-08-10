@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.SecurityBean;
+import com.aglhz.s1.bean.SecurityBean1;
 import com.aglhz.s1.security.view.SecurityRVAdapter;
 
 import java.util.ArrayList;
@@ -69,9 +69,9 @@ public class AddDeviceFragment extends BaseFragment {
     }
 
     private void initData() {
-        List<SecurityBean> datas = new ArrayList<>();
+        List<SecurityBean1> datas = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            datas.add(new SecurityBean(R.mipmap.ic_launcher, "插座"));
+            datas.add(new SecurityBean1(R.mipmap.ic_launcher, "插座"));
         }
         SecurityRVAdapter adapter = new SecurityRVAdapter();
         recyclerview.setLayoutManager(new GridLayoutManager(_mActivity,4));

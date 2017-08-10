@@ -32,6 +32,7 @@ public class Params {
     public String roomName = "";
     public String roomTypeFid = "";
     public String residenceFid = "";
+    public String dstatus = "";
 
     public static Params getInstance() {
         Params params = new Params();

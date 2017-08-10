@@ -105,6 +105,7 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
     @Override
     public void start(Object response) {
         ALog.e(TAG, "start");
+        showLoading();
     }
 
     /**
@@ -114,7 +115,8 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
      */
     @Override
     public void error(String errorMessage) {
-
+        dismissLoading();
+        DialogHelper.warningSnackbar(getView(), errorMessage);
     }
 
     public void error(Throwable throwable) {
@@ -135,5 +137,10 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
         }
         throwable.printStackTrace();
         ALog.e(TAG, throwable);
+    }
+
+    @Override
+    public void complete(Object response) {
+        dismissLoading();
     }
 }

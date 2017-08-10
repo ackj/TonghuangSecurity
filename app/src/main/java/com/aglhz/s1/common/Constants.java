@@ -38,7 +38,7 @@ public class Constants {
     public static final String WIFI_PASSWORD = "WIFI_PASSWORD";
 
     //安全模块
-    public static final String GATEWAY_STATE_CANCLE = "cancle";
+    public static final String GATEWAY_STATE_CANCLE = "cancel";
     public static final String GATEWAY_STATE_HOME = "home";
     public static final String GATEWAY_STATE_FARAWAY = "faraway";
 
