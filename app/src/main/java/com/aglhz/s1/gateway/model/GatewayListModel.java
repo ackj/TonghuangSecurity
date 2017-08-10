@@ -16,7 +16,6 @@ public class GatewayListModel extends BaseModel implements GatewayListContract.M
 
     }
 
-    @Override
     public Observable<GatewaysBean> requestGateways(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestGateways(ApiService.requestGateways,

@@ -14,11 +14,11 @@ import android.widget.Toast;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.BaseBean;
-import com.aglhz.s1.bean.GatewaysBean;
+import com.aglhz.s1.bean.DevicesBean;
 import com.aglhz.s1.bean.SecurityBean;
+import com.aglhz.s1.bean.GatewaysBean;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
-import com.aglhz.s1.data.SecurityData;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
 
@@ -60,6 +60,9 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     private TextView tvMessage;
     private TextView tvDes;
 
+    private DevicesBean.DataBean.DeviceTypeListBean addIconDevice;
+    private List<SecurityBean.DataBean.SubDevicesBean> subDevices;
+
     public static SecurityFragment newInstance() {
         return new SecurityFragment();
     }
@@ -99,9 +102,17 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         mPresenter.requestSecurity(params);
 
         recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 4));
-        adapter = new SecurityRVAdapter(SecurityData.getInstance().getAlreadyAddSecuritys());
+
+        addIconDevice = new DevicesBean.DataBean.DeviceTypeListBean();
+        addIconDevice.setIcon("add_icon");
+        addIconDevice.setName("添加探测器");
+
+        adapter = new SecurityRVAdapter();
         adapter.setHeaderView(initHeaderView());
         recyclerView.setAdapter(adapter);
+        List<DevicesBean.DataBean.DeviceTypeListBean> data = new ArrayList<>();
+        data.add(addIconDevice);
+        adapter.setNewData(data);
 
         switchGatewayDialog = MultiSelectorDialog.builder(_mActivity)
                 .setTitle("请选择您要切换的主机")
@@ -164,6 +175,8 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     public void responseSecurity(SecurityBean securityBean) {
         ALog.e("securityBean-->" + securityBean.getData().getGateway().getDefenseStatus());
 
+        subDevices = securityBean.getData().getSubDevices();
+
         TextView tv = (TextView) adapter.getHeaderLayout()
                 .findViewWithTag(securityBean.getData().getGateway().getDefenseStatus());
         tvCancel.setSelected(false);
@@ -172,6 +185,17 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         tv.setSelected(true);
 
         tvDes.setText(securityBean.getData().getGateway().getDefenseStatusDes());
+
+        List<DevicesBean.DataBean.DeviceTypeListBean> data = new ArrayList<>();
+
+        for (int i = 0;i<subDevices.size();i++){
+            DevicesBean.DataBean.DeviceTypeListBean bean = new DevicesBean.DataBean.DeviceTypeListBean();
+            bean.setName(subDevices.get(i).getName());
+            bean.setIcon(subDevices.get(i).getIcon());
+            data.add(bean);
+        }
+        data.add(addIconDevice);
+        adapter.setNewData(data);
 
     }
 
@@ -217,5 +241,4 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                 break;
         }
     }
-
 }

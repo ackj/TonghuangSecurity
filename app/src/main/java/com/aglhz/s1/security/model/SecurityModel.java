@@ -36,7 +36,6 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
     @Override
     public Observable<GatewaysBean> requestGateways(Params params) {
         ALog.e("params-->" + params.token);
-
         return HttpHelper.getService(ApiService.class)
                 .requestGateways(ApiService.requestGateways,
                         params.test_token,

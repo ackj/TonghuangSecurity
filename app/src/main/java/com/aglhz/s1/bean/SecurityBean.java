@@ -7,15 +7,14 @@ import java.util.List;
  * Email: liujia95me@126.com
  */
 
-public class SecurityBean {
+public class SecurityBean extends BaseBean{
+
 
     /**
-     * data : {"gateway":{"fid":"2d68f281-825d-48f9-941f-41d1c73eacec","name":"主机754","defenseStatusDes":"当前处于在家布防状态","defenseStatus":"home","status":0,"isOnline":0,"isManager":1,"isCurrent":1,"residence":{"fid":"irifirkfk","name":"凯宾斯基","addr":"惠州江北凯宾斯基C座"}},"gatewayList":[],"subDevices":[]}
-     * other : {"code":200,"message":"data success","time":"","currpage":0,"next":"","forward":"","refresh":"","first":""}
+     * data : {"gateway":{"defenseStatus":"cancel","defenseStatusDes":"当前处于撤防状态","fid":"qbfvfdvd","isCurrent":1,"isManager":1,"isOnline":0,"name":"主机364","residence":{"addr":"惠州江北凯宾斯基C座","fid":"irifirkfk","name":"凯宾斯基"},"status":0},"subDevices":[{"defenseLevel":"24hour","extInfo":{"index":2,"name":"","node":1,"roomId":0,"subType":1,"type":140},"icon":"","index":2,"isOline":1,"name":""}]}
      */
 
     private DataBean data;
-    private OtherBean other;
 
     public DataBean getData() {
         return data;
@@ -25,24 +24,14 @@ public class SecurityBean {
         this.data = data;
     }
 
-    public OtherBean getOther() {
-        return other;
-    }
-
-    public void setOther(OtherBean other) {
-        this.other = other;
-    }
-
     public static class DataBean {
         /**
-         * gateway : {"fid":"2d68f281-825d-48f9-941f-41d1c73eacec","name":"主机754","defenseStatusDes":"当前处于在家布防状态","defenseStatus":"home","status":0,"isOnline":0,"isManager":1,"isCurrent":1,"residence":{"fid":"irifirkfk","name":"凯宾斯基","addr":"惠州江北凯宾斯基C座"}}
-         * gatewayList : []
-         * subDevices : []
+         * gateway : {"defenseStatus":"cancel","defenseStatusDes":"当前处于撤防状态","fid":"qbfvfdvd","isCurrent":1,"isManager":1,"isOnline":0,"name":"主机364","residence":{"addr":"惠州江北凯宾斯基C座","fid":"irifirkfk","name":"凯宾斯基"},"status":0}
+         * subDevices : [{"defenseLevel":"24hour","extInfo":{"index":2,"name":"","node":1,"roomId":0,"subType":1,"type":140},"icon":"","index":2,"isOline":1,"name":""}]
          */
 
         private GatewayBean gateway;
-        private List<?> gatewayList;
-        private List<?> subDevices;
+        private List<SubDevicesBean> subDevices;
 
         public GatewayBean getGateway() {
             return gateway;
@@ -52,59 +41,43 @@ public class SecurityBean {
             this.gateway = gateway;
         }
 
-        public List<?> getGatewayList() {
-            return gatewayList;
-        }
-
-        public void setGatewayList(List<?> gatewayList) {
-            this.gatewayList = gatewayList;
-        }
-
-        public List<?> getSubDevices() {
+        public List<SubDevicesBean> getSubDevices() {
             return subDevices;
         }
 
-        public void setSubDevices(List<?> subDevices) {
+        public void setSubDevices(List<SubDevicesBean> subDevices) {
             this.subDevices = subDevices;
         }
 
         public static class GatewayBean {
             /**
-             * fid : 2d68f281-825d-48f9-941f-41d1c73eacec
-             * name : 主机754
-             * defenseStatusDes : 当前处于在家布防状态
-             * defenseStatus : home
-             * status : 0
-             * isOnline : 0
-             * isManager : 1
+             * defenseStatus : cancel
+             * defenseStatusDes : 当前处于撤防状态
+             * fid : qbfvfdvd
              * isCurrent : 1
-             * residence : {"fid":"irifirkfk","name":"凯宾斯基","addr":"惠州江北凯宾斯基C座"}
+             * isManager : 1
+             * isOnline : 0
+             * name : 主机364
+             * residence : {"addr":"惠州江北凯宾斯基C座","fid":"irifirkfk","name":"凯宾斯基"}
+             * status : 0
              */
 
-            private String fid;
-            private String name;
-            private String defenseStatusDes;
             private String defenseStatus;
-            private int status;
-            private int isOnline;
-            private int isManager;
+            private String defenseStatusDes;
+            private String fid;
             private int isCurrent;
+            private int isManager;
+            private int isOnline;
+            private String name;
             private ResidenceBean residence;
+            private int status;
 
-            public String getFid() {
-                return fid;
+            public String getDefenseStatus() {
+                return defenseStatus;
             }
 
-            public void setFid(String fid) {
-                this.fid = fid;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
+            public void setDefenseStatus(String defenseStatus) {
+                this.defenseStatus = defenseStatus;
             }
 
             public String getDefenseStatusDes() {
@@ -115,36 +88,12 @@ public class SecurityBean {
                 this.defenseStatusDes = defenseStatusDes;
             }
 
-            public String getDefenseStatus() {
-                return defenseStatus;
+            public String getFid() {
+                return fid;
             }
 
-            public void setDefenseStatus(String defenseStatus) {
-                this.defenseStatus = defenseStatus;
-            }
-
-            public int getStatus() {
-                return status;
-            }
-
-            public void setStatus(int status) {
-                this.status = status;
-            }
-
-            public int getIsOnline() {
-                return isOnline;
-            }
-
-            public void setIsOnline(int isOnline) {
-                this.isOnline = isOnline;
-            }
-
-            public int getIsManager() {
-                return isManager;
-            }
-
-            public void setIsManager(int isManager) {
-                this.isManager = isManager;
+            public void setFid(String fid) {
+                this.fid = fid;
             }
 
             public int getIsCurrent() {
@@ -155,6 +104,30 @@ public class SecurityBean {
                 this.isCurrent = isCurrent;
             }
 
+            public int getIsManager() {
+                return isManager;
+            }
+
+            public void setIsManager(int isManager) {
+                this.isManager = isManager;
+            }
+
+            public int getIsOnline() {
+                return isOnline;
+            }
+
+            public void setIsOnline(int isOnline) {
+                this.isOnline = isOnline;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
             public ResidenceBean getResidence() {
                 return residence;
             }
@@ -163,16 +136,32 @@ public class SecurityBean {
                 this.residence = residence;
             }
 
+            public int getStatus() {
+                return status;
+            }
+
+            public void setStatus(int status) {
+                this.status = status;
+            }
+
             public static class ResidenceBean {
                 /**
+                 * addr : 惠州江北凯宾斯基C座
                  * fid : irifirkfk
                  * name : 凯宾斯基
-                 * addr : 惠州江北凯宾斯基C座
                  */
 
+                private String addr;
                 private String fid;
                 private String name;
-                private String addr;
+
+                public String getAddr() {
+                    return addr;
+                }
+
+                public void setAddr(String addr) {
+                    this.addr = addr;
+                }
 
                 public String getFid() {
                     return fid;
@@ -189,101 +178,139 @@ public class SecurityBean {
                 public void setName(String name) {
                     this.name = name;
                 }
-
-                public String getAddr() {
-                    return addr;
-                }
-
-                public void setAddr(String addr) {
-                    this.addr = addr;
-                }
             }
         }
-    }
 
-    public static class OtherBean {
-        /**
-         * code : 200
-         * message : data success
-         * time :
-         * currpage : 0
-         * next :
-         * forward :
-         * refresh :
-         * first :
-         */
+        public static class SubDevicesBean {
+            /**
+             * defenseLevel : 24hour
+             * extInfo : {"index":2,"name":"","node":1,"roomId":0,"subType":1,"type":140}
+             * icon :
+             * index : 2
+             * isOline : 1
+             * name :
+             */
 
-        private int code;
-        private String message;
-        private String time;
-        private int currpage;
-        private String next;
-        private String forward;
-        private String refresh;
-        private String first;
+            private String defenseLevel;
+            private ExtInfoBean extInfo;
+            private String icon;
+            private int index;
+            private int isOline;
+            private String name;
 
-        public int getCode() {
-            return code;
-        }
+            public String getDefenseLevel() {
+                return defenseLevel;
+            }
 
-        public void setCode(int code) {
-            this.code = code;
-        }
+            public void setDefenseLevel(String defenseLevel) {
+                this.defenseLevel = defenseLevel;
+            }
 
-        public String getMessage() {
-            return message;
-        }
+            public ExtInfoBean getExtInfo() {
+                return extInfo;
+            }
 
-        public void setMessage(String message) {
-            this.message = message;
-        }
+            public void setExtInfo(ExtInfoBean extInfo) {
+                this.extInfo = extInfo;
+            }
 
-        public String getTime() {
-            return time;
-        }
+            public String getIcon() {
+                return icon;
+            }
 
-        public void setTime(String time) {
-            this.time = time;
-        }
+            public void setIcon(String icon) {
+                this.icon = icon;
+            }
 
-        public int getCurrpage() {
-            return currpage;
-        }
+            public int getIndex() {
+                return index;
+            }
 
-        public void setCurrpage(int currpage) {
-            this.currpage = currpage;
-        }
+            public void setIndex(int index) {
+                this.index = index;
+            }
 
-        public String getNext() {
-            return next;
-        }
+            public int getIsOline() {
+                return isOline;
+            }
 
-        public void setNext(String next) {
-            this.next = next;
-        }
+            public void setIsOline(int isOline) {
+                this.isOline = isOline;
+            }
 
-        public String getForward() {
-            return forward;
-        }
+            public String getName() {
+                return name;
+            }
 
-        public void setForward(String forward) {
-            this.forward = forward;
-        }
+            public void setName(String name) {
+                this.name = name;
+            }
 
-        public String getRefresh() {
-            return refresh;
-        }
+            public static class ExtInfoBean {
+                /**
+                 * index : 2
+                 * name :
+                 * node : 1
+                 * roomId : 0
+                 * subType : 1
+                 * type : 140
+                 */
 
-        public void setRefresh(String refresh) {
-            this.refresh = refresh;
-        }
+                private int index;
+                private String name;
+                private int node;
+                private int roomId;
+                private int subType;
+                private int type;
 
-        public String getFirst() {
-            return first;
-        }
+                public int getIndex() {
+                    return index;
+                }
 
-        public void setFirst(String first) {
-            this.first = first;
+                public void setIndex(int index) {
+                    this.index = index;
+                }
+
+                public String getName() {
+                    return name;
+                }
+
+                public void setName(String name) {
+                    this.name = name;
+                }
+
+                public int getNode() {
+                    return node;
+                }
+
+                public void setNode(int node) {
+                    this.node = node;
+                }
+
+                public int getRoomId() {
+                    return roomId;
+                }
+
+                public void setRoomId(int roomId) {
+                    this.roomId = roomId;
+                }
+
+                public int getSubType() {
+                    return subType;
+                }
+
+                public void setSubType(int subType) {
+                    this.subType = subType;
+                }
+
+                public int getType() {
+                    return type;
+                }
+
+                public void setType(int type) {
+                    this.type = type;
+                }
+            }
         }
     }
 }

@@ -109,4 +109,9 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     public void responseDetectorProperty(BaseBean baseBean) {
 
     }
+
+    @Override
+    public void responseNodifSuccess(BaseBean baseBean) {
+
+    }
 }

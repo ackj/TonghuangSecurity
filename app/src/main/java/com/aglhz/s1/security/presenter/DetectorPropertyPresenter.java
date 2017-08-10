@@ -43,4 +43,9 @@ public class DetectorPropertyPresenter extends BasePresenter<DetectorPropertyCon
                     //todo:update
                 }, this::error));
     }
+
+    @Override
+    public void requestNotifProperty(Params params) {
+
+    }
 }

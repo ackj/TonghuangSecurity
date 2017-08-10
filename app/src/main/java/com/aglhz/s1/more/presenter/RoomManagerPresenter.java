@@ -2,6 +2,7 @@ package com.aglhz.s1.more.presenter;
 
 import android.support.annotation.NonNull;
 
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.more.contract.RoomManagerContract;
 import com.aglhz.s1.more.model.RoomManagerModel;
@@ -30,11 +31,37 @@ public class RoomManagerPresenter extends BasePresenter<RoomManagerContract.View
         mRxManager.add(mModel.requestHouseList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-//                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
-//                        getView().responseHouseList(bean);
-//                    } else {
-//                        getView().error(bean.getOther().getMessage());
-//                    }
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseHouseList(bean.getData().getRoomList());
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
+
+    @Override
+    public void requestRoomTypeList(Params params) {
+        mRxManager.add(mModel.requestRoomTypeList(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseRoomTypeList(bean.getData());
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
+
+    @Override
+    public void requestAddHouse(Params params) {
+        mRxManager.add(mModel.requestAddHouse(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseAddHouse(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
                 }, this::error));
     }
 

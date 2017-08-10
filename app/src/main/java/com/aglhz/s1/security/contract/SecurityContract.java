@@ -24,7 +24,6 @@ public interface SecurityContract {
         void responseSwichGateway(BaseBean baseBean);
 
         void responseSwichState(BaseBean baseBean);
-
     }
 
     interface Presenter extends BaseContract.Presenter {

@@ -24,10 +24,17 @@ public class Params {
     public String password1;
     public String password2;
     public String phoneNo = "";
+    public String sensorType;
+    public String defenseLevel;
+    public String roomFid;
     public String gateway = "";
+    public String roomName = "";
+    public String roomTypeFid = "";
+    public String residenceFid = "";
     public String dstatus = "";
     public String no = "";
     public String name = "";
+    public int index;
 
     public static Params getInstance() {
         Params params = new Params();

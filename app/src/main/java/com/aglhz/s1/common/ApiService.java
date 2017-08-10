@@ -2,7 +2,10 @@ package com.aglhz.s1.common;
 
 import com.aglhz.s1.bean.BaseBean;
 import com.aglhz.s1.bean.CheckTokenBean;
+import com.aglhz.s1.bean.DevicesBean;
 import com.aglhz.s1.bean.GatewaysBean;
+import com.aglhz.s1.bean.RoomTypesBean;
+import com.aglhz.s1.bean.RoomsBean;
 import com.aglhz.s1.bean.SecurityBean;
 import com.aglhz.s1.bean.UserBean;
 
@@ -22,7 +25,6 @@ public interface ApiService {
 
     String BASE_URL = "http://119.23.129.133:8096/gas";
 
-    //*************以下基础路径*******************
     String BASE_USER = Constants.BASE_USER;           //用户
 
     //*************以上基础路径*******************
@@ -136,9 +138,6 @@ public interface ApiService {
     //修改场景
     String requestModscene = "/client/modscene";
 
-    // 修改探测器(传感器)的属性
-    String requestModsensor = "/client/modsensor";
-
     // 消息处理登记
     String requestMsgprocl = "/client/msgprocl";
 
@@ -157,8 +156,6 @@ public interface ApiService {
     // 添加联动
     String requestNewlinkage = "/client/newlinkage";
 
-    // 添加房间
-    String requestNewroom = "/client/newroom";
 
     // 添加场景
     String requestNewscene = "/client/newscene";
@@ -178,6 +175,76 @@ public interface ApiService {
             , @Field("pageSize") int pageSize
     );
 
+    //-----------------------------探测器 相关 ---------------------------------
+    //获取探测器列表
+    String requestSensorTypeList = BASE_URL + "/client/info/sensorTypeList";
+
+    @FormUrlEncoded
+    @POST
+    Observable<DevicesBean> requestSensorTypeList(@Url String url
+            , @Field("token") String token
+            , @Field("page") int page
+            , @Field("pageSize") int pageSize
+    );
+
+    //添加探测器
+    String reqeuestNewsensor = BASE_URL + "/client/newsensor";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> reqeuestNewsensor(@Url String url
+            , @Field("token") String token
+            , @Field("sensorType") String sensorType
+            , @Field("name") String name
+            , @Field("defenseLevel") String defenseLevel
+            , @Field("roomFid") String roomFid
+    );
+
+    // 修改探测器
+    String requestModsensor = BASE_URL+"/client/modsensor";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestModsensor(@Url String url
+            , @Field("token") String token
+            , @Field("index") int index
+            , @Field("name") String name
+            , @Field("defenseLevel") String defenseLevel
+    );
+
+    //----------------------------- 房间相关 ---------------------------------
+    String requestRoomList = BASE_URL + "/client/info/roomList";
+
+    @FormUrlEncoded
+    @POST
+    Observable<RoomsBean> requestRoomList(@Url String url
+            , @Field("token") String token
+            , @Field("page") int page
+            , @Field("pageSize") int pageSize
+    );
+
+    String requestNewroom = BASE_URL + "/client/newroom";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestNewroom(@Url String url
+            , @Field("token") String token
+            , @Field("name") String roomName
+            , @Field("roomTypeFid") String roomTypeFid
+            , @Field("residenceFid") String residenceFid
+    );
+
+    String requestRoomTypeList = BASE_URL + "/client/info/roomTypeList";
+
+    @POST
+    Observable<RoomTypesBean> requestRoomTypeList(@Url String url);
+
+    //*************以下基础路径*******************
+
+
+    //*************以上基础路径*******************
+
+    //-----------------以下为推送相关---------------------
     //切换主机
     String requestSwichGateway = BASE_URL + "/client/gatewaySW";
 

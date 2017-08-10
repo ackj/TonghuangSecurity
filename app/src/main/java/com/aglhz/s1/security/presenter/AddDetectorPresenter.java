@@ -2,6 +2,7 @@ package com.aglhz.s1.security.presenter;
 
 import android.support.annotation.NonNull;
 
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.security.contract.AddDetectorContract;
 import com.aglhz.s1.security.model.AddDetectorModel;
@@ -31,11 +32,11 @@ public class AddDetectorPresenter extends BasePresenter<AddDetectorContract.View
         mRxManager.add(mModel.requestDetectorList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-//                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
-//                        getView().responseDetectorList(bean);
-//                    } else {
-//                        getView().error(bean.getOther().getMessage());
-//                    }
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseDetectorList(bean.getData().getDeviceTypeList());
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
                 }, this::error));
     }
 
@@ -44,11 +45,11 @@ public class AddDetectorPresenter extends BasePresenter<AddDetectorContract.View
         mRxManager.add(mModel.requestAddDetector(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-//                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
-//                        getView().responseAddDetector(bean);
-//                    } else {
-//                        getView().error(bean.getOther().getMessage());
-//                    }
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseAddDetector(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
                 }, this::error));
     }
 
