@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.SceneBean;
+import com.aglhz.s1.entity.bean.SceneBean;
 import com.aglhz.s1.scene.SceneListRVAdapter;
 
 import java.util.ArrayList;

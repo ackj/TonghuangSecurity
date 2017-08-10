@@ -1,7 +1,7 @@
 package com.aglhz.s1.history;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.HistoryBean;
+import com.aglhz.s1.entity.bean.HistoryBean;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;

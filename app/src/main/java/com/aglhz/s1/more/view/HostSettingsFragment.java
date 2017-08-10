@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.SettingsBean;
+import com.aglhz.s1.entity.bean.SettingsBean;
 import com.aglhz.s1.net.view.SetWifiFragment;
 
 import java.util.ArrayList;

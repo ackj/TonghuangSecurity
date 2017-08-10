@@ -1,8 +1,8 @@
 package com.aglhz.s1.security.contract;
 
-import com.aglhz.s1.bean.BaseBean;
-import com.aglhz.s1.bean.GatewaysBean;
-import com.aglhz.s1.bean.SecurityBean;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.GatewaysBean;
+import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.common.Params;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;

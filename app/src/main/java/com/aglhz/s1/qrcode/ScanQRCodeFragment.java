@@ -5,12 +5,17 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.more.view.AddHostFragment;
 
@@ -18,40 +23,58 @@ import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder;
 import cn.bingoogolapple.qrcode.zxing.ZXingView;
 import cn.itsite.abase.log.ALog;
-import cn.itsite.abase.mvp.view.base.BaseActivity;
+import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ImageUtils;
 
+import static android.content.Context.VIBRATOR_SERVICE;
 
-public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Delegate {
-    private static final String TAG = ScanQRCodeActivity.class.getSimpleName();
+/**
+ * Author：leguang on 2017/5/2 0009 15:49
+ * Email：langmanleguang@qq.com
+ */
+public class ScanQRCodeFragment extends BaseFragment implements QRCodeView.Delegate {
+    private static final String TAG = ScanQRCodeFragment.class.getSimpleName();
     public static final int REQUEST_IMAGE = 0;
     private QRCodeView mQRCodeView;
     private ImageView iv_back;
     private ImageView iv_photo;
     private ImageView iv_flashlight;
     private boolean isFlashlightOpened = false;
+    private LinearLayout ll_top_bar;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-//        initView();
-//        initData();
-        loadRootFragment(R.id.fl_main_activity, ScanQRCodeFragment.newInstance());
+    public static ScanQRCodeFragment newInstance() {
+        return new ScanQRCodeFragment();
     }
 
-    private void initView() {
-        mQRCodeView = (ZXingView) findViewById(R.id.zxingview);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_scan_qrcode, container, false);
+        return attachToSwipeBack(view);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(view);
+        initData();
+    }
+
+    private void initView(View view) {
+        mQRCodeView = (ZXingView) view.findViewById(R.id.zxingview);
         mQRCodeView.setDelegate(this);
-        iv_back = (ImageView) findViewById(R.id.iv_back_scan_activity);
-        iv_photo = (ImageView) findViewById(R.id.iv_photo_picker_scan_activity);
-        iv_flashlight = (ImageView) findViewById(R.id.iv_flashlight_scan_activity);
+        ll_top_bar = (LinearLayout) view.findViewById(R.id.ll_top_bar);
+        initStateBar(ll_top_bar);
+        iv_back = (ImageView) view.findViewById(R.id.iv_back_scan_activity);
+        iv_photo = (ImageView) view.findViewById(R.id.iv_photo_picker_scan_activity);
+        iv_flashlight = (ImageView) view.findViewById(R.id.iv_flashlight_scan_activity);
     }
 
     private void initData() {
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                pop();
             }
         });
         iv_photo.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +100,7 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         mQRCodeView.startCamera();
         mQRCodeView.startSpot();
@@ -85,14 +108,14 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         mQRCodeView.startCamera();
         mQRCodeView.startSpot();
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         mQRCodeView.stopCamera();
         mQRCodeView.closeFlashlight();
@@ -100,13 +123,13 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         mQRCodeView.onDestroy();
         super.onDestroy();
     }
 
     private void vibrate() {
-        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        Vibrator vibrator = (Vibrator) _mActivity.getSystemService(VIBRATOR_SERVICE);
         vibrator.vibrate(200);
     }
 
@@ -118,9 +141,8 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
     }
 
     private void handleQRCode(String result) {
-        Toast.makeText(ScanQRCodeActivity.this, result, Toast.LENGTH_SHORT).show();
         ALog.e("result-->" + result);
-        start(AddHostFragment.newInstance(result));
+        startWithPop(AddHostFragment.newInstance(result));
     }
 
     @Override
@@ -130,7 +152,7 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         /**
          * 选择系统图片并解析
          */
@@ -141,13 +163,13 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
                 new AsyncTask<Void, Void, String>() {
                     @Override
                     protected String doInBackground(Void... params) {
-                        return QRCodeDecoder.syncDecodeQRCode(ImageUtils.getImageAbsolutePath(ScanQRCodeActivity.this, uri));
+                        return QRCodeDecoder.syncDecodeQRCode(ImageUtils.getImageAbsolutePath(App.mContext, uri));
                     }
 
                     @Override
                     protected void onPostExecute(String result) {
                         if (TextUtils.isEmpty(result)) {
-                            Toast.makeText(ScanQRCodeActivity.this, "未发现二维码", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(App.mContext, "未发现二维码", Toast.LENGTH_SHORT).show();
                         } else {
                             //解析成功后
                             handleQRCode(result);

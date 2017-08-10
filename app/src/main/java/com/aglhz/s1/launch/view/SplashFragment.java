@@ -25,6 +25,7 @@ import io.reactivex.schedulers.Schedulers;
  * Email：langmanleguang@qq.com
  */
 public class SplashFragment extends BaseFragment {
+    public static final String TAG = SplashFragment.class.getSimpleName();
     private RxManager mRxManager = new RxManager();
 
     public static SplashFragment newInstance() {

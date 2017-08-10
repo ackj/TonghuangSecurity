@@ -1,7 +1,7 @@
 package com.aglhz.s1.gateway.view;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.GatewaysBean;
+import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;

@@ -13,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.BaseBean;
-import com.aglhz.s1.bean.DevicesBean;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.common.DefenseLineLevel;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.security.contract.AddDetectorContract;
@@ -27,7 +27,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
-import cn.itsite.abase.utils.ToastUtils;
 
 /**
  * Author： Administrator on 2017/5/2 0002.

@@ -38,7 +38,7 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
                     } else {
                         getView().error(securityBean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null)));
+                }, this::error));
     }
 
     @Override

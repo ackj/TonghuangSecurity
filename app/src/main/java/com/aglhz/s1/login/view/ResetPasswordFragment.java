@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.BaseBean;
+import com.aglhz.s1.entity.bean.BaseBean;
 import cn.itsite.abase.common.DialogHelper;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.common.SmsHelper;

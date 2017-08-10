@@ -1,8 +1,8 @@
 package com.aglhz.s1.security.model;
 
-import com.aglhz.s1.bean.BaseBean;
-import com.aglhz.s1.bean.GatewaysBean;
-import com.aglhz.s1.bean.SecurityBean;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.GatewaysBean;
+import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.security.contract.SecurityContract;

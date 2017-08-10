@@ -1,7 +1,7 @@
 package com.aglhz.s1.security.contract;
 
-import com.aglhz.s1.bean.BaseBean;
-import com.aglhz.s1.bean.DevicesBean;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.common.Params;
 
 import java.util.List;

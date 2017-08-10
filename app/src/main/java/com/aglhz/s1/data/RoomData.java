@@ -1,7 +1,7 @@
 package com.aglhz.s1.data;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.RoomBean;
+import com.aglhz.s1.entity.bean.RoomBean;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

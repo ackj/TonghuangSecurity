@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.BaseBean;
-import com.aglhz.s1.bean.RoomTypesBean;
-import com.aglhz.s1.bean.RoomsBean;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.RoomTypesBean;
+import com.aglhz.s1.entity.bean.RoomsBean;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.more.contract.RoomManagerContract;
 import com.aglhz.s1.more.presenter.RoomManagerPresenter;
@@ -65,7 +65,7 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }

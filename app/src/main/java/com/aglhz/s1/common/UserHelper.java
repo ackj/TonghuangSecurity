@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.aglhz.s1.App;
-import com.aglhz.s1.bean.UserBean;
+import com.aglhz.s1.entity.bean.UserBean;
 import com.google.gson.Gson;
 
 import cn.itsite.abase.log.ALog;
