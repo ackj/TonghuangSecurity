@@ -117,7 +117,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     @Override
     public void error(String errorMessage) {
         dismissLoading();
-        DialogHelper.errorSnackbar(getView(),errorMessage);
+        DialogHelper.errorSnackbar(getView(), errorMessage);
     }
 
     @Override
@@ -128,6 +128,6 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     @Override
     public void responseAddDetector(BaseBean bean) {
         dismissLoading();
-        ToastUtils.showToast(_mActivity,"添加成功");
+        DialogHelper.successSnackbar(getView(), "添加成功");
     }
 }

@@ -138,9 +138,6 @@ public interface ApiService {
     //修改场景
     String requestModscene = "/client/modscene";
 
-    // 修改探测器(传感器)的属性
-    String requestModsensor = "/client/modsensor";
-
     // 消息处理登记
     String requestMsgprocl = "/client/msgprocl";
 
@@ -178,7 +175,7 @@ public interface ApiService {
             , @Field("pageSize") int pageSize
     );
 
-    //----------------------------- 探测器相关 ---------------------------------
+    //-----------------------------探测器 相关 ---------------------------------
     //获取探测器列表
     String requestSensorTypeList = BASE_URL + "/client/info/sensorTypeList";
 
@@ -201,6 +198,18 @@ public interface ApiService {
             , @Field("name") String name
             , @Field("defenseLevel") String defenseLevel
             , @Field("roomFid") String roomFid
+    );
+
+    // 修改探测器
+    String requestModsensor = BASE_URL+"/client/modsensor";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestModsensor(@Url String url
+            , @Field("token") String token
+            , @Field("index") int index
+            , @Field("name") String name
+            , @Field("defenseLevel") String defenseLevel
     );
 
     //----------------------------- 房间相关 ---------------------------------

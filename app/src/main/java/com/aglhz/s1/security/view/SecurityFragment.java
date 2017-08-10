@@ -61,6 +61,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     private TextView tvDes;
 
     private DevicesBean.DataBean.DeviceTypeListBean addIconDevice;
+    private List<SecurityBean.DataBean.SubDevicesBean> subDevices;
 
     public static SecurityFragment newInstance() {
         return new SecurityFragment();
@@ -174,6 +175,8 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     public void responseSecurity(SecurityBean securityBean) {
         ALog.e("securityBean-->" + securityBean.getData().getGateway().getDefenseStatus());
 
+        subDevices = securityBean.getData().getSubDevices();
+
         TextView tv = (TextView) adapter.getHeaderLayout()
                 .findViewWithTag(securityBean.getData().getGateway().getDefenseStatus());
         tvCancel.setSelected(false);
@@ -182,6 +185,17 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         tv.setSelected(true);
 
         tvDes.setText(securityBean.getData().getGateway().getDefenseStatusDes());
+
+        List<DevicesBean.DataBean.DeviceTypeListBean> data = new ArrayList<>();
+
+        for (int i = 0;i<subDevices.size();i++){
+            DevicesBean.DataBean.DeviceTypeListBean bean = new DevicesBean.DataBean.DeviceTypeListBean();
+            bean.setName(subDevices.get(i).getName());
+            bean.setIcon(subDevices.get(i).getIcon());
+            data.add(bean);
+        }
+        data.add(addIconDevice);
+        adapter.setNewData(data);
 
     }
 
@@ -227,5 +241,4 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                 break;
         }
     }
-
 }
