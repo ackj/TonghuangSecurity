@@ -2,6 +2,7 @@ package com.aglhz.s1.security.presenter;
 
 import android.support.annotation.NonNull;
 
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.security.contract.DetectorPropertyContract;
 import com.aglhz.s1.security.model.DetectorPropertyModel;
@@ -14,7 +15,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  * Email: liujia95me@126.com
  */
 
-public class DetectorPropertyPresenter extends BasePresenter<DetectorPropertyContract.View,DetectorPropertyContract.Model> implements DetectorPropertyContract.Presenter {
+public class DetectorPropertyPresenter extends BasePresenter<DetectorPropertyContract.View, DetectorPropertyContract.Model> implements DetectorPropertyContract.Presenter {
     /**
      * 创建Presenter的时候就绑定View和创建model。
      *
@@ -46,6 +47,29 @@ public class DetectorPropertyPresenter extends BasePresenter<DetectorPropertyCon
 
     @Override
     public void requestNotifProperty(Params params) {
+        mRxManager.add(mModel.requestNotifProperty(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(baseBean -> {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseNodifSuccess(baseBean);
+                    } else {
+                        getView().error(baseBean.getOther().getMessage());
+                    }
+                }, this::error)
+        );
+    }
 
+    @Override
+    public void requestDelsensor(Params params) {
+        mRxManager.add(mModel.requestDelsensor(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(baseBean -> {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseDelSuccess(baseBean);
+                    } else {
+                        getView().error(baseBean.getOther().getMessage());
+                    }
+                }, this::error)
+        );
     }
 }

@@ -16,6 +16,7 @@ public interface DetectorPropertyContract {
     interface View extends BaseContract.View {
         void responseDetectorProperty(BaseBean baseBean);
         void responseNodifSuccess(BaseBean baseBean);
+        void responseDelSuccess(BaseBean baseBean);
 //        void responseUpdateDetectorName(BaseBean baseBean);
 //        void responseUpdateDetectorPicture(BaseBean baseBean);
 //        void responseUpdateDetectorLine(BaseBean baseBean);
@@ -26,6 +27,7 @@ public interface DetectorPropertyContract {
     interface Presenter extends BaseContract.Presenter {
         void requestDetectorProperty(Params params);
         void requestNotifProperty(Params params);
+        void requestDelsensor(Params params);
 
 //        void requestUpdateDetectorName(BaseBean baseBean);
 //        void requestUpdateDetectorPicture(BaseBean baseBean);
@@ -37,6 +39,7 @@ public interface DetectorPropertyContract {
     interface Model extends BaseContract.Model {
         Observable<BaseBean> requestDetectorProperty(Params params);
         Observable<BaseBean> requestNotifProperty(Params params);
+        Observable<BaseBean> requestDelsensor(Params params);
 //        Observable<BaseBean> requestUpdateDetectorName(Params params);
 //        Observable<BaseBean> requestUpdateDetectorPicture(BaseBean baseBean);
 //        Observable<BaseBean> requestUpdateDetectorLine(BaseBean baseBean);

@@ -11,15 +11,20 @@ import android.widget.TextView;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.BaseBean;
-import cn.itsite.abase.common.DialogHelper;
+import com.aglhz.s1.bean.SecurityBean;
+import com.aglhz.s1.common.Params;
+import com.aglhz.s1.event.EventRefreshHome;
 import com.aglhz.s1.security.contract.DetectorPropertyContract;
 import com.aglhz.s1.security.presenter.DetectorPropertyPresenter;
 import com.dd.CircularProgressButton;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 
 /**
@@ -34,10 +39,21 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     Toolbar toolbar;
     @BindView(R.id.cpb_delete_fragment_detector_property)
     CircularProgressButton cpbDelete;
-    Unbinder unbinder;
+    @BindView(R.id.tv_name)
+    TextView tvName;
+    @BindView(R.id.tv_line_of_defense)
+    TextView tvLineOfDefense;
 
-    public static DetectorPropertyFragment newInstance() {
-        return new DetectorPropertyFragment();
+    Unbinder unbinder;
+    private SecurityBean.DataBean.SubDevicesBean deviceBean;
+    private Params params;
+
+    public static DetectorPropertyFragment newInstance(SecurityBean.DataBean.SubDevicesBean bean) {
+        DetectorPropertyFragment fragment = new DetectorPropertyFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("bean", bean);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @NonNull
@@ -50,6 +66,7 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detector_property, container, false);
+        deviceBean = (SecurityBean.DataBean.SubDevicesBean) getArguments().getSerializable("bean");
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }
@@ -74,6 +91,10 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     }
 
     private void initData() {
+        if (deviceBean != null) {
+            tvName.setText(deviceBean.getName());
+            tvLineOfDefense.setText(deviceBean.getDefenseLevel());
+        }
     }
 
     @Override
@@ -85,14 +106,9 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     @OnClick(R.id.cpb_delete_fragment_detector_property)
     public void onViewClicked() {
         cpbDelete.setIndeterminateProgressMode(true);
-
+        params = Params.getInstance();
+        mPresenter.requestDelsensor(params);
         cpbDelete.setProgress(50);
-        cpbDelete.postDelayed(() -> {
-            cpbDelete.setProgress(100);
-            cpbDelete.setProgress(0);
-        }, 1000);
-
-
     }
 
     @Override
@@ -112,6 +128,14 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
 
     @Override
     public void responseNodifSuccess(BaseBean baseBean) {
+        DialogHelper.successSnackbar(getView(), "修改成功");
+    }
 
+    @Override
+    public void responseDelSuccess(BaseBean baseBean) {
+        cpbDelete.setProgress(100);
+        EventBus.getDefault().post(new EventRefreshHome());
+        DialogHelper.successSnackbar(getView(), "删除成功");
+        pop();
     }
 }

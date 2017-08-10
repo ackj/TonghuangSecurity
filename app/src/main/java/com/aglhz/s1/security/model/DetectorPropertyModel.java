@@ -32,7 +32,14 @@ public class DetectorPropertyModel extends BaseModel implements DetectorProperty
     @Override
     public Observable<BaseBean> requestNotifProperty(Params params) {
         return HttpHelper.getService(ApiService.class).requestModsensor(
-                ApiService.requestDetectorProperty,params.test_token,0,"","")
+                ApiService.requestDetectorProperty,params.test_token,params.index,params.name,params.defenseLevel)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseBean> requestDelsensor(Params params) {
+        return HttpHelper.getService(ApiService.class).requestDelsensor(
+                ApiService.requestDetectorProperty,params.test_token,params.index)
                 .subscribeOn(Schedulers.io());
     }
 

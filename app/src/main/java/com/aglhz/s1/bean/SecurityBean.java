@@ -1,5 +1,6 @@
 package com.aglhz.s1.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -181,7 +182,7 @@ public class SecurityBean extends BaseBean{
             }
         }
 
-        public static class SubDevicesBean {
+        public static class SubDevicesBean implements Serializable{
             /**
              * defenseLevel : 24hour
              * extInfo : {"index":2,"name":"","node":1,"roomId":0,"subType":1,"type":140}

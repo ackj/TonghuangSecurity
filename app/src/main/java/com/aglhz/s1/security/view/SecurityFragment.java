@@ -154,12 +154,13 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     }
 
     private void initListener() {
-        adapter.setOnItemClickListener((adapter, view, position) -> {
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
             ALog.e("onItemclick position:" + position + " size:" + adapter.getData().size());
+            SecurityBean.DataBean.SubDevicesBean bean = subDevices.get(position);
             if (position == adapter.getData().size() - 1) {
                 _mActivity.start(AddDetectorFragment.newInstance());
             } else {
-                _mActivity.start(DetectorPropertyFragment.newInstance());
+                _mActivity.start(DetectorPropertyFragment.newInstance(bean));
             }
             Toast.makeText(_mActivity, "clickItem", Toast.LENGTH_SHORT).show();
         });

@@ -117,9 +117,6 @@ public interface ApiService {
     // 删除主机
     String requestDelgateway = "/client/delgateway";
 
-    // 删除探测器(传感器)
-    String requestDelsensor = "/client/delsensor";
-
     // 控制设备开关
     String requestDevicectrl = "/client/devicectrl";
 
@@ -211,6 +208,17 @@ public interface ApiService {
             , @Field("name") String name
             , @Field("defenseLevel") String defenseLevel
     );
+
+    // 删除探测器
+    String requestDelsensor = BASE_URL+"/client/delsensor";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestDelsensor(@Url String url
+            , @Field("token") String token
+            , @Field("index") int index
+    );
+
 
     //----------------------------- 房间相关 ---------------------------------
     String requestRoomList = BASE_URL + "/client/info/roomList";

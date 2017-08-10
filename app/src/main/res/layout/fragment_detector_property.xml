@@ -17,6 +17,7 @@
 
 
         <TextView
+            android:id="@+id/tv_name"
             style="@style/TextViewBaseBlackStyle"
             android:layout_marginRight="10dp"
             android:drawableRight="@drawable/ic_arrow_right_30px"
@@ -61,6 +62,7 @@
 
 
         <TextView
+            android:id="@+id/tv_line_of_defense"
             style="@style/TextViewBaseBlackStyle"
             android:layout_marginRight="10dp"
             android:drawableRight="@drawable/ic_arrow_right_30px"
