@@ -4,7 +4,8 @@ import com.aglhz.s1.bean.BaseBean;
 import com.aglhz.s1.bean.CheckTokenBean;
 import com.aglhz.s1.bean.DevicesBean;
 import com.aglhz.s1.bean.GatewaysBean;
-import com.aglhz.s1.bean.HostListBean;
+import com.aglhz.s1.bean.RoomTypesBean;
+import com.aglhz.s1.bean.RoomsBean;
 import com.aglhz.s1.bean.SecurityBean;
 import com.aglhz.s1.bean.UserBean;
 
@@ -24,110 +25,6 @@ public interface ApiService {
 
     String BASE_URL = "http://119.23.129.133:8096/gas";
 
-    // 确认主机结束安装
-    String requestConfirmInstallFinished = "/client/confirmInstallFinished";
-
-    // 确认主机开始安装
-    String requestConfirmInstallStart = "/client/confirmInstallStart";
-
-    // 删除设备(非传感器类)
-    String requestDeldevice = "/client/deldevice ";
-
-    // 删除设备日志消息记录；主机管理员可删除
-    String requestDeldevicelog = "/client/deldevicelog";
-
-    // 删除主机
-    String requestDelgateway = "/client/delgateway";
-
-    // 删除探测器(传感器)
-    String requestDelsensor = "/client/delsensor";
-
-    // 控制设备开关
-    String requestDevicectrl = "/client/devicectrl";
-
-    //  信息反馈
-    String requestFeedback = "/client/feedback";
-
-    // 会员主机布防状态设置
-    String requestGatewayDSS = "/client/gatewayDSS";
-
-    // 会员主机切换
-    String requestGatewaySW = "/client/gatewaySW";
-
-    //修改控制类设备(非传感器类)的属性
-    String requestModdevice = "/client/moddevice";
-
-    //修改场景
-    String requestModscene = "/client/modscene";
-
-    // 修改探测器(传感器)的属性
-    String requestModsensor = "/client/modsensor";
-
-    // 消息处理登记
-    String requestMsgprocl = "/client/msgprocl";
-
-    //消息已读登记
-    String requestMsgread = "/client/msgread";
-
-    //添加控制类设备(非传感器类)
-    String requestNewdevice = "/client/newdevice";
-
-    //会员扫描添加主机
-    String requestNewgateway = "/client/newgateway";
-
-    //会员扫描添加主机跳过安装
-    String requestNewgateway2 = "/client/newgateway2";
-
-    // 添加联动
-    String requestNewlinkage = "/client/newlinkage";
-
-    // 添加房间
-    String requestNewroom = "/client/newroom";
-
-    // 添加场景
-    String requestNewscene = "/client/newscene";
-
-    //添加探测器(传感器)
-    String requestNewsensor = "/client/newsensor";
-
-    //----------------------------- 主机 ---------------------------------
-    String requestgatewayList = BASE_URL + "/client/info/gatewayList";
-
-    @FormUrlEncoded
-    @POST
-    Observable<GatewaysBean> requestgatewayList(@Url String url
-            , @Field("token") String token
-            , @Field("page") int page
-            , @Field("pageSize") int pageSize
-    );
-
-    //----------------------------- 探测器相关 ---------------------------------
-    //获取探测器列表
-    String requestSensorTypeList = BASE_URL+"/client/info/sensorTypeList";
-
-    @FormUrlEncoded
-    @POST
-    Observable<DevicesBean> requestSensorTypeList(@Url String url
-            , @Field("token") String token
-            , @Field("page") int page
-            , @Field("pageSize") int pageSize
-    );
-
-    //添加探测器
-    String reqeuestNewsensor = BASE_URL +"/client/newsensor";
-
-    @FormUrlEncoded
-    @POST
-    Observable<BaseBean> reqeuestNewsensor(@Url String url
-            , @Field("token") String token
-            , @Field("sensorType") String sensorType
-            , @Field("name") String name
-            , @Field("defenseLevel") String defenseLevel
-            , @Field("roomFid") String roomFid
-    );
-
-
-    //*************以下基础路径*******************
     String BASE_USER = Constants.BASE_USER;           //用户
 
     //*************以上基础路径*******************
@@ -194,8 +91,160 @@ public interface ApiService {
     Observable<CheckTokenBean> requestCheckToken(@Url String url,
                                                  @Query("token") String token);
 
+    //登出
+    String requestLogout = BASE_USER + "/client/logout.do";
+
+    @POST
+    Observable<BaseBean> requestLogout(
+            @Url String url,
+            @Query("token") String token);
 
     //----------以上为Launch模块--------------
+
+
+    // 确认主机结束安装
+    String requestConfirmInstallFinished = "/client/confirmInstallFinished";
+
+    // 确认主机开始安装
+    String requestConfirmInstallStart = "/client/confirmInstallStart";
+
+    // 删除设备(非传感器类)
+    String requestDeldevice = "/client/deldevice ";
+
+    // 删除设备日志消息记录；主机管理员可删除
+    String requestDeldevicelog = "/client/deldevicelog";
+
+    // 删除主机
+    String requestDelgateway = "/client/delgateway";
+
+    // 删除探测器(传感器)
+    String requestDelsensor = "/client/delsensor";
+
+    // 控制设备开关
+    String requestDevicectrl = "/client/devicectrl";
+
+    //  信息反馈
+    String requestFeedback = "/client/feedback";
+
+    // 会员主机布防状态设置
+    String requestGatewayDSS = "/client/gatewayDSS";
+
+    // 会员主机切换
+    String requestGatewaySW = "/client/gatewaySW";
+
+    //修改控制类设备(非传感器类)的属性
+    String requestModdevice = "/client/moddevice";
+
+    //修改场景
+    String requestModscene = "/client/modscene";
+
+    // 修改探测器(传感器)的属性
+    String requestModsensor = "/client/modsensor";
+
+    // 消息处理登记
+    String requestMsgprocl = "/client/msgprocl";
+
+    //消息已读登记
+    String requestMsgread = "/client/msgread";
+
+    //添加控制类设备(非传感器类)
+    String requestNewdevice = "/client/newdevice";
+
+    //会员扫描添加主机
+    String requestNewgateway = "/client/newgateway";
+
+    //会员扫描添加主机跳过安装
+    String requestNewgateway2 = "/client/newgateway2";
+
+    // 添加联动
+    String requestNewlinkage = "/client/newlinkage";
+
+
+    // 添加场景
+    String requestNewscene = "/client/newscene";
+
+    //添加探测器(传感器)
+    String requestNewsensor = "/client/newsensor";
+
+    //----------------------------- 以下为主机操作相关 ---------------------------------
+    //获取主机列表
+    String requestGateways = BASE_URL + "/client/info/gatewayList";
+
+    @FormUrlEncoded
+    @POST
+    Observable<GatewaysBean> requestGateways(@Url String url
+            , @Field("token") String token
+            , @Field("page") int page
+            , @Field("pageSize") int pageSize
+    );
+
+    //----------------------------- 探测器相关 ---------------------------------
+    //获取探测器列表
+    String requestSensorTypeList = BASE_URL + "/client/info/sensorTypeList";
+
+    @FormUrlEncoded
+    @POST
+    Observable<DevicesBean> requestSensorTypeList(@Url String url
+            , @Field("token") String token
+            , @Field("page") int page
+            , @Field("pageSize") int pageSize
+    );
+
+    //添加探测器
+    String reqeuestNewsensor = BASE_URL + "/client/newsensor";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> reqeuestNewsensor(@Url String url
+            , @Field("token") String token
+            , @Field("sensorType") String sensorType
+            , @Field("name") String name
+            , @Field("defenseLevel") String defenseLevel
+            , @Field("roomFid") String roomFid
+    );
+
+    //----------------------------- 房间相关 ---------------------------------
+    String requestRoomList = BASE_URL + "/client/info/roomList";
+
+    @FormUrlEncoded
+    @POST
+    Observable<RoomsBean> requestRoomList(@Url String url
+            , @Field("token") String token
+            , @Field("page") int page
+            , @Field("pageSize") int pageSize
+    );
+
+    String requestNewroom = BASE_URL + "/client/newroom";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestNewroom(@Url String url
+            , @Field("token") String token
+            , @Field("name") String roomName
+            , @Field("roomTypeFid") String roomTypeFid
+            , @Field("residenceFid") String residenceFid
+    );
+
+    String requestRoomTypeList = BASE_URL + "/client/info/roomTypeList";
+
+    @POST
+    Observable<RoomTypesBean> requestRoomTypeList(@Url String url);
+
+    //*************以下基础路径*******************
+
+
+    //*************以上基础路径*******************
+
+    //-----------------以下为推送相关---------------------
+    //切换主机
+    String requestSwichGateway = BASE_URL + "/client/gatewaySW";
+
+    @POST
+    Observable<BaseBean> requestSwichGateway(@Url String url,
+                                             @Query("token") String token,
+                                             @Query("gateway") String gateway);
+
+    //----------------------------- 以上为主机操作相关 ---------------------------------
 
 
     //----------------------------- 安防 ----------------------------------
@@ -206,17 +255,6 @@ public interface ApiService {
     @POST
     Observable<SecurityBean> requestSecurity(@Url String url);
 
-    //获取主机列表
-    String requestHostList = BASE_URL + "";
-
-    @POST
-    Observable<HostListBean> requestHostList(@Url String url);
-
-    //状态切换
-    String requestChangedHostStatus = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestChangedHostStatus(@Url String url);
 
     //探测器属性显示
     String requestDetectorProperty = BASE_URL + "";

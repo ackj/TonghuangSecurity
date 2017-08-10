@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.bean.SecurityBean;
-import com.aglhz.s1.security.SecurityRVAdapter;
+import com.aglhz.s1.security.view.SecurityRVAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

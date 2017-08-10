@@ -1,4 +1,4 @@
-package com.aglhz.s1.security;
+package com.aglhz.s1.security.view;
 
 import android.widget.ImageView;
 

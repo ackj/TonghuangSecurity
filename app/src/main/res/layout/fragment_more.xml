@@ -7,6 +7,7 @@
     <include layout="@layout/toolbar" />
 
     <ScrollView
+        android:id="@+id/sv_more_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -19,6 +20,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/rl_head"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="?android:attr/selectableItemBackground"

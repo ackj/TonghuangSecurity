@@ -14,16 +14,7 @@ public class Constants {
         throw new Error("Do not need instantiate!");
     }
 
-    public static final String PRESS_AGAIN = "再按一次退出";
-
-    public static final String IS_FIRST_ENTER = "is_first_enter";
-
-
-    //配网模块
-    public static final String WIFI_NAME = "wifi_name";
-    public static final String WIFI_PASSWORD = "WIFI_PASSWORD";
-
-    //——————————————以下是区分debug版和非debug版的baseurl——————————————————————
+    //--------------------以下是区分debug版和非debug版的baseurl-----------
 
     public static String BASE_USER = "";
 
@@ -36,6 +27,20 @@ public class Constants {
             BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
         }
     }
-    //——————————————以上是区分debug版和非debug版的baseurl——————————————————————
+    //-------------------以上是区分debug版和非debug版的baseurl-----------------
+
+    public static final String PRESS_AGAIN = "再按一次退出";
+
+    public static final String IS_FIRST_ENTER = "is_first_enter";
+
+    //配网模块
+    public static final String WIFI_NAME = "wifi_name";
+    public static final String WIFI_PASSWORD = "WIFI_PASSWORD";
+
+    //安全模块
+    public static final String GATEWAY_STATE_CANCLE = "cancle";
+    public static final String GATEWAY_STATE_HOME = "home";
+    public static final String GATEWAY_STATE_FARAWAY = "faraway";
+
 
 }

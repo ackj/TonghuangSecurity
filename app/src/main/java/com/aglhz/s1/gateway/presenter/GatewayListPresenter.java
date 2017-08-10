@@ -28,12 +28,12 @@ public class GatewayListPresenter extends BasePresenter<GatewayListContract.View
     }
 
     @Override
-    public void requestgatewayList(Params params) {
-        mRxManager.add(mModel.requestgatewayList(params)
+    public void requestGateways(Params params) {
+        mRxManager.add(mModel.requestGateways(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
                     if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
-                        getView().responsegatewayList(bean.getData());
+                        getView().responseGateways(bean.getData());
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }

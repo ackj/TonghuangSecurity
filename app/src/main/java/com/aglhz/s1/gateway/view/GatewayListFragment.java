@@ -85,7 +85,7 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
 
         params.page = 1;
         params.pageSize = 10;
-        mPresenter.requestgatewayList(params);
+        mPresenter.requestGateways(params);
     }
 
     private void initListener() {
@@ -110,7 +110,7 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
     }
 
     @Override
-    public void responsegatewayList(List<GatewaysBean.DataBean> data) {
+    public void responseGateways(List<GatewaysBean.DataBean> data) {
         if (data.size() < params.pageSize) {
             adapter.loadMoreEnd();
         } else {

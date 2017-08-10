@@ -1,6 +1,7 @@
 package com.aglhz.s1.more.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,19 +12,32 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.data.RoomData;
+import com.aglhz.s1.bean.BaseBean;
+import com.aglhz.s1.bean.RoomTypesBean;
+import com.aglhz.s1.bean.RoomsBean;
+import com.aglhz.s1.common.Params;
+import com.aglhz.s1.more.contract.RoomManagerContract;
+import com.aglhz.s1.more.presenter.RoomManagerPresenter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.itsite.abase.common.DialogHelper;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.utils.ToastUtils;
+import cn.itsite.multiselector.MultiSelectorDialog;
 
 /**
  * Author: LiuJia on 2017/5/2 0002 20:17.
  * Email: liujia95me@126.com
  */
 
-public class RoomManagerFragment extends BaseFragment {
+public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presenter> implements RoomManagerContract.View {
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -32,9 +46,20 @@ public class RoomManagerFragment extends BaseFragment {
     RecyclerView recyclerView;
 
     private Unbinder unbinder;
+    private RoomManagerRVAdapter adapter;
+    private Params params = Params.getInstance();
+    private MultiSelectorDialog switchRoomDialog;
+    RoomsBean.DataBean.RoomListBean addIconBean = new RoomsBean.DataBean.RoomListBean();
+    private List<RoomTypesBean.DataBean> roomTypeDatas;
 
     public static RoomManagerFragment newInstance() {
         return new RoomManagerFragment();
+    }
+
+    @NonNull
+    @Override
+    protected RoomManagerContract.Presenter createPresenter() {
+        return new RoomManagerPresenter(this);
     }
 
     @Nullable
@@ -61,16 +86,85 @@ public class RoomManagerFragment extends BaseFragment {
     }
 
     private void initData() {
+        switchRoomDialog = MultiSelectorDialog.builder(_mActivity)
+                .setTitle("添加房间")
+                .setTabVisible(false)
+                .setOnItemClickListener((pagerPosition, optionPosition, option) -> {
+                    RoomTypesBean.DataBean bean = roomTypeDatas.get(optionPosition);
+                    params.roomName = bean.getName();
+                    params.roomTypeFid = bean.getFid();
+                    params.residenceFid = "irifirkfk";//todo:待改
+                    ALog.e(TAG,"name:"+params.roomName);
+                    ALog.e(TAG,"roomTypeFid:"+params.roomTypeFid);
+                    mPresenter.requestAddHouse(params);
+                    switchRoomDialog.dismiss();
+                })
+                .build();
+
         recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 3));
-        recyclerView.setAdapter(new RoomManagerRVAdapter(RoomData.getInstance().getAlreadyAddRooms()));
+
+        List<RoomsBean.DataBean.RoomListBean> datas = new ArrayList<>();
+
+        addIconBean.setName("添加房间");
+        datas.add(addIconBean);
+        adapter = new RoomManagerRVAdapter();
+        recyclerView.setAdapter(adapter);
+
+        adapter.setNewData(datas);
+        params.page = 1;
+        params.pageSize = 10;
+        mPresenter.requestHouseList(params);
     }
 
     private void initListener() {
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (position == adapter.getData().size() - 1) {
+                    showLoading();
+                    mPresenter.requestRoomTypeList(params);
+                } else {
+//                    _mActivity.start(DetectorPropertyFragment.newInstance());
+
+                }
+            }
+        });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void error(String errorMessage) {
+        dismissLoading();
+        DialogHelper.errorSnackbar(getView(), errorMessage);
+    }
+
+    @Override
+    public void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data) {
+        data.add(addIconBean);
+        adapter.setNewData(data);
+    }
+
+    @Override
+    public void responseAddHouse(BaseBean bean) {
+        dismissLoading();
+        ToastUtils.showToast(_mActivity, "添加成功");
+        mPresenter.requestHouseList(params);
+    }
+
+    @Override
+    public void responseRoomTypeList(List<RoomTypesBean.DataBean> data) {
+        switchRoomDialog.show();
+        dismissLoading();
+        roomTypeDatas = data;
+        List<String> strList = new ArrayList<>();
+        for (RoomTypesBean.DataBean bean : data) {
+            strList.add(bean.getName());
+        }
+        getView().post(() -> switchRoomDialog.notifyDataSetChanged(strList));
     }
 }

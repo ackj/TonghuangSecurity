@@ -2,21 +2,30 @@ package com.aglhz.s1.more.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.aglhz.s1.App;
 import com.aglhz.s1.R;
+import com.aglhz.s1.common.Params;
 import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.event.EventLogin;
 import com.aglhz.s1.gateway.view.GatewayListFragment;
 import com.aglhz.s1.login.LoginActivity;
+import com.aglhz.s1.more.contract.MoreContract;
+import com.aglhz.s1.more.presenter.MorePresenter;
 import com.aglhz.s1.net.view.SetWifiFragment;
 import com.bumptech.glide.Glide;
+import com.umeng.message.PushAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,7 +35,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.itsite.abase.common.DialogHelper;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.network.http.LogInterceptor;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -35,7 +47,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Email: liujia95me@126.com
  */
 
-public class MoreFragment extends BaseFragment {
+public class MoreFragment extends BaseFragment<MoreContract.Presenter> implements MoreContract.View {
     public static final String TAG = MoreFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -48,9 +60,20 @@ public class MoreFragment extends BaseFragment {
     TextView tvNickname;
     @BindView(R.id.tv_phone_number)
     TextView tvPhoneNumber;
+    @BindView(R.id.rl_head)
+    RelativeLayout rlHead;
+    @BindView(R.id.sv_more_fragment)
+    ScrollView sv;
+    private Params params = Params.getInstance();
 
     public static SupportFragment newInstance() {
         return new MoreFragment();
+    }
+
+    @NonNull
+    @Override
+    protected MoreContract.Presenter createPresenter() {
+        return new MorePresenter(this);
     }
 
     @Nullable
@@ -85,7 +108,8 @@ public class MoreFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.ll_room_manager,
+    @OnClick({R.id.rl_head,
+            R.id.ll_room_manager,
             R.id.ll_host_setting,
             R.id.ll_wifi_setting,
             R.id.ll_add_host,
@@ -94,6 +118,10 @@ public class MoreFragment extends BaseFragment {
             R.id.ll_logout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.rl_head:
+                if (isLogined()) {
+                }
+                break;
             case R.id.ll_room_manager:
                 _mActivity.start(RoomManagerFragment.newInstance());
                 break;
@@ -112,7 +140,15 @@ public class MoreFragment extends BaseFragment {
             case R.id.ll_about:
                 break;
             case R.id.ll_logout:
-                startActivity(new Intent(_mActivity, LoginActivity.class));
+                new AlertDialog.Builder(_mActivity)
+                        .setTitle("提示")
+                        .setMessage("确定退出登录？")
+                        .setPositiveButton("确定", (dialog, which) -> {
+                            mPresenter.requestLogout(params);//请求服务器注销。
+                            onLoginoutEvent(null);
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
                 break;
         }
     }
@@ -122,9 +158,24 @@ public class MoreFragment extends BaseFragment {
         updataView();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginoutEvent(LogInterceptor event) {
+        ALog.e("登出…………………………………………………………………………");
+        tvNickname.setText("访客");
+        tvPhoneNumber.setText("");
+        ivAvatar.setImageResource(R.drawable.ic_more_avatar_black_180px);
+        sv.post(() -> sv.fullScroll(ScrollView.FOCUS_UP));//滑动到顶部，提高用户体验，方便用户点击头像登录。
+        PushAgent.getInstance(App.mContext)
+                .removeAlias(UserHelper.account, "userType", (b, s) -> {
+                    ALog.e("b-->" + b);
+                    ALog.e("s-->" + s);
+                });
+        UserHelper.clear();//要放在最后清除，不然上面用到UserHelper.account也为空了
+    }
+
     private void updataView() {
 
-        if (UserHelper.isLogined()) {
+        if (isLogined()) {
             Glide.with(this)
                     .load(UserHelper.userInfo.getFace())
                     .placeholder(R.drawable.ic_more_avatar_black_180px)
@@ -135,5 +186,20 @@ public class MoreFragment extends BaseFragment {
             tvNickname.setText(UserHelper.userInfo.getNickName());
             tvPhoneNumber.setText(UserHelper.userInfo.getMobile());
         }
+    }
+
+    private boolean isLogined() {
+        if (UserHelper.isLogined()) {
+            return true;
+        } else {
+            startActivity(new Intent(_mActivity, LoginActivity.class));
+            _mActivity.overridePendingTransition(0, 0);
+            return false;
+        }
+    }
+
+    @Override
+    public void responseLogout(String message) {
+        DialogHelper.successSnackbar(getView(), message);
     }
 }

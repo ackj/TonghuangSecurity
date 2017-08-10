@@ -7,17 +7,18 @@ import java.util.List;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import io.reactivex.Observable;
-public interface GatewayListContract { 
+
+public interface GatewayListContract {
 
     interface View extends BaseContract.View {
-        void responsegatewayList(List<GatewaysBean.DataBean> bean);
+        void responseGateways(List<GatewaysBean.DataBean> bean);
     }
 
     interface Presenter extends BaseContract.Presenter {
-        void requestgatewayList(Params params);
+        void requestGateways(Params params);
     }
 
     interface Model extends BaseContract.Model {
-        Observable<GatewaysBean> requestgatewayList(Params params);
+        Observable<GatewaysBean> requestGateways(Params params);
     }
 }

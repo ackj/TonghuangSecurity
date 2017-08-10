@@ -17,7 +17,6 @@ import com.aglhz.s1.bean.BaseBean;
 import com.aglhz.s1.bean.DevicesBean;
 import com.aglhz.s1.common.DefenseLineLevel;
 import com.aglhz.s1.common.Params;
-import com.aglhz.s1.security.SecurityRVAdapter;
 import com.aglhz.s1.security.contract.AddDetectorContract;
 import com.aglhz.s1.security.presenter.AddDetectorPresenter;
 
@@ -100,7 +99,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
 //            SelectorDialogFragment editNameDialog = new SelectorDialogFragment();
 //            editNameDialog.show(getFragmentManager(), "EditNameDialog");
             DevicesBean.DataBean.DeviceTypeListBean bean = adapter.getData().get(position);
-            params.roomFid = "100001";
+            params.roomFid = "117ba3e3-88d6-45f5-bd38-cc952a16daa8";
             params.sensorType = bean.getCode();
             params.name = bean.getName();
             params.defenseLevel = DefenseLineLevel.DLL_FIRST;

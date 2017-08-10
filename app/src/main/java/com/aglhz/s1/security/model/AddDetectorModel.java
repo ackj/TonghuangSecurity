@@ -20,13 +20,13 @@ public class AddDetectorModel extends BaseModel implements AddDetectorContract.M
 	@Override
     public Observable<DevicesBean> requestDetectorList(Params params) {
         return HttpHelper.getService(ApiService.class).requestSensorTypeList(ApiService.requestSensorTypeList
-                ,params.token,params.page,params.pageSize)
+                ,params.test_token,params.page,params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 	@Override
     public Observable<BaseBean> requestAddDetector(Params params) {
         return HttpHelper.getService(ApiService.class).reqeuestNewsensor(ApiService.reqeuestNewsensor
-                ,params.token,params.sensorType,params.name,params.defenseLevel,params.roomFid)
+                ,params.test_token,params.sensorType,params.name,params.defenseLevel,params.roomFid)
                 .subscribeOn(Schedulers.io());
     }
 

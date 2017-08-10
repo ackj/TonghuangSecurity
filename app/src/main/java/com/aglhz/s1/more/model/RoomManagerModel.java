@@ -1,6 +1,8 @@
 package com.aglhz.s1.more.model;
 
 import com.aglhz.s1.bean.BaseBean;
+import com.aglhz.s1.bean.RoomTypesBean;
+import com.aglhz.s1.bean.RoomsBean;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.more.contract.RoomManagerContract;
@@ -16,10 +18,23 @@ public class RoomManagerModel extends BaseModel implements RoomManagerContract.M
 
     }
 
-	@Override
-    public Observable<BaseBean> requestHouseList(Params params) {
-        return HttpHelper.getService(ApiService.class).requestHouseList(ApiService.requestHouseList
-                )
+    @Override
+    public Observable<RoomsBean> requestHouseList(Params params) {
+        return HttpHelper.getService(ApiService.class).requestRoomList(ApiService.requestRoomList
+                , params.test_token, params.page, params.pageSize)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseBean> requestAddHouse(Params params) {
+        return HttpHelper.getService(ApiService.class).requestNewroom(ApiService.requestNewroom
+                , params.test_token, params.roomName, params.roomTypeFid,params.residenceFid)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<RoomTypesBean> requestRoomTypeList(Params params) {
+        return HttpHelper.getService(ApiService.class).requestRoomTypeList(ApiService.requestRoomTypeList)
                 .subscribeOn(Schedulers.io());
     }
 

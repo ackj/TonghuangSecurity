@@ -16,10 +16,12 @@ public class GatewayListModel extends BaseModel implements GatewayListContract.M
 
     }
 
-    @Override
-    public Observable<GatewaysBean> requestgatewayList(Params params) {
-        return HttpHelper.getService(ApiService.class).requestgatewayList(ApiService.requestgatewayList
-                , params.token, params.pageSize, params.page)
+    public Observable<GatewaysBean> requestGateways(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestGateways(ApiService.requestGateways,
+                        params.test_token,
+                        params.pageSize,
+                        params.page)
                 .subscribeOn(Schedulers.io());
     }
 

@@ -9,9 +9,9 @@ package com.aglhz.s1.common;
 public class Params {
     private static final String TAG = Params.class.getSimpleName();
     public static String test_token = "tk_cdeac90e-5690-4163-9da4-1f276d293608";//测试用
-    public int page;
-    public int pageSize;
     public static String token;
+    public int page;
+    public int pageSize = 20;
     public String sc = "AglhzSmart";
     public String user = "";
     public String pwd = "";
@@ -28,9 +28,14 @@ public class Params {
     public String name;
     public String defenseLevel;
     public String roomFid;
+    public String gateway = "";
+    public String roomName = "";
+    public String roomTypeFid = "";
+    public String residenceFid = "";
 
     public static Params getInstance() {
         Params params = new Params();
+        params.token = UserHelper.token;
         return params;
     }
 
