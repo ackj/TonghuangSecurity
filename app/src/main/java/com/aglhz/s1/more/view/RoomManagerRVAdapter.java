@@ -1,7 +1,7 @@
 package com.aglhz.s1.more.view;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.RoomsBean;
+import com.aglhz.s1.entity.bean.RoomsBean;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;

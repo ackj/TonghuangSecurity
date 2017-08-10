@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.BaseBean;
+import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.more.contract.AddHostContract;
@@ -93,12 +93,6 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
             params.name = tvName.getText().toString();
             mPresenter.requestAddHost(params);
         });
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @Override

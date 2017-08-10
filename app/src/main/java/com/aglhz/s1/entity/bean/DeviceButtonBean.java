@@ -1,4 +1,4 @@
-package com.aglhz.s1.bean;
+package com.aglhz.s1.entity.bean;
 
 import com.aglhz.s1.App;
 

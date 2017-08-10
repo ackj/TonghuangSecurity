@@ -13,14 +13,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.BaseBean;
-import com.aglhz.s1.bean.DevicesBean;
-import com.aglhz.s1.bean.SecurityBean;
-import com.aglhz.s1.bean.GatewaysBean;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.DevicesBean;
+import com.aglhz.s1.entity.bean.GatewaysBean;
+import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
+import com.aglhz.s1.widget.PtrHTFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.multiselector.MultiSelectorDialog;
+import cn.itsite.statemanager.StateLayout;
 
 
 /**
@@ -45,11 +47,15 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.recyclerview)
+    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     Unbinder unbinder;
     @BindView(R.id.toolbar_menu)
     TextView toolbarMenu;
+    @BindView(R.id.stateLayout)
+    StateLayout stateLayout;
+    @BindView(R.id.ptrFrameLayout)
+    PtrHTFrameLayout ptrFrameLayout;
     private SecurityRVAdapter adapter;
     private Params params = Params.getInstance();
     private MultiSelectorDialog switchGatewayDialog;
@@ -76,7 +82,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_security, container, false);
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -87,6 +93,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         initToolbar();
         initData();
         initListener();
+        initPtrFrameLayout(ptrFrameLayout, recyclerView);
     }
 
     private void initToolbar() {
@@ -99,21 +106,16 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     }
 
     private void initData() {
-        mPresenter.requestSecurity(params);
-
         recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 4));
-
         addIconDevice = new DevicesBean.DataBean.DeviceTypeListBean();
         addIconDevice.setIcon("add_icon");
         addIconDevice.setName("添加探测器");
-
         adapter = new SecurityRVAdapter();
         adapter.setHeaderView(initHeaderView());
         recyclerView.setAdapter(adapter);
         List<DevicesBean.DataBean.DeviceTypeListBean> data = new ArrayList<>();
         data.add(addIconDevice);
         adapter.setNewData(data);
-
         switchGatewayDialog = MultiSelectorDialog.builder(_mActivity)
                 .setTitle("请选择您要切换的主机")
                 .setTabVisible(false)
@@ -124,6 +126,11 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                     mPresenter.requestSwichGateway(params);
                 })
                 .build();
+    }
+
+    @Override
+    public void onRefresh() {
+        mPresenter.requestSecurity(params);
     }
 
     private View initHeaderView() {
@@ -156,10 +163,13 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     private void initListener() {
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             ALog.e("onItemclick position:" + position + " size:" + adapter.getData().size());
-            SecurityBean.DataBean.SubDevicesBean bean = subDevices.get(position);
+            if (subDevices == null || subDevices.size() == 0) {
+                return;
+            }
             if (position == adapter.getData().size() - 1) {
                 _mActivity.start(AddDetectorFragment.newInstance());
             } else {
+                SecurityBean.DataBean.SubDevicesBean bean = subDevices.get(position);
                 _mActivity.start(DetectorPropertyFragment.newInstance(bean));
             }
             Toast.makeText(_mActivity, "clickItem", Toast.LENGTH_SHORT).show();
@@ -175,7 +185,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     @Override
     public void responseSecurity(SecurityBean securityBean) {
         ALog.e("securityBean-->" + securityBean.getData().getGateway().getDefenseStatus());
-
         subDevices = securityBean.getData().getSubDevices();
 
         TextView tv = (TextView) adapter.getHeaderLayout()
@@ -189,7 +198,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
         List<DevicesBean.DataBean.DeviceTypeListBean> data = new ArrayList<>();
 
-        for (int i = 0;i<subDevices.size();i++){
+        for (int i = 0; i < subDevices.size(); i++) {
             DevicesBean.DataBean.DeviceTypeListBean bean = new DevicesBean.DataBean.DeviceTypeListBean();
             bean.setName(subDevices.get(i).getName());
             bean.setIcon(subDevices.get(i).getIcon());
@@ -198,6 +207,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         data.add(addIconDevice);
         adapter.setNewData(data);
 
+        ptrFrameLayout.refreshComplete();
     }
 
     @Override
@@ -219,6 +229,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     @Override
     public void responseSwichGateway(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
+        mPresenter.requestSecurity(params);
     }
 
     @Override

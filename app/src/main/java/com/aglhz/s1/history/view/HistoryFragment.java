@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.HistoryBean;
+import com.aglhz.s1.entity.bean.HistoryBean;
 import com.aglhz.s1.history.HistoryRVAdapter;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package com.aglhz.s1.login.model;
 
 
-import com.aglhz.s1.bean.BaseBean;
+import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.login.contract.RegisterContract;

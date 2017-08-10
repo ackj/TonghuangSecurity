@@ -1,6 +1,6 @@
 package com.aglhz.s1.gateway.contract;
 
-import com.aglhz.s1.bean.GatewaysBean;
+import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.common.Params;
 
 import java.util.List;

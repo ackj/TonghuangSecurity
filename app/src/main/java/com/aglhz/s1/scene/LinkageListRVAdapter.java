@@ -1,7 +1,7 @@
 package com.aglhz.s1.scene;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.SceneBean;
+import com.aglhz.s1.entity.bean.SceneBean;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;

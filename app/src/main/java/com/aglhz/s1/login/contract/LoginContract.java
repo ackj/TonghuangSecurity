@@ -1,7 +1,7 @@
 package com.aglhz.s1.login.contract;
 
 
-import com.aglhz.s1.bean.UserBean;
+import com.aglhz.s1.entity.bean.UserBean;
 import com.aglhz.s1.common.Params;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;

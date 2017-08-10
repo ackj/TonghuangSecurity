@@ -12,10 +12,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.GatewaysBean;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.gateway.contract.GatewayListContract;
 import com.aglhz.s1.gateway.presenter.GatewayListPresenter;
+import com.aglhz.s1.widget.PtrHTFrameLayout;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.statemanager.StateLayout;
 
 public class GatewayListFragment extends BaseFragment<GatewayListContract.Presenter> implements GatewayListContract.View {
 
@@ -35,6 +37,10 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
     Toolbar toolbar;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.stateLayout)
+    StateLayout stateLayout;
+    @BindView(R.id.ptrFrameLayout)
+    PtrHTFrameLayout ptrFrameLayout;
     private GatewayListRVAdapter adapter;
 
     private Unbinder unbinder;
@@ -53,7 +59,7 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }
@@ -64,6 +70,7 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
         initToolbar();
         initData();
         initListener();
+        initPtrFrameLayout(ptrFrameLayout, recyclerView);
     }
 
     private void initToolbar() {

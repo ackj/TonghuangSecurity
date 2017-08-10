@@ -5,7 +5,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.aglhz.s1.App;
-import com.aglhz.s1.bean.UserBean;
+import com.aglhz.s1.entity.bean.UserBean;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.common.UserHelper;

@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.BaseBean;
-import com.aglhz.s1.bean.SecurityBean;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.event.EventRefreshHome;
 import com.aglhz.s1.security.contract.DetectorPropertyContract;
 import com.aglhz.s1.security.presenter.DetectorPropertyPresenter;
@@ -26,6 +26,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+
 
 /**
  * Author: 2017/5/2 0002.
@@ -107,8 +108,13 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     public void onViewClicked() {
         cpbDelete.setIndeterminateProgressMode(true);
         params = Params.getInstance();
-        mPresenter.requestDelsensor(params);
+        if (deviceBean == null) {
+            DialogHelper.warningSnackbar(getView(), "删除失败");
+            return;
+        }
+        params.index = deviceBean.getIndex();
         cpbDelete.setProgress(50);
+        mPresenter.requestDelsensor(params);
     }
 
     @Override

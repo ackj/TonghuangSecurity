@@ -4,7 +4,7 @@ package com.aglhz.s1.security.view;
 import android.widget.ImageView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.DevicesBean;
+import com.aglhz.s1.entity.bean.DevicesBean;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -31,16 +31,3 @@ public class SecurityRVAdapter extends BaseRecyclerViewAdapter<DevicesBean.DataB
                 .error(R.mipmap.ic_logo)
                 .into(ivSecurity);
     }}
-
-//public class SecurityRVAdapter extends BaseRecyclerViewAdapter<SecurityBean1, BaseViewHolder> {
-//
-//    public SecurityRVAdapter() {
-//        super(R.layout.item_security);
-//    }
-//
-//    @Override
-//    protected void convert(BaseViewHolder helper, SecurityBean1 item) {
-//        helper.setText(R.id.tv_name_item_security, item.name)
-//                .setImageResource(R.id.iv_icon_item_security, item.icon);
-//    }
-//}

@@ -15,7 +15,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  * Author：leguang on 2016/10/9 0009 10:35
  * Email：langmanleguang@qq.com
  * <p>
- * 负责邻里模块Presenter层内容。
+ * 负责添加主机模块Presenter层内容。
  */
 
 public class AddHostPresenter extends BasePresenter<AddHostContract.View, AddHostContract.Model> implements AddHostContract.Presenter {

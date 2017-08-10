@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.DeviceButtonBean;
+import com.aglhz.s1.entity.bean.DeviceButtonBean;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,13 +1,13 @@
 package com.aglhz.s1.common;
 
-import com.aglhz.s1.bean.BaseBean;
-import com.aglhz.s1.bean.CheckTokenBean;
-import com.aglhz.s1.bean.DevicesBean;
-import com.aglhz.s1.bean.GatewaysBean;
-import com.aglhz.s1.bean.RoomTypesBean;
-import com.aglhz.s1.bean.RoomsBean;
-import com.aglhz.s1.bean.SecurityBean;
-import com.aglhz.s1.bean.UserBean;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.CheckTokenBean;
+import com.aglhz.s1.entity.bean.DevicesBean;
+import com.aglhz.s1.entity.bean.GatewaysBean;
+import com.aglhz.s1.entity.bean.RoomTypesBean;
+import com.aglhz.s1.entity.bean.RoomsBean;
+import com.aglhz.s1.entity.bean.SecurityBean;
+import com.aglhz.s1.entity.bean.UserBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;

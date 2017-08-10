@@ -1,7 +1,7 @@
 package com.aglhz.s1.more.view;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.bean.SettingsBean;
+import com.aglhz.s1.entity.bean.SettingsBean;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;

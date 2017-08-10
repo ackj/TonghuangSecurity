@@ -1,4 +1,4 @@
-package com.aglhz.s1.bean;
+package com.aglhz.s1.entity.bean;
 
 /**
  * Author: LiuJia on 2017/5/31 0031 11:13.
