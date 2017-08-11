@@ -184,6 +184,12 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     }
 
     @Override
+    public void error(String errorMessage) {
+        super.error(errorMessage);
+        ptrFrameLayout.refreshComplete();
+    }
+
+    @Override
     public void responseSecurity(SecurityBean securityBean) {
         ALog.e("securityBean-->" + securityBean.getData().getGateway().getDefenseStatus());
         subDevices = securityBean.getData().getSubDevices();

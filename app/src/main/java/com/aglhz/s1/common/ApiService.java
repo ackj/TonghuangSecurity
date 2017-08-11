@@ -195,7 +195,7 @@ public interface ApiService {
     );
 
     // 修改探测器
-    String requestModsensor = BASE_URL+"/client/modsensor";
+    String requestModsensor = BASE_URL + "/client/modsensor";
 
     @FormUrlEncoded
     @POST
@@ -207,7 +207,7 @@ public interface ApiService {
     );
 
     // 删除探测器
-    String requestDelsensor = BASE_URL+"/client/delsensor";
+    String requestDelsensor = BASE_URL + "/client/delsensor";
 
     @FormUrlEncoded
     @POST
