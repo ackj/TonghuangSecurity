@@ -35,6 +35,8 @@ public class Params {
     public String no = "";
     public String name = "";
     public int index;
+    public String des;
+    public String contact;
 
     public static Params getInstance() {
         Params params = new Params();

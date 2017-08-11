@@ -76,6 +76,9 @@
         <activity
             android:name=".qrcode.ScanQRCodeActivity"
             android:theme="@style/AppTheme.Transparent" />
+        <activity
+            android:name=".about.AboutActivity"
+            android:theme="@style/AppTheme.Transparent" />
 
     </application>
 

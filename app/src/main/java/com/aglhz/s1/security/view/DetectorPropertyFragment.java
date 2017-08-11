@@ -124,6 +124,7 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
 
     @Override
     public void error(String errorMessage) {
+        cpbDelete.setProgress(0);
         DialogHelper.warningSnackbar(getView(), errorMessage);
     }
 

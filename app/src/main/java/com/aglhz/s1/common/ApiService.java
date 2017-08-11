@@ -120,9 +120,6 @@ public interface ApiService {
     // 控制设备开关
     String requestDevicectrl = "/client/devicectrl";
 
-    //  信息反馈
-    String requestFeedback = "/client/feedback";
-
     // 会员主机布防状态设置
     String requestGatewayDSS = "/client/gatewayDSS";
 
@@ -246,6 +243,18 @@ public interface ApiService {
 
     @POST
     Observable<RoomTypesBean> requestRoomTypeList(@Url String url);
+
+    //----------------------------- 关于 ---------------------------------
+    String requestFeedback = BASE_URL + "/client/feedback";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestFeedback(@Url String url
+            , @Field("token") String token
+            , @Field("des") String des
+            , @Field("contact") String contact
+    );
+
 
     //*************以下基础路径*******************
 

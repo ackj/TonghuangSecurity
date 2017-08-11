@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.aglhz.s1.App;
 import com.aglhz.s1.R;
+import com.aglhz.s1.about.AboutActivity;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.event.EventLogin;
@@ -134,14 +135,13 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
                 break;
             case R.id.ll_add_host:
 //                startActivity(new Intent(_mActivity, ScanQRCodeActivity.class));
-
                 _mActivity.start(ScanQRCodeFragment.newInstance());
-
                 break;
             case R.id.ll_host_manager:
                 _mActivity.start(GatewayListFragment.newInstance());
                 break;
             case R.id.ll_about:
+                _mActivity.startActivity(new Intent(_mActivity, AboutActivity.class));
                 break;
             case R.id.ll_logout:
                 new AlertDialog.Builder(_mActivity)
@@ -178,7 +178,6 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
     }
 
     private void updataView() {
-
         if (isLogined()) {
             Glide.with(this)
                     .load(UserHelper.userInfo.getFace())

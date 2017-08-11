@@ -163,12 +163,13 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     private void initListener() {
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             ALog.e("onItemclick position:" + position + " size:" + adapter.getData().size());
-            if (subDevices == null || subDevices.size() == 0) {
-                return;
-            }
+
             if (position == adapter.getData().size() - 1) {
                 _mActivity.start(AddDetectorFragment.newInstance());
             } else {
+                if (subDevices == null || subDevices.size() == 0) {
+                    return;
+                }
                 SecurityBean.DataBean.SubDevicesBean bean = subDevices.get(position);
                 _mActivity.start(DetectorPropertyFragment.newInstance(bean));
             }
