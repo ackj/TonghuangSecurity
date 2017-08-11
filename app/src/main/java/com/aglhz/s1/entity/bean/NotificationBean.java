@@ -7,11 +7,10 @@ package com.aglhz.s1.entity.bean;
 
 public class NotificationBean {
 
-
     /**
      * body : {"after_open":"go_app","play_lights":"true","play_sound":"true","play_vibrate":"true","text":"学习传感器测试消息d2","ticker":"学习传感器测试消息t1","title":"学习传感器测试消息t1"}
      * display_type : notification
-     * extra : {"sensorId":"1","status":"1","type":"sensor_learn"}
+     * extra : {"address":"燃气泄漏报警通知 地址：凯宾斯基C座801","des":"学习红外探测器成功","name":"主机364","sensorId":1,"status":1,"type":"sensor_learn"}
      * msg_id : uu5fw0g150243698910200
      * random_min : 0
      */
@@ -140,28 +139,58 @@ public class NotificationBean {
 
     public static class ExtraBean {
         /**
+         * address : 燃气泄漏报警通知 地址：凯宾斯基C座801
+         * des : 学习红外探测器成功
+         * name : 主机364
          * sensorId : 1
          * status : 1
          * type : sensor_learn
          */
 
-        private String sensorId;
-        private String status;
+        private String address;
+        private String des;
+        private String name;
+        private int sensorId;
+        private int status;
         private String type;
 
-        public String getSensorId() {
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getDes() {
+            return des;
+        }
+
+        public void setDes(String des) {
+            this.des = des;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getSensorId() {
             return sensorId;
         }
 
-        public void setSensorId(String sensorId) {
+        public void setSensorId(int sensorId) {
             this.sensorId = sensorId;
         }
 
-        public String getStatus() {
+        public int getStatus() {
             return status;
         }
 
-        public void setStatus(String status) {
+        public void setStatus(int status) {
             this.status = status;
         }
 

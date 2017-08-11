@@ -46,4 +46,9 @@ public class Constants {
     public static final String KEY_HOST_NUMBER = "host_number";
 
 
+    //额外推送类型。
+    public static final String SENSOR_LEARN = "sensor_learn";//传感器学习
+    public static final String GW_ALARM_GAS = "gw_alarm_gas";//燃气报警
+    public static final String GW_NOTIFIY_DEFENSE_ST = "gw_defense_satus";//主机布防状态变更
+
 }

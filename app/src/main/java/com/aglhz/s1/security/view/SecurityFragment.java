@@ -18,10 +18,16 @@ import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
+import com.aglhz.s1.entity.bean.NotificationBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
+import com.aglhz.s1.event.EventRefreshSecurity;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +90,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -180,6 +187,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         unbinder.unbind();
     }
 
@@ -257,6 +265,27 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                 tvFaraway.setSelected(true);
                 tvHome.setSelected(false);
                 tvCancel.setSelected(false);
+                break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRefreshSecurity(EventRefreshSecurity event) {
+        ALog.e("刷新安防…………………………………………………………………………");
+        if (event.notificationBean == null) {
+            return;
+        }
+
+        switch (event.notificationBean.getExtra().getType()) {
+            case Constants.SENSOR_LEARN:
+            case Constants.GW_NOTIFIY_DEFENSE_ST:
+                ptrFrameLayout.autoRefresh();
+                NotificationBean.ExtraBean extraBean = event.notificationBean.getExtra();
+                if (extraBean.getStatus() == 1) {
+                    DialogHelper.successSnackbar(getView(), extraBean.getDes());
+                } else {
+                    DialogHelper.errorSnackbar(getView(), extraBean.getDes());
+                }
                 break;
         }
     }

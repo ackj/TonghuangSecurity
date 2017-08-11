@@ -9,6 +9,9 @@ import android.widget.Toast;
 
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.UserHelper;
+import com.aglhz.s1.entity.bean.NotificationBean;
+import com.aglhz.s1.event.EventRefreshSecurity;
+import com.google.gson.Gson;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.MsgConstant;
 import com.umeng.message.PushAgent;
@@ -16,6 +19,8 @@ import com.umeng.message.UTrack;
 import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
+
+import org.greenrobot.eventbus.EventBus;
 
 import cn.itsite.abase.BaseApplication;
 import cn.itsite.abase.log.ALog;
@@ -29,10 +34,12 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class App extends BaseApplication implements Application.ActivityLifecycleCallbacks {
     private static final String TAG = App.class.getSimpleName();
+    public Gson gson;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        gson = new Gson();
         initDate();
         initPush();//初始化友盟推送。
     }
@@ -109,10 +116,8 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
             public Notification getNotification(Context context, UMessage msg) {
                 //每当有通知送达时，均会回调getNotification方法，因此可以通过监听此方法来判断通知是否送达。
                 ALog.e(TAG, msg.getRaw().toString());
-                ALog.e(TAG, msg.custom);
-
-//                EventBus.getDefault().post(new EventUnread());
-//                EventBus.getDefault().post(new EventRefreshMessageList());
+                NotificationBean notificationBean = gson.fromJson(msg.getRaw().toString(), NotificationBean.class);
+                EventBus.getDefault().post(new EventRefreshSecurity(notificationBean));
 
                 switch (msg.builder_id) {
                     //自定义通知样式编号
