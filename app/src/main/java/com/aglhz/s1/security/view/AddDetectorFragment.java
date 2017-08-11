@@ -75,12 +75,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
         initStateBar(toolbar);
         toolbarTitle.setText("选择添加探测器");
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                _mActivity.onBackPressedSupport();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
 
     private void initData() {
@@ -98,7 +93,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
 //            SelectorDialogFragment editNameDialog = new SelectorDialogFragment();
 //            editNameDialog.show(getFragmentManager(), "EditNameDialog");
             DevicesBean.DataBean.DeviceTypeListBean bean = adapter.getData().get(position);
-            params.roomFid = "117ba3e3-88d6-45f5-bd38-cc952a16daa8";
+            params.roomFid = "117ba3e3-88d6-45f5-bd38-cc952a16daa8";//添加传感器不需要房间号，等基哥删除掉。
             params.sensorType = bean.getCode();
             params.name = bean.getName();
             params.defenseLevel = DefenseLineLevel.DLL_FIRST;
