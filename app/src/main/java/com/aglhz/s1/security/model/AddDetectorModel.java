@@ -1,9 +1,9 @@
 package com.aglhz.s1.security.model;
 
-import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.security.contract.AddDetectorContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
@@ -17,10 +17,13 @@ public class AddDetectorModel extends BaseModel implements AddDetectorContract.M
 
     }
 
-	@Override
+    @Override
     public Observable<DevicesBean> requestDetectorList(Params params) {
-        return HttpHelper.getService(ApiService.class).requestSensorTypeList(ApiService.requestSensorTypeList
-                ,params.test_token,params.page,params.pageSize)
+        return HttpHelper.getService(ApiService.class)
+                .requestSensorTypeList(ApiService.requestSensorTypeList,
+                        params.test_token,
+                        params.page,
+                        params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 

@@ -32,10 +32,10 @@
         <!-- 以下友盟推送 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5987f07e8f4a9d3525000e56" />
+            android:value="598e6a0e677baa5b68000d66" />
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
-            android:value="f9ec02e5bef4bf379a01749fdbb4bbf0" />
+            android:value="b739dc28a5963b8fb90cf8a25c905a9c" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Umeng" />

@@ -1,10 +1,10 @@
 package com.aglhz.s1.security.model;
 
+import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
-import com.aglhz.s1.common.ApiService;
-import com.aglhz.s1.common.Params;
 import com.aglhz.s1.security.contract.SecurityContract;
 
 import cn.itsite.abase.log.ALog;
@@ -29,7 +29,8 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
     @Override
     public Observable<SecurityBean> requestSecurity(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestSecurity(ApiService.requestSecurity, params.test_token)
+                .requestSecurity(ApiService.requestSecurity,
+                        params.test_token)
                 .subscribeOn(Schedulers.io());
     }
 

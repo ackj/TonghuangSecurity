@@ -10,7 +10,7 @@ public class Params {
     private static final String TAG = Params.class.getSimpleName();
     public static String test_token = "tk_cdeac90e-5690-4163-9da4-1f276d293608";//测试用
     public static String token;
-    public int page;
+    public int page = 1;
     public int pageSize = 20;
     public String sc = "AglhzSmart";
     public String user = "";

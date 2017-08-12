@@ -10,15 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.common.DefenseLineLevel;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.security.contract.AddDetectorContract;
 import com.aglhz.s1.security.presenter.AddDetectorPresenter;
+import com.aglhz.s1.widget.PtrHTFrameLayout;
 
 import java.util.List;
 
@@ -27,23 +27,29 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.statemanager.StateLayout;
+import cn.itsite.statemanager.StateManager;
 
 /**
  * Author： Administrator on 2017/5/2 0002.
  * Email： liujia95me@126.com
  */
 public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presenter> implements AddDetectorContract.View {
-
+    public static final String TAG = AddDetectorFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
-
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
     Unbinder unbinder;
+    @BindView(R.id.stateLayout)
+    StateLayout stateLayout;
+    @BindView(R.id.ptrFrameLayout)
+    PtrHTFrameLayout ptrFrameLayout;
     private SecurityRVAdapter adapter;
     private Params params = Params.getInstance();
+    private StateManager mStateManager;
 
     public static AddDetectorFragment newInstance() {
         return new AddDetectorFragment();
@@ -58,7 +64,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_detector, container, false);
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }
@@ -69,6 +75,15 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
         initToolbar();
         initData();
         initListener();
+        initStateManager();
+        initPtrFrameLayout(ptrFrameLayout, recyclerView);
+    }
+
+    @Override
+    public void onRefresh() {
+        super.onRefresh();
+        params.page = 1;
+        mPresenter.requestDetectorList(params);
     }
 
     private void initToolbar() {
@@ -80,26 +95,33 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
 
     private void initData() {
         adapter = new SecurityRVAdapter();
-        recyclerview.setLayoutManager(new GridLayoutManager(_mActivity, 4));
-        recyclerview.setAdapter(adapter);
-        params.pageSize = 12;
-        params.page = 1;
-        mPresenter.requestDetectorList(params);
+        recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 4));
+        recyclerView.setAdapter(adapter);
     }
 
     private void initListener() {
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-            Toast.makeText(_mActivity, position + "", Toast.LENGTH_SHORT).show();
-//            SelectorDialogFragment editNameDialog = new SelectorDialogFragment();
-//            editNameDialog.show(getFragmentManager(), "EditNameDialog");
             DevicesBean.DataBean.DeviceTypeListBean bean = adapter.getData().get(position);
             params.roomFid = "117ba3e3-88d6-45f5-bd38-cc952a16daa8";//添加传感器不需要房间号，等基哥删除掉。
             params.sensorType = bean.getCode();
             params.name = bean.getName();
             params.defenseLevel = DefenseLineLevel.DLL_FIRST;
-            showLoading();
             mPresenter.requestAddDetector(params);
         });
+    }
+
+    private void initStateManager() {
+        mStateManager = StateManager.builder(_mActivity)
+                .setContent(recyclerView)
+                .setEmptyView(R.layout.state_empty)
+                .setEmptyOnClickListener(v -> ptrFrameLayout.autoRefresh())
+                .build();
+    }
+
+    @Override
+    public void error(String errorMessage) {
+        super.error(errorMessage);
+        ptrFrameLayout.refreshComplete();
     }
 
     @Override
@@ -109,19 +131,14 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     }
 
     @Override
-    public void error(String errorMessage) {
-        dismissLoading();
-        DialogHelper.errorSnackbar(getView(), errorMessage);
-    }
-
-    @Override
     public void responseDetectorList(List<DevicesBean.DataBean.DeviceTypeListBean> data) {
+        ptrFrameLayout.refreshComplete();
         adapter.setNewData(data);
     }
 
     @Override
     public void responseAddDetector(BaseBean bean) {
-        dismissLoading();
         DialogHelper.successSnackbar(getView(), "添加成功");
+        pop();
     }
 }
