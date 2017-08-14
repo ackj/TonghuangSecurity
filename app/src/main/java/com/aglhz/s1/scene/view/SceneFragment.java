@@ -8,13 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -30,10 +30,13 @@ public class SceneFragment extends BaseFragment {
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.toolbar_menu)
+    TextView toolbarMenu;
     @BindView(R.id.tablayout_scene)
     TabLayout tabLayout;
     Unbinder unbinder;
 
+    private int selectedPos = 0;
     private SupportFragment[] fragments = new SupportFragment[2];
 
     public static SceneFragment newInstance() {
@@ -67,6 +70,16 @@ public class SceneFragment extends BaseFragment {
     private void initToolbar() {
         initStateBar(toolbar);
         toolbarTitle.setText("场景联动");
+        toolbarMenu.setText("添加");
+    }
+
+    @OnClick(R.id.toolbar_menu)
+    public void onViewClicked() {
+        if(selectedPos == 0){
+            _mActivity.start(SceneEditFragment.newInstance());
+        }else{
+            _mActivity.start(LinkageEditFragment.newInstance());
+        }
     }
 
     private void initData() {
@@ -79,6 +92,7 @@ public class SceneFragment extends BaseFragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int hidePosition = tab.getPosition() == 0 ? 1 : 0;
+                selectedPos = tab.getPosition();
                 Log.d("onTabSelected", "hidePosition:" + hidePosition);
                 showHideFragment(fragments[tab.getPosition()], fragments[hidePosition]);
             }
