@@ -46,12 +46,33 @@ public class Params {
     @Override
     public String toString() {
         return "Params{" +
-                "sc='" + sc + '\'' +
+                "page=" + page +
+                ", pageSize=" + pageSize +
+                ", sc='" + sc + '\'' +
                 ", user='" + user + '\'' +
                 ", pwd='" + pwd + '\'' +
                 ", pwd0='" + pwd0 + '\'' +
                 ", pwd1='" + pwd1 + '\'' +
                 ", pwd2='" + pwd2 + '\'' +
+                ", account='" + account + '\'' +
+                ", verifyCode='" + verifyCode + '\'' +
+                ", verifyType='" + verifyType + '\'' +
+                ", password1='" + password1 + '\'' +
+                ", password2='" + password2 + '\'' +
+                ", phoneNo='" + phoneNo + '\'' +
+                ", sensorType='" + sensorType + '\'' +
+                ", defenseLevel='" + defenseLevel + '\'' +
+                ", roomFid='" + roomFid + '\'' +
+                ", gateway='" + gateway + '\'' +
+                ", roomName='" + roomName + '\'' +
+                ", roomTypeFid='" + roomTypeFid + '\'' +
+                ", residenceFid='" + residenceFid + '\'' +
+                ", dstatus='" + dstatus + '\'' +
+                ", no='" + no + '\'' +
+                ", name='" + name + '\'' +
+                ", index=" + index +
+                ", des='" + des + '\'' +
+                ", contact='" + contact + '\'' +
                 '}';
     }
 }
