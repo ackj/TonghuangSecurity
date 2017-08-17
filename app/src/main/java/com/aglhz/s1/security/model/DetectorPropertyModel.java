@@ -1,8 +1,8 @@
 package com.aglhz.s1.security.model;
 
-import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.security.contract.DetectorPropertyContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
@@ -15,7 +15,7 @@ import io.reactivex.schedulers.Schedulers;
  * Email: liujia95me@126.com
  */
 
-public class DetectorPropertyModel extends BaseModel implements DetectorPropertyContract.Model{
+public class DetectorPropertyModel extends BaseModel implements DetectorPropertyContract.Model {
 
 
     @Override
@@ -31,15 +31,21 @@ public class DetectorPropertyModel extends BaseModel implements DetectorProperty
 
     @Override
     public Observable<BaseBean> requestNotifProperty(Params params) {
-        return HttpHelper.getService(ApiService.class).requestModsensor(
-                ApiService.requestDetectorProperty,params.test_token,params.index,params.name,params.defenseLevel)
+        return HttpHelper.getService(ApiService.class)
+                .requestModsensor(ApiService.requestDetectorProperty,
+                        params.token,
+                        params.index,
+                        params.name,
+                        params.defenseLevel)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<BaseBean> requestDelsensor(Params params) {
-        return HttpHelper.getService(ApiService.class).requestDelsensor(
-                ApiService.requestDetectorProperty,params.test_token,params.index)
+        return HttpHelper.getService(ApiService.class)
+                .requestDelsensor(ApiService.requestDetectorProperty,
+                        params.token,
+                        params.index)
                 .subscribeOn(Schedulers.io());
     }
 

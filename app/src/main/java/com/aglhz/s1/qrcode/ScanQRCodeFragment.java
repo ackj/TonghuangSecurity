@@ -142,7 +142,9 @@ public class ScanQRCodeFragment extends BaseFragment implements QRCodeView.Deleg
 
     private void handleQRCode(String result) {
         ALog.e("result-->" + result);
-        startWithPop(AddHostFragment.newInstance(result));
+
+
+        startWithPop(AddHostFragment.newInstance(result.replace("A", "1")));
     }
 
     @Override

@@ -33,6 +33,11 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
     private static final String TAG = LoginModel.class.getSimpleName();
 
     @Override
+    public void start(Object request) {
+
+    }
+
+    @Override
     public Observable<UserBean> requestLogin(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestLogin(ApiService.requestLogin,
@@ -41,12 +46,6 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                         params.pwd)
                 .subscribeOn(Schedulers.io());
     }
-
-    @Override
-    public void start(Object request) {
-
-    }
-
 
     @Override
     public void requestRegisterUMeng(String alias) {

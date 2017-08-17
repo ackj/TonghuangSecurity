@@ -25,7 +25,10 @@ public class AddHostModel extends BaseModel implements AddHostContract.Model {
     @Override
     public Observable<BaseBean> requestAddHost(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestAddHost(ApiService.requestAddHost, params.test_token, params.no, params.name)
+                .requestAddHost(ApiService.requestAddHost,
+                        params.token,
+                        params.no,
+                        params.name)
                 .subscribeOn(Schedulers.io());
     }
 }

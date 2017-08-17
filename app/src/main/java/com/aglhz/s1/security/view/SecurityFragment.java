@@ -143,7 +143,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                         .setText(R.id.tv_name_item_rv_host_selector, item.getName() + (item.getIsOnline() == 1 ? "" : "　(离线)"));
             }
         };
-
     }
 
     @Override

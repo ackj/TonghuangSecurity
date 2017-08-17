@@ -18,8 +18,8 @@ public class HistModel extends BaseModel implements HistContract.Model {
 
 	@Override
     public Observable<BaseBean> requestHistory(Params params) {
-        return HttpHelper.getService(ApiService.class).requestHistory(ApiService.requestHistory
-                )
+        return HttpHelper.getService(ApiService.class)
+                .requestHistory(ApiService.requestHistory)
                 .subscribeOn(Schedulers.io());
     }
 

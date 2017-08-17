@@ -18,8 +18,8 @@ public class RoomModel extends BaseModel implements RoomContract.Model {
 
 	@Override
     public Observable<BaseBean> requestRoomInfo(Params params) {
-        return HttpHelper.getService(ApiService.class).requestRoomInfo(ApiService.requestRoomInfo
-                )
+        return HttpHelper.getService(ApiService.class)
+                .requestRoomInfo(ApiService.requestRoomInfo)
                 .subscribeOn(Schedulers.io());
     }
 

@@ -287,7 +287,7 @@ public interface ApiService {
 
 
     //添加主机
-    String requestAddHost = BASE_URL + "/client/info/homePage ";
+    String requestAddHost = BASE_URL + "/client/newgateway2";
 
     @POST
     Observable<BaseBean> requestAddHost(@Url String url,

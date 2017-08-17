@@ -21,7 +21,7 @@ public class AddDetectorModel extends BaseModel implements AddDetectorContract.M
     public Observable<DevicesBean> requestDetectorList(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestSensorTypeList(ApiService.requestSensorTypeList,
-                        params.test_token,
+                        params.token,
                         params.page,
                         params.pageSize)
                 .subscribeOn(Schedulers.io());
@@ -31,7 +31,7 @@ public class AddDetectorModel extends BaseModel implements AddDetectorContract.M
     public Observable<BaseBean> requestAddDetector(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .reqeuestNewsensor(ApiService.reqeuestNewsensor,
-                        params.test_token,
+                        params.token,
                         params.sensorType,
                         params.name,
                         params.defenseLevel,
