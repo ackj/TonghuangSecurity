@@ -33,22 +33,18 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
     @Override
     public void start(Object request) {
         Params params = (Params) request;
+
         mRxManager.add(mModel.requestLogin(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userBean -> {
                     if (userBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
-                        //注册友盟
                         //保存用户信息
                         UserHelper.setAccount(params.user, params.pwd);//setAccount要先于setUserInfo调用，不然无法切换SP文件。
                         UserHelper.setUserInfo(userBean.getData().getMemberInfo());
-
-                        Params.token = UserHelper.token = userBean.getData().getMemberInfo().getToken();
-
-                        ALog.e("UserHelper.token-->" + UserHelper.token);
-
+                        Params.token = UserHelper.token;
+                        //注册友盟
                         mModel.requestRegisterUMeng(params.user);
                         getView().start(null);
-
                     } else {
                         getView().error(userBean.getOther().getMessage());
                     }

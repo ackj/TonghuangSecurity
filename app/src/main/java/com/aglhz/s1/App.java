@@ -70,11 +70,9 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
         mPushAgent.register(new IUmengRegisterCallback() {
             @Override
             public void onSuccess(String deviceToken) {
-
                 ALog.e(TAG, "deviceToken-->" + deviceToken);
-
                 HttpHelper.getService(ApiService.class)
-                        .requestRegisterUMeng(ApiService.requestRegisterUMeng, "tk_cdeac90e-5690-4163-9da4-1f276d293608", "and_" + deviceToken, "13556269720", "userType")
+                        .requestRegisterUMeng(ApiService.requestRegisterUMeng, UserHelper.token, "and_" + deviceToken, UserHelper.account, "userType")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(baseBean -> ALog.e(TAG, baseBean.getOther().getMessage()));

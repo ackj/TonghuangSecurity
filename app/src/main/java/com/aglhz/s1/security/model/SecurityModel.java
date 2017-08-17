@@ -2,7 +2,6 @@ package com.aglhz.s1.security.model;
 
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
-import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
@@ -31,16 +30,15 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
     public Observable<SecurityBean> requestSecurity(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestSecurity(ApiService.requestSecurity,
-                        UserHelper.token)
+                        params.token)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<GatewaysBean> requestGateways(Params params) {
-        ALog.e("params-->" + params.token);
         return HttpHelper.getService(ApiService.class)
                 .requestGateways(ApiService.requestGateways,
-                        UserHelper.token,
+                        params.token,
                         params.pageSize,
                         params.page)
                 .subscribeOn(Schedulers.io());
@@ -50,7 +48,7 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
     public Observable<BaseBean> requestSwichGateway(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestSwichGateway(ApiService.requestSwichGateway,
-                        UserHelper.token,
+                        params.token,
                         params.gateway)
                 .subscribeOn(Schedulers.io());
     }
@@ -59,7 +57,7 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
     public Observable<BaseBean> requestSwichState(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestSwichState(ApiService.requestSwichState,
-                        UserHelper.token,
+                        params.token,
                         params.dstatus)
                 .subscribeOn(Schedulers.io());
     }

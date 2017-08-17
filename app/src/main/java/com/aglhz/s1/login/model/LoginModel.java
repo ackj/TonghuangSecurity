@@ -5,10 +5,10 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.aglhz.s1.App;
-import com.aglhz.s1.entity.bean.UserBean;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.common.UserHelper;
+import com.aglhz.s1.entity.bean.UserBean;
 import com.aglhz.s1.login.contract.LoginContract;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
@@ -64,7 +64,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                 ALog.e(TAG, "deviceToken::" + deviceToken);
 
                 HttpHelper.getService(ApiService.class)
-                        .requestRegisterUMeng(ApiService.requestRegisterUMeng, UserHelper.token, deviceToken, alias, "userType")
+                        .requestRegisterUMeng(ApiService.requestRegisterUMeng, UserHelper.token, "and_" + deviceToken, alias, "userType")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(baseBean -> ALog.e(TAG, baseBean.getOther().getMessage()));
