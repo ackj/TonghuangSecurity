@@ -43,7 +43,7 @@ public class DetectorPropertyModel extends BaseModel implements DetectorProperty
     @Override
     public Observable<BaseBean> requestDelsensor(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestDelsensor(ApiService.requestDetectorProperty,
+                .requestDelsensor(ApiService.requestDeleteDetector,
                         params.token,
                         params.index)
                 .subscribeOn(Schedulers.io());

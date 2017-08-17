@@ -299,6 +299,19 @@ public interface ApiService {
     //----------------------------- 以上为主机操作相关 ---------------------------------
 
 
+    //----------------------------- 以下为探测器相关 ---------------------------------
+    //删除该探测器
+    String requestDeleteDetector = BASE_URL + "/client/delsensor";
+
+    @POST
+    Observable<BaseBean> requestDeleteDetector(@Url String url,
+                                               @Query("token") String token,
+                                               @Query("index") String index);
+
+
+    //----------------------------- 以上为探测器相关 ---------------------------------
+
+
     //----------------------------- 安防 ----------------------------------
 
 
@@ -332,11 +345,6 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestUpdateDetectorIsDelay(@Url String url);
 
-    //删除该探测器
-    String requestDeleteDetector = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestDeleteDetector(@Url String url);
 
     //获取探测器列表
     String requestDetectorList = BASE_URL + "";

@@ -13,7 +13,7 @@ import com.aglhz.s1.R;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
-import com.aglhz.s1.event.EventRefreshHome;
+import com.aglhz.s1.event.EventRefreshSecurity;
 import com.aglhz.s1.security.contract.DetectorPropertyContract;
 import com.aglhz.s1.security.presenter.DetectorPropertyPresenter;
 import com.dd.CircularProgressButton;
@@ -44,10 +44,9 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     TextView tvName;
     @BindView(R.id.tv_line_of_defense)
     TextView tvLineOfDefense;
-
+    Params params = Params.getInstance();
     Unbinder unbinder;
     private SecurityBean.DataBean.SubDevicesBean deviceBean;
-    private Params params;
 
     public static DetectorPropertyFragment newInstance(SecurityBean.DataBean.SubDevicesBean bean) {
         DetectorPropertyFragment fragment = new DetectorPropertyFragment();
@@ -83,12 +82,7 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
         initStateBar(toolbar);
         toolbarTitle.setText("探测器属性");
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                _mActivity.onBackPressedSupport();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
 
     private void initData() {
@@ -107,7 +101,6 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     @OnClick(R.id.cpb_delete_fragment_detector_property)
     public void onViewClicked() {
         cpbDelete.setIndeterminateProgressMode(true);
-        params = Params.getInstance();
         if (deviceBean == null) {
             DialogHelper.warningSnackbar(getView(), "删除失败");
             return;
@@ -141,7 +134,7 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     @Override
     public void responseDelSuccess(BaseBean baseBean) {
         cpbDelete.setProgress(100);
-        EventBus.getDefault().post(new EventRefreshHome());
+        EventBus.getDefault().post(new EventRefreshSecurity(null));
         DialogHelper.successSnackbar(getView(), "删除成功");
         pop();
     }

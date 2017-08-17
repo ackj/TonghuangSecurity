@@ -57,9 +57,9 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
         //sdk开启通知声音
         mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);
 
-//        ALog.e(TAG, "UserHelper.account-->" + UserHelper.account);
+        ALog.e(TAG, "UserHelper.account-->" + UserHelper.account);
 //
-        mPushAgent.addAlias("13556269720", "userType", new UTrack.ICallBack() {
+        mPushAgent.addAlias(UserHelper.account, "userType", new UTrack.ICallBack() {
             @Override
             public void onMessage(boolean b, String s) {
                 ALog.e(TAG, "addAlias-->" + b + "……" + s);
