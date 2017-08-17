@@ -10,7 +10,7 @@
 //
 //import com.aglhz.s1.R;
 //import com.aglhz.s1.entity.bean.SecurityBean1;
-//import com.aglhz.s1.security.view.SecurityRVAdapter;
+//import com.aglhz.s1.security.view.AddDetectorRVAdapter;
 //import com.chad.library.adapter.base.BaseQuickAdapter;
 //
 //import java.util.ArrayList;
@@ -31,7 +31,7 @@
 //    @BindView(R.id.recyclerView)
 //    RecyclerView recyclerView;
 //    Unbinder unbinder;
-//    private SecurityRVAdapter adapter;
+//    private AddDetectorRVAdapter adapter;
 //
 //    public static RoomDeviceFragment newInstance() {
 //        return new RoomDeviceFragment();
@@ -64,7 +64,7 @@
 //        data.add(new SecurityBean1(R.mipmap.ic_logo, "气体"));
 //        data.add(new SecurityBean1(R.mipmap.ic_logo, "添加探测器"));
 //        data.add(new SecurityBean1(R.mipmap.ic_logo, "添加"));
-////        adapter = new SecurityRVAdapter(data);
+////        adapter = new AddDetectorRVAdapter(data);
 //        View headerView = LayoutInflater.from(_mActivity).inflate(R.layout.item_security_header, null);
 //        adapter.setHeaderView(headerView);
 //        recyclerView.setAdapter(adapter);

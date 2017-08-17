@@ -18,7 +18,6 @@ import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.NotificationBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
@@ -73,7 +72,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     private TextView tvFaraway;
     private TextView tvMessage;
     private TextView tvDes;
-    private DevicesBean.DataBean.DeviceTypeListBean addIconDevice;
+    private SecurityBean.DataBean.SubDevicesBean addIconDevice;
     private List<SecurityBean.DataBean.SubDevicesBean> subDevices;
     private BaseRecyclerViewAdapter<GatewaysBean.DataBean, BaseViewHolder> selectorAdapter;
 
@@ -114,13 +113,13 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
     private void initData() {
         recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 4));
-        addIconDevice = new DevicesBean.DataBean.DeviceTypeListBean();
+        addIconDevice = new SecurityBean.DataBean.SubDevicesBean();
         addIconDevice.setIcon("add_icon");
         addIconDevice.setName("添加探测器");
         adapter = new SecurityRVAdapter();
         adapter.setHeaderView(initHeaderView());
         recyclerView.setAdapter(adapter);
-        List<DevicesBean.DataBean.DeviceTypeListBean> data = new ArrayList<>();
+        List<SecurityBean.DataBean.SubDevicesBean> data = new ArrayList<>();
         data.add(addIconDevice);
         adapter.setNewData(data);
 //        switchGatewayDialog = MultiSelectorDialog.builder(_mActivity)
@@ -221,16 +220,8 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
         tvDes.setText(securityBean.getData().getGateway().getDefenseStatusDes());
 
-        List<DevicesBean.DataBean.DeviceTypeListBean> data = new ArrayList<>();
-
-        for (int i = 0; i < subDevices.size(); i++) {
-            DevicesBean.DataBean.DeviceTypeListBean bean = new DevicesBean.DataBean.DeviceTypeListBean();
-            bean.setName(subDevices.get(i).getName());
-            bean.setIcon(subDevices.get(i).getIcon());
-            data.add(bean);
-        }
-        data.add(addIconDevice);
-        adapter.setNewData(data);
+        adapter.setNewData(securityBean.getData().getSubDevices());
+        adapter.addData(addIconDevice);
         ptrFrameLayout.refreshComplete();
     }
 
@@ -308,6 +299,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                 tvCancel.setSelected(false);
                 break;
         }
+        adapter.setHostState(params.dstatus);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

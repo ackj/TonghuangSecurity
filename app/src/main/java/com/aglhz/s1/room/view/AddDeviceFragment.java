@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.entity.bean.SecurityBean1;
-import com.aglhz.s1.security.view.SecurityRVAdapter;
+import com.aglhz.s1.security.view.AddDetectorRVAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +73,7 @@ public class AddDeviceFragment extends BaseFragment {
         for (int i = 0; i < 100; i++) {
             datas.add(new SecurityBean1(R.mipmap.ic_logo, "插座"));
         }
-        SecurityRVAdapter adapter = new SecurityRVAdapter();
+        AddDetectorRVAdapter adapter = new AddDetectorRVAdapter();
         recyclerview.setLayoutManager(new GridLayoutManager(_mActivity,4));
         recyclerview.setAdapter(adapter);
     }

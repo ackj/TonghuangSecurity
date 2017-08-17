@@ -47,7 +47,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     StateLayout stateLayout;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
-    private SecurityRVAdapter adapter;
+    private AddDetectorRVAdapter adapter;
     private Params params = Params.getInstance();
     private StateManager mStateManager;
 
@@ -94,7 +94,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     }
 
     private void initData() {
-        adapter = new SecurityRVAdapter();
+        adapter = new AddDetectorRVAdapter();
         recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 4));
         recyclerView.setAdapter(adapter);
     }
