@@ -26,9 +26,9 @@ public class BaseApplication extends MultiDexApplication {
 
     private void initData() {
         if (BuildConfig.DEBUG) {
-            Fragmentation.builder()
-                    .stackViewMode(Fragmentation.BUBBLE)
-                    .install();
+//            Fragmentation.builder()
+//                    .stackViewMode(Fragmentation.BUBBLE)
+//                    .install();
             //初始化内存泄露监听
 //        mRefWatcher = LeakCanary.install(this);
 

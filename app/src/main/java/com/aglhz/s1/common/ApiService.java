@@ -2,14 +2,18 @@ package com.aglhz.s1.common;
 
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.CheckTokenBean;
+import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.RoomTypesBean;
 import com.aglhz.s1.entity.bean.RoomsBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
+import com.aglhz.s1.entity.bean.SubDeviceDetBean;
 import com.aglhz.s1.entity.bean.UserBean;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -72,7 +76,6 @@ public interface ApiService {
                                            @Query("phone") String phone,
                                            @Query("type") String type);
 
-
     //重置密码
     String requestResetPassword = BASE_USER + "/client/renewMemberPwd.do";
 
@@ -95,8 +98,7 @@ public interface ApiService {
     String requestLogout = BASE_USER + "/client/logout.do";
 
     @POST
-    Observable<BaseBean> requestLogout(
-            @Url String url,
+    Observable<BaseBean> requestLogout(@Url String url,
             @Query("token") String token);
 
     //----------以上为Launch模块--------------
@@ -184,14 +186,19 @@ public interface ApiService {
     //添加探测器
     String reqeuestNewsensor = BASE_URL + "/client/newsensor";
 
-    @FormUrlEncoded
+//    @FormUrlEncoded
+//    @POST
+//    Observable<BaseBean> reqeuestNewsensor(@Url String url
+//            , @Field("token") String token
+//            , @Field("sensorType") String sensorType
+//            , @Field("name") String name
+//            , @Field("defenseLevel") String defenseLevel
+//            , @Field("roomFid") String roomFid
+//    );
+
     @POST
     Observable<BaseBean> reqeuestNewsensor(@Url String url
-            , @Field("token") String token
-            , @Field("sensorType") String sensorType
-            , @Field("name") String name
-            , @Field("defenseLevel") String defenseLevel
-            , @Field("roomFid") String roomFid
+            , @Body MultipartBody file
     );
 
     // 修改探测器
@@ -204,6 +211,7 @@ public interface ApiService {
             , @Field("index") int index
             , @Field("name") String name
             , @Field("defenseLevel") String defenseLevel
+            , @Field("alarmDelay") int alarmDelay
     );
 
     // 删除探测器
@@ -216,6 +224,63 @@ public interface ApiService {
             , @Field("index") int index
     );
 
+    //获取探测器/设备详情
+    String requestSubDeviceDet = BASE_URL + "/client/info/subDeviceDet";
+
+    @FormUrlEncoded
+    @POST
+    Observable<SubDeviceDetBean> requestSubDeviceDet(@Url String url
+            , @Field("token") String token
+            , @Field("category") String category
+            , @Field("index") int index);
+
+    //----------------------------- 设备相关 ---------------------------------
+    //添加设备
+    String requestNewDevice = BASE_URL+"/client/newdevice";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestNewDevice(@Url String url
+            , @Field("token") String token
+            , @Field("deviceType") String deviceType
+            , @Field("name") String name
+            , @Field("roomFid") String roomFid);
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestNewDevice(@Url String url
+            , @Field("token") String token);
+
+    //修改设备
+    String requestModDevice = BASE_URL+"/client/moddevice";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestModDevice(@Url String url
+            , @Field("token") String token
+            , @Field("index") int index
+            , @Field("name") String name
+            , @Field("roomFid") String roomFid);
+
+    String requestSubDeviceList = BASE_URL+"/client/info/subDeviceList";
+
+    //删除设备
+    String requestDelDevice = BASE_URL +"/client/deldevice";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestDelDevice(@Url String url
+            , @Field("token") String token
+            , @Field("index") int index);
+
+    //设备列表
+    @FormUrlEncoded
+    @POST
+    Observable<DeviceListBean> requestSubDeviceList(@Url String url
+            , @Field("token") String token
+            , @Field("page") int page
+            , @Field("pageSize") int pageSize
+            , @Field("category") String category);
 
     //----------------------------- 房间相关 ---------------------------------
     String requestRoomList = BASE_URL + "/client/info/roomList";
@@ -289,11 +354,12 @@ public interface ApiService {
     //添加主机
     String requestAddHost = BASE_URL + "/client/newgateway2";
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> requestAddHost(@Url String url,
-                                        @Query("token") String token,
-                                        @Query("no") String no,
-                                        @Query("name") String name);
+                                        @Field("token") String token,
+                                        @Field("no") String no,
+                                        @Field("name") String name);
 
 
     //----------------------------- 以上为主机操作相关 ---------------------------------

@@ -191,13 +191,21 @@ public class SecurityBean extends BaseBean{
              * isOline : 1
              * name :
              */
-
+            private String category;
             private String defenseLevel;
             private ExtInfoBean extInfo;
             private String icon;
             private int index;
             private int isOline;
             private String name;
+
+            public String getCategory() {
+                return category;
+            }
+
+            public void setCategory(String category) {
+                this.category = category;
+            }
 
             public String getDefenseLevel() {
                 return defenseLevel;

@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import cn.itsite.abase.BaseApplication;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
 
 /**
@@ -17,18 +18,22 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  */
 public class AddDetectorRVAdapter extends BaseRecyclerViewAdapter<DevicesBean.DataBean.DeviceTypeListBean, BaseViewHolder> {
 
+    private static final String TAG = AddDetectorRVAdapter.class.getSimpleName();
+
     public AddDetectorRVAdapter() {
         super(R.layout.item_security);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, DevicesBean.DataBean.DeviceTypeListBean item) {
+        ALog.e(TAG,"AddDetectorRVAdapter:"+item.getIcon());
         helper.setText(R.id.tv_name_item_security, item.getName())
                 .setVisible(R.id.iv_state, false);
+
         ImageView ivSecurity = helper.getView(R.id.iv_icon_item_security);
+
         Glide.with(BaseApplication.mContext)
                 .load("add_icon".equals(item.getIcon()) ? R.drawable.ic_add_security_140px : item.getIcon())
-                .placeholder(R.mipmap.ic_logo)
                 .error(R.mipmap.ic_logo)
                 .into(ivSecurity);
     }

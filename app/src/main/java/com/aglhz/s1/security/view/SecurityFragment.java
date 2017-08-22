@@ -263,9 +263,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                         params.gateway = selectorAdapter.getData().get(position).getFid();
                         mPresenter.requestSwichGateway(params);
                     });
-
                     selectorAdapter.setNewData(gateways.getData());
-
                 })
                 .setDimAmount(0.3f)
                 .setGravity(Gravity.BOTTOM)
@@ -305,6 +303,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshSecurity(EventRefreshSecurity event) {
         ALog.e("刷新安防…………………………………………………………………………");
+        onRefresh();
         if (event.notificationBean == null) {
             return;
         }

@@ -12,12 +12,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.RoomTypesBean;
 import com.aglhz.s1.entity.bean.RoomsBean;
-import com.aglhz.s1.common.Params;
 import com.aglhz.s1.more.contract.RoomManagerContract;
 import com.aglhz.s1.more.presenter.RoomManagerPresenter;
+import com.aglhz.s1.widget.PtrHTFrameLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
     Toolbar toolbar;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.ptrFrameLayout)
+    PtrHTFrameLayout ptrHTFrameLayout;
 
     private Unbinder unbinder;
     private RoomManagerRVAdapter adapter;
@@ -76,6 +79,7 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
         initToolbar();
         initData();
         initListener();
+        initPtrFrameLayout(ptrHTFrameLayout,recyclerView);
     }
 
     private void initToolbar() {
@@ -116,6 +120,11 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
         mPresenter.requestHouseList(params);
     }
 
+    @Override
+    public void onRefresh() {
+        mPresenter.requestHouseList(params);
+    }
+
     private void initListener() {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -141,12 +150,14 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
     public void error(String errorMessage) {
         dismissLoading();
         DialogHelper.errorSnackbar(getView(), errorMessage);
+        ptrHTFrameLayout.refreshComplete();
     }
 
     @Override
     public void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data) {
         data.add(addIconBean);
         adapter.setNewData(data);
+        ptrHTFrameLayout.refreshComplete();
     }
 
     @Override

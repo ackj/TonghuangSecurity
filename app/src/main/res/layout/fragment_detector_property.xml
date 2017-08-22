@@ -16,12 +16,16 @@
             android:text="探测器名称" />
 
 
-        <TextView
-            android:id="@+id/tv_name"
-            style="@style/TextViewBaseBlackStyle"
+        <EditText
+            android:id="@+id/et_name"
             android:layout_marginRight="10dp"
-            android:drawableRight="@drawable/ic_arrow_right_30px"
-            android:text="门磁" />
+            android:layout_width="wrap_content"
+            android:text="门磁"
+            android:textSize="15sp"
+            android:background="@null"
+            android:textColor="@color/base_black"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <View
@@ -37,6 +41,7 @@
             android:text="更改图片" />
 
         <ImageView
+            android:id="@+id/iv_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_equipment_ceilinginfrared_180px" />
@@ -53,7 +58,12 @@
         android:layout_height="1dp"
         android:background="@color/light_gray" />
 
-    <LinearLayout style="@style/LinearLayoutItemStyle">
+    <LinearLayout
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:id="@+id/ll_defenseLevel"
+        style="@style/LinearLayoutItemStyle">
 
         <TextView
             style="@style/TextViewBaseColorWidthZeroWeightOneStyle"
@@ -102,13 +112,14 @@
             android:text="检测门窗" />
 
         <com.kyleduo.switchbutton.SwitchButton
+            android:id="@+id/sb_detection_door_window"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             app:kswTintColor="@color/green" />
     </LinearLayout>
 
-    <View
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/light_gray" />
@@ -125,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             app:kswTintColor="@color/green" />
-    </LinearLayout>
+    </LinearLayout>-->
 
     <View
         android:layout_width="match_parent"

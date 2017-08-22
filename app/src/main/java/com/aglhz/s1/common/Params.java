@@ -36,6 +36,10 @@ public class Params {
     public int index;
     public String des;
     public String contact;
+    public String deviceType;
+    public String category;//
+    public int alarmDelay;//
+
 
     public static Params getInstance() {
         Params params = new Params();

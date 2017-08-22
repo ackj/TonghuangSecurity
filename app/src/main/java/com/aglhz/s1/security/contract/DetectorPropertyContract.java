@@ -2,6 +2,7 @@ package com.aglhz.s1.security.contract;
 
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.SubDeviceDetBean;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import io.reactivex.Observable;
@@ -17,33 +18,24 @@ public interface DetectorPropertyContract {
         void responseDetectorProperty(BaseBean baseBean);
         void responseNodifSuccess(BaseBean baseBean);
         void responseDelSuccess(BaseBean baseBean);
-//        void responseUpdateDetectorName(BaseBean baseBean);
-//        void responseUpdateDetectorPicture(BaseBean baseBean);
-//        void responseUpdateDetectorLine(BaseBean baseBean);
-//        void responseUpdateDetectorIsDelay(BaseBean baseBean);
-//        void responseDeleteDetector(BaseBean baseBean);
+        void responseSubDeviceDet(SubDeviceDetBean bean);
+        void responseModsensor(BaseBean bean);
     }
 
     interface Presenter extends BaseContract.Presenter {
         void requestDetectorProperty(Params params);
         void requestNotifProperty(Params params);
         void requestDelsensor(Params params);
+        void requestSubDeviceDet(Params params);
+        void requestModsensor(Params params);
 
-//        void requestUpdateDetectorName(BaseBean baseBean);
-//        void requestUpdateDetectorPicture(BaseBean baseBean);
-//        void requestUpdateDetectorLine(BaseBean baseBean);
-//        void requestUpdateDetectorIsDelay(BaseBean baseBean);
-//        void requestDeleteDetector(BaseBean baseBean);
     }
 
     interface Model extends BaseContract.Model {
         Observable<BaseBean> requestDetectorProperty(Params params);
         Observable<BaseBean> requestNotifProperty(Params params);
         Observable<BaseBean> requestDelsensor(Params params);
-//        Observable<BaseBean> requestUpdateDetectorName(Params params);
-//        Observable<BaseBean> requestUpdateDetectorPicture(BaseBean baseBean);
-//        Observable<BaseBean> requestUpdateDetectorLine(BaseBean baseBean);
-//        Observable<BaseBean> requestUpdateDetectorIsDelay(BaseBean baseBean);
-//        Observable<BaseBean> requestDeleteDetector(BaseBean baseBean);
+        Observable<SubDeviceDetBean> requestSubDeviceDet(Params params);
+        Observable<BaseBean> requestModsensor(Params params);
     }
 }

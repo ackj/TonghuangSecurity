@@ -24,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.statemanager.StateLayout;
 
@@ -100,10 +101,16 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
     }
 
     @Override
+    public void onRefresh() {
+        params.page = 1;
+        params.pageSize = 10;
+        mPresenter.requestGateways(params);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-
     }
 
     @Override
@@ -114,15 +121,20 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
     @Override
     public void error(String errorMessage) {
         DialogHelper.warningSnackbar(getView(), errorMessage);
+        ptrFrameLayout.refreshComplete();
+        adapter.loadMoreComplete();
     }
 
     @Override
     public void responseGateways(List<GatewaysBean.DataBean> data) {
+        adapter.setNewData(data);
         if (data.size() < params.pageSize) {
-            adapter.loadMoreEnd();
+            ALog.e(TAG,"responseGateways:end");
+            adapter.loadMoreEnd(true);
         } else {
+            ALog.e(TAG,"responseGateways:more");
             adapter.loadMoreComplete();
         }
-        adapter.setNewData(data);
+        ptrFrameLayout.refreshComplete();
     }
 }

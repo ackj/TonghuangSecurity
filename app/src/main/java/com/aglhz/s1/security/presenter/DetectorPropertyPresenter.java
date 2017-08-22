@@ -72,4 +72,32 @@ public class DetectorPropertyPresenter extends BasePresenter<DetectorPropertyCon
                 }, this::error)
         );
     }
+
+    @Override
+    public void requestSubDeviceDet(Params params) {
+        mRxManager.add(mModel.requestSubDeviceDet(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subDeviceDetBean -> {
+                    if (subDeviceDetBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseSubDeviceDet(subDeviceDetBean);
+                    } else {
+                        getView().error(subDeviceDetBean.getOther().getMessage());
+                    }
+                }, this::error)
+        );
+    }
+
+    @Override
+    public void requestModsensor(Params params) {
+        mRxManager.add(mModel.requestModsensor(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseModsensor(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error)
+        );
+    }
 }
