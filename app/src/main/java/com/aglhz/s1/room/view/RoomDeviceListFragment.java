@@ -1,6 +1,5 @@
 package com.aglhz.s1.room.view;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,7 +25,6 @@ import com.aglhz.s1.room.contract.RoomDeviceListContract;
 import com.aglhz.s1.room.presenter.RoomDeviceListPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
 import com.bumptech.glide.Glide;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
@@ -37,7 +34,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
@@ -54,8 +50,6 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.toolbar_menu)
-    ImageView ivMenu;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerview;
     @BindView(R.id.ptrFrameLayout)
@@ -105,9 +99,6 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         initStateBar(toolbar);
         toolbarTitle.setText("大厅");
 
-
-        //--------------
-
         toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_homemore_90px));
         toolbar.inflateMenu(R.menu.room_menu);
         Menu menu = toolbar.getMenu();
@@ -123,27 +114,21 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
             }
         }
 
+        toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.add_device:
+                    ToastUtils.showToast(App.mContext, "添加设备");
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.add_device:
-                        ToastUtils.showToast(App.mContext, "111");
-                        break;
-                    case R.id.change_room:
-                        ToastUtils.showToast(App.mContext, "22222");
+                    mPresenter.requestAddDevice(params);
 
-                        break;
-                }
-                return true;
+                    break;
+                case R.id.change_room:
+                    ToastUtils.showToast(App.mContext, "切换房间");
+                    //todo:待改
+                    break;
             }
+            return true;
         });
-
-
-        //------------
-
-
     }
 
     private void initData() {
@@ -179,51 +164,14 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     }
 
     private void initListener() {
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter1, View view, int position) {
-                DeviceListBean.DataBean.SubDevicesBean bean = (DeviceListBean.DataBean.SubDevicesBean) adapter.getItem(position);
-                switch (view.getId()) {
-                    case R.id.iv_setting:
-                        _mActivity.start(AddDeviceFragment.newInstance(bean));
-                        break;
-                }
+        adapter.setOnItemChildClickListener((adapter1, view, position) -> {
+            DeviceListBean.DataBean.SubDevicesBean bean = (DeviceListBean.DataBean.SubDevicesBean) adapter.getItem(position);
+            switch (view.getId()) {
+                case R.id.iv_setting:
+                    _mActivity.start(AddDeviceFragment.newInstance(bean));
+                    break;
             }
         });
-    }
-
-    @SuppressLint("RestrictedApi")
-    @OnClick({R.id.toolbar_menu})
-    public void onViewClicked(View view) {
-//        PopupMenu popupMenu = new PopupMenu(_mActivity, view);
-//        popupMenu.inflate(R.menu.room_menu);
-//        //将指定的菜单布局进行加载
-//        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                switch (item.getItemId()) {
-//                    case R.id.add_device:
-//                        mPresenter.requestAddDevice(params);
-//                        break;
-//                    case R.id.change_room:
-//                        //todo:待改
-//                        break;
-//                }
-//                return false;
-//            }
-//        });//给菜单绑定监听
-//        //展示菜单
-//        try {
-//            Field field = popupMenu.getClass().getDeclaredField("mPopup");
-//            field.setAccessible(true);
-//            MenuPopupHelper mHelper = (MenuPopupHelper) field.get(popupMenu);
-//            mHelper.setForceShowIcon(true);
-//        } catch (NoSuchFieldException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-//        popupMenu.show();
     }
 
     private void changedRoom(String room) {
@@ -271,21 +219,5 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     @Override
     public void responseAddDevice(BaseBean bean) {
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        if (menu != null) {
-            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
-                try {
-                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
-                    m.setAccessible(true);
-                    m.invoke(menu, true);
-                } catch (Exception e) {
-                    Log.e(getClass().getSimpleName(), "onMenuOpened...unable to set icons for overflow menu", e);
-                }
-            }
-        }
-        super.onPrepareOptionsMenu(menu);
     }
 }
