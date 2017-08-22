@@ -28,9 +28,7 @@ import cn.itsite.abase.utils.ToastUtils;
  */
 
 public class RoomFragment extends BaseFragment {
-
     private static final String TAG = RoomFragment.class.getSimpleName();
-
     @BindView(R.id.viewpager_room_fragment)
     ViewPager viewpager;
     @BindView(R.id.tv_roomdevicebutton_1)
@@ -41,11 +39,9 @@ public class RoomFragment extends BaseFragment {
     TextView tvRoomdevicebutton3;
     @BindView(R.id.tv_roomdevicebutton_4)
     TextView tvRoomdevicebutton4;
-
     List<TextView> textViews;
     Unbinder unbinder;
     private int selectPostion;
-
     private List<List<DeviceButtonBean>> coordinateLists = new ArrayList<>();
 
     public static RoomFragment newInstance() {

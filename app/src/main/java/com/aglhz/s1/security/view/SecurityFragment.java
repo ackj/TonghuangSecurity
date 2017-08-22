@@ -227,6 +227,10 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
     @Override
     public void responseGateways(GatewaysBean gateways) {
+        /**
+         * 以下是要删掉的
+         */
+        //-----------------------------------------
 //        this.gateways = gateways;
 //        switchGatewayDialog.show();
 //        if (gateways != null && gateways.getData() != null) {
