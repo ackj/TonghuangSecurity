@@ -1,6 +1,7 @@
 package com.aglhz.s1.entity.bean;
 
 import com.aglhz.s1.room.view.RoomDeviceListRVAdapter;
+import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.io.Serializable;
@@ -12,7 +13,6 @@ import java.util.List;
  */
 
 public class DeviceListBean extends BaseBean {
-
 
     /**
      * data : {"subDevices":[{"category":"device_ctrl","defenseLevel":"24hour","extInfo":{"index":1,"name":"relay4","node":4,"roomId":1,"subType":4,"type":143,"userFlag":0},"icon":"","index":1,"isOline":1,"name":"relay4"}]}
@@ -39,7 +39,8 @@ public class DeviceListBean extends BaseBean {
             this.subDevices = subDevices;
         }
 
-        public static class SubDevicesBean implements MultiItemEntity,Serializable {
+        public static class SubDevicesBean extends AbstractExpandableItem<DeviceOnOffBean> implements MultiItemEntity,Serializable {
+
             /**
              * category : device_ctrl
              * defenseLevel : 24hour
@@ -117,6 +118,11 @@ public class DeviceListBean extends BaseBean {
             @Override
             public int getItemType() {
                 return RoomDeviceListRVAdapter.TYPE_DEVICE;
+            }
+
+            @Override
+            public int getLevel() {
+                return 0;
             }
 
             public static class ExtInfoBean {

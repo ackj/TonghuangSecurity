@@ -12,6 +12,7 @@
         android:paddingRight="15dp">
 
         <ImageView
+            android:id="@+id/iv_icon"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/ic_equipment_infrareddetectors_180px" />
@@ -30,7 +31,6 @@
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:src="@drawable/ic_homeshezhi_90px" />
-
     </LinearLayout>
 
     <View

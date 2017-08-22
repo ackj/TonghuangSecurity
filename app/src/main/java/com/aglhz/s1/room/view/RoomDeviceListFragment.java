@@ -20,6 +20,7 @@ import com.aglhz.s1.R;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
+import com.aglhz.s1.entity.bean.DeviceOnOffBean;
 import com.aglhz.s1.entity.bean.RoomsBean;
 import com.aglhz.s1.room.contract.RoomDeviceListContract;
 import com.aglhz.s1.room.presenter.RoomDeviceListPresenter;
@@ -27,6 +28,7 @@ import com.aglhz.s1.widget.PtrHTFrameLayout;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -64,7 +66,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     private List<String> roomList = new ArrayList<>();
     private ImageView ivHeader;
     private Params params = Params.getInstance();
-    private RoomDeviceList2RVAdapter adapter;
+    private RoomDeviceListRVAdapter adapter;
     private MultiSelectorDialog switchRoomDialog;
     private List<RoomsBean.DataBean.RoomListBean> roomListBean;
 
@@ -120,7 +122,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         recyclerview.setLayoutManager(new LinearLayoutManager(_mActivity));
 
         mPresenter.requestDeviceList(params);
-        adapter = new RoomDeviceList2RVAdapter();
+        adapter = new RoomDeviceListRVAdapter(null);
         ivHeader = new ImageView(_mActivity);
         Glide.with(_mActivity)
                 .load(R.drawable.room_cesuo_1242px_745px)
@@ -141,7 +143,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter1, View view, int position) {
-                DeviceListBean.DataBean.SubDevicesBean bean = adapter.getItem(position);
+                DeviceListBean.DataBean.SubDevicesBean bean = (DeviceListBean.DataBean.SubDevicesBean) adapter.getItem(position);
                 switch (view.getId()) {
                     case R.id.iv_setting:
                         _mActivity.start(AddDeviceFragment.newInstance(bean));
@@ -200,7 +202,13 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Override
     public void responseDeviceList(List<DeviceListBean.DataBean.SubDevicesBean> data) {
-        adapter.setNewData(data);
+        List<MultiItemEntity> list = new ArrayList<>();
+        for (DeviceListBean.DataBean.SubDevicesBean bean : data) {
+            list.add(bean);
+            DeviceOnOffBean onOffBean = new DeviceOnOffBean();
+            bean.addSubItem(onOffBean);
+        }
+        adapter.setNewData(list);
         ptrHTFrameLayout.refreshComplete();
     }
 
