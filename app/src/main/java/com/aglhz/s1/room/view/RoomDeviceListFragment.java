@@ -36,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import cn.itsite.abase.utils.ToastUtils;
@@ -62,6 +63,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     private RoomDeviceListRVAdapter adapter;
     private MultiSelectorDialog switchRoomDialog;
     private List<RoomsBean.DataBean.RoomListBean> roomListBean;
+    private RoomsBean.DataBean.RoomListBean selectRoom;
 
     public static RoomDeviceListFragment newInstance() {
         return new RoomDeviceListFragment();
@@ -118,13 +120,11 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
             switch (item.getItemId()) {
                 case R.id.add_device:
                     ToastUtils.showToast(App.mContext, "添加设备");
-
                     mPresenter.requestAddDevice(params);
-
                     break;
                 case R.id.change_room:
-                    ToastUtils.showToast(App.mContext, "切换房间");
                     //todo:待改
+                    switchRoomDialog.show();
                     break;
             }
             return true;
@@ -136,16 +136,40 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 .setTitle("切换房间")
                 .setTabVisible(false)
                 .setOnItemClickListener((pagerPosition, optionPosition, option) -> {
-                    RoomsBean.DataBean.RoomListBean bean = this.roomListBean.get(optionPosition);
-                    params.roomName = bean.getName();
-                    params.roomTypeFid = bean.getFid();
-                    //todo:切换房间接口待定
+                    selectRoom = this.roomListBean.get(optionPosition);
+
+                    params.roomName = selectRoom.getName();
+                    params.roomId = selectRoom.getIndex();
+                    params.category = "device_ctrl";
+                    //请求设备
+                    mPresenter.requestDeviceList(params);
+                    switchRoomDialog.hide();
+                    int resId = R.drawable.room_room_1242px_745px;
+                    switch (selectRoom.getName()) {
+                        case "大厅":
+                            resId = R.drawable.room_dating_1242px_745px;
+                            break;
+                        case "厨房":
+                            resId = R.drawable.room_chufang_1242px_745px;
+                            break;
+                        case "卧室":
+                            resId = R.drawable.room_room_1242px_745px;
+                            break;
+                        case "厕所":
+                            resId = R.drawable.room_cesuo_1242px_745px;
+                            break;
+                    }
+                    toolbarTitle.setText(selectRoom.getName());
+                    Glide.with(_mActivity)
+                            .load(resId)
+                            .into(ivHeader);
                 })
                 .build();
 
         recyclerview.setLayoutManager(new LinearLayoutManager(_mActivity));
 
-        mPresenter.requestDeviceList(params);
+        mPresenter.requestHouseList(params);
+
         adapter = new RoomDeviceListRVAdapter(null);
         ivHeader = new ImageView(_mActivity);
         Glide.with(_mActivity)
@@ -154,8 +178,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         adapter.setHeaderView(ivHeader);
         recyclerview.setAdapter(adapter);
 
-        selectorAdapter = new BaseRecyclerViewAdapter<String,
-                BaseViewHolder>(android.R.layout.simple_list_item_1) {
+        selectorAdapter = new BaseRecyclerViewAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1) {
             @Override
             protected void convert(BaseViewHolder helper, String item) {
                 helper.setText(android.R.id.text1, item);
@@ -168,7 +191,11 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
             DeviceListBean.DataBean.SubDevicesBean bean = (DeviceListBean.DataBean.SubDevicesBean) adapter.getItem(position);
             switch (view.getId()) {
                 case R.id.iv_setting:
-                    _mActivity.start(AddDeviceFragment.newInstance(bean));
+                    if(selectRoom == null){
+                        DialogHelper.warningSnackbar(getView(), "请选择房间");
+                        return;
+                    }
+                    _mActivity.start(AddDeviceFragment.newInstance(bean,selectRoom.getFid()));
                     break;
             }
         });
@@ -201,6 +228,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Override
     public void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data) {
+        ALog.e(TAG, "responseHouseList:" + data.size());
         switchRoomDialog.show();
         dismissLoading();
         roomListBean = data;
@@ -214,6 +242,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     @Override
     public void error(String errorMessage) {
         DialogHelper.errorSnackbar(getView(), errorMessage);
+        ptrHTFrameLayout.refreshComplete();
     }
 
     @Override

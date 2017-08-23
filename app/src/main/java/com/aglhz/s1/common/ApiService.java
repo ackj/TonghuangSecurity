@@ -3,6 +3,7 @@ package com.aglhz.s1.common;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.CheckTokenBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
+import com.aglhz.s1.entity.bean.DeviceLogBean;
 import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.RoomTypesBean;
@@ -262,7 +263,6 @@ public interface ApiService {
             , @Field("name") String name
             , @Field("roomFid") String roomFid);
 
-    String requestSubDeviceList = BASE_URL+"/client/info/subDeviceList";
 
     //删除设备
     String requestDelDevice = BASE_URL +"/client/deldevice";
@@ -273,6 +273,8 @@ public interface ApiService {
             , @Field("token") String token
             , @Field("index") int index);
 
+    String requestSubDeviceList = BASE_URL+"/client/info/subDeviceList";
+
     //设备列表
     @FormUrlEncoded
     @POST
@@ -280,7 +282,19 @@ public interface ApiService {
             , @Field("token") String token
             , @Field("page") int page
             , @Field("pageSize") int pageSize
+            , @Field("roomId") int roomId
             , @Field("category") String category);
+
+    //设备消息记录
+    String requestDeviceLogs = BASE_URL+"/client/info/deviceLogs";
+
+    @FormUrlEncoded
+    @POST
+    Observable<DeviceLogBean> requestDeviceLogs(@Url String url
+            , @Field("token") String token
+            , @Field("page") int page
+            , @Field("pageSize") int pageSize
+    );
 
     //----------------------------- 房间相关 ---------------------------------
     String requestRoomList = BASE_URL + "/client/info/roomList";

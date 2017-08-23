@@ -255,7 +255,7 @@ public class SecurityBean extends BaseBean{
                 this.name = name;
             }
 
-            public static class ExtInfoBean {
+            public static class ExtInfoBean implements Serializable{
                 /**
                  * index : 2
                  * name :

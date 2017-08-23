@@ -125,7 +125,7 @@ public class DeviceListBean extends BaseBean {
                 return 0;
             }
 
-            public static class ExtInfoBean {
+            public static class ExtInfoBean implements Serializable{
                 /**
                  * index : 1
                  * name : relay4

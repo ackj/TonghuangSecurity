@@ -39,6 +39,7 @@ public class Params {
     public String deviceType;
     public String category;//
     public int alarmDelay;//
+    public int roomId;//roomIndex
 
 
     public static Params getInstance() {
