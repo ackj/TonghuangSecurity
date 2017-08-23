@@ -1,4 +1,4 @@
-package com.aglhz.s1.gateway.view;
+package com.aglhz.s1.history.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,9 +13,10 @@ import android.widget.TextView;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Params;
-import com.aglhz.s1.entity.bean.GatewaysBean;
-import com.aglhz.s1.gateway.contract.GatewayListContract;
-import com.aglhz.s1.gateway.presenter.GatewayListPresenter;
+import com.aglhz.s1.entity.bean.DeviceLogBean;
+import com.aglhz.s1.history.DeviceLogsRVAdapter;
+import com.aglhz.s1.history.contract.DeviceLogsContract;
+import com.aglhz.s1.history.presenter.DeviceLogsPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
 
 import java.util.List;
@@ -26,11 +27,12 @@ import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
-import cn.itsite.statemanager.StateLayout;
 
-public class GatewayListFragment extends BaseFragment<GatewayListContract.Presenter> implements GatewayListContract.View {
-
-    public static final String TAG = GatewayListFragment.class.getSimpleName();
+/**
+ * Author: LiuJia on 2017/4/27 0027 16:13.
+ * Email: liujia95me@126.com
+ */
+public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presenter> implements DeviceLogsContract.View {
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -38,23 +40,22 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
     Toolbar toolbar;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(R.id.stateLayout)
-    StateLayout stateLayout;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
-    private GatewayListRVAdapter adapter;
 
-    private Unbinder unbinder;
+    Unbinder unbinder;
+    private DeviceLogsRVAdapter adapter;
     private Params params = Params.getInstance();
 
-    public static GatewayListFragment newInstance() {
-        return new GatewayListFragment();
+
+    public static DeviceLogsFragment newInstance() {
+        return new DeviceLogsFragment();
     }
 
     @NonNull
     @Override
-    protected GatewayListContract.Presenter createPresenter() {
-        return new GatewayListPresenter(this);
+    protected DeviceLogsContract.Presenter createPresenter() {
+        return new DeviceLogsPresenter(this);
     }
 
     @Nullable
@@ -62,7 +63,7 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
-        return attachToSwipeBack(view);
+        return view;
     }
 
     @Override
@@ -74,20 +75,27 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
         initPtrFrameLayout(ptrFrameLayout, recyclerView);
     }
 
+    @Override
+    public void onRefresh() {
+        params.pageSize = 10;
+        params.page = 1;
+        mPresenter.requestDeviceLogs(params);
+    }
+
     private void initToolbar() {
         initStateBar(toolbar);
-        toolbarTitle.setText("管理主机");
-        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
-        toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
+        toolbarTitle.setText("历史记录");
     }
 
     private void initData() {
+        adapter = new DeviceLogsRVAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
-        adapter = new GatewayListRVAdapter();
+        recyclerView.setAdapter(adapter);
+
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(() -> {
             params.page++;
-            mPresenter.requestGateways(params);
+            mPresenter.requestDeviceLogs(params);
         }, recyclerView);
         recyclerView.setAdapter(adapter);
 
@@ -98,22 +106,11 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
 
     }
 
-    @Override
-    public void onRefresh() {
-        params.pageSize = 10;
-        params.page = 1;
-        mPresenter.requestGateways(params);
-    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @Override
-    public void start(Object response) {
-
     }
 
     @Override
@@ -124,7 +121,7 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
     }
 
     @Override
-    public void responseGateways(List<GatewaysBean.DataBean> data) {
+    public void responseDeviceLogs(List<DeviceLogBean.DataBean.LogsBean> data) {
         if(params.page==1){
             adapter.setNewData(data);
         }else{

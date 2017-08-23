@@ -3,6 +3,7 @@ package com.aglhz.s1.room.model;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.RoomsBean;
 import com.aglhz.s1.room.contract.AddDeviceContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
@@ -34,6 +35,16 @@ public class AddDeviceModel extends BaseModel implements AddDeviceContract.Model
     public Observable<BaseBean> requestDelDevice(Params params) {
         return HttpHelper.getService(ApiService.class).requestDelDevice(ApiService.requestDelDevice
                 , params.token,params.index)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<RoomsBean> requestHouseList(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestRoomList(ApiService.requestRoomList,
+                        params.token,
+                        params.page,
+                        params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 

@@ -66,4 +66,17 @@ public class AddDevicePresenter extends BasePresenter<AddDeviceContract.View, Ad
                 }, this::error));
     }
 
+    @Override
+    public void requestHouseList(Params params) {
+        mRxManager.add(mModel.requestHouseList(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                        getView().responseHouseList(bean.getData().getRoomList());
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
+
 }

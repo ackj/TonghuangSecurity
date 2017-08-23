@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.history.view.HistoryFragment;
+import com.aglhz.s1.history.view.DeviceLogsFragment;
 import com.aglhz.s1.more.view.MoreFragment;
 import com.aglhz.s1.room.view.RoomDeviceListFragment;
 import com.aglhz.s1.scene.view.SceneFragment;
@@ -52,14 +52,14 @@ public class MainFragment extends BaseFragment {
             fragments[0] = SecurityFragment.newInstance();
             fragments[1] = RoomDeviceListFragment.newInstance();
             fragments[2] = SceneFragment.newInstance();
-            fragments[3] = HistoryFragment.newInstance();
+            fragments[3] = DeviceLogsFragment.newInstance();
             fragments[4] = MoreFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_container_main_fragment, 0, fragments[0], fragments[1], fragments[2], fragments[3], fragments[4]);
         } else {
             fragments[0] = findChildFragment(SecurityFragment.class);
             fragments[1] = findChildFragment(RoomDeviceListFragment.class);
             fragments[2] = findChildFragment(SceneFragment.class);
-            fragments[3] = findChildFragment(HistoryFragment.class);
+            fragments[3] = findChildFragment(DeviceLogsFragment.class);
             fragments[4] = findChildFragment(MoreFragment.class);
             bottomNavigationPreposition = savedInstanceState.getInt(KEY_CURR_POSITION);
         }
