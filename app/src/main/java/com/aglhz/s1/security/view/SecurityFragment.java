@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -25,7 +24,6 @@ import com.aglhz.s1.event.EventRefreshSecurity;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
-import com.chad.library.adapter.base.BaseViewHolder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -40,8 +38,7 @@ import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
-import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
-import cn.itsite.basedialogfragment.BaseDialogFragment;
+import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateLayout;
 
 
@@ -74,7 +71,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     private TextView tvDes;
     private SecurityBean.DataBean.SubDevicesBean addIconDevice;
     private List<SecurityBean.DataBean.SubDevicesBean> subDevices;
-    private BaseRecyclerViewAdapter<GatewaysBean.DataBean, BaseViewHolder> selectorAdapter;
 
     public static SecurityFragment newInstance() {
         return new SecurityFragment();
@@ -122,26 +118,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         List<SecurityBean.DataBean.SubDevicesBean> data = new ArrayList<>();
         data.add(addIconDevice);
         adapter.setNewData(data);
-//        switchGatewayDialog = MultiSelectorDialog.builder(_mActivity)
-//                .setTitle("请选择您要切换的主机")
-//                .setTabVisible(false)
-//                .setOnItemClickListener((pagerPosition, optionPosition, option) -> {
-//                    switchGatewayDialog.dismiss();
-//                    ALog.e("pagerPosition-->" + pagerPosition + "\r\noptionPosition-->" + optionPosition + "\r\noption-->" + option);
-//                    params.gateway = gateways.getData().get(optionPosition).getFid();
-//                    mPresenter.requestSwichGateway(params);
-//                })
-//                .build();
-        selectorAdapter = new BaseRecyclerViewAdapter<GatewaysBean.DataBean,
-                BaseViewHolder>(R.layout.item_rv_host_selector) {
-            @Override
-            protected void convert(BaseViewHolder helper, GatewaysBean.DataBean item) {
-                helper.setText(R.id.tv_name_item_rv_host_selector, item.getName())
-                        .setText(R.id.tv_role_item_rv_host_selector, item.getIsManager() == 1 ? "管理员" : "成员")
-                        .setText(R.id.tv_current_item_rv_host_selector, item.getIsCurrent() == 1 ? "当前主机" : "")
-                        .setText(R.id.tv_name_item_rv_host_selector, item.getName() + (item.getIsOnline() == 1 ? "" : "　(离线)"));
-            }
-        };
     }
 
     @Override
@@ -227,51 +203,29 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
     @Override
     public void responseGateways(GatewaysBean gateways) {
-        /**
-         * 以下是要删掉的
-         */
-        //-----------------------------------------
-//        this.gateways = gateways;
-//        switchGatewayDialog.show();
-//        if (gateways != null && gateways.getData() != null) {
-//            List<String> list = new ArrayList<>();
-//            for (GatewaysBean.DataBean dataBean : gateways.getData()) {
-//                ALog.e("dataBean.getName()--》" + dataBean.getName());
-//                list.add(dataBean.getName());
-//            }
-//            getView().post(() -> switchGatewayDialog.notifyDataSetChanged(list));
-//        } else {
-//            DialogHelper.errorSnackbar(getView(), "您尚未配置网关！");
-//        }
-
-        //-----------------------------------------
-
         if (gateways == null || gateways.getData() == null
                 || gateways.getData().isEmpty()) {
             DialogHelper.errorSnackbar(getView(), "您尚未配置网关！");
             return;
         }
-        new BaseDialogFragment()
-                .setLayoutId(R.layout.fragment_selector_dialog)
-                .setConvertListener((holder, dialog) -> {
-                    holder.setText(R.id.tv_title_selector_dialog_fragment, "请选择切换的主机")
-                            .setOnClickListener(R.id.iv_cancel_selector_dialog_fragment, v -> dialog.dismiss())
-                            .setOnClickListener(R.id.tv_cancel_selector_dialog_fragment, v -> dialog.dismiss());
-
-                    RecyclerView recyclerView = holder.getView(R.id.recyclerView_selector_dialog_fragment);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
-                    recyclerView.setAdapter(selectorAdapter);
-
-                    selectorAdapter.setOnItemClickListener((adapter1, view, position) -> {
-                        dialog.dismiss();
-                        params.gateway = selectorAdapter.getData().get(position).getFid();
-                        mPresenter.requestSwichGateway(params);
-                    });
-                    selectorAdapter.setNewData(gateways.getData());
+        new SelectorDialogFragment()
+                .setTitle("请选择切换的主机")
+                .setItemLayoutId(R.layout.item_rv_host_selector)
+                .setData(gateways.getData())
+                .setOnItemConvertListener((holder, position, dialog) -> {
+                    GatewaysBean.DataBean item = gateways.getData().get(position);
+                    holder.setText(R.id.tv_name_item_rv_host_selector, item.getName())
+                            .setText(R.id.tv_role_item_rv_host_selector, item.getIsManager() == 1 ? "管理员" : "成员")
+                            .setText(R.id.tv_current_item_rv_host_selector, item.getIsCurrent() == 1 ? "当前主机" : "")
+                            .setText(R.id.tv_name_item_rv_host_selector, item.getName() + (item.getIsOnline() == 1 ? "" : "　(离线)"));
                 })
-                .setDimAmount(0.3f)
-                .setGravity(Gravity.BOTTOM)
+                .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
+                    dialog.dismiss();
+                    params.gateway = gateways.getData().get(position).getFid();
+                    mPresenter.requestSwichGateway(params);
+                })
                 .setAnimStyle(R.style.SlideAnimation)
+                .setGravity(Gravity.BOTTOM)
                 .show(getChildFragmentManager());
     }
 
