@@ -22,13 +22,18 @@ public class RoomDeviceListModel extends BaseModel implements RoomDeviceListCont
     @Override
     public Observable<DeviceListBean> requestDeviceList(Params params) {
         return HttpHelper.getService(ApiService.class).requestSubDeviceList(ApiService.requestSubDeviceList
-                , params.token,params.page,params.pageSize,params.category)
+                , params.token,params.page,params.pageSize,params.roomFid,params.category)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<RoomsBean> requestHouseList(Params params) {
-        return null;
+        return HttpHelper.getService(ApiService.class)
+                .requestRoomList(ApiService.requestRoomList,
+                        params.token,
+                        params.page,
+                        params.pageSize)
+                .subscribeOn(Schedulers.io());
     }
 
     @Override

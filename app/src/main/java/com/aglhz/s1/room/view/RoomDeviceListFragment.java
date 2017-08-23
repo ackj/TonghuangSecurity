@@ -118,9 +118,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
             switch (item.getItemId()) {
                 case R.id.add_device:
                     ToastUtils.showToast(App.mContext, "添加设备");
-
                     mPresenter.requestAddDevice(params);
-
                     break;
                 case R.id.change_room:
                     ToastUtils.showToast(App.mContext, "切换房间");
@@ -145,6 +143,8 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
         recyclerview.setLayoutManager(new LinearLayoutManager(_mActivity));
 
+        mPresenter.requestHouseList(params);
+        //请求设备
         mPresenter.requestDeviceList(params);
         adapter = new RoomDeviceListRVAdapter(null);
         ivHeader = new ImageView(_mActivity);
@@ -154,8 +154,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         adapter.setHeaderView(ivHeader);
         recyclerview.setAdapter(adapter);
 
-        selectorAdapter = new BaseRecyclerViewAdapter<String,
-                BaseViewHolder>(android.R.layout.simple_list_item_1) {
+        selectorAdapter = new BaseRecyclerViewAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1) {
             @Override
             protected void convert(BaseViewHolder helper, String item) {
                 helper.setText(android.R.id.text1, item);
