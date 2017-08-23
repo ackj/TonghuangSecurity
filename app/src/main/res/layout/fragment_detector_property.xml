@@ -33,7 +33,9 @@
         android:layout_height="1dp"
         android:background="@color/light_gray" />
 
-    <LinearLayout style="@style/LinearLayoutItemStyle">
+    <LinearLayout
+        android:id="@+id/ll_change_icon"
+        style="@style/LinearLayoutItemStyle">
 
         <TextView
             style="@style/TextViewBaseColorWidthZeroWeightOneStyle"

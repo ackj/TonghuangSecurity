@@ -1,7 +1,11 @@
 package com.aglhz.s1.room.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -15,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.clip.ClipActivity;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
@@ -27,6 +32,7 @@ import com.dd.CircularProgressButton;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -59,16 +65,18 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
     @BindView(R.id.iv_icon)
     ImageView ivIcon;
 
+    private final static int RESULT_LOAD_IMAGE = 0x100;
+    private final static int RESULT_IMAGE_COMPLETE = 0x101;
     Unbinder unbinder;
 
     private DeviceListBean.DataBean.SubDevicesBean bean;
     private Params params = Params.getInstance();
 
-    public static AddDeviceFragment newInstance(DeviceListBean.DataBean.SubDevicesBean bean,String roomFid) {
+    public static AddDeviceFragment newInstance(DeviceListBean.DataBean.SubDevicesBean bean, String roomFid) {
         AddDeviceFragment fragment = new AddDeviceFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("bean", bean);
-        bundle.putString("roomFid",roomFid);
+        bundle.putString("roomFid", roomFid);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -119,7 +127,7 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
     private void initListener() {
     }
 
-    @OnClick({R.id.cpb_delete, R.id.toolbar_menu, R.id.tv_room_name})
+    @OnClick({R.id.cpb_delete, R.id.toolbar_menu, R.id.tv_room_name, R.id.iv_change_image})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cpb_delete:
@@ -149,7 +157,49 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
             case R.id.tv_room_name:
                 mPresenter.requestHouseList(params);
                 break;
+            case R.id.iv_change_image:
+                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ALog.e(TAG,"onActivityResult:");
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        switch (requestCode) {
+            case RESULT_LOAD_IMAGE:
+                if (data == null) {
+                    return;
+                }
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = _mActivity.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+
+                //拿到从系统选择好的图片后跳转到图片裁剪界面
+                Intent intent = new Intent(_mActivity, ClipActivity.class);
+                intent.putExtra("path", picturePath);
+                startActivityForResult(intent, RESULT_IMAGE_COMPLETE);
+                break;
+            case RESULT_IMAGE_COMPLETE:
+                //裁剪好的本地图片
+                String path = data.getStringExtra("path");
+                ALog.e(TAG,"path------>"+path);
+
+                Glide.with(_mActivity)
+                        .load(new File(path))
+                        .into(ivIcon);
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -174,7 +224,7 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
 
     @Override
     public void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data) {
-        ALog.e(TAG,"responseHouseList:"+data.size());
+        ALog.e(TAG, "responseHouseList:" + data.size());
         String[] rooms = new String[data.size()];
         for (int i = 0; i < data.size(); i++) {
             rooms[i] = data.get(i).getName();

@@ -1,7 +1,11 @@
 package com.aglhz.s1.security.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -15,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.clip.ClipActivity;
 import com.aglhz.s1.common.DefenseLineLevel;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
@@ -29,11 +34,14 @@ import com.kyleduo.switchbutton.SwitchButton;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 
 
@@ -42,6 +50,9 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
  * Email:liujia95me@126.com
  */
 public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContract.Presenter> implements DetectorPropertyContract.View {
+
+    private final static int RESULT_LOAD_IMAGE = 0x100;
+    private final static int RESULT_IMAGE_COMPLETE = 0x101;
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -115,14 +126,56 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ALog.e(TAG,"onActivityResult:");
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        switch (requestCode) {
+            case RESULT_LOAD_IMAGE:
+                if (data == null) {
+                    return;
+                }
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = _mActivity.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+
+                //拿到从系统选择好的图片后跳转到图片裁剪界面
+                Intent intent = new Intent(_mActivity, ClipActivity.class);
+                intent.putExtra("path", picturePath);
+                startActivityForResult(intent, RESULT_IMAGE_COMPLETE);
+                break;
+            case RESULT_IMAGE_COMPLETE:
+                //裁剪好的本地图片
+                String path = data.getStringExtra("path");
+                ALog.e(TAG,"path------>"+path);
+
+                Glide.with(_mActivity)
+                        .load(new File(path))
+                        .into(ivIcon);
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
 
-    @OnClick({R.id.cpb_delete_fragment_detector_property, R.id.toolbar_menu,R.id.ll_defenseLevel})
+    @OnClick({R.id.cpb_delete_fragment_detector_property, R.id.toolbar_menu,R.id.ll_defenseLevel,R.id.ll_change_icon})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.ll_change_icon:
+                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                break;
             case R.id.cpb_delete_fragment_detector_property:
                 cpbDelete.setIndeterminateProgressMode(true);
                 if (deviceBean == null) {

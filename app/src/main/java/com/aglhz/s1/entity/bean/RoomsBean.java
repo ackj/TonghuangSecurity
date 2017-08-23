@@ -44,6 +44,7 @@ public class RoomsBean extends BaseBean {
             private String fid;
             private String name;
             private String type;
+            private int index;
 
             public int getIndex() {
                 return index;
@@ -52,8 +53,6 @@ public class RoomsBean extends BaseBean {
             public void setIndex(int index) {
                 this.index = index;
             }
-
-            private int index;
 
             public String getFid() {
                 return fid;

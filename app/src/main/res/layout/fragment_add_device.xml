@@ -30,6 +30,7 @@
                 android:src="@drawable/ic_equipment_rfid_180px" />
 
             <ImageView
+                android:id="@+id/iv_change_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"

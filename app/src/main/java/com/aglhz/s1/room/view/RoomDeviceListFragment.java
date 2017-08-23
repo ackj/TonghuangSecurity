@@ -191,6 +191,10 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
             DeviceListBean.DataBean.SubDevicesBean bean = (DeviceListBean.DataBean.SubDevicesBean) adapter.getItem(position);
             switch (view.getId()) {
                 case R.id.iv_setting:
+                    if(selectRoom == null){
+                        DialogHelper.warningSnackbar(getView(), "请选择房间");
+                        return;
+                    }
                     _mActivity.start(AddDeviceFragment.newInstance(bean,selectRoom.getFid()));
                     break;
             }
