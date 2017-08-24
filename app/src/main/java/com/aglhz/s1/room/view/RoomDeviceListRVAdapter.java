@@ -1,10 +1,15 @@
 package com.aglhz.s1.room.view;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.entity.bean.DeviceListBean;
+import com.aglhz.s1.entity.bean.DeviceOnOffBean;
+import com.aglhz.s1.event.OnDeviceOnOffListener;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -18,7 +23,7 @@ import cn.itsite.abase.BaseApplication;
  * Author： Administrator on 2017/8/18 0018.
  * Email： liujia95me@126.com
  */
-public class RoomDeviceListRVAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity,BaseViewHolder> {
+public class RoomDeviceListRVAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
     public static final int TYPE_DEVICE = 100;
     public static final int TYPE_ON_OFF = 101;
@@ -32,7 +37,7 @@ public class RoomDeviceListRVAdapter extends BaseMultiItemQuickAdapter<MultiItem
     public RoomDeviceListRVAdapter(List<MultiItemEntity> data) {
         super(data);
         addItemType(TYPE_DEVICE, R.layout.item_device);
-        addItemType(TYPE_ON_OFF, R.layout.item_device_on_off);
+        addItemType(TYPE_ON_OFF, R.layout.item_device_on_off_container);
     }
 
     @Override
@@ -52,12 +57,32 @@ public class RoomDeviceListRVAdapter extends BaseMultiItemQuickAdapter<MultiItem
                     }
                 });
                 helper.addOnClickListener(R.id.iv_setting)
-                        .setText(R.id.tv_device_name,bean.getName());
-                ImageView iv =  helper.getView(R.id.iv_icon);
+                        .setText(R.id.tv_device_name, bean.getName());
+                ImageView iv = helper.getView(R.id.iv_icon);
                 Glide.with(BaseApplication.mContext)
                         .load(bean.getIcon())
                         .into(iv);
                 break;
+            case TYPE_ON_OFF:
+                DeviceOnOffBean onOff = (DeviceOnOffBean) item;
+                LinearLayout llContainer = helper.getView(R.id.ll_container);
+                llContainer.removeAllViews();
+                for (int i = 0; i < onOff.node; i++) {
+                    View view = LayoutInflater.from(BaseApplication.mContext).inflate(R.layout.item_device_on_off, null);
+                    view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f));
+                    llContainer.addView(view);
+                    int finalI = i;
+                    view.findViewById(R.id.iv_switch).setOnClickListener(v -> listener.onOff(onOff.deviceIndex, finalI, 1));
+                    TextView tvIndex = (TextView) view.findViewById(R.id.tv_index);
+                    tvIndex.setText("第" + (i+1) + "路");
+                }
+                break;
         }
+    }
+
+    private OnDeviceOnOffListener listener;
+
+    public void onOff(OnDeviceOnOffListener listener) {
+        this.listener = listener;
     }
 }

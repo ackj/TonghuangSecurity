@@ -6,4 +6,5 @@ package com.aglhz.s1.event;
  */
 
 public class EventDeviceChanged {
+
 }

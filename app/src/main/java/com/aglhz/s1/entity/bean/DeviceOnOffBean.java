@@ -9,6 +9,9 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  */
 public class DeviceOnOffBean implements MultiItemEntity {
 
+    public int node;
+    public int deviceIndex;
+
     @Override
     public int getItemType() {
         return RoomDeviceListRVAdapter.TYPE_ON_OFF;

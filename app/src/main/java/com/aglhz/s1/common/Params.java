@@ -40,6 +40,8 @@ public class Params {
     public String category;//
     public int alarmDelay;//
     public int roomId;//roomIndex
+    public int nodeId;
+    public int status;
 
 
     public static Params getInstance() {

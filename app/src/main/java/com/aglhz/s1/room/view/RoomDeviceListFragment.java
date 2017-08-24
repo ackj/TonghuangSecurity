@@ -21,12 +21,19 @@ import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.entity.bean.DeviceOnOffBean;
 import com.aglhz.s1.entity.bean.RoomsBean;
+import com.aglhz.s1.event.EventAddDevice;
+import com.aglhz.s1.event.EventDeviceChanged;
+import com.aglhz.s1.event.OnDeviceOnOffListener;
 import com.aglhz.s1.room.contract.RoomDeviceListContract;
 import com.aglhz.s1.room.presenter.RoomDeviceListPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -64,6 +71,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     private MultiSelectorDialog switchRoomDialog;
     private List<RoomsBean.DataBean.RoomListBean> roomListBean;
     private RoomsBean.DataBean.RoomListBean selectRoom;
+    private boolean isFirst = true;//是否是第一次进来
 
     public static RoomDeviceListFragment newInstance() {
         return new RoomDeviceListFragment();
@@ -80,6 +88,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -94,6 +103,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Override
     public void onRefresh() {
+        params.category = "device_ctrl";
         mPresenter.requestDeviceList(params);
     }
 
@@ -123,8 +133,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                     mPresenter.requestAddDevice(params);
                     break;
                 case R.id.change_room:
-                    //todo:待改
-                    switchRoomDialog.show();
+                    mPresenter.requestHouseList(params);
                     break;
             }
             return true;
@@ -136,40 +145,12 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 .setTitle("切换房间")
                 .setTabVisible(false)
                 .setOnItemClickListener((pagerPosition, optionPosition, option) -> {
-                    selectRoom = this.roomListBean.get(optionPosition);
-
-                    params.roomName = selectRoom.getName();
-                    params.roomId = selectRoom.getIndex();
-                    params.category = "device_ctrl";
-                    //请求设备
-                    mPresenter.requestDeviceList(params);
+                    selectRoom(roomListBean.get(optionPosition));
                     switchRoomDialog.hide();
-                    int resId = R.drawable.room_room_1242px_745px;
-                    switch (selectRoom.getName()) {
-                        case "大厅":
-                            resId = R.drawable.room_dating_1242px_745px;
-                            break;
-                        case "厨房":
-                            resId = R.drawable.room_chufang_1242px_745px;
-                            break;
-                        case "卧室":
-                            resId = R.drawable.room_room_1242px_745px;
-                            break;
-                        case "厕所":
-                            resId = R.drawable.room_cesuo_1242px_745px;
-                            break;
-                    }
-                    toolbarTitle.setText(selectRoom.getName());
-                    Glide.with(_mActivity)
-                            .load(resId)
-                            .into(ivHeader);
                 })
                 .build();
 
         recyclerview.setLayoutManager(new LinearLayoutManager(_mActivity));
-
-        mPresenter.requestHouseList(params);
-
         adapter = new RoomDeviceListRVAdapter(null);
         ivHeader = new ImageView(_mActivity);
         Glide.with(_mActivity)
@@ -177,6 +158,8 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 .into(ivHeader);
         adapter.setHeaderView(ivHeader);
         recyclerview.setAdapter(adapter);
+
+        mPresenter.requestHouseList(params);
 
         selectorAdapter = new BaseRecyclerViewAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1) {
             @Override
@@ -186,17 +169,66 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         };
     }
 
+    private void selectRoom(RoomsBean.DataBean.RoomListBean bean){
+        selectRoom = bean;
+        ALog.e(TAG, "selectRoom--->:" + selectRoom);
+        params.roomId = selectRoom.getIndex();
+        params.category = "device_ctrl";
+        //请求设备
+        mPresenter.requestDeviceList(params);
+        int resId = R.drawable.room_room_1242px_745px;
+        switch (bean.getName()) {
+            case "大厅":
+                resId = R.drawable.room_dating_1242px_745px;
+                break;
+            case "厨房":
+                resId = R.drawable.room_chufang_1242px_745px;
+                break;
+            case "卧室":
+                resId = R.drawable.room_room_1242px_745px;
+                break;
+            case "厕所":
+                resId = R.drawable.room_cesuo_1242px_745px;
+                break;
+        }
+        toolbarTitle.setText(bean.getName());
+        Glide.with(_mActivity)
+                .load(resId)
+                .into(ivHeader);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventAddDevice(EventAddDevice event) {
+        _mActivity.start(AddDeviceFragment.newInstance(null,selectRoom));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onChangeDataEvent(EventDeviceChanged event) {
+        onRefresh();
+    }
+
     private void initListener() {
         adapter.setOnItemChildClickListener((adapter1, view, position) -> {
             DeviceListBean.DataBean.SubDevicesBean bean = (DeviceListBean.DataBean.SubDevicesBean) adapter.getItem(position);
             switch (view.getId()) {
                 case R.id.iv_setting:
-                    if(selectRoom == null){
+                    if (selectRoom == null) {
                         DialogHelper.warningSnackbar(getView(), "请选择房间");
                         return;
                     }
-                    _mActivity.start(AddDeviceFragment.newInstance(bean,selectRoom.getFid()));
+                    _mActivity.start(AddDeviceFragment.newInstance(bean, selectRoom));
                     break;
+            }
+        });
+
+        adapter.onOff(new OnDeviceOnOffListener() {
+            @Override
+            public void onOff(int index, int nodeId, int status) {
+                ALog.e(TAG, "onOff:" + index + "---nodeId:" + nodeId + "---status:" + status);
+                params.index = index;
+                params.nodeId = nodeId;
+                params.status = status;
+                mPresenter.requestDevicectrl(params);
             }
         });
     }
@@ -212,6 +244,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -220,6 +253,8 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         for (DeviceListBean.DataBean.SubDevicesBean bean : data) {
             list.add(bean);
             DeviceOnOffBean onOffBean = new DeviceOnOffBean();
+            onOffBean.node = bean.getExtInfo().getNode();
+            onOffBean.deviceIndex = bean.getIndex();
             bean.addSubItem(onOffBean);
         }
         adapter.setNewData(list);
@@ -229,14 +264,19 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     @Override
     public void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data) {
         ALog.e(TAG, "responseHouseList:" + data.size());
-        switchRoomDialog.show();
-        dismissLoading();
-        roomListBean = data;
-        List<String> strList = new ArrayList<>();
-        for (RoomsBean.DataBean.RoomListBean bean : data) {
-            strList.add(bean.getName());
+        if (isFirst) {
+            selectRoom(data.get(0));
+            isFirst = false;
+        } else {
+            switchRoomDialog.show();
+            dismissLoading();
+            roomListBean = data;
+            List<String> strList = new ArrayList<>();
+            for (RoomsBean.DataBean.RoomListBean bean : data) {
+                strList.add(bean.getName());
+            }
+            getView().post(() -> switchRoomDialog.notifyDataSetChanged(strList));
         }
-        getView().post(() -> switchRoomDialog.notifyDataSetChanged(strList));
     }
 
     @Override
@@ -247,6 +287,11 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Override
     public void responseAddDevice(BaseBean bean) {
+        DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
+    }
+
+    @Override
+    public void responseDevicectrl(BaseBean bean) {
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
     }
 }

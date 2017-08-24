@@ -22,17 +22,20 @@ public interface RoomDeviceListContract{
         void responseDeviceList(List<DeviceListBean.DataBean.SubDevicesBean> data);
         void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data);
         void responseAddDevice(BaseBean bean);
+        void responseDevicectrl(BaseBean bean);
     }
 
     interface Presenter extends BaseContract.Presenter {
         void requestDeviceList(Params params);
         void requestHouseList(Params params);
         void requestAddDevice(Params params);
+        void requestDevicectrl(Params params);
     }
 
     interface Model extends BaseContract.Model {
         Observable<DeviceListBean> requestDeviceList(Params params);
         Observable<RoomsBean> requestHouseList(Params params);
         Observable<BaseBean> requestAddDevice(Params params);
+        Observable<BaseBean> requestDevicectrl(Params params);
     }
 }

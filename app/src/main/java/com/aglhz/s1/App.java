@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.entity.bean.NotificationBean;
+import com.aglhz.s1.event.EventDeviceChanged;
 import com.aglhz.s1.event.EventRefreshSecurity;
 import com.google.gson.Gson;
 import com.umeng.message.IUmengRegisterCallback;
@@ -115,13 +116,17 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
                 //每当有通知送达时，均会回调getNotification方法，因此可以通过监听此方法来判断通知是否送达。
                 ALog.e(TAG, msg.getRaw().toString());
                 NotificationBean notificationBean = gson.fromJson(msg.getRaw().toString(), NotificationBean.class);
-                EventBus.getDefault().post(new EventRefreshSecurity(notificationBean));
+
+                if(notificationBean.getBody().getText().contains("成功") && notificationBean.getBody().getTitle().contains("设备")){
+                    EventBus.getDefault().post(new EventDeviceChanged());
+                }else{
+                    EventBus.getDefault().post(new EventRefreshSecurity(notificationBean));
+                }
 
                 switch (msg.builder_id) {
                     //自定义通知样式编号
                     case 1:
                         ALog.e(TAG, msg.builder_id);
-
 //                        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 //                        RemoteViews myNotificationView = new RemoteViews(context.getPackageName(), R.layout.notification_view);
 //                        myNotificationView.setTextViewText(R.id.notification_title, msg.title);
