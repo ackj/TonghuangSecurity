@@ -264,7 +264,6 @@ public class SecurityBean extends BaseBean{
                  * subType : 1
                  * type : 140
                  */
-
                 private int index;
                 private String name;
                 private int node;

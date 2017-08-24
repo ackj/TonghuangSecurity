@@ -63,6 +63,6 @@ dependencies {
     compile 'cn.bingoogolapple:bga-zxing:1.1.7@aar'
 
     //一个扩展性很好的Dialog+DialogFragment工具。
-    compile 'com.github.leguang:ADialog:1.3'
+//    compile 'com.github.leguang:ADialog:1.3'
 
 }
