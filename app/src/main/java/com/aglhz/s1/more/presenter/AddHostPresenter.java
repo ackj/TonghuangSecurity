@@ -36,7 +36,7 @@ public class AddHostPresenter extends BasePresenter<AddHostContract.View, AddHos
         mRxManager.add(mModel.requestAddHost(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseAddHost(baseBean);
                     } else {
                         getView().error(baseBean.getOther().getMessage());

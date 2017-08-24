@@ -29,9 +29,7 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.statemanager.StateLayout;
 
 public class GatewayListFragment extends BaseFragment<GatewayListContract.Presenter> implements GatewayListContract.View {
-
     public static final String TAG = GatewayListFragment.class.getSimpleName();
-
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)

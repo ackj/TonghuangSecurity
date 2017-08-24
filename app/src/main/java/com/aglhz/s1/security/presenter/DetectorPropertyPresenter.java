@@ -50,7 +50,7 @@ public class DetectorPropertyPresenter extends BasePresenter<DetectorPropertyCon
         mRxManager.add(mModel.requestNotifProperty(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseNodifSuccess(baseBean);
                     } else {
                         getView().error(baseBean.getOther().getMessage());
@@ -64,7 +64,7 @@ public class DetectorPropertyPresenter extends BasePresenter<DetectorPropertyCon
         mRxManager.add(mModel.requestDelsensor(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseDelSuccess(baseBean);
                     } else {
                         getView().error(baseBean.getOther().getMessage());
@@ -78,7 +78,7 @@ public class DetectorPropertyPresenter extends BasePresenter<DetectorPropertyCon
         mRxManager.add(mModel.requestSubDeviceDet(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subDeviceDetBean -> {
-                    if (subDeviceDetBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (subDeviceDetBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseSubDeviceDet(subDeviceDetBean);
                     } else {
                         getView().error(subDeviceDetBean.getOther().getMessage());
@@ -92,7 +92,7 @@ public class DetectorPropertyPresenter extends BasePresenter<DetectorPropertyCon
         mRxManager.add(mModel.requestModsensor(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseModsensor(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());

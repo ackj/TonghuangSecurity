@@ -33,7 +33,7 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
         mRxManager.add(mModel.requestSecurity(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(securityBean -> {
-                    if (securityBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (securityBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseSecurity(securityBean);
                     } else {
                         getView().error(securityBean.getOther().getMessage());
@@ -46,7 +46,7 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
         mRxManager.add(mModel.requestGateways(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(gatewaysBean -> {
-                    if (gatewaysBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (gatewaysBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseGateways(gatewaysBean);
                     } else {
                         getView().error(gatewaysBean.getOther().getMessage());
@@ -60,7 +60,7 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
         mRxManager.add(mModel.requestSwichGateway(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseSwichGateway(baseBean);
                     } else {
                         getView().error(baseBean.getOther().getMessage());
@@ -74,7 +74,7 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
         mRxManager.add(mModel.requestSwichState(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseSwichState(baseBean);
                     } else {
                         getView().error(baseBean.getOther().getMessage());

@@ -37,7 +37,7 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
         mRxManager.add(mModel.requestDeviceList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseDeviceList(bean.getData().getSubDevices());
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -50,7 +50,7 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
         mRxManager.add(mModel.requestHouseList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseHouseList(bean.getData().getRoomList());
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -63,7 +63,7 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
         mRxManager.add(mModel.requestAddDevice(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseAddDevice(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());

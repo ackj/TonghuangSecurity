@@ -25,15 +25,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.statemanager.StateManager;
 
 /**
  * Author: LiuJia on 2017/4/27 0027 16:13.
  * Email: liujia95me@126.com
  */
 public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presenter> implements DeviceLogsContract.View {
-
+    public static final String TAG = DeviceLogsFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -42,11 +42,10 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
-
     Unbinder unbinder;
     private DeviceLogsRVAdapter adapter;
     private Params params = Params.getInstance();
-
+    private StateManager mStateManager;
 
     public static DeviceLogsFragment newInstance() {
         return new DeviceLogsFragment();
@@ -72,14 +71,8 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
         initToolbar();
         initData();
         initListener();
+        initStateManager();
         initPtrFrameLayout(ptrFrameLayout, recyclerView);
-    }
-
-    @Override
-    public void onRefresh() {
-        params.pageSize = 10;
-        params.page = 1;
-        mPresenter.requestDeviceLogs(params);
     }
 
     private void initToolbar() {
@@ -90,7 +83,6 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
     private void initData() {
         adapter = new DeviceLogsRVAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
-        recyclerView.setAdapter(adapter);
 
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(() -> {
@@ -98,14 +90,28 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
             mPresenter.requestDeviceLogs(params);
         }, recyclerView);
         recyclerView.setAdapter(adapter);
+    }
 
-        onRefresh();
+    @Override
+    public void onRefresh() {
+        params.pageSize = 10;
+        params.page = 1;
+        mPresenter.requestDeviceLogs(params);
     }
 
     private void initListener() {
 
     }
 
+    private void initStateManager() {
+        mStateManager = StateManager.builder(_mActivity)
+                .setContent(recyclerView)
+                .setEmptyView(R.layout.state_empty)
+                .setEmptyText("暂无历史记录！")
+                .setErrorOnClickListener(v -> ptrFrameLayout.autoRefresh())
+                .setEmptyOnClickListener(v -> ptrFrameLayout.autoRefresh())
+                .build();
+    }
 
     @Override
     public void onDestroyView() {
@@ -115,25 +121,35 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
 
     @Override
     public void error(String errorMessage) {
-        DialogHelper.warningSnackbar(getView(), errorMessage);
         ptrFrameLayout.refreshComplete();
-        adapter.loadMoreComplete();
+        DialogHelper.warningSnackbar(getView(), errorMessage);
+        if (params.page == 1) {
+            //为后面的pageState做准备
+            mStateManager.showError();
+        } else if (params.page > 1) {
+            adapter.loadMoreFail();
+            params.page--;
+        }
     }
 
     @Override
     public void responseDeviceLogs(List<DeviceLogBean.DataBean.LogsBean> data) {
-        if(params.page==1){
-            adapter.setNewData(data);
-        }else{
-            adapter.addData(data);
+        ptrFrameLayout.refreshComplete();
+        if (data == null || data.isEmpty()) {
+            if (params.page == 1) {
+                mStateManager.showEmpty();
+            }
+            adapter.loadMoreEnd();
+            return;
         }
-        if (data.size() < params.pageSize) {
-            ALog.e(TAG,"responseGateways:end");
-            adapter.loadMoreEnd(true);
+        if (params.page == 1) {
+            mStateManager.showContent();
+            adapter.setNewData(data);
+            adapter.disableLoadMoreIfNotFullPage(recyclerView);
         } else {
-            ALog.e(TAG,"responseGateways:more");
+            adapter.addData(data);
+            adapter.setEnableLoadMore(true);
             adapter.loadMoreComplete();
         }
-        ptrFrameLayout.refreshComplete();
     }
 }

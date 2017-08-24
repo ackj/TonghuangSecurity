@@ -8,7 +8,6 @@ import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.login.contract.LoginContract;
 import com.aglhz.s1.login.model.LoginModel;
 
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
@@ -37,7 +36,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
         mRxManager.add(mModel.requestLogin(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userBean -> {
-                    if (userBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (userBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         //保存用户信息
                         UserHelper.setAccount(params.user, params.pwd);//setAccount要先于setUserInfo调用，不然无法切换SP文件。
                         UserHelper.setUserInfo(userBean.getData().getMemberInfo());

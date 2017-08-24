@@ -39,6 +39,7 @@ import cn.itsite.multiselector.MultiSelectorDialog;
  */
 
 public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presenter> implements RoomManagerContract.View {
+    public static final String TAG = RoomManagerFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -47,7 +48,6 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrHTFrameLayout;
-
     private Unbinder unbinder;
     private RoomManagerRVAdapter adapter;
     private Params params = Params.getInstance();

@@ -40,7 +40,7 @@ public class MorePresenter extends BasePresenter<MoreContract.View, MoreContract
         mRxManager.add(mModel.requestLogout(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseLogout(baseBean.getOther().getMessage());
                     } else {
                         getView().error(baseBean.getOther().getMessage());

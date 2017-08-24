@@ -3,22 +3,22 @@ package com.aglhz.s1.scene.presenter;
 import android.support.annotation.NonNull;
 
 import com.aglhz.s1.common.Params;
-import com.aglhz.s1.scene.contract.IntelligenceLinkageContract;
-import com.aglhz.s1.scene.model.IntelligenceLinkageModel;
+import com.aglhz.s1.scene.contract.LinkageListContract;
+import com.aglhz.s1.scene.model.LinkageListModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-public class IntelligenceLinkagePresenter extends BasePresenter<IntelligenceLinkageContract.View, IntelligenceLinkageContract.Model> implements IntelligenceLinkageContract.Presenter {
-    private final String TAG = IntelligenceLinkagePresenter.class.getSimpleName();
+public class LinkageListPresenter extends BasePresenter<LinkageListContract.View, LinkageListContract.Model> implements LinkageListContract.Presenter {
+    private final String TAG = LinkageListPresenter.class.getSimpleName();
 
-    public IntelligenceLinkagePresenter(IntelligenceLinkageContract.View mView) {
+    public LinkageListPresenter(LinkageListContract.View mView) {
         super(mView);
     }
 
     @NonNull
     @Override
-    protected IntelligenceLinkageContract.Model createModel() {
-        return new IntelligenceLinkageModel();
+    protected LinkageListContract.Model createModel() {
+        return new LinkageListModel();
     }
 
     @Override
@@ -30,7 +30,7 @@ public class IntelligenceLinkagePresenter extends BasePresenter<IntelligenceLink
         mRxManager.add(mModel.requestLinkageList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-//                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+//                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
 //                        getView().responseLinkageList(bean);
 //                    } else {
 //                        getView().error(bean.getOther().getMessage());
@@ -42,7 +42,7 @@ public class IntelligenceLinkagePresenter extends BasePresenter<IntelligenceLink
         mRxManager.add(mModel.requestLinkageSwitch(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-//                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+//                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
 //                        getView().responseLinkageSwitch(bean);
 //                    } else {
 //                        getView().error(bean.getOther().getMessage());
@@ -54,7 +54,7 @@ public class IntelligenceLinkagePresenter extends BasePresenter<IntelligenceLink
         mRxManager.add(mModel.requestDeleteLinkage(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-//                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+//                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
 //                        getView().responseDeleteLinkage(bean);
 //                    } else {
 //                        getView().error(bean.getOther().getMessage());

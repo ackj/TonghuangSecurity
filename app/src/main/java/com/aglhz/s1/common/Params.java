@@ -34,6 +34,7 @@ public class Params {
     public String no = "";
     public String name = "";
     public int index;
+    public int option;
     public String des;
     public String contact;
     public String deviceType;

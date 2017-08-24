@@ -7,7 +7,7 @@ import com.aglhz.s1.BuildConfig;
  */
 public class Constants {
     public static final String TAG = Constants.class.getSimpleName();
-    public static final int RESPONSE_CODE_NOMAL = 200;
+    public static final int RESPONSE_CODE_SUCCESS = 200;
 
     //不允许new
     private Constants() {
@@ -50,5 +50,11 @@ public class Constants {
     public static final String SENSOR_LEARN = "sensor_learn";//传感器学习
     public static final String GW_ALARM_GAS = "gw_alarm_gas";//燃气报警
     public static final String GW_NOTIFIY_DEFENSE_ST = "gw_defense_satus";//主机布防状态变更
+
+    public static final int PAGE_SIZE = 20;
+
+    //设备分类：sensor/device_ctrl 控制类或者探测器类。默认控制类
+    public static final String DEVICE_CTRL = "device_ctrl";
+    public static final String SENSOR = "sensor";
 
 }

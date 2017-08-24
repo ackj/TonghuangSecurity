@@ -32,7 +32,7 @@ public class GatewayListPresenter extends BasePresenter<GatewayListContract.View
         mRxManager.add(mModel.requestGateways(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseGateways(bean.getData());
                     } else {
                         getView().error(bean.getOther().getMessage());

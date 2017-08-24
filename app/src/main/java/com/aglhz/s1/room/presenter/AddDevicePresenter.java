@@ -32,7 +32,7 @@ public class AddDevicePresenter extends BasePresenter<AddDeviceContract.View, Ad
         mRxManager.add(mModel.requestnewDevice(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseSuccess(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -45,7 +45,7 @@ public class AddDevicePresenter extends BasePresenter<AddDeviceContract.View, Ad
         mRxManager.add(mModel.requestModDevice(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseSuccess(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -58,7 +58,7 @@ public class AddDevicePresenter extends BasePresenter<AddDeviceContract.View, Ad
         mRxManager.add(mModel.requestDelDevice(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseSuccess(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -71,7 +71,7 @@ public class AddDevicePresenter extends BasePresenter<AddDeviceContract.View, Ad
         mRxManager.add(mModel.requestHouseList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseHouseList(bean.getData().getRoomList());
                     } else {
                         getView().error(bean.getOther().getMessage());

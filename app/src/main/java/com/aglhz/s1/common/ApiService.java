@@ -8,6 +8,7 @@ import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.RoomTypesBean;
 import com.aglhz.s1.entity.bean.RoomsBean;
+import com.aglhz.s1.entity.bean.SceneBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.entity.bean.SubDeviceDetBean;
 import com.aglhz.s1.entity.bean.UserBean;
@@ -28,8 +29,8 @@ import retrofit2.http.Url;
 
 public interface ApiService {
 
-    //    String BASE_URL = "http://119.23.129.133:8096/gas";
-    String BASE_URL = "http://120.77.83.45:8096/gas";
+    String BASE_URL = "http://119.23.129.133:8096/gas";
+//    String BASE_URL = "http://120.77.83.45:8096/gas";
 
     String BASE_USER = Constants.BASE_USER;           //用户
 
@@ -526,23 +527,33 @@ public interface ApiService {
     Observable<BaseBean> requestHistory(@Url String url);
 
     //----------------------------- 历史 ----------------------------------
+
+    //----------------------------- 以下为场景 ----------------------------------
+
     //场景列表
-    String requestSceneList = BASE_URL + "";
+    String requestSceneList = BASE_URL + "/client/info/sceneList";
 
     @POST
-    Observable<BaseBean> requestSceneList(@Url String url);
+    Observable<SceneBean> requestSceneList(@Url String url,
+                                           @Query("pageSize") int pageSize,
+                                           @Query("page") int page,
+                                           @Query("token") String token);
 
     //启动场景
-    String requestStartScene = BASE_URL + "";
+    String requestStartScene = BASE_URL + "/client/scenectrl";
 
     @POST
-    Observable<BaseBean> requestStartScene(@Url String url);
+    Observable<BaseBean> requestStartScene(@Url String url,
+                                           @Query("token") String token,
+                                           @Query("index") int index);
 
     //删除场景
-    String requestDeleteScene = BASE_URL + "";
+    String requestDeleteScene = BASE_URL + "/client/delscene";
 
     @POST
-    Observable<BaseBean> requestDeleteScene(@Url String url);
+    Observable<BaseBean> requestDeleteScene(@Url String url,
+                                            @Query("token") String token,
+                                            @Query("index") int index);
 
     //场景编辑
     String requestEditScene = BASE_URL + "";
@@ -555,6 +566,10 @@ public interface ApiService {
 
     @POST
     Observable<BaseBean> requestSaveScene(@Url String url);
+
+
+    //----------------------------- 以上为场景 ----------------------------------
+
 
     //联动列表
     String requestLinkageList = BASE_URL + "";

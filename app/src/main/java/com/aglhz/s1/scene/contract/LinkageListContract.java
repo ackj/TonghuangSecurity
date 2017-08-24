@@ -5,7 +5,7 @@ import com.aglhz.s1.common.Params;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import io.reactivex.Observable;
-public interface IntelligenceLinkageContract { 
+public interface LinkageListContract {
 
     interface View extends BaseContract.View {
         void responseLinkageList(BaseBean bean);

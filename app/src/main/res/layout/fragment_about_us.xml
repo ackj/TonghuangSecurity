@@ -25,7 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Smart Home 1.0"
             android:textColor="@color/base_black"
             android:textSize="14sp" />
 

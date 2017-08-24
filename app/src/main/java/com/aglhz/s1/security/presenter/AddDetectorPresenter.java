@@ -32,7 +32,7 @@ public class AddDetectorPresenter extends BasePresenter<AddDetectorContract.View
         mRxManager.add(mModel.requestDetectorList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseDetectorList(bean.getData().getDeviceTypeList());
                     } else {
                         getView().error(bean.getOther().getMessage());
@@ -45,7 +45,7 @@ public class AddDetectorPresenter extends BasePresenter<AddDetectorContract.View
         mRxManager.add(mModel.requestAddDetector(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseAddDetector(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());

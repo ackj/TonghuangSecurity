@@ -1,25 +1,26 @@
-package com.aglhz.s1.more.presenter;
+package com.aglhz.s1.scene.presenter;
 
 import android.support.annotation.NonNull;
 
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
-import com.aglhz.s1.more.contract.RoomManagerContract;
-import com.aglhz.s1.more.model.RoomManagerModel;
+import com.aglhz.s1.scene.contract.SceneListContract;
+import com.aglhz.s1.scene.model.SceneListModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-public class RoomManagerPresenter extends BasePresenter<RoomManagerContract.View, RoomManagerContract.Model> implements RoomManagerContract.Presenter {
-    private final String TAG = RoomManagerPresenter.class.getSimpleName();
 
-    public RoomManagerPresenter(RoomManagerContract.View mView) {
+public class SceneListPresenter extends BasePresenter<SceneListContract.View, SceneListContract.Model> implements SceneListContract.Presenter {
+    private final String TAG = SceneListPresenter.class.getSimpleName();
+
+    public SceneListPresenter(SceneListContract.View mView) {
         super(mView);
     }
 
     @NonNull
     @Override
-    protected RoomManagerContract.Model createModel() {
-        return new RoomManagerModel();
+    protected SceneListContract.Model createModel() {
+        return new SceneListModel();
     }
 
     @Override
@@ -27,12 +28,12 @@ public class RoomManagerPresenter extends BasePresenter<RoomManagerContract.View
     }
 
     @Override
-    public void requestHouseList(Params params) {
-        mRxManager.add(mModel.requestHouseList(params)
+    public void requestSceneList(Params params) {
+        mRxManager.add(mModel.requestSceneList(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
                     if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseHouseList(bean.getData().getRoomList());
+                        getView().responseSceneList(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
@@ -40,29 +41,30 @@ public class RoomManagerPresenter extends BasePresenter<RoomManagerContract.View
     }
 
     @Override
-    public void requestRoomTypeList(Params params) {
-        mRxManager.add(mModel.requestRoomTypeList(params)
+    public void requestStartScene(Params params) {
+        mRxManager.add(mModel.requestStartScene(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
                     if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseRoomTypeList(bean.getData());
+                        getView().responseStartScene(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error));
+                }, this::error, this::complete, disposable -> start(null))
+        );
     }
 
     @Override
-    public void requestAddHouse(Params params) {
-        mRxManager.add(mModel.requestAddHouse(params)
+    public void requestDeleteScene(Params params) {
+        mRxManager.add(mModel.requestDeleteScene(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
                     if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseAddHouse(bean);
+                        getView().responseDeleteScene(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error));
+                }, this::error, this::complete, disposable -> start(null))
+        );
     }
-
 }

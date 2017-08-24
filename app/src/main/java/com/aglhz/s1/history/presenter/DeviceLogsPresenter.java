@@ -31,7 +31,7 @@ public class DeviceLogsPresenter extends BasePresenter<DeviceLogsContract.View, 
         mRxManager.add(mModel.requestDeviceLogs(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseDeviceLogs(bean.getData().getLogs());
                     } else {
                         getView().error(bean.getOther().getMessage());

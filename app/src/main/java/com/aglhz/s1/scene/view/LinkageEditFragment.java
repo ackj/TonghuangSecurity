@@ -16,6 +16,12 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 
+/**
+ * Author：leguang on 2017/4/12 0009 14:23
+ * Email：langmanleguang@qq.com
+ * <p>
+ * 联动模块。
+ */
 public class LinkageEditFragment extends BaseFragment{
     
     public static final String TAG = LinkageEditFragment.class.getSimpleName();

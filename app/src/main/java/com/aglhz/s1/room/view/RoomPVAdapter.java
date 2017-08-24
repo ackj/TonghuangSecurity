@@ -1,4 +1,4 @@
-package com.aglhz.s1.room;
+package com.aglhz.s1.room.view;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

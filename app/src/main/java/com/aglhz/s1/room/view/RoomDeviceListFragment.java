@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.aglhz.s1.App;
 import com.aglhz.s1.R;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
@@ -36,7 +37,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import cn.itsite.abase.utils.ToastUtils;
@@ -52,7 +52,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.recyclerView)
-    RecyclerView recyclerview;
+    RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrHTFrameLayout;
     Unbinder unbinder;
@@ -89,7 +89,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         initToolbar();
         initData();
         initListener();
-        initPtrFrameLayout(ptrHTFrameLayout, recyclerview);
+        initPtrFrameLayout(ptrHTFrameLayout, recyclerView);
     }
 
     @Override
@@ -103,6 +103,8 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
         toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_homemore_90px));
         toolbar.inflateMenu(R.menu.room_menu);
+
+        //通过反射强制每一个Menu的Item同时显示图标和文字。
         Menu menu = toolbar.getMenu();
         if (menu != null) {
             if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
@@ -137,10 +139,9 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 .setTabVisible(false)
                 .setOnItemClickListener((pagerPosition, optionPosition, option) -> {
                     selectRoom = this.roomListBean.get(optionPosition);
-
                     params.roomName = selectRoom.getName();
                     params.roomId = selectRoom.getIndex();
-                    params.category = "device_ctrl";
+                    params.category = Constants.DEVICE_CTRL;
                     //请求设备
                     mPresenter.requestDeviceList(params);
                     switchRoomDialog.hide();
@@ -166,7 +167,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 })
                 .build();
 
-        recyclerview.setLayoutManager(new LinearLayoutManager(_mActivity));
+        recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
 
         mPresenter.requestHouseList(params);
 
@@ -176,7 +177,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 .load(R.drawable.room_cesuo_1242px_745px)
                 .into(ivHeader);
         adapter.setHeaderView(ivHeader);
-        recyclerview.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
 
         selectorAdapter = new BaseRecyclerViewAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1) {
             @Override
@@ -191,11 +192,11 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
             DeviceListBean.DataBean.SubDevicesBean bean = (DeviceListBean.DataBean.SubDevicesBean) adapter.getItem(position);
             switch (view.getId()) {
                 case R.id.iv_setting:
-                    if(selectRoom == null){
+                    if (selectRoom == null) {
                         DialogHelper.warningSnackbar(getView(), "请选择房间");
                         return;
                     }
-                    _mActivity.start(AddDeviceFragment.newInstance(bean,selectRoom.getFid()));
+                    _mActivity.start(AddDeviceFragment.newInstance(bean, selectRoom.getFid()));
                     break;
             }
         });
@@ -228,7 +229,6 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Override
     public void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data) {
-        ALog.e(TAG, "responseHouseList:" + data.size());
         switchRoomDialog.show();
         dismissLoading();
         roomListBean = data;

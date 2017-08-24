@@ -3,6 +3,7 @@ package com.aglhz.s1.room.view;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.bumptech.glide.Glide;
@@ -12,13 +13,11 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.util.List;
 
-import cn.itsite.abase.BaseApplication;
-
 /**
  * Author： Administrator on 2017/8/18 0018.
  * Email： liujia95me@126.com
  */
-public class RoomDeviceListRVAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity,BaseViewHolder> {
+public class RoomDeviceListRVAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
     public static final int TYPE_DEVICE = 100;
     public static final int TYPE_ON_OFF = 101;
@@ -52,9 +51,9 @@ public class RoomDeviceListRVAdapter extends BaseMultiItemQuickAdapter<MultiItem
                     }
                 });
                 helper.addOnClickListener(R.id.iv_setting)
-                        .setText(R.id.tv_device_name,bean.getName());
-                ImageView iv =  helper.getView(R.id.iv_icon);
-                Glide.with(BaseApplication.mContext)
+                        .setText(R.id.tv_device_name, bean.getName());
+                ImageView iv = helper.getView(R.id.iv_icon);
+                Glide.with(App.mContext)
                         .load(bean.getIcon())
                         .into(iv);
                 break;

@@ -23,14 +23,14 @@ import butterknife.Unbinder;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 
 /**
- * Author: LiuJia on 2017/8/12 0012 16:36.
- * Email: liujia95me@126.com
+ * Author：leguang on 2017/4/12 0009 14:23
+ * Email：langmanleguang@qq.com
+ * <p>
+ * 场景模块。
  */
 
 public class SceneEditFragment extends BaseFragment {
-
-    public static final String TAG = LinkageEditFragment.class.getSimpleName();
-
+    public static final String TAG = SceneEditFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -39,11 +39,8 @@ public class SceneEditFragment extends BaseFragment {
     RecyclerView recyclerViewDevices;
     @BindView(R.id.recyclerView_movement)
     RecyclerView recyclerViewMovement;
-
-
     private Unbinder unbinder;
     private Params params = Params.getInstance();
-
     AddDeviceRVAdapter deviceAdapter;
     DeviceMovementRVAdapter movementAdapter;
 
@@ -54,7 +51,7 @@ public class SceneEditFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_scene, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_scene1, container, false);
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }

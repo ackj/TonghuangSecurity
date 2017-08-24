@@ -20,12 +20,14 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
- * Author: LiuJia on 2017/4/27 0027 14:07.
- * Email: liujia95me@126.com
+ * Author：leguang on 2017/4/12 0009 14:23
+ * Email：langmanleguang@qq.com
+ * <p>
+ * 场景模块。
  */
 
 public class SceneFragment extends BaseFragment {
-
+    public static final String TAG = SceneFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -35,7 +37,6 @@ public class SceneFragment extends BaseFragment {
     @BindView(R.id.tablayout_scene)
     TabLayout tabLayout;
     Unbinder unbinder;
-
     private int selectedPos = 0;
     private SupportFragment[] fragments = new SupportFragment[2];
 
@@ -55,12 +56,12 @@ public class SceneFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (savedInstanceState == null) {
-            fragments[0] = IntelligenceSceneFragment.newInstance();
-            fragments[1] = IntelligenceLinkageFragment.newInstance();
+            fragments[0] = SceneListFragment.newInstance();
+            fragments[1] = LinkageListFragment.newInstance();
             loadMultipleRootFragment(R.id.framelayout_scene, 0, fragments[0], fragments[1]);
         } else {
-            fragments[0] = findFragment(IntelligenceSceneFragment.class);
-            fragments[1] = findFragment(IntelligenceLinkageFragment.class);
+            fragments[0] = findFragment(SceneListFragment.class);
+            fragments[1] = findFragment(LinkageListFragment.class);
         }
         initToolbar();
         initData();
@@ -75,9 +76,9 @@ public class SceneFragment extends BaseFragment {
 
     @OnClick(R.id.toolbar_menu)
     public void onViewClicked() {
-        if(selectedPos == 0){
-            _mActivity.start(SceneEditFragment.newInstance());
-        }else{
+        if (selectedPos == 0) {
+            _mActivity.start(AddSceneFragment.newInstance());
+        } else {
             _mActivity.start(LinkageEditFragment.newInstance());
         }
     }

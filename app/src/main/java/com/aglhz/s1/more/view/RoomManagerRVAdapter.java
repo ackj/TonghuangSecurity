@@ -19,7 +19,8 @@ public class RoomManagerRVAdapter extends BaseRecyclerViewAdapter<RoomsBean.Data
 
     @Override
     protected void convert(BaseViewHolder helper, RoomsBean.DataBean.RoomListBean item) {
-        helper.setImageResource(R.id.iv_icon_item_room_type, item.getName().equals("添加房间")?R.drawable.ic_add_security_140px:R.mipmap.ic_logo)
+        helper.setImageResource(R.id.iv_icon_item_room_type,
+                item.getName().equals("添加房间") ? R.drawable.ic_add_security_140px : R.mipmap.ic_logo)
                 .setText(R.id.tv_name_item_room_type, item.getName());
     }
 }

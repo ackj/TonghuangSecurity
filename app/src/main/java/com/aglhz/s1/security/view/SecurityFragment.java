@@ -1,5 +1,6 @@
 package com.aglhz.s1.security.view;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
@@ -36,7 +36,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateLayout;
@@ -102,8 +101,8 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
     private void initToolbar() {
         initStateBar(toolbar);
-        toolbarTitle.setText("GS-S1智能安防");
-        toolbarMenu.setText("切换主机");
+        toolbarTitle.setText("智能安防");
+        toolbarMenu.setText("切换");
         toolbarMenu.setOnClickListener(v -> mPresenter.requestGateways(params));
     }
 
@@ -127,6 +126,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
     private View initHeaderView() {
         View headerView = LayoutInflater.from(_mActivity).inflate(R.layout.item_security_header, null);
+        headerView.setBackgroundResource(R.drawable.bg_security_header);
         //初始化撤防、布防等View。
         tvDes = (TextView) headerView.findViewById(R.id.tv_des_security_header);
 
@@ -154,8 +154,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
     private void initListener() {
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-            ALog.e("onItemclick position:" + position + " size:" + adapter.getData().size());
-
             if (position == adapter.getData().size() - 1) {
                 _mActivity.start(AddDetectorFragment.newInstance());
             } else {
@@ -165,7 +163,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                 SecurityBean.DataBean.SubDevicesBean bean = subDevices.get(position);
                 _mActivity.start(DetectorPropertyFragment.newInstance(bean));
             }
-            Toast.makeText(_mActivity, "clickItem", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -184,7 +181,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
     @Override
     public void responseSecurity(SecurityBean securityBean) {
-        ALog.e("securityBean-->" + securityBean.getData().getGateway().getDefenseStatus());
         subDevices = securityBean.getData().getSubDevices();
 
         TextView tv = (TextView) adapter.getHeaderLayout()
@@ -217,7 +213,9 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                     holder.setText(R.id.tv_name_item_rv_host_selector, item.getName())
                             .setText(R.id.tv_role_item_rv_host_selector, item.getIsManager() == 1 ? "管理员" : "成员")
                             .setText(R.id.tv_current_item_rv_host_selector, item.getIsCurrent() == 1 ? "当前主机" : "")
-                            .setText(R.id.tv_name_item_rv_host_selector, item.getName() + (item.getIsOnline() == 1 ? "" : "　(离线)"));
+                            .setText(R.id.tv_name_item_rv_host_selector, item.getName() + (item.getIsOnline() == 1 ? "　(在线)" : "　(离线)"))
+                            .setTextColor(R.id.tv_name_item_rv_host_selector,
+                                    item.getIsOnline() == 1 ? Color.parseColor("#999999") : Color.parseColor("#FF0000"));
                 })
                 .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
                     dialog.dismiss();
@@ -260,7 +258,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshSecurity(EventRefreshSecurity event) {
-        ALog.e("刷新安防…………………………………………………………………………");
         onRefresh();
         if (event.notificationBean == null) {
             return;

@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.entity.bean.SceneBean;
-import com.aglhz.s1.scene.LinkageListRVAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,21 +20,21 @@ import butterknife.Unbinder;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
- * Author: LiuJia on 2017/4/27 0027 14:42.
- * Email: liujia95me@126.com
+ * Author：leguang on 2017/4/12 0009 14:23
+ * Email：langmanleguang@qq.com
+ * <p>
+ * 联动模块。
  */
 
-public class IntelligenceLinkageFragment extends SupportFragment {
-
-    private static final String TAG = IntelligenceLinkageFragment.class.getSimpleName();
-
+public class LinkageListFragment extends SupportFragment {
+    private static final String TAG = LinkageListFragment.class.getSimpleName();
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
     Unbinder unbinder;
-    private LinkageListRVAdapter adapter;
+    private LinkageRVAdapter adapter;
 
-    public static IntelligenceLinkageFragment newInstance() {
-        return new IntelligenceLinkageFragment();
+    public static LinkageListFragment newInstance() {
+        return new LinkageListFragment();
     }
 
     @Nullable
@@ -56,9 +55,9 @@ public class IntelligenceLinkageFragment extends SupportFragment {
     private void initData() {
         List<SceneBean> sceneBeans = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            sceneBeans.add(new SceneBean("洗澡", true));
+//            sceneBeans.add(new SceneBean("洗澡", true));
         }
-        adapter = new LinkageListRVAdapter(sceneBeans);
+        adapter = new LinkageRVAdapter(sceneBeans);
         recyclerview.setLayoutManager(new LinearLayoutManager(_mActivity));
         recyclerview.setAdapter(adapter);
     }
