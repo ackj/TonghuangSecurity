@@ -28,7 +28,7 @@ import retrofit2.http.Url;
 
 public interface ApiService {
 
-//    String BASE_URL = "http://119.23.129.133:8096/gas";
+    //    String BASE_URL = "http://119.23.129.133:8096/gas";
     String BASE_URL = "http://120.77.83.45:8096/gas";
 
     String BASE_USER = Constants.BASE_USER;           //用户
@@ -101,7 +101,7 @@ public interface ApiService {
 
     @POST
     Observable<BaseBean> requestLogout(@Url String url,
-            @Query("token") String token);
+                                       @Query("token") String token);
 
     //----------以上为Launch模块--------------
 
@@ -238,7 +238,7 @@ public interface ApiService {
 
     //----------------------------- 设备相关 ---------------------------------
     //添加设备
-    String requestNewDevice = BASE_URL+"/client/newdevice";
+    String requestNewDevice = BASE_URL + "/client/newdevice";
 
     @FormUrlEncoded
     @POST
@@ -254,7 +254,7 @@ public interface ApiService {
             , @Field("token") String token);
 
     //修改设备
-    String requestModDevice = BASE_URL+"/client/moddevice";
+    String requestModDevice = BASE_URL + "/client/moddevice";
 
     @FormUrlEncoded
     @POST
@@ -266,7 +266,7 @@ public interface ApiService {
 
 
     //删除设备
-    String requestDelDevice = BASE_URL +"/client/deldevice";
+    String requestDelDevice = BASE_URL + "/client/deldevice";
 
     @FormUrlEncoded
     @POST
@@ -274,7 +274,7 @@ public interface ApiService {
             , @Field("token") String token
             , @Field("index") int index);
 
-    String requestSubDeviceList = BASE_URL+"/client/info/subDeviceList";
+    String requestSubDeviceList = BASE_URL + "/client/info/subDeviceList";
 
     //设备列表
     @FormUrlEncoded
@@ -287,7 +287,7 @@ public interface ApiService {
             , @Field("category") String category);
 
     //设备消息记录
-    String requestDeviceLogs = BASE_URL+"/client/info/deviceLogs";
+    String requestDeviceLogs = BASE_URL + "/client/info/deviceLogs";
 
     @FormUrlEncoded
     @POST
