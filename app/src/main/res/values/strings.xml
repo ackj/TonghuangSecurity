@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">光能安防</string>
+
+    <string name="security">安防</string>
+    <string name="room">房间</string>
+    <string name="scene">场景</string>
+    <string name="hisotry">历史</string>
+    <string name="more">更多</string>
+
+    <string name="set_net_4_host">为主机配网</string>
+    <string name="update_host_password">修改热点密码</string>
+    <string name="input_wifi_password">请输入WIFI密码</string>
+
+    <string name="set_net">配网</string>
+
+    <string name="set_wifi_step">第一步：确认主机连上电源。
+        \n第二步：打开手机“WLAN”列表,选择报警主机的热点“IWTAC_...”进行连接,主机热点的默认密码为“123456789”。
+        \n第三步：打开手机APP点击”更多”，选择“Wifi设置”进入,App提示“扫描热点中”，然后app会出现所有扫描到的wifi热点，用户选择家庭wifi热点并输入正确的wifi密码。</string>
+
+
+    <!--Launch模块-->
+    <string name="login">登录</string>
+
+    <string name="name_4_host">请为主机取一个名字吧</string>
+
+    <!--反馈-->
+    <string name="feedback">请填写反馈信息</string>
+    <string name="feedback_hint">请写下您的宝贵意见</string>
+
+</resources>
