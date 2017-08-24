@@ -15,7 +15,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  * Email: liujia95me@126.com
  */
 
-public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContract.View, RoomDeviceListContract.Model> implements RoomDeviceListContract.Presenter{
+public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContract.View, RoomDeviceListContract.Model> implements RoomDeviceListContract.Presenter {
     /**
      * 创建Presenter的时候就绑定View和创建model。
      *
@@ -65,6 +65,19 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
                 .subscribe(bean -> {
                     if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseAddDevice(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
+
+    @Override
+    public void requestDevicectrl(Params params) {
+        mRxManager.add(mModel.requestDevicectrl(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseDevicectrl(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }

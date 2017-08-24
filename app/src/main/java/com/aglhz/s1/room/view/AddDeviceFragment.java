@@ -70,13 +70,14 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
     Unbinder unbinder;
 
     private DeviceListBean.DataBean.SubDevicesBean bean;
+    private RoomsBean.DataBean.RoomListBean selectRoom;
     private Params params = Params.getInstance();
 
-    public static AddDeviceFragment newInstance(DeviceListBean.DataBean.SubDevicesBean bean, String roomFid) {
+    public static AddDeviceFragment newInstance(DeviceListBean.DataBean.SubDevicesBean bean, RoomsBean.DataBean.RoomListBean room) {
         AddDeviceFragment fragment = new AddDeviceFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("bean", bean);
-        bundle.putString("roomFid", roomFid);
+        bundle.putSerializable("room", room);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -92,7 +93,8 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_device, container, false);
         bean = (DeviceListBean.DataBean.SubDevicesBean) getArguments().getSerializable("bean");
-        params.roomFid = getArguments().getString("roomFid");
+        selectRoom = (RoomsBean.DataBean.RoomListBean) getArguments().getSerializable("room");
+//        params.roomFid = getArguments().getString("roomFid");
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }
@@ -115,12 +117,20 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
 
     private void initData() {
         cpbDelete.setVisibility(bean == null ? View.GONE : View.VISIBLE);
-        if (bean != null) {
+        if (bean == null) {
+            cpbDelete.setVisibility(View.GONE);
+        }else{
             //把数据赋值
             etName.setText(bean.getName());
             Glide.with(_mActivity)
                     .load(bean.getIcon())
                     .into(ivIcon);
+        }
+        if(selectRoom == null){
+            tvRoomName.setText("");
+        }else{
+            params.roomFid = selectRoom.getFid();
+            tvRoomName.setText(selectRoom.getName());
         }
     }
 
@@ -141,7 +151,6 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
                 mPresenter.requestDelDevice(params);
                 break;
             case R.id.toolbar_menu:
-                //todo:addparams
                 if (bean == null) {
                     mPresenter.requestnewDevice(params);
                 } else {
@@ -234,6 +243,7 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         tvRoomName.setText(data.get(which).getName());
+                        params.roomFid = data.get(which).getFid();
                         params.roomId = data.get(which).getIndex();
                     }
                 }).show();

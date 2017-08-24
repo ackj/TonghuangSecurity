@@ -63,7 +63,7 @@
 
         <activity
             android:name=".main.MainActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".clip.ClipActivity"

@@ -122,9 +122,6 @@ public interface ApiService {
     // 删除主机
     String requestDelgateway = "/client/delgateway";
 
-    // 控制设备开关
-    String requestDevicectrl = "/client/devicectrl";
-
     // 会员主机布防状态设置
     String requestGatewayDSS = "/client/gatewayDSS";
 
@@ -154,7 +151,6 @@ public interface ApiService {
 
     // 添加联动
     String requestNewlinkage = "/client/newlinkage";
-
 
     // 添加场景
     String requestNewscene = "/client/newscene";
@@ -286,6 +282,17 @@ public interface ApiService {
             , @Field("pageSize") int pageSize
             , @Field("roomId") int roomId
             , @Field("category") String category);
+
+    //设备控制
+    String requestDevicectrl = BASE_URL + "/client/devicectrl";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestDevicectrl(@Url String url
+            , @Field("token") String token
+            , @Field("index") int index
+            , @Field("nodeId") int nodeId
+            , @Field("status") int status);
 
     //设备消息记录
     String requestDeviceLogs = BASE_URL + "/client/info/deviceLogs";
