@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:ellipsize="end"
+    android:gravity="center"
     android:maxLines="1"
-    android:padding="15dp"
+    android:padding="10dp"
     android:textColor="@color/base_black"
     android:textSize="15sp" />

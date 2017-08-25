@@ -22,10 +22,6 @@ public class LinkageListPresenter extends BasePresenter<LinkageListContract.View
     }
 
     @Override
-    public void start(Object request) {
-    }
-
-    @Override
     public void requestLinkageList(Params params) {
         mRxManager.add(mModel.requestLinkageList(params)
                 .observeOn(AndroidSchedulers.mainThread())

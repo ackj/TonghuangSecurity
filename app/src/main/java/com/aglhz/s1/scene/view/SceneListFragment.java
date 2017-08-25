@@ -21,6 +21,7 @@ import com.aglhz.s1.widget.PtrHTFrameLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.statemanager.StateManager;
 
@@ -150,12 +151,13 @@ public class SceneListFragment extends BaseFragment<SceneListContract.Presenter>
 
     @Override
     public void responseStartScene(BaseBean bean) {
-
+        DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
     }
 
     @Override
     public void responseDeleteScene(BaseBean bean) {
         adapter.remove(params.option);
+        DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
     }
 
     @Override

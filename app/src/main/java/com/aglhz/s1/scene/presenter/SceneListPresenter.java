@@ -24,10 +24,6 @@ public class SceneListPresenter extends BasePresenter<SceneListContract.View, Sc
     }
 
     @Override
-    public void start(Object request) {
-    }
-
-    @Override
     public void requestSceneList(Params params) {
         mRxManager.add(mModel.requestSceneList(params)
                 .observeOn(AndroidSchedulers.mainThread())

@@ -14,11 +14,6 @@ import io.reactivex.schedulers.Schedulers;
 public class SceneListModel extends BaseModel implements SceneListContract.Model {
 
     @Override
-    public void start(Object request) {
-
-    }
-
-    @Override
     public Observable<SceneBean> requestSceneList(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestSceneList(ApiService.requestSceneList,

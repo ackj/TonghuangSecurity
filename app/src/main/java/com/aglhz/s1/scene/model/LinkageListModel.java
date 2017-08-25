@@ -11,10 +11,6 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
 public class LinkageListModel extends BaseModel implements LinkageListContract.Model {
-    @Override
-    public void start(Object request) {
-
-    }
 
     @Override
     public Observable<BaseBean> requestLinkageList(Params params) {

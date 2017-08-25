@@ -96,7 +96,16 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
 
     public void showLoading() {
         if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(_mActivity);
+            loadingDialog = new LoadingDialog(_mActivity).setText("玩命加载中……");
+        }
+        loadingDialog.show();
+    }
+
+    public void showLoading(String message) {
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(_mActivity).setText(message);
+        } else {
+            loadingDialog.setText(message);
         }
         loadingDialog.show();
     }

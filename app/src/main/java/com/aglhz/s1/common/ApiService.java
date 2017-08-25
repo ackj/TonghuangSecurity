@@ -29,8 +29,8 @@ import retrofit2.http.Url;
 
 public interface ApiService {
 
-//    String BASE_URL = "http://119.23.129.133:8096/gas";
-    String BASE_URL = "http://120.77.83.45:8096/gas";
+    String BASE_URL = "http://119.23.129.133:8096/gas";
+//    String BASE_URL = "http://120.77.83.45:8096/gas";
 
     String BASE_USER = Constants.BASE_USER;           //用户
 
@@ -151,9 +151,6 @@ public interface ApiService {
 
     // 添加联动
     String requestNewlinkage = "/client/newlinkage";
-
-    // 添加场景
-    String requestNewscene = "/client/newscene";
 
     //添加探测器(传感器)
     String requestNewsensor = "/client/newsensor";
@@ -337,17 +334,12 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestFeedback(@Url String url
-            , @Field("token") String token
-            , @Field("des") String des
-            , @Field("contact") String contact
+    Observable<BaseBean> requestFeedback(@Url String url,
+                                         @Field("token") String token,
+                                         @Field("des") String des,
+                                         @Field("contact") String contact
     );
 
-
-    //*************以下基础路径*******************
-
-
-    //*************以上基础路径*******************
 
     //-----------------以下为推送相关---------------------
     //切换主机
@@ -526,25 +518,26 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestAddAlarm(@Url String url);
 
-    //----------------------------- 历史 ----------------------------------
+    //----------------------------- 以下为历史 ----------------------------------
     //获取历史列表
     String requestHistory = BASE_URL + "";
 
     @POST
     Observable<BaseBean> requestHistory(@Url String url);
 
-    //----------------------------- 历史 ----------------------------------
+    //----------------------------- 以上为历史 ----------------------------------
 
     //----------------------------- 以下为场景 ----------------------------------
 
     //场景列表
     String requestSceneList = BASE_URL + "/client/info/sceneList";
 
+    @FormUrlEncoded
     @POST
     Observable<SceneBean> requestSceneList(@Url String url,
-                                           @Query("pageSize") int pageSize,
-                                           @Query("page") int page,
-                                           @Query("token") String token);
+                                           @Field("pageSize") int pageSize,
+                                           @Field("page") int page,
+                                           @Field("token") String token);
 
     //启动场景
     String requestStartScene = BASE_URL + "/client/scenectrl";
@@ -561,6 +554,17 @@ public interface ApiService {
     Observable<BaseBean> requestDeleteScene(@Url String url,
                                             @Query("token") String token,
                                             @Query("index") int index);
+
+
+    // 添加场景
+    String requestAddScene = BASE_URL + "/client/newscene";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestAddScene(@Url String url,
+                                         @Field("token") String token,
+                                         @Field("name") String name,
+                                         @Field("paramJson") String paramJson);
 
     //场景编辑
     String requestEditScene = BASE_URL + "";

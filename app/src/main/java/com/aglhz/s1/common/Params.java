@@ -33,6 +33,7 @@ public class Params {
     public String dstatus = "";
     public String no = "";
     public String name = "";
+    public String paramJson = "";
     public int index;
     public int option;
     public String des;

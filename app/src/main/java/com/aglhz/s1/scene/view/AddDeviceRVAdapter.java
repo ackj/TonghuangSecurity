@@ -6,8 +6,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
 
 /**
- * Author: LiuJia on 2017/8/12 0012 16:56.
- * Email: liujia95me@126.com
+ * Author：leguang on 2017/4/12 0009 14:23
+ * Email：langmanleguang@qq.com
+ * <p>
+ * 场景模块。
  */
 
 public class AddDeviceRVAdapter extends BaseRecyclerViewAdapter<String,BaseViewHolder>{
