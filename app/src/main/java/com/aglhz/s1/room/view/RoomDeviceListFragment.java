@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.aglhz.s1.App;
 import com.aglhz.s1.R;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
@@ -48,6 +49,9 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import cn.itsite.abase.utils.ToastUtils;
 import cn.itsite.multiselector.MultiSelectorDialog;
+import cn.itsite.statemanager.StateManager;
+
+import static com.aglhz.s1.R.id.ptrFrameLayout;
 
 /**
  * Author： Administrator on 2017/8/18 0018.
@@ -60,7 +64,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     Toolbar toolbar;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(R.id.ptrFrameLayout)
+    @BindView(ptrFrameLayout)
     PtrHTFrameLayout ptrHTFrameLayout;
     Unbinder unbinder;
     private BaseRecyclerViewAdapter<String, BaseViewHolder> selectorAdapter;
@@ -72,6 +76,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     private List<RoomsBean.DataBean.RoomListBean> roomListBean;
     private RoomsBean.DataBean.RoomListBean selectRoom;
     private boolean isFirst = true;//是否是第一次进来
+    private StateManager mStateManager;
 
     public static RoomDeviceListFragment newInstance() {
         return new RoomDeviceListFragment();
@@ -98,12 +103,13 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         initToolbar();
         initData();
         initListener();
+        initStateManager();
         initPtrFrameLayout(ptrHTFrameLayout, recyclerView);
     }
 
     @Override
     public void onRefresh() {
-        params.category = "device_ctrl";
+        params.category = Constants.DEVICE_CTRL;
         mPresenter.requestDeviceList(params);
     }
 
@@ -172,11 +178,26 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         };
     }
 
+    private void initStateManager() {
+        mStateManager = StateManager.builder(_mActivity)
+                .setContent(recyclerView)
+                .setEmptyView(R.layout.state_empty)
+                .setEmptyText("该房间暂无设备，空空如也！")
+                .setEmptyImage(R.drawable.ic_no_device_empty_state_300)
+                .setErrorOnClickListener(v -> ptrHTFrameLayout.autoRefresh())
+                .setEmptyOnClickListener(v -> ptrHTFrameLayout.autoRefresh())
+                .setConvertListener((holder, stateLayout) ->
+                        holder.setOnClickListener(R.id.bt_empty_state,
+                                v -> ptrHTFrameLayout.autoRefresh())
+                                .setText(R.id.bt_empty_state, "点击刷新"))
+                .build();
+    }
+
     private void selectRoom(RoomsBean.DataBean.RoomListBean bean) {
         selectRoom = bean;
         ALog.e(TAG, "selectRoom--->:" + selectRoom);
         params.roomId = selectRoom.getIndex();
-        params.category = "device_ctrl";
+        params.category = Constants.DEVICE_CTRL;
         //请求设备
         mPresenter.requestDeviceList(params);
         int resId = R.drawable.room_room_1242px_745px;
@@ -252,6 +273,11 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Override
     public void responseDeviceList(List<DeviceListBean.DataBean.SubDevicesBean> data) {
+        ptrHTFrameLayout.refreshComplete();
+        if (data == null || data.isEmpty()) {
+            mStateManager.showEmpty();
+            return;
+        }
         List<MultiItemEntity> list = new ArrayList<>();
         for (DeviceListBean.DataBean.SubDevicesBean bean : data) {
             list.add(bean);
@@ -261,14 +287,14 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
             bean.addSubItem(onOffBean);
         }
         adapter.setNewData(list);
-        ptrHTFrameLayout.refreshComplete();
+        mStateManager.showContent();
     }
 
     @Override
     public void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data) {
         ALog.e(TAG, "responseHouseList:" + data.size());
         if (isFirst) {
-            selectRoom(data.get(0));
+            selectRoom(data.get(0));//
             isFirst = false;
         } else {
             switchRoomDialog.show();
@@ -284,7 +310,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Override
     public void error(String errorMessage) {
-        DialogHelper.errorSnackbar(getView(), errorMessage);
+        super.error(errorMessage);
         ptrHTFrameLayout.refreshComplete();
     }
 

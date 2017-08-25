@@ -1,5 +1,6 @@
 package com.aglhz.s1.scene.view;
 
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.aglhz.s1.App;
@@ -8,6 +9,10 @@ import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
 
 /**
@@ -16,6 +21,7 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  */
 
 public class DeviceListRVAdapter extends BaseRecyclerViewAdapter<DeviceListBean.DataBean.SubDevicesBean, BaseViewHolder> {
+    private ArrayList<DeviceListBean.DataBean.SubDevicesBean> selectedDevices = new ArrayList<>();
 
     public DeviceListRVAdapter() {
         super(R.layout.item_rv_device_list);
@@ -23,11 +29,38 @@ public class DeviceListRVAdapter extends BaseRecyclerViewAdapter<DeviceListBean.
 
     @Override
     protected void convert(BaseViewHolder helper, DeviceListBean.DataBean.SubDevicesBean item) {
+        helper.itemView.setOnClickListener(v -> {
+            CheckBox cbSelect = helper.getView(R.id.ck_select_item_rv_device_list_fragment);
+            cbSelect.setChecked(!cbSelect.isChecked());
+            if (cbSelect.isChecked()) {
+                if (selectedDevices != null) {
+                    selectedDevices.add(item);
+                    ALog.e("选中了-->" + selectedDevices.size());
+                }
+            } else {
+                if (selectedDevices != null) {
+                    selectedDevices.remove(item);
+                    ALog.e("没有选中-->" + selectedDevices.size());
+
+                }
+            }
+        });
+
         helper.setText(R.id.tv_name_item_rv_device_list_fragment, item.getName())
                 .setText(R.id.tv_online_item_rv_device_list_fragment, item.getIsOline() == 1 ? "在线" : "离线");
 
         Glide.with(App.mContext)
                 .load(item.getIcon())
                 .into((ImageView) helper.getView(R.id.iv_icon_item_rv_device_list_fragment));
+    }
+
+    public void clearSelector() {
+        if (selectedDevices != null) {
+            selectedDevices.clear();
+        }
+    }
+
+    public ArrayList<DeviceListBean.DataBean.SubDevicesBean> getSelector() {
+        return selectedDevices;
     }
 }

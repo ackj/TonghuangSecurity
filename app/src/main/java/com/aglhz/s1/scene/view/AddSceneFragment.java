@@ -13,15 +13,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.mvp.view.base.Decoration;
 import cn.itsite.statemanager.StateManager;
+import me.yokeyword.fragmentation.SupportFragment;
+
+import static cn.itsite.abase.mvp.view.base.Decoration.VERTICAL_LIST;
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23
@@ -84,6 +93,7 @@ public class AddSceneFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter = new AddSceneRVAdapter();
         adapter.setEnableLoadMore(true);
+        recyclerView.addItemDecoration(new Decoration(_mActivity, VERTICAL_LIST));
         recyclerView.setAdapter(adapter);
     }
 
@@ -91,11 +101,12 @@ public class AddSceneFragment extends BaseFragment {
         mStateManager = StateManager.builder(_mActivity)
                 .setContent(recyclerView)
                 .setEmptyView(R.layout.state_empty)
-                .setEmptyText("请点击添加设备！")
-                .setEmptyOnClickListener(v -> {
-                    // TODO: 2017/8/24 0024
-
-                })
+                .setEmptyText("还没有设备，请点击添加设备！")
+                .setEmptyOnClickListener(v -> startForResult(DeviceListFragment.newInstance(), SupportFragment.RESULT_OK))
+                .setConvertListener((holder, stateLayout) ->
+                        holder.setOnClickListener(R.id.bt_empty_state,
+                                v -> startForResult(DeviceListFragment.newInstance(), SupportFragment.RESULT_OK))
+                                .setText(R.id.bt_empty_state, "点击添加"))
                 .build();
         mStateManager.showEmpty();
     }
@@ -116,8 +127,30 @@ public class AddSceneFragment extends BaseFragment {
 
                 break;
             case R.id.ll_add_device_add_scene_fragment:
-                start(DeviceListFragment.newInstance());
+                startForResult(DeviceListFragment.newInstance(), SupportFragment.RESULT_OK);
                 break;
+        }
+    }
+
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        ALog.e("1111-->");
+        if (requestCode == SupportFragment.RESULT_OK) {
+            ArrayList<DeviceListBean.DataBean.SubDevicesBean> selector = data.getParcelableArrayList(Constants.KEY_SELECTOR);
+
+            if (selector == null) {
+                ALog.e("selector为空-->");
+
+            }
+
+            if (adapter.getData().isEmpty()) {
+                adapter.getData().addAll(selector);
+                adapter.setNewData(adapter.getData());
+            } else {
+                adapter.addData(selector);
+            }
+            mStateManager.showContent();
         }
     }
 }

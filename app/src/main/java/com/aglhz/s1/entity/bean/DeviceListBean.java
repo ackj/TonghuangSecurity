@@ -1,10 +1,14 @@
 package com.aglhz.s1.entity.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.aglhz.s1.room.view.RoomDeviceListRVAdapter;
 import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +16,7 @@ import java.util.List;
  * Email: liujia95me@126.com
  */
 
-public class DeviceListBean extends BaseBean {
+public class DeviceListBean extends BaseBean implements Parcelable {
 
     /**
      * data : {"subDevices":[{"category":"device_ctrl","defenseLevel":"24hour","extInfo":{"index":1,"name":"relay4","node":4,"roomId":1,"subType":4,"type":143,"userFlag":0},"icon":"","index":1,"isOline":1,"name":"relay4"}]}
@@ -28,7 +32,7 @@ public class DeviceListBean extends BaseBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Parcelable {
         private List<SubDevicesBean> subDevices;
 
         public List<SubDevicesBean> getSubDevices() {
@@ -39,7 +43,7 @@ public class DeviceListBean extends BaseBean {
             this.subDevices = subDevices;
         }
 
-        public static class SubDevicesBean extends AbstractExpandableItem<DeviceOnOffBean> implements MultiItemEntity,Serializable {
+        public static class SubDevicesBean extends AbstractExpandableItem<DeviceOnOffBean> implements MultiItemEntity,Serializable, Parcelable {
 
             /**
              * category : device_ctrl
@@ -125,7 +129,7 @@ public class DeviceListBean extends BaseBean {
                 return 0;
             }
 
-            public static class ExtInfoBean implements Serializable{
+            public static class ExtInfoBean implements Serializable, Parcelable {
                 /**
                  * index : 1
                  * name : relay4
@@ -199,7 +203,148 @@ public class DeviceListBean extends BaseBean {
                 public void setUserFlag(int userFlag) {
                     this.userFlag = userFlag;
                 }
+
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(Parcel dest, int flags) {
+                    dest.writeInt(this.index);
+                    dest.writeString(this.name);
+                    dest.writeInt(this.node);
+                    dest.writeInt(this.roomId);
+                    dest.writeInt(this.subType);
+                    dest.writeInt(this.type);
+                    dest.writeInt(this.userFlag);
+                }
+
+                public ExtInfoBean() {
+                }
+
+                protected ExtInfoBean(Parcel in) {
+                    this.index = in.readInt();
+                    this.name = in.readString();
+                    this.node = in.readInt();
+                    this.roomId = in.readInt();
+                    this.subType = in.readInt();
+                    this.type = in.readInt();
+                    this.userFlag = in.readInt();
+                }
+
+                public static final Creator<ExtInfoBean> CREATOR = new Creator<ExtInfoBean>() {
+                    @Override
+                    public ExtInfoBean createFromParcel(Parcel source) {
+                        return new ExtInfoBean(source);
+                    }
+
+                    @Override
+                    public ExtInfoBean[] newArray(int size) {
+                        return new ExtInfoBean[size];
+                    }
+                };
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(this.category);
+                dest.writeString(this.defenseLevel);
+                dest.writeSerializable(this.extInfo);
+                dest.writeString(this.icon);
+                dest.writeInt(this.index);
+                dest.writeInt(this.isOline);
+                dest.writeString(this.name);
+            }
+
+            public SubDevicesBean() {
+            }
+
+            protected SubDevicesBean(Parcel in) {
+                this.category = in.readString();
+                this.defenseLevel = in.readString();
+                this.extInfo = (ExtInfoBean) in.readSerializable();
+                this.icon = in.readString();
+                this.index = in.readInt();
+                this.isOline = in.readInt();
+                this.name = in.readString();
+            }
+
+            public static final Creator<SubDevicesBean> CREATOR = new Creator<SubDevicesBean>() {
+                @Override
+                public SubDevicesBean createFromParcel(Parcel source) {
+                    return new SubDevicesBean(source);
+                }
+
+                @Override
+                public SubDevicesBean[] newArray(int size) {
+                    return new SubDevicesBean[size];
+                }
+            };
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeList(this.subDevices);
+        }
+
+        public DataBean() {
+        }
+
+        protected DataBean(Parcel in) {
+            this.subDevices = new ArrayList<SubDevicesBean>();
+            in.readList(this.subDevices, SubDevicesBean.class.getClassLoader());
+        }
+
+        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel source) {
+                return new DataBean(source);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.data, flags);
+    }
+
+    public DeviceListBean() {
+    }
+
+    protected DeviceListBean(Parcel in) {
+        this.data = in.readParcelable(DataBean.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<DeviceListBean> CREATOR = new Parcelable.Creator<DeviceListBean>() {
+        @Override
+        public DeviceListBean createFromParcel(Parcel source) {
+            return new DeviceListBean(source);
+        }
+
+        @Override
+        public DeviceListBean[] newArray(int size) {
+            return new DeviceListBean[size];
+        }
+    };
 }

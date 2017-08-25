@@ -182,17 +182,21 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     @Override
     public void responseSecurity(SecurityBean securityBean) {
         subDevices = securityBean.getData().getSubDevices();
-
         TextView tv = (TextView) adapter.getHeaderLayout()
                 .findViewWithTag(securityBean.getData().getGateway().getDefenseStatus());
         tvCancel.setSelected(false);
         tvHome.setSelected(false);
         tvFaraway.setSelected(false);
-        tv.setSelected(true);
+        if (tv != null) {//由于第一次安装，后台不知道主机的状态，所以defenseStatus这个字段为空，所以找不到这样的TextView。
+            tv.setSelected(true);
+        }
 
         tvDes.setText(securityBean.getData().getGateway().getDefenseStatusDes());
 
-        adapter.setNewData(securityBean.getData().getSubDevices());
+        if (securityBean.getData() != null
+                || securityBean.getData().getSubDevices() != null) {
+            adapter.setNewData(securityBean.getData().getSubDevices());
+        }
         adapter.addData(addIconDevice);
         ptrFrameLayout.refreshComplete();
     }

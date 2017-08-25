@@ -22,11 +22,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.RxManager;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.mvp.view.base.Decoration;
 import cn.itsite.abase.network.http.HttpHelper;
 import cn.itsite.statemanager.StateManager;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import me.yokeyword.fragmentation.SupportFragment;
+
+import static cn.itsite.abase.mvp.view.base.Decoration.VERTICAL_LIST;
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23
@@ -71,7 +76,7 @@ public class DeviceListFragment extends BaseFragment {
         initToolbar();
         initData();
         initStateManager();
-        initListener();
+//        initListener();
         initPtrFrameLayout(ptrFrameLayout, recyclerView);
     }
 
@@ -84,7 +89,7 @@ public class DeviceListFragment extends BaseFragment {
     }
 
     private void initData() {
-        params.roomId = 0;
+        params.roomId = -1;
         params.category = Constants.DEVICE_CTRL;
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter = new DeviceListRVAdapter();
@@ -94,7 +99,7 @@ public class DeviceListFragment extends BaseFragment {
             params.page++;
             requestDeviceList();
         }, recyclerView);
-
+        recyclerView.addItemDecoration(new Decoration(_mActivity, VERTICAL_LIST));
         recyclerView.setAdapter(adapter);
     }
 
@@ -102,6 +107,8 @@ public class DeviceListFragment extends BaseFragment {
     public void onRefresh() {
         params.page = 1;
         params.pageSize = Constants.PAGE_SIZE;
+        //要清空所选中的那些设备。
+        adapter.clearSelector();
         requestDeviceList();
     }
 
@@ -151,14 +158,20 @@ public class DeviceListFragment extends BaseFragment {
         mStateManager = StateManager.builder(_mActivity)
                 .setContent(recyclerView)
                 .setEmptyView(R.layout.state_empty)
-                .setEmptyText("请点击刷新！")
-                .setEmptyOnClickListener(v -> onRefresh())
+                .setEmptyText("没有请求到数据，请点击重试！")
+                .setEmptyOnClickListener(v -> ptrFrameLayout.autoRefresh())
+                .setConvertListener((holder, stateLayout) ->
+                        holder.setOnClickListener(R.id.bt_empty_state,
+                                v -> ptrFrameLayout.autoRefresh())
+                                .setText(R.id.bt_empty_state, "点击刷新"))
                 .build();
-        mStateManager.showEmpty();
     }
 
-    private void initListener() {
-    }
+//    private void initListener() {
+//        adapter.setOnItemClickListener((adapter1, view, position) -> {
+//            view.findViewById()
+//        });
+//    }
 
     @Override
     public void onDestroyView() {
@@ -169,6 +182,10 @@ public class DeviceListFragment extends BaseFragment {
 
     @OnClick(R.id.toolbar_menu)
     public void onViewClicked() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(Constants.KEY_SELECTOR, adapter.getSelector());
+        setFragmentResult(SupportFragment.RESULT_OK, bundle);
+        pop();
     }
 
     @Override

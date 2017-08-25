@@ -113,11 +113,11 @@ public class SceneListFragment extends BaseFragment<SceneListContract.Presenter>
                 .setEmptyView(R.layout.state_empty)
                 .setEmptyText("暂无场景，请点击添加！")
                 .setErrorOnClickListener(v -> ptrFrameLayout.autoRefresh())
-                .setEmptyOnClickListener(v -> {
-                    // TODO: 2017/8/24 0024
-                    _mActivity.start(SceneEditFragment.newInstance());
-
-                })
+                .setEmptyOnClickListener(v -> _mActivity.start(AddSceneFragment.newInstance()))
+                .setConvertListener((holder, stateLayout) ->
+                        holder.setOnClickListener(R.id.bt_empty_state,
+                                v -> _mActivity.start(AddSceneFragment.newInstance()))
+                                .setText(R.id.bt_empty_state, "点击添加"))
                 .build();
     }
 

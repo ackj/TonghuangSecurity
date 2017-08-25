@@ -52,7 +52,7 @@ dependencies {
     compile "com.daimajia.swipelayout:library:1.2.0@aar"
 
     //页面状态管理
-    compile 'com.github.leguang:StateManager:1.0.1'
+    compile 'com.github.leguang:StateManager:1.1.0'
 
     //一个底部弹框的级联选择器，也可以当列表Dialog使用
     compile 'com.github.leguang:MultiSelector:1.3'

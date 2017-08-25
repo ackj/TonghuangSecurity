@@ -30,6 +30,7 @@
         android:text="在线" />
 
     <CheckBox
+        android:id="@+id/ck_select_item_rv_device_list_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

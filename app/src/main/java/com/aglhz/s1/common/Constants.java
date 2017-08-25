@@ -57,4 +57,6 @@ public class Constants {
     public static final String DEVICE_CTRL = "device_ctrl";
     public static final String SENSOR = "sensor";
 
+    public static final String KEY_SELECTOR = "key_SELECTOR";
+
 }
