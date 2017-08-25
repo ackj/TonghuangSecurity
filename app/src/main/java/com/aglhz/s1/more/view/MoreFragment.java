@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,6 +45,7 @@ import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.network.http.LogInterceptor;
+import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -67,6 +72,7 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
     @BindView(R.id.sv_more_fragment)
     ScrollView sv;
     private Params params = Params.getInstance();
+    private List<String> addHostTypes;
 
     public static SupportFragment newInstance() {
         return new MoreFragment();
@@ -134,8 +140,10 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
                 _mActivity.start(SetWifiFragment.newInstance());
                 break;
             case R.id.ll_add_host:
-//                startActivity(new Intent(_mActivity, ScanQRCodeActivity.class));
-                _mActivity.start(ScanQRCodeFragment.newInstance());
+
+                showAddHostSelecotr();
+
+
                 break;
             case R.id.ll_host_manager:
                 _mActivity.start(GatewayListFragment.newInstance());
@@ -155,6 +163,34 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
                         .show();
                 break;
         }
+    }
+
+    private void showAddHostSelecotr() {
+        if (addHostTypes == null) {
+            addHostTypes = new ArrayList<>();
+            addHostTypes.add(0, "扫码添加");
+            addHostTypes.add(1, "手动输入添加");
+        }
+        new SelectorDialogFragment()
+                .setTitle("请选择添加方式")
+                .setItemLayoutId(R.layout.item_rv_simple_selector)
+                .setData(addHostTypes)
+                .setOnItemConvertListener((holder, position, dialog) ->
+                        holder.setText(R.id.tv_item_rv_simple_selector, addHostTypes.get(position)))
+                .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
+                    dialog.dismiss();
+                    switch (position) {
+                        case 0:
+                            _mActivity.start(ScanQRCodeFragment.newInstance());
+                            break;
+                        case 1:
+                            _mActivity.start(AddHostFragment.newInstance(""));
+                            break;
+                    }
+                })
+                .setAnimStyle(R.style.SlideAnimation)
+                .setGravity(Gravity.BOTTOM)
+                .show(getChildFragmentManager());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

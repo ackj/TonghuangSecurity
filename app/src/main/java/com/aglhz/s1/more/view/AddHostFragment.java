@@ -12,9 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.more.contract.AddHostContract;
 import com.aglhz.s1.more.presenter.AddHostPresenter;
 
@@ -39,6 +39,8 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     TextView toolbarMenu;
     @BindView(R.id.tv_name_add_host_fragment)
     EditText tvName;
+    @BindView(R.id.tv_device_code_add_host_fragment)
+    EditText tvDeviceCode;
     private Unbinder unbinder;
     private Params params = Params.getInstance();
 
@@ -77,6 +79,11 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
+        initData();
+    }
+
+    private void initData() {
+        tvDeviceCode.setText(params.no);
     }
 
     private void initToolbar() {
@@ -91,6 +98,7 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
                 return;
             }
             params.name = tvName.getText().toString();
+            params.no = tvDeviceCode.getText().toString().trim();
             mPresenter.requestAddHost(params);
         });
     }

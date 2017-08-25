@@ -8,6 +8,22 @@
     <include layout="@layout/toolbar" />
 
     <EditText
+        android:id="@+id/tv_device_code_add_host_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/shape_stroke_base_color"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:hint="请输入设备编号"
+        android:lines="1"
+        android:maxLength="50"
+        android:maxLines="1"
+        android:padding="10dp">
+
+    </EditText>
+
+    <EditText
         android:id="@+id/tv_name_add_host_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
