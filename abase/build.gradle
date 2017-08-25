@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -63,4 +63,7 @@ dependencies {
     compile 'pub.devrel:easypermissions:0.4.0'
     //自定义的snackbar
     compile 'com.trycatch.android:mysnackbar:1.2.2'
+
+    //一个扩展性很好的Dialog+DialogFragment工具。
+    compile 'com.github.leguang:ADialog:1.7'
 }

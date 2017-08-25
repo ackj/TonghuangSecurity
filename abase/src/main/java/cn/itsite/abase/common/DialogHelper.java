@@ -7,7 +7,7 @@ import android.view.View;
 import com.trycatch.mysnackbar.Prompt;
 import com.trycatch.mysnackbar.TSnackbar;
 
-import cn.itsite.abase.widget.dialog.LoadingDialog;
+import cn.itsite.adialog.dialog.LoadingDialog;
 
 /**
  * Author：leguang on 2016/11/11 0011 18:50
@@ -45,5 +45,4 @@ public class DialogHelper {
     public static Dialog loading(Activity activity) {
         return new LoadingDialog(activity);
     }
-
 }

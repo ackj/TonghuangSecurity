@@ -24,7 +24,7 @@ import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import cn.itsite.abase.utils.DensityUtils;
 import cn.itsite.abase.utils.ScreenUtils;
-import cn.itsite.abase.widget.dialog.LoadingDialog;
+import cn.itsite.adialog.dialog.LoadingDialog;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.MaterialHeader;
