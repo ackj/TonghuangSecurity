@@ -3,6 +3,7 @@ package com.aglhz.s1.scene.model;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.LinkageBean;
 import com.aglhz.s1.scene.contract.LinkageListContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
@@ -13,9 +14,10 @@ import io.reactivex.schedulers.Schedulers;
 public class LinkageListModel extends BaseModel implements LinkageListContract.Model {
 
     @Override
-    public Observable<BaseBean> requestLinkageList(Params params) {
+    public Observable<LinkageBean> requestLinkageList(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestLinkageList(ApiService.requestLinkageList)
+                .requestLinkageList(ApiService.requestLinkageList,
+                        params.token,params.page,params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -29,7 +31,7 @@ public class LinkageListModel extends BaseModel implements LinkageListContract.M
     @Override
     public Observable<BaseBean> requestDeleteLinkage(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestDeleteLinkage(ApiService.requestDeleteLinkage)
+                .requestDellinkage(ApiService.requestDellinkage,params.token,params.index)
                 .subscribeOn(Schedulers.io());
     }
 

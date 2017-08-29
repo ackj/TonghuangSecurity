@@ -13,6 +13,7 @@ public interface AddDeviceContract {
     interface View extends BaseContract.View {
         void responseSuccess(BaseBean bean);
         void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data);
+
     }
 
     interface Presenter extends BaseContract.Presenter {

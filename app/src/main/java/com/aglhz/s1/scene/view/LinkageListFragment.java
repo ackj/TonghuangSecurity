@@ -1,6 +1,7 @@
 package com.aglhz.s1.scene.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,15 +10,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.entity.bean.SceneBean;
+import com.aglhz.s1.common.Constants;
+import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.LinkageBean;
+import com.aglhz.s1.event.EventLinkageChanged;
+import com.aglhz.s1.scene.contract.LinkageListContract;
+import com.aglhz.s1.scene.presenter.LinkageListPresenter;
+import com.aglhz.s1.widget.PtrHTFrameLayout;
 
-import java.util.ArrayList;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.yokeyword.fragmentation.SupportFragment;
+import cn.itsite.abase.common.DialogHelper;
+import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.statemanager.StateManager;
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23
@@ -26,22 +39,35 @@ import me.yokeyword.fragmentation.SupportFragment;
  * 联动模块。
  */
 
-public class LinkageListFragment extends SupportFragment {
+public class LinkageListFragment extends BaseFragment<LinkageListContract.Presenter> implements LinkageListContract.View {
     private static final String TAG = LinkageListFragment.class.getSimpleName();
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.ptrFrameLayout)
+    PtrHTFrameLayout ptrFrameLayout;
+
     Unbinder unbinder;
     private LinkageRVAdapter adapter;
+    private Params params = Params.getInstance();
+    private StateManager mStateManager;
+    private int delPosition;
 
     public static LinkageListFragment newInstance() {
         return new LinkageListFragment();
     }
 
+    @NonNull
+    @Override
+    protected LinkageListContract.Presenter createPresenter() {
+        return new LinkageListPresenter(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_intelligence_linkage, container, false);
+        View view = inflater.inflate(R.layout.recyclerview, container, false);
         unbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -50,23 +76,54 @@ public class LinkageListFragment extends SupportFragment {
         super.onViewCreated(view, savedInstanceState);
         initData();
         initListener();
+        initStateManager();
+        initPtrFrameLayout(ptrFrameLayout, recyclerView);
     }
 
     private void initData() {
-        List<SceneBean> sceneBeans = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-//            sceneBeans.add(new SceneBean("洗澡", true));
-        }
-        adapter = new LinkageRVAdapter(sceneBeans);
-        recyclerview.setLayoutManager(new LinearLayoutManager(_mActivity));
-        recyclerview.setAdapter(adapter);
+        adapter = new LinkageRVAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
+        recyclerView.setAdapter(adapter);
+        adapter.setEnableLoadMore(true);
+        adapter.setOnLoadMoreListener(() -> {
+            params.page++;
+            mPresenter.requestLinkageList(params);//请求开门记录列表
+        }, recyclerView);
+    }
+
+    private void initStateManager() {
+        mStateManager = StateManager.builder(_mActivity)
+                .setContent(recyclerView)
+                .setEmptyView(R.layout.state_empty)
+                .setEmptyText("暂无联动，请点击添加！")
+                .setErrorOnClickListener(v -> ptrFrameLayout.autoRefresh())
+                .setEmptyOnClickListener(v -> _mActivity.start(AddSceneFragment.newInstance()))
+                .setConvertListener((holder, stateLayout) ->
+                        holder.setOnClickListener(R.id.bt_empty_state,
+                                v -> _mActivity.start(LinkageEditFragment.newInstance()))
+                                .setText(R.id.bt_empty_state, "点击添加"))
+                .build();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventLinkageChanged(EventLinkageChanged event) {
+        onRefresh();
+    }
+
+    @Override
+    public void onRefresh() {
+        params.page = 1;
+        params.pageSize = Constants.PAGE_SIZE;
+        mPresenter.requestLinkageList(params);
     }
 
     private void initListener() {
-        adapter.setOnItemChildClickListener((adapter, view, position) -> {
+        adapter.setOnItemChildClickListener((adapter1, view, position) -> {
             switch (view.getId()) {
-                case R.id.tv_delete_item_scene:
-                    adapter.remove(position);
+                case R.id.tv_delete:
+                    params.index = adapter.getItem(position).getIndex();
+                    delPosition = position;
+                    mPresenter.requestDeleteLinkage(params);
                     break;
                 case R.id.ll_item_intelligence_linkage:
                     _mActivity.start(LinkageEditFragment.newInstance());
@@ -79,5 +136,53 @@ public class LinkageListFragment extends SupportFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void responseLinkageList(List<LinkageBean.DataBean> data) {
+        ptrFrameLayout.refreshComplete();
+        if (data.size() < Constants.PAGE_SIZE) {
+            //如果加载数量小于个数，直接完成
+            adapter.loadMoreEnd();
+        } else {
+            //否则，可继续加载
+            adapter.loadMoreComplete();
+        }
+        if (params.page == 1) {
+            adapter.setNewData(data);
+        } else {
+            adapter.addData(data);
+        }
+        //如果个数为0，显示空
+        if (adapter.getData().size() == 0) {
+            mStateManager.showEmpty();
+            adapter.loadMoreEnd();
+        } else {
+            mStateManager.showContent();
+        }
+    }
+
+    @Override
+    public void responseLinkageSwitch(BaseBean bean) {
+
+    }
+
+    @Override
+    public void responseDeleteLinkage(BaseBean bean) {
+        DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
+        adapter.remove(delPosition);
+    }
+
+    @Override
+    public void error(String errorMessage) {
+        super.error(errorMessage);
+        ptrFrameLayout.refreshComplete();
+        if (params.page == 1) {
+            mStateManager.showError();
+        } else if (params.page > 1) {
+            adapter.loadMoreFail();
+            params.page--;
+        }
     }
 }
