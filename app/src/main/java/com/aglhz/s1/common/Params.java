@@ -42,8 +42,20 @@ public class Params {
     public String category;//
     public int alarmDelay;//
     public int roomId;//roomIndex
-    public int nodeId;
+    public String nodeId;
     public int status;
+
+    public String triggerType;
+    public int cdt_sensorId;
+    public String cdt_sensorAct;
+    public String cdt_day;
+    public String cdt_time;
+    public String targetType;
+    public String targetId;
+    public String act1;
+    public String delay;
+    public String act2;
+
 
 
     public static Params getInstance() {

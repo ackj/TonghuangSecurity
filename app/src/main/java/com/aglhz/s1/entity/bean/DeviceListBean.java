@@ -12,17 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Author: LiuJia on 2017/8/20 0020 18:06.
+ * Author: LiuJia on 2017/8/28 0028 17:13.
  * Email: liujia95me@126.com
  */
 
-public class DeviceListBean extends BaseBean implements Parcelable {
+public class DeviceListBean extends BaseBean implements Parcelable{
 
     /**
-     * data : {"subDevices":[{"category":"device_ctrl","defenseLevel":"24hour","extInfo":{"index":1,"name":"relay4","node":4,"roomId":1,"subType":4,"type":143,"userFlag":0},"icon":"","index":1,"isOline":1,"name":"relay4"}]}
+     * data : {"subDevices":[{"actions":[{"cmd":1,"code":"Open","name":"打开"},{"cmd":0,"code":"Close","name":"关闭"}],"alarmDelay":0,"category":"device_ctrl","defenseLevel":"24hour","extInfo":{"index":0,"name":"","node":1,"roomId":0},"icon":"http://hygn.image.alimmdn.com/subDeviceType/equipment_smartsocket.png","index":0,"isOline":1,"name":"一路插座"},{"actions":[{"cmd":1,"code":"Open","name":"打开"},{"cmd":0,"code":"Close","name":"关闭"}],"alarmDelay":0,"category":"device_ctrl","defenseLevel":"24hour","extInfo":{"index":2,"name":"","node":2,"roomId":0},"icon":"http://hygn.image.alimmdn.com/subDeviceType/equipment_switch.png","index":2,"isOline":1,"name":"二路开关"},{"actions":[{"cmd":1,"code":"Open","name":"打开"},{"cmd":0,"code":"Close","name":"关闭"}],"alarmDelay":0,"category":"device_ctrl","defenseLevel":"24hour","extInfo":{"index":7,"name":"","node":4,"roomId":0},"icon":"http://hygn.image.alimmdn.com/subDeviceType/equipment_switch.png","index":7,"isOline":1,"name":"四路开关"}]}
      */
 
     private DataBean data;
+
+    public DeviceListBean(Parcel source) {
+    }
 
     public DataBean getData() {
         return data;
@@ -32,7 +35,28 @@ public class DeviceListBean extends BaseBean implements Parcelable {
         this.data = data;
     }
 
-    public static class DataBean implements Parcelable {
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.data, flags);
+    }
+    public static final Parcelable.Creator<DeviceListBean> CREATOR = new Parcelable.Creator<DeviceListBean>() {
+        @Override
+        public DeviceListBean createFromParcel(Parcel source) {
+            return new DeviceListBean(source);
+        }
+
+        @Override
+        public DeviceListBean[] newArray(int size) {
+            return new DeviceListBean[size];
+        }
+    };
+
+    public static class DataBean implements Parcelable{
         private List<SubDevicesBean> subDevices;
 
         public List<SubDevicesBean> getSubDevices() {
@@ -43,18 +67,50 @@ public class DeviceListBean extends BaseBean implements Parcelable {
             this.subDevices = subDevices;
         }
 
-        public static class SubDevicesBean extends AbstractExpandableItem<DeviceOnOffBean> implements MultiItemEntity,Serializable, Parcelable {
+        @Override
+        public int describeContents() {
+            return 0;
+        }
 
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeList(this.subDevices);
+        }
+
+        public DataBean() {
+        }
+
+        protected DataBean(Parcel in) {
+            this.subDevices = new ArrayList<>();
+            in.readList(this.subDevices, DeviceListBean.DataBean.SubDevicesBean.class.getClassLoader());
+        }
+
+        public static final Creator<DeviceListBean.DataBean> CREATOR = new Creator<DeviceListBean.DataBean>() {
+            @Override
+            public DeviceListBean.DataBean createFromParcel(Parcel source) {
+                return new DeviceListBean.DataBean(source);
+            }
+
+            @Override
+            public DeviceListBean.DataBean[] newArray(int size) {
+                return new DeviceListBean.DataBean[size];
+            }
+        };
+
+        public static class SubDevicesBean  extends AbstractExpandableItem<DeviceOnOffBean> implements MultiItemEntity,Serializable, Parcelable{
             /**
+             * actions : [{"cmd":1,"code":"Open","name":"打开"},{"cmd":0,"code":"Close","name":"关闭"}]
+             * alarmDelay : 0
              * category : device_ctrl
              * defenseLevel : 24hour
-             * extInfo : {"index":1,"name":"relay4","node":4,"roomId":1,"subType":4,"type":143,"userFlag":0}
-             * icon :
-             * index : 1
+             * extInfo : {"index":0,"name":"","node":1,"roomId":0}
+             * icon : http://hygn.image.alimmdn.com/subDeviceType/equipment_smartsocket.png
+             * index : 0
              * isOline : 1
-             * name : relay4
+             * name : 一路插座
              */
 
+            private int alarmDelay;
             private String category;
             private String defenseLevel;
             private ExtInfoBean extInfo;
@@ -62,6 +118,15 @@ public class DeviceListBean extends BaseBean implements Parcelable {
             private int index;
             private int isOline;
             private String name;
+            private List<ActionsBean> actions;
+
+            public int getAlarmDelay() {
+                return alarmDelay;
+            }
+
+            public void setAlarmDelay(int alarmDelay) {
+                this.alarmDelay = alarmDelay;
+            }
 
             public String getCategory() {
                 return category;
@@ -119,34 +184,77 @@ public class DeviceListBean extends BaseBean implements Parcelable {
                 this.name = name;
             }
 
-            @Override
-            public int getItemType() {
-                return RoomDeviceListRVAdapter.TYPE_DEVICE;
+            public List<ActionsBean> getActions() {
+                return actions;
             }
+
+            public void setActions(List<ActionsBean> actions) {
+                this.actions = actions;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(this.category);
+                dest.writeString(this.defenseLevel);
+                dest.writeSerializable(this.extInfo);
+                dest.writeString(this.icon);
+                dest.writeInt(this.index);
+                dest.writeInt(this.isOline);
+                dest.writeString(this.name);
+            }
+
+            public SubDevicesBean() {
+            }
+
+            protected SubDevicesBean(Parcel in) {
+                this.category = in.readString();
+                this.defenseLevel = in.readString();
+                this.extInfo = (ExtInfoBean) in.readSerializable();
+                this.icon = in.readString();
+                this.index = in.readInt();
+                this.isOline = in.readInt();
+                this.name = in.readString();
+            }
+
+            public static final Creator<DeviceListBean.DataBean.SubDevicesBean> CREATOR = new Creator<DeviceListBean.DataBean.SubDevicesBean>() {
+                @Override
+                public DeviceListBean.DataBean.SubDevicesBean createFromParcel(Parcel source) {
+                    return new DeviceListBean.DataBean.SubDevicesBean(source);
+                }
+
+                @Override
+                public DeviceListBean.DataBean.SubDevicesBean[] newArray(int size) {
+                    return new DeviceListBean.DataBean.SubDevicesBean[size];
+                }
+            };
 
             @Override
             public int getLevel() {
                 return 0;
             }
 
+            @Override
+            public int getItemType() {
+                return RoomDeviceListRVAdapter.TYPE_DEVICE;
+            }
+
             public static class ExtInfoBean implements Serializable, Parcelable {
                 /**
-                 * index : 1
-                 * name : relay4
-                 * node : 4
-                 * roomId : 1
-                 * subType : 4
-                 * type : 143
-                 * userFlag : 0
+                 * index : 0
+                 * name :
+                 * node : 1
+                 * roomId : 0
                  */
 
                 private int index;
                 private String name;
                 private int node;
                 private int roomId;
-                private int subType;
-                private int type;
-                private int userFlag;
 
                 public int getIndex() {
                     return index;
@@ -180,30 +288,6 @@ public class DeviceListBean extends BaseBean implements Parcelable {
                     this.roomId = roomId;
                 }
 
-                public int getSubType() {
-                    return subType;
-                }
-
-                public void setSubType(int subType) {
-                    this.subType = subType;
-                }
-
-                public int getType() {
-                    return type;
-                }
-
-                public void setType(int type) {
-                    this.type = type;
-                }
-
-                public int getUserFlag() {
-                    return userFlag;
-                }
-
-                public void setUserFlag(int userFlag) {
-                    this.userFlag = userFlag;
-                }
-
                 @Override
                 public int describeContents() {
                     return 0;
@@ -215,9 +299,6 @@ public class DeviceListBean extends BaseBean implements Parcelable {
                     dest.writeString(this.name);
                     dest.writeInt(this.node);
                     dest.writeInt(this.roomId);
-                    dest.writeInt(this.subType);
-                    dest.writeInt(this.type);
-                    dest.writeInt(this.userFlag);
                 }
 
                 public ExtInfoBean() {
@@ -228,123 +309,56 @@ public class DeviceListBean extends BaseBean implements Parcelable {
                     this.name = in.readString();
                     this.node = in.readInt();
                     this.roomId = in.readInt();
-                    this.subType = in.readInt();
-                    this.type = in.readInt();
-                    this.userFlag = in.readInt();
                 }
 
-                public static final Creator<ExtInfoBean> CREATOR = new Creator<ExtInfoBean>() {
+                public static final Creator<DeviceListBean.DataBean.SubDevicesBean.ExtInfoBean> CREATOR = new Creator<DeviceListBean.DataBean.SubDevicesBean.ExtInfoBean>() {
                     @Override
-                    public ExtInfoBean createFromParcel(Parcel source) {
-                        return new ExtInfoBean(source);
+                    public DeviceListBean.DataBean.SubDevicesBean.ExtInfoBean createFromParcel(Parcel source) {
+                        return new DeviceListBean.DataBean.SubDevicesBean.ExtInfoBean(source);
                     }
 
                     @Override
-                    public ExtInfoBean[] newArray(int size) {
-                        return new ExtInfoBean[size];
+                    public DeviceListBean.DataBean.SubDevicesBean.ExtInfoBean[] newArray(int size) {
+                        return new DeviceListBean.DataBean.SubDevicesBean.ExtInfoBean[size];
                     }
                 };
             }
 
-            @Override
-            public int describeContents() {
-                return 0;
-            }
+            public static class ActionsBean implements Serializable{
+                /**
+                 * cmd : 1
+                 * code : Open
+                 * name : 打开
+                 */
 
-            @Override
-            public void writeToParcel(Parcel dest, int flags) {
-                dest.writeString(this.category);
-                dest.writeString(this.defenseLevel);
-                dest.writeSerializable(this.extInfo);
-                dest.writeString(this.icon);
-                dest.writeInt(this.index);
-                dest.writeInt(this.isOline);
-                dest.writeString(this.name);
-            }
+                private int cmd;
+                private String code;
+                private String name;
 
-            public SubDevicesBean() {
-            }
-
-            protected SubDevicesBean(Parcel in) {
-                this.category = in.readString();
-                this.defenseLevel = in.readString();
-                this.extInfo = (ExtInfoBean) in.readSerializable();
-                this.icon = in.readString();
-                this.index = in.readInt();
-                this.isOline = in.readInt();
-                this.name = in.readString();
-            }
-
-            public static final Creator<SubDevicesBean> CREATOR = new Creator<SubDevicesBean>() {
-                @Override
-                public SubDevicesBean createFromParcel(Parcel source) {
-                    return new SubDevicesBean(source);
+                public int getCmd() {
+                    return cmd;
                 }
 
-                @Override
-                public SubDevicesBean[] newArray(int size) {
-                    return new SubDevicesBean[size];
+                public void setCmd(int cmd) {
+                    this.cmd = cmd;
                 }
-            };
-        }
 
-        @Override
-        public int describeContents() {
-            return 0;
-        }
+                public String getCode() {
+                    return code;
+                }
 
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeList(this.subDevices);
-        }
+                public void setCode(String code) {
+                    this.code = code;
+                }
 
-        public DataBean() {
-        }
+                public String getName() {
+                    return name;
+                }
 
-        protected DataBean(Parcel in) {
-            this.subDevices = new ArrayList<SubDevicesBean>();
-            in.readList(this.subDevices, SubDevicesBean.class.getClassLoader());
-        }
-
-        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
-            @Override
-            public DataBean createFromParcel(Parcel source) {
-                return new DataBean(source);
+                public void setName(String name) {
+                    this.name = name;
+                }
             }
-
-            @Override
-            public DataBean[] newArray(int size) {
-                return new DataBean[size];
-            }
-        };
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(this.data, flags);
-    }
-
-    public DeviceListBean() {
-    }
-
-    protected DeviceListBean(Parcel in) {
-        this.data = in.readParcelable(DataBean.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<DeviceListBean> CREATOR = new Parcelable.Creator<DeviceListBean>() {
-        @Override
-        public DeviceListBean createFromParcel(Parcel source) {
-            return new DeviceListBean(source);
         }
-
-        @Override
-        public DeviceListBean[] newArray(int size) {
-            return new DeviceListBean[size];
-        }
-    };
+    }
 }

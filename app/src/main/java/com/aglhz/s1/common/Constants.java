@@ -56,6 +56,9 @@ public class Constants {
     //设备分类：sensor/device_ctrl 控制类或者探测器类。默认控制类
     public static final String DEVICE_CTRL = "device_ctrl";
     public static final String SENSOR = "sensor";
+    public static final String TIME = "time";
+    public static final String SCENE = "scene";
+    public static final String DEVICE = "device";
 
     public static final String KEY_SELECTOR = "key_SELECTOR";
 

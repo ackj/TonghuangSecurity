@@ -20,17 +20,14 @@ import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
-import com.aglhz.s1.entity.bean.DeviceOnOffBean;
 import com.aglhz.s1.entity.bean.RoomsBean;
 import com.aglhz.s1.event.EventAddDevice;
 import com.aglhz.s1.event.EventDeviceChanged;
-import com.aglhz.s1.event.OnDeviceOnOffListener;
 import com.aglhz.s1.room.contract.RoomDeviceListContract;
 import com.aglhz.s1.room.presenter.RoomDeviceListPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -71,7 +68,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     private List<String> roomList = new ArrayList<>();
     private ImageView ivHeader;
     private Params params = Params.getInstance();
-    private RoomDeviceListRVAdapter adapter;
+    private RoomDeviceList2RVAdapter adapter;
     private MultiSelectorDialog switchRoomDialog;
     private List<RoomsBean.DataBean.RoomListBean> roomListBean;
     private RoomsBean.DataBean.RoomListBean selectRoom;
@@ -116,7 +113,6 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     private void initToolbar() {
         initStateBar(toolbar);
         toolbarTitle.setText("大厅");
-
         toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_homemore_90px));
         toolbar.inflateMenu(R.menu.room_menu);
 
@@ -159,8 +155,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 .build();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
-        mPresenter.requestHouseList(params);
-        adapter = new RoomDeviceListRVAdapter(null);
+        adapter = new RoomDeviceList2RVAdapter();
         ivHeader = new ImageView(_mActivity);
         Glide.with(_mActivity)
                 .load(R.drawable.room_cesuo_1242px_745px)
@@ -242,17 +237,9 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                     }
                     _mActivity.start(AddDeviceFragment.newInstance(bean, selectRoom));
                     break;
-            }
-        });
-
-        adapter.onOff(new OnDeviceOnOffListener() {
-            @Override
-            public void onOff(int index, int nodeId, int status) {
-                ALog.e(TAG, "onOff:" + index + "---nodeId:" + nodeId + "---status:" + status);
-                params.index = index;
-                params.nodeId = nodeId;
-                params.status = status;
-                mPresenter.requestDevicectrl(params);
+                default:
+                    _mActivity.start(DeviceOnOffFragment.newInstance(bean.getName(), bean.getExtInfo().getNode()));
+                    break;
             }
         });
     }
@@ -274,20 +261,25 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     @Override
     public void responseDeviceList(List<DeviceListBean.DataBean.SubDevicesBean> data) {
         ptrHTFrameLayout.refreshComplete();
-        if (data == null || data.isEmpty()) {
+        if (data.size() < Constants.PAGE_SIZE) {
+            //如果加载数量小于个数，直接完成
+            adapter.loadMoreEnd();
+        } else {
+            //否则，可继续加载
+            adapter.loadMoreComplete();
+        }
+        if (params.page == 1) {
+            adapter.setNewData(data);
+        } else {
+            adapter.addData(data);
+        }
+        //如果个数为0，显示空
+        if (adapter.getData().size() == 0) {
             mStateManager.showEmpty();
-            return;
+            adapter.loadMoreEnd();
+        } else {
+            mStateManager.showContent();
         }
-        List<MultiItemEntity> list = new ArrayList<>();
-        for (DeviceListBean.DataBean.SubDevicesBean bean : data) {
-            list.add(bean);
-            DeviceOnOffBean onOffBean = new DeviceOnOffBean();
-            onOffBean.node = bean.getExtInfo().getNode();
-            onOffBean.deviceIndex = bean.getIndex();
-            bean.addSubItem(onOffBean);
-        }
-        adapter.setNewData(list);
-        mStateManager.showContent();
     }
 
     @Override

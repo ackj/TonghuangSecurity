@@ -6,6 +6,7 @@ import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.entity.bean.DeviceLogBean;
 import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
+import com.aglhz.s1.entity.bean.LinkageBean;
 import com.aglhz.s1.entity.bean.RoomTypesBean;
 import com.aglhz.s1.entity.bean.RoomsBean;
 import com.aglhz.s1.entity.bean.SceneBean;
@@ -149,8 +150,6 @@ public interface ApiService {
     //会员扫描添加主机跳过安装
     String requestNewgateway2 = "/client/newgateway2";
 
-    // 添加联动
-    String requestNewlinkage = "/client/newlinkage";
 
     //添加探测器(传感器)
     String requestNewsensor = "/client/newsensor";
@@ -280,6 +279,15 @@ public interface ApiService {
             , @Field("roomId") int roomId
             , @Field("category") String category);
 
+    //设备列表
+    @FormUrlEncoded
+    @POST
+    Observable<DeviceListBean> requestSubDeviceList(@Url String url
+            , @Field("token") String token
+            , @Field("page") int page
+            , @Field("pageSize") int pageSize
+            , @Field("category") String category);
+
     //设备控制
     String requestDevicectrl = BASE_URL + "/client/devicectrl";
 
@@ -288,7 +296,7 @@ public interface ApiService {
     Observable<BaseBean> requestDevicectrl(@Url String url
             , @Field("token") String token
             , @Field("index") int index
-            , @Field("nodeId") int nodeId
+            , @Field("nodeId") String nodeId
             , @Field("status") int status);
 
     //设备消息记录
@@ -329,6 +337,49 @@ public interface ApiService {
     @POST
     Observable<RoomTypesBean> requestRoomTypeList(@Url String url);
 
+    //----------------------------- 联动相关 ---------------------------------
+    //添加联动
+    String requestNewlinkage = BASE_URL + "/client/newlinkage";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestNewlinkage(@Url String url
+            , @Field("token") String token
+            , @Field("name") String roomName
+            , @Field("triggerType") String triggerType
+            , @Field("cdt_sensorId") int cdt_sensorId
+            , @Field("cdt_sensorAct") String cdt_sensorAct
+            , @Field("cdt_day") String cdt_day
+            , @Field("cdt_time") String cdt_time
+            , @Field("targetType") String targetType
+            , @Field("targetId") String targetId
+            , @Field("nodeId") String nodeId
+            , @Field("act1") String act1
+            , @Field("delay") String delay
+            , @Field("act2") String act2
+    );
+
+    //联动列表
+    String requestLinkageList = BASE_URL + "/client/info/linkageList";
+
+    @FormUrlEncoded
+    @POST
+    Observable<LinkageBean> requestLinkageList(@Url String url
+            , @Field("token") String token
+            , @Field("page") int page
+            , @Field("pageSize") int pageSize
+    );
+
+    //删除联动
+    String requestDellinkage = BASE_URL+"/client/dellinkage";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestDellinkage(@Url String url
+            , @Field("token") String token
+            , @Field("index") int index
+    );
+
     //----------------------------- 关于 ---------------------------------
     String requestFeedback = BASE_URL + "/client/feedback";
 
@@ -339,7 +390,6 @@ public interface ApiService {
                                          @Field("des") String des,
                                          @Field("contact") String contact
     );
-
 
     //-----------------以下为推送相关---------------------
     //切换主机
@@ -578,27 +628,13 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestSaveScene(@Url String url);
 
-
     //----------------------------- 以上为场景 ----------------------------------
-
-
-    //联动列表
-    String requestLinkageList = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestLinkageList(@Url String url);
 
     //联动开关
     String requestLinkageSwitch = BASE_URL + "";
 
     @POST
     Observable<BaseBean> requestLinkageSwitch(@Url String url);
-
-    //删除联动
-    String requestDeleteLinkage = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestDeleteLinkage(@Url String url);
 
     //----------------------------- 更多 ----------------------------------
     //房屋列表
