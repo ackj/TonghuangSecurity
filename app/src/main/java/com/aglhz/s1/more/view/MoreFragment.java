@@ -140,10 +140,9 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
                 _mActivity.start(SetWifiFragment.newInstance());
                 break;
             case R.id.ll_add_host:
+//                _mActivity.start(LoacationFragment.newInstance());
 
                 showAddHostSelecotr();
-
-
                 break;
             case R.id.ll_host_manager:
                 _mActivity.start(GatewayListFragment.newInstance());

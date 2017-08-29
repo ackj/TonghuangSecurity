@@ -7,38 +7,157 @@
 
     <include layout="@layout/toolbar" />
 
-    <EditText
-        android:id="@+id/tv_device_code_add_host_fragment"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/shape_stroke_base_color"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:hint="请输入设备编号"
-        android:lines="1"
-        android:maxLength="50"
-        android:maxLines="1"
-        android:padding="10dp">
+        android:gravity="center_vertical">
 
-    </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="设备编号：" />
 
-    <EditText
-        android:id="@+id/tv_name_add_host_fragment"
+        <EditText
+            android:id="@+id/et_device_code_add_host_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@null"
+            android:ellipsize="end"
+            android:hint="请输入设备编号"
+            android:lines="1"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/base_line" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/shape_stroke_base_color"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:hint="@string/name_4_host"
-        android:lines="1"
-        android:maxLength="50"
-        android:maxLines="1"
-        android:padding="10dp">
+        android:gravity="center_vertical">
 
-        <requestFocus />
-    </EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="主机名称：" />
 
 
+        <EditText
+            android:id="@+id/et_name_add_host_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@null"
+            android:ellipsize="end"
+            android:hint="@string/name_4_host"
+            android:lines="1"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/base_line" />
+
+    <LinearLayout
+        android:id="@+id/ll_location_add_host_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="所在地区：" />
+
+        <TextView
+            android:id="@+id/tv_location_add_host_fragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_location_gray_90"
+            android:tint="@color/base_color" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_arrow_right_30px" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/base_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="详细地址：" />
+
+
+        <EditText
+            android:id="@+id/et_address_add_host_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@null"
+            android:ellipsize="end"
+            android:hint="例如：1号楼1单元101"
+            android:lines="1"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/base_line" />
+
+    <Button
+        android:id="@+id/bt_save_add_host_fragment"
+        android:layout_width="260dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_solid_blue"
+        android:text="保存"
+        android:textColor="@color/white" />
 </LinearLayout>

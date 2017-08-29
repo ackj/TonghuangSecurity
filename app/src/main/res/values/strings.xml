@@ -21,7 +21,7 @@
     <!--Launch模块-->
     <string name="login">登录</string>
 
-    <string name="name_4_host">请为主机取一个名字吧</string>
+    <string name="name_4_host">请为主机取一个名字</string>
 
     <!--反馈-->
     <string name="feedback">请填写反馈信息</string>
