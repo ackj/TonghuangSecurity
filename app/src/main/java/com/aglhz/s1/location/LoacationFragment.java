@@ -541,5 +541,4 @@ public class LoacationFragment extends BaseFragment implements
         imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
 }

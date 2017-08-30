@@ -194,7 +194,6 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginoutEvent(LogInterceptor event) {
-        ALog.e("登出…………………………………………………………………………");
         tvNickname.setText("访客");
         tvPhoneNumber.setText("");
         ivAvatar.setImageResource(R.drawable.ic_more_avatar_black_180px);
