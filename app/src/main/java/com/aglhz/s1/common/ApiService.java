@@ -1,5 +1,7 @@
 package com.aglhz.s1.common;
 
+import com.aglhz.s1.entity.bean.AppUpdateBean;
+import com.aglhz.s1.entity.bean.AuthorizationBean;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.CheckTokenBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
@@ -386,7 +388,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestGatewayAuthList(@Url String url
+    Observable<AuthorizationBean> requestGatewayAuthList(@Url String url
             , @Field("token") String token
             , @Field("page") int page
             , @Field("pageSize") int pageSize
@@ -423,7 +425,7 @@ public interface ApiService {
                                          @Field("contact") String contact
     );
 
-    //-----------------以下为推送相关---------------------
+    //-----------------以下为主机操作相关---------------------
     //切换主机
     String requestSwichGateway = BASE_URL + "/client/gatewaySW";
 
@@ -449,7 +451,7 @@ public interface ApiService {
 
 
     //添加主机
-    String requestAddHost = BASE_URL + "/client/newgateway2";
+    String requestAddHost = BASE_URL + "/client/newgateway3";
 
     @FormUrlEncoded
     @POST
@@ -461,6 +463,25 @@ public interface ApiService {
                                         @Field("lng") String lng,
                                         @Field("lat") String lat);
 
+    //修改主机定位
+    String requestEditHostLocation = BASE_URL + "/client/gatewayAddrSet";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestEditHostLocation(@Url String url,
+                                                 @Field("token") String token,
+                                                 @Field("addr") String addr,
+                                                 @Field("lng") String lng,
+                                                 @Field("lat") String lat,
+                                                 @Field("gateway") String gateway);
+
+    //设置报警短信
+    String requestAlertSms = BASE_URL + "";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestAlertSms(@Url String url,
+                                         @Field("token") String token);
 
     //----------------------------- 以上为主机操作相关 ---------------------------------
 
@@ -678,4 +699,12 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestHouseList(@Url String url);
 
+
+    //********************以下为更新App接口*******************************
+    String requestAppUpdatae = BASE_URL + "";
+
+    @POST
+    Observable<AppUpdateBean> requestAppUpdatae(@Url String url);
+
+    //********************以上为更新App接口*******************************
 }

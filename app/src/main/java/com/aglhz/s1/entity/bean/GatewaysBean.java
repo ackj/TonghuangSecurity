@@ -1,5 +1,8 @@
 package com.aglhz.s1.entity.bean;
 
+import android.os.Parcel;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,7 +10,6 @@ import java.util.List;
  * Email： liujia95me@126.com
  */
 public class GatewaysBean extends BaseBean{
-
 
     private List<DataBean> data;
 
@@ -19,7 +21,7 @@ public class GatewaysBean extends BaseBean{
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements android.os.Parcelable {
         /**
          * fid : qbfvfdvd
          * isCurrent : 1
@@ -94,7 +96,7 @@ public class GatewaysBean extends BaseBean{
             this.status = status;
         }
 
-        public static class ResidenceBean {
+        public static class ResidenceBean implements android.os.Parcelable {
             /**
              * addr : 惠州江北凯宾斯基C座
              * fid : irifirkfk
@@ -128,6 +130,112 @@ public class GatewaysBean extends BaseBean{
             public void setName(String name) {
                 this.name = name;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(this.addr);
+                dest.writeString(this.fid);
+                dest.writeString(this.name);
+            }
+
+            public ResidenceBean() {
+            }
+
+            protected ResidenceBean(Parcel in) {
+                this.addr = in.readString();
+                this.fid = in.readString();
+                this.name = in.readString();
+            }
+
+            public static final Creator<ResidenceBean> CREATOR = new Creator<ResidenceBean>() {
+                @Override
+                public ResidenceBean createFromParcel(Parcel source) {
+                    return new ResidenceBean(source);
+                }
+
+                @Override
+                public ResidenceBean[] newArray(int size) {
+                    return new ResidenceBean[size];
+                }
+            };
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.fid);
+            dest.writeInt(this.isCurrent);
+            dest.writeInt(this.isManager);
+            dest.writeInt(this.isOnline);
+            dest.writeString(this.name);
+            dest.writeParcelable(this.residence, flags);
+            dest.writeInt(this.status);
+        }
+
+        public DataBean() {
+        }
+
+        protected DataBean(Parcel in) {
+            this.fid = in.readString();
+            this.isCurrent = in.readInt();
+            this.isManager = in.readInt();
+            this.isOnline = in.readInt();
+            this.name = in.readString();
+            this.residence = in.readParcelable(ResidenceBean.class.getClassLoader());
+            this.status = in.readInt();
+        }
+
+        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel source) {
+                return new DataBean(source);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeList(this.data);
+    }
+
+    public GatewaysBean() {
+    }
+
+    protected GatewaysBean(Parcel in) {
+        super(in);
+        this.data = new ArrayList<DataBean>();
+        in.readList(this.data, DataBean.class.getClassLoader());
+    }
+
+    public static final Creator<GatewaysBean> CREATOR = new Creator<GatewaysBean>() {
+        @Override
+        public GatewaysBean createFromParcel(Parcel source) {
+            return new GatewaysBean(source);
+        }
+
+        @Override
+        public GatewaysBean[] newArray(int size) {
+            return new GatewaysBean[size];
+        }
+    };
 }

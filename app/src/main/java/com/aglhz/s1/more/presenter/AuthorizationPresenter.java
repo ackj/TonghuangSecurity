@@ -39,5 +39,31 @@ public class AuthorizationPresenter extends BasePresenter<AuthorizationContract.
                 }, this::error));
     }
 
-    
+    @Override
+    public void requestGatewayAuth(Params params) {
+        mRxManager.add(mModel.requestGatewayAuth(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseGatewayAuthSuccesst(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
+
+    @Override
+    public void requestGatewayUnAuth(Params params) {
+        mRxManager.add(mModel.requestGatewayUnAuth(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseGatewayUnAuthSuccesst(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
+
+
 }

@@ -2,6 +2,7 @@ package com.aglhz.s1.more.model;
 
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.AuthorizationBean;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.more.contract.AuthorizationContract;
 
@@ -17,9 +18,23 @@ public class AuthorizationModel extends BaseModel implements AuthorizationContra
     }
 
 	@Override
-    public Observable<BaseBean> requestgatewayAuthList(Params params) {
+    public Observable<AuthorizationBean> requestgatewayAuthList(Params params) {
         return HttpHelper.getService(ApiService.class).requestGatewayAuthList(ApiService.requestGatewayAuthList
                 ,params.token,params.page,params.pageSize)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseBean> requestGatewayAuth(Params params) {
+        return HttpHelper.getService(ApiService.class).requestGatewayAuth(ApiService.requestGatewayAuth
+                ,params.token,params.mobile)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseBean> requestGatewayUnAuth(Params params) {
+        return HttpHelper.getService(ApiService.class).requestGatewayUnAuth(ApiService.requestGatewayUnAuth
+                ,params.token,params.fid)
                 .subscribeOn(Schedulers.io());
     }
 

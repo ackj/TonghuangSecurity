@@ -44,6 +44,12 @@ public class Constants {
 
     //key
     public static final String KEY_HOST_NUMBER = "host_number";
+    public static final String KEY_HOST = "key_host";
+//    public static final String KEY_ADD_TYPE = "KEY_ADD_TYPE";//0是添加，1是编辑。
+
+
+//    public static final int TYPE_ADD_HOST = 0;//0是添加。
+//    public static final int TYPE_EDIT_HOST = 1;//1是编辑。
 
 
     //额外推送类型。

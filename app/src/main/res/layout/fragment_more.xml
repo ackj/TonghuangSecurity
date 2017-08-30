@@ -75,17 +75,17 @@
             <View style="@style/MoreItem_LineStyle" />
 
             <LinearLayout
-                android:id="@+id/ll_host_setting"
+                android:id="@+id/ll_host_manager"
                 style="@style/MoreItem_LinearLayoutStyle">
 
                 <ImageView
                     android:layout_width="75dp"
                     android:layout_height="23dp"
-                    android:src="@drawable/ic_host_setting_69_69" />
+                    android:src="@drawable/ic_host_manager_69_69" />
 
                 <TextView
                     style="@style/MoreItem_TitleStyle"
-                    android:text="主机设置" />
+                    android:text="主机管理" />
             </LinearLayout>
 
             <View style="@style/MoreItem_LineStyle" />
@@ -120,7 +120,7 @@
                     android:text="添加主机" />
             </LinearLayout>
 
-            <View style="@style/MoreItem_LineStyle" />
+            <!--<View style="@style/MoreItem_LineStyle" />
 
             <LinearLayout
                 android:id="@+id/ll_authorization"
@@ -134,23 +134,7 @@
                 <TextView
                     style="@style/MoreItem_TitleStyle"
                     android:text="授权" />
-            </LinearLayout>
-
-            <View style="@style/MoreItem_LineStyle" />
-
-            <LinearLayout
-                android:id="@+id/ll_host_manager"
-                style="@style/MoreItem_LinearLayoutStyle">
-
-                <ImageView
-                    android:layout_width="75dp"
-                    android:layout_height="23dp"
-                    android:src="@drawable/ic_host_manager_69_69" />
-
-                <TextView
-                    style="@style/MoreItem_TitleStyle"
-                    android:text="主机管理" />
-            </LinearLayout>
+            </LinearLayout>-->
 
             <View style="@style/MoreItem_LineStyle" />
 

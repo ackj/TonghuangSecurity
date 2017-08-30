@@ -1,10 +1,10 @@
-package com.aglhz.s1.more.model;
+package com.aglhz.s1.host.model;
 
 
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.more.contract.AddHostContract;
+import com.aglhz.s1.host.contract.AddHostContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;
@@ -32,6 +32,18 @@ public class AddHostModel extends BaseModel implements AddHostContract.Model {
                         params.addr,
                         params.lng,
                         params.lat)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseBean> requestEditHostLocation(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestEditHostLocation(ApiService.requestEditHostLocation,
+                        params.token,
+                        params.addr,
+                        params.lng,
+                        params.lat,
+                        params.gateway)
                 .subscribeOn(Schedulers.io());
     }
 }

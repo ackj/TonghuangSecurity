@@ -59,6 +59,9 @@ public class Params {
     public String delay;
     public String act2;
 
+    public String mobile;
+    public String fid;
+
 
     public static Params getInstance() {
         Params params = new Params();
