@@ -32,6 +32,9 @@ public class Params {
     public String residenceFid = "";
     public String dstatus = "";
     public String no = "";
+    public String addr = "";
+    public String lng = "";
+    public String lat = "";
     public String name = "";
     public String paramJson = "";
     public int index;
@@ -55,7 +58,6 @@ public class Params {
     public String act1;
     public String delay;
     public String act2;
-
 
 
     public static Params getInstance() {

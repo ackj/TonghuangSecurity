@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
+import com.aglhz.s1.common.LbsManager;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.location.LoacationFragment;
@@ -56,6 +57,7 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     Button btSave;
     private Unbinder unbinder;
     private Params params = Params.getInstance();
+    private PoiItem poiItem;
 
     public static AddHostFragment newInstance(String hostNumber) {
         Bundle args = new Bundle();
@@ -85,7 +87,7 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_host, container, false);
         unbinder = ButterKnife.bind(this, view);
-        return view;
+        return attachToSwipeBack(view);
     }
 
     @Override
@@ -93,6 +95,17 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
         initData();
+        initLocation();
+    }
+
+    private void initLocation() {
+        LbsManager.getInstance().startLocation(aMapLocation -> {
+            if (aMapLocation != null
+                    && aMapLocation.getErrorCode() == 0) {
+                LbsManager.getInstance().stopLocation();
+                tvLocation.setText(aMapLocation.getAddress());
+            }
+        });
     }
 
     private void initData() {
@@ -110,6 +123,7 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        LbsManager.getInstance().stopLocation();
     }
 
     @Override
@@ -125,12 +139,42 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
                 startForResult(LoacationFragment.newInstance(), SupportFragment.RESULT_OK);
                 break;
             case R.id.bt_save_add_host_fragment:
+                if (TextUtils.isEmpty(etDeviceCode.getText().toString())) {
+                    DialogHelper.errorSnackbar(getView(), "主机编码不能为空！");
+                    return;
+                }
                 if (TextUtils.isEmpty(etName.getText().toString())) {
                     DialogHelper.errorSnackbar(getView(), "主机名称不能为空！");
                     return;
                 }
-                params.name = etName.getText().toString();
+                if (TextUtils.isEmpty(tvLocation.getText().toString())) {
+                    DialogHelper.errorSnackbar(getView(), "所在地区不能为空！");
+                    return;
+                }
+                if (TextUtils.isEmpty(etAddress.getText().toString())) {
+                    DialogHelper.errorSnackbar(getView(), "详细地址不能为空！");
+                    return;
+                }
+                if (poiItem == null) {
+                    DialogHelper.errorSnackbar(getView(), "为获取到定位信息，请重新选择地址！");
+                    return;
+                }
                 params.no = etDeviceCode.getText().toString().trim();
+                params.name = etName.getText().toString();
+
+                StringBuilder sb = new StringBuilder()
+                        .append(poiItem.getProvinceName())
+                        .append(poiItem.getCityName())
+                        .append(poiItem.getAdName())
+                        .append(poiItem.getSnippet())
+                        .append(poiItem.getTitle())
+                        .append(etAddress.getText().toString());
+
+                ALog.e(" params.addr -->" + sb.toString());
+                params.addr = sb.toString();
+
+                params.lng = poiItem.getLatLonPoint().getLongitude() + "";
+                params.lat = poiItem.getLatLonPoint().getLatitude() + "";
                 mPresenter.requestAddHost(params);
                 break;
         }
@@ -139,11 +183,23 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     @Override
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
-        ALog.e("11111111");
         if (data != null) {
-            PoiItem poiItem = data.getParcelable(LoacationFragment.POI);
+            poiItem = data.getParcelable(LoacationFragment.POI);
             if (poiItem != null) {
-                tvLocation.setText(poiItem.toString());
+                tvLocation.setText(poiItem.getTitle());
+
+
+                ALog.e(poiItem.getAdCode());
+                ALog.e(poiItem.getBusinessArea());
+                ALog.e(poiItem.getCityName());
+                ALog.e(poiItem.getParkingType());
+                ALog.e(poiItem.getDirection());
+                ALog.e(poiItem.getProvinceName());
+                ALog.e(poiItem.getSnippet());
+                ALog.e(poiItem.getTel());
+                ALog.e(poiItem.getTitle());
+                ALog.e(poiItem.getWebsite());
+
             }
         }
     }

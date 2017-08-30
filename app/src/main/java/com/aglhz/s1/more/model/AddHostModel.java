@@ -28,7 +28,10 @@ public class AddHostModel extends BaseModel implements AddHostContract.Model {
                 .requestAddHost(ApiService.requestAddHost,
                         params.token,
                         params.no,
-                        params.name)
+                        params.name,
+                        params.addr,
+                        params.lng,
+                        params.lat)
                 .subscribeOn(Schedulers.io());
     }
 }
