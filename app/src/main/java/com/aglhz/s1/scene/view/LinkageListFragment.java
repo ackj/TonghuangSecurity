@@ -97,7 +97,7 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
                 .setEmptyView(R.layout.state_empty)
                 .setEmptyText("暂无联动，请点击添加！")
                 .setErrorOnClickListener(v -> ptrFrameLayout.autoRefresh())
-                .setEmptyOnClickListener(v -> _mActivity.start(AddSceneFragment.newInstance()))
+                .setEmptyOnClickListener(v -> _mActivity.start(LinkageEditFragment.newInstance()))
                 .setConvertListener((holder, stateLayout) ->
                         holder.setOnClickListener(R.id.bt_empty_state,
                                 v -> _mActivity.start(LinkageEditFragment.newInstance()))
