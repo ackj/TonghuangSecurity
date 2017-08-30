@@ -114,6 +114,7 @@ public class AlertSmsFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        KeyBoardUtils.hideKeybord(etPhone1, App.mContext);//必须在unbind之前调用。
         unbinder.unbind();
         mRxManager.clear();
     }

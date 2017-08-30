@@ -138,6 +138,7 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        KeyBoardUtils.hideKeybord(etAddress, _mActivity);
         unbinder.unbind();
         LbsManager.getInstance().stopLocation();
     }
@@ -146,14 +147,12 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     public void responseAddHost(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
         pop();
-        KeyBoardUtils.hideKeybord(etAddress, App.mContext);
     }
 
     @Override
     public void responseEditHostLocation(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
         pop();
-        KeyBoardUtils.hideKeybord(etAddress, App.mContext);
     }
 
     @OnClick({R.id.ll_location_add_host_fragment, R.id.bt_save_add_host_fragment})
