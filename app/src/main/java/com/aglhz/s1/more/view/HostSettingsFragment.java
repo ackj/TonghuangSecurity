@@ -28,7 +28,6 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
  */
 
 public class HostSettingsFragment extends BaseFragment {
-
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)

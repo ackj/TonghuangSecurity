@@ -53,10 +53,13 @@
             android:value="Umeng" />
         <!-- 以上友盟推送 -->
 
-        <!-- 高德地图 -->
+        <!-- 以下为高德地图配置 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="b7a4234d0109132a81aacf7c3b2f3f31" />
+
+        <service android:name="com.amap.api.location.APSService" />
+        <!-- 以上为高德地图配置 -->
 
         <activity
             android:name=".launch.LaunchActivity"
