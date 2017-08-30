@@ -72,7 +72,7 @@ public class PushSettingsFragment extends BaseFragment<HostConfigContract.Presen
     private Unbinder unbinder;
     private GatewaysBean.DataBean hostBean;
     private Params params = Params.getInstance();
-    private SwitchButton currentSb;
+    private SwitchButton sbCurrent;
 
     public static PushSettingsFragment newInstance(GatewaysBean.DataBean hostBean) {
         Bundle args = new Bundle();
@@ -133,7 +133,7 @@ public class PushSettingsFragment extends BaseFragment<HostConfigContract.Presen
     @Override
     public void responseHostConfig(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
-        currentSb.setChecked(params.val.equals("1"));
+        sbCurrent.setChecked(params.val.equals("1"));
     }
 
     @OnClick({R.id.ll_waijiedianyuandiaodian, R.id.ll_huifuwaijiedianyuan, R.id.ll_bufangchefang, R.id.ll_zhujidianchidianliangdi, R.id.ll_chuanganqidianliangdi, R.id.ll_wifilianjei, R.id.ll_wifiduankai, R.id.ll_duanxintuisong})
@@ -141,39 +141,39 @@ public class PushSettingsFragment extends BaseFragment<HostConfigContract.Presen
         switch (view.getId()) {
             case R.id.ll_waijiedianyuandiaodian:
                 params.subType = Constants.PS_POWER_FAIL;
-                currentSb = sbWaijiedianyuandiaodian;
+                sbCurrent = sbWaijiedianyuandiaodian;
                 break;
             case R.id.ll_huifuwaijiedianyuan:
                 params.subType = Constants.PS_POWER_RECOVER;
-                currentSb = sbHuifuwaijiedianyuan;
+                sbCurrent = sbHuifuwaijiedianyuan;
                 break;
             case R.id.ll_bufangchefang:
                 params.subType = Constants.PS_DEFENSE_CHG;
-                currentSb = sbBufangchefang;
+                sbCurrent = sbBufangchefang;
                 break;
             case R.id.ll_zhujidianchidianliangdi:
                 params.subType = Constants.PS_HOST_POWER_LOW;
-                currentSb = sbZhujidianchidianliangdi;
+                sbCurrent = sbZhujidianchidianliangdi;
                 break;
             case R.id.ll_chuanganqidianliangdi:
                 params.subType = Constants.PS_SENSOR_POWER_LOW;
-                currentSb = sbChuanganqidianliangdi;
+                sbCurrent = sbChuanganqidianliangdi;
                 break;
             case R.id.ll_wifilianjei:
                 params.subType = Constants.PS_WIFI_CONNECT;
-                currentSb = sbWifilianjei;
+                sbCurrent = sbWifilianjei;
                 break;
             case R.id.ll_wifiduankai:
                 params.subType = Constants.PS_WIFI_DISCONNECT;
-                currentSb = sbWifiduankai;
+                sbCurrent = sbWifiduankai;
                 break;
             case R.id.ll_duanxintuisong:
                 params.subType = Constants.PS_SMS_TOPHONE;
-                currentSb = sbDuanxintuisong;
+                sbCurrent = sbDuanxintuisong;
                 break;
         }
         //这里之所以这么做是因为不想看到当网络出错的时候，而开关却显示已经切换了，所以为了避免这种情况，在网络访问成功的时候才切换。
-        params.val = currentSb.isChecked() ? "0" : "1";//是相反的，这里需要注意一下。
+        params.val = sbCurrent.isChecked() ? "0" : "1";//是相反的，这里需要注意一下。
         mPresenter.requestHostConfig(params);
     }
 }

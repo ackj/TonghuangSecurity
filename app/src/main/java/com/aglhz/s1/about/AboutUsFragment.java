@@ -67,6 +67,8 @@ public class AboutUsFragment extends BaseFragment {
         initStateBar(toolbar);
         toolbarTitle.setText("关于我们");
         tvVersionName.setText("版本：" + AppUtils.getVersionName(App.mContext));
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
+        toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
 
     @OnClick({R.id.tv_check_update,
@@ -86,7 +88,7 @@ public class AboutUsFragment extends BaseFragment {
      * 检测是否有新版本需要下载更新。
      */
     private void updateApp() {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("appType", "1");
         new UpdateAppManager
                 .Builder()

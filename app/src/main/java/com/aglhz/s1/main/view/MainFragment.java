@@ -140,7 +140,7 @@ public class MainFragment extends BaseFragment {
      */
     private void updateApp() {
         ALog.e("requestAppUpdatae-->" + ApiService.requestAppUpdatae);
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("appType", "1");
 
         new UpdateAppManager

@@ -15,6 +15,7 @@ public class GatewayListRVAdapter extends BaseRecyclerViewAdapter<GatewaysBean.D
     @Override
     protected void convert(BaseViewHolder helper, GatewaysBean.DataBean item) {
         helper.setText(R.id.tv_people_type, item.getIsManager() == 1 ? "管理员" : "成员")
-                .setText(R.id.tv_name, item.getName());
+                .setText(R.id.tv_name, item.getName())
+                .setText(R.id.tv_current, item.getIsCurrent() == 1 ? "当前主机" : "");
     }
 }
