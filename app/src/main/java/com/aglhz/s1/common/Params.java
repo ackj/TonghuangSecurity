@@ -37,6 +37,9 @@ public class Params {
     public String lat = "";
     public String name = "";
     public String paramJson = "";
+    public String type = "";
+    public String subType = "";
+    public String val = "";
     public int index;
     public int option;
     public String des;
@@ -58,7 +61,6 @@ public class Params {
     public String act1;
     public String delay;
     public String act2;
-
     public String mobile;
     public String fid;
 

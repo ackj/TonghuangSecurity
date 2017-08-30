@@ -475,13 +475,17 @@ public interface ApiService {
                                                  @Field("lat") String lat,
                                                  @Field("gateway") String gateway);
 
-    //设置报警短信
-    String requestAlertSms = BASE_URL + "";
+    //主机配置都归为这一个借口。如：音量，短信，推送等。
+    String requestHostConfig = BASE_URL + "/client/gatewayConfig";
 
     @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestAlertSms(@Url String url,
-                                         @Field("token") String token);
+    Observable<BaseBean> requestHostConfig(@Url String url,
+                                       @Field("gateway") String gateway,
+                                       @Field("token") String token,
+                                       @Field("type") String type,
+                                       @Field("subType") String subType,
+                                       @Field("val") String val);
 
     //----------------------------- 以上为主机操作相关 ---------------------------------
 

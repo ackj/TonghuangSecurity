@@ -1,6 +1,7 @@
 package com.aglhz.s1.host.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -11,11 +12,12 @@ import android.widget.TextView;
 
 import com.aglhz.s1.App;
 import com.aglhz.s1.R;
-import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
+import com.aglhz.s1.host.contract.HostConfigContract;
+import com.aglhz.s1.host.presenter.HostConfigPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,17 +25,14 @@ import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.common.RxManager;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
-import cn.itsite.abase.network.http.HttpHelper;
 import cn.itsite.abase.utils.KeyBoardUtils;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Author: LiuJia on 2017/5/2 0002 20:14.
  * Email: liujia95me@126.com
  */
 
-public class AlertSmsFragment extends BaseFragment {
+public class AlertSmsFragment extends BaseFragment<HostConfigContract.Presenter> implements HostConfigContract.View {
     public static final String TAG = AlertSmsFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -67,6 +66,12 @@ public class AlertSmsFragment extends BaseFragment {
         }
     }
 
+    @NonNull
+    @Override
+    protected HostConfigContract.Presenter createPresenter() {
+        return new HostConfigPresenter(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -87,28 +92,13 @@ public class AlertSmsFragment extends BaseFragment {
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
         toolbarMenu.setText("保存");
-        toolbarMenu.setOnClickListener(v -> save());
-    }
-
-    private void save() {
-        mRxManager.add(HttpHelper.getService(ApiService.class)
-                .requestAlertSms(ApiService.requestAlertSms,
-                        params.token)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(bean -> {
-                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        responseAlertSms(bean);
-                    } else {
-                        error(bean.getOther().getMessage());
-                    }
-                }, this::error, () -> complete(null), disposable -> start(null)));
-    }
-
-    private void responseAlertSms(BaseBean bean) {
-        DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
-        pop();
-        KeyBoardUtils.hideKeybord(etPhone1, App.mContext);
+        toolbarMenu.setOnClickListener(v -> {
+            params.gateway = hostBean.getFid();
+            params.type = Constants.PHONE;
+            params.subType = Constants.P_PUSH;
+            params.val = etPhone1.getText().toString().trim() + "," + etPhone2.getText().toString().trim();
+            mPresenter.requestHostConfig(params);
+        });
     }
 
     @Override
@@ -117,5 +107,11 @@ public class AlertSmsFragment extends BaseFragment {
         KeyBoardUtils.hideKeybord(etPhone1, App.mContext);//必须在unbind之前调用。
         unbinder.unbind();
         mRxManager.clear();
+    }
+
+    @Override
+    public void responseHostConfig(BaseBean baseBean) {
+        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
+        pop();
     }
 }

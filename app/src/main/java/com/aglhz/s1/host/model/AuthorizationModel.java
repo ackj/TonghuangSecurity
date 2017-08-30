@@ -1,10 +1,10 @@
-package com.aglhz.s1.more.model;
+package com.aglhz.s1.host.model;
 
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.AuthorizationBean;
 import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.more.contract.AuthorizationContract;
+import com.aglhz.s1.host.contract.AuthorizationContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;

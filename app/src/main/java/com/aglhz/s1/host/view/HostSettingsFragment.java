@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.entity.bean.GatewaysBean;
-import com.aglhz.s1.more.view.AuthorizationFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
