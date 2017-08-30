@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -56,6 +57,7 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     Button btSave;
     private Unbinder unbinder;
     private Params params = Params.getInstance();
+    private PoiItem poiItem;
 
     public static AddHostFragment newInstance(String hostNumber) {
         Bundle args = new Bundle();
@@ -153,8 +155,26 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
                     DialogHelper.errorSnackbar(getView(), "详细地址不能为空！");
                     return;
                 }
-                params.name = etName.getText().toString();
+                if (poiItem == null) {
+                    DialogHelper.errorSnackbar(getView(), "为获取到定位信息，请重新选择地址！");
+                    return;
+                }
                 params.no = etDeviceCode.getText().toString().trim();
+                params.name = etName.getText().toString();
+
+                StringBuilder sb = new StringBuilder()
+                        .append(poiItem.getProvinceName())
+                        .append(poiItem.getCityName())
+                        .append(poiItem.getAdName())
+                        .append(poiItem.getSnippet())
+                        .append(poiItem.getTitle())
+                        .append(etAddress.getText().toString());
+
+                ALog.e(" params.addr -->" + sb.toString());
+                params.addr = sb.toString();
+
+                params.lng = poiItem.getLatLonPoint().getLongitude() + "";
+                params.lat = poiItem.getLatLonPoint().getLatitude() + "";
                 mPresenter.requestAddHost(params);
                 break;
         }
@@ -164,9 +184,22 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
         if (data != null) {
-            PoiItem poiItem = data.getParcelable(LoacationFragment.POI);
+            poiItem = data.getParcelable(LoacationFragment.POI);
             if (poiItem != null) {
-                tvLocation.setText(poiItem.toString());
+                tvLocation.setText(poiItem.getTitle());
+
+
+                ALog.e(poiItem.getAdCode());
+                ALog.e(poiItem.getBusinessArea());
+                ALog.e(poiItem.getCityName());
+                ALog.e(poiItem.getParkingType());
+                ALog.e(poiItem.getDirection());
+                ALog.e(poiItem.getProvinceName());
+                ALog.e(poiItem.getSnippet());
+                ALog.e(poiItem.getTel());
+                ALog.e(poiItem.getTitle());
+                ALog.e(poiItem.getWebsite());
+
             }
         }
     }

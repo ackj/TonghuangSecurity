@@ -371,7 +371,7 @@ public interface ApiService {
     );
 
     //删除联动
-    String requestDellinkage = BASE_URL+"/client/dellinkage";
+    String requestDellinkage = BASE_URL + "/client/dellinkage";
 
     @FormUrlEncoded
     @POST
@@ -424,7 +424,10 @@ public interface ApiService {
     Observable<BaseBean> requestAddHost(@Url String url,
                                         @Field("token") String token,
                                         @Field("no") String no,
-                                        @Field("name") String name);
+                                        @Field("name") String name,
+                                        @Field("addr") String addr,
+                                        @Field("lng") String lng,
+                                        @Field("lat") String lat);
 
 
     //----------------------------- 以上为主机操作相关 ---------------------------------
