@@ -379,6 +379,38 @@ public interface ApiService {
             , @Field("token") String token
             , @Field("index") int index
     );
+    //----------------------------- 授权相关 ---------------------------------
+
+    //会员主机授权列表
+    String requestGatewayAuthList = BASE_URL + "/client/info/gatewayAuthList";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestGatewayAuthList(@Url String url
+            , @Field("token") String token
+            , @Field("page") int page
+            , @Field("pageSize") int pageSize
+    );
+
+    //解除主机授权
+    String requestGatewayUnAuth = BASE_URL + "/client/gatewayUnAuth";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestGatewayUnAuth(@Url String url
+            , @Field("token") String token
+            , @Field("fid") String fid
+    );
+
+    //选择一个主机，授权给用户
+    String requestGatewayAuth = BASE_URL + "/client/gatewayAuth";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestGatewayAuth(@Url String url
+            , @Field("token") String token
+            , @Field("mobile") String mobile
+    );
 
     //----------------------------- 关于 ---------------------------------
     String requestFeedback = BASE_URL + "/client/feedback";

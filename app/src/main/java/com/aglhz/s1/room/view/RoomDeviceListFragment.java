@@ -238,7 +238,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                     _mActivity.start(AddDeviceFragment.newInstance(bean, selectRoom));
                     break;
                 default:
-                    _mActivity.start(DeviceOnOffFragment.newInstance(bean.getName(), bean.getExtInfo().getNode()));
+                    _mActivity.start(DeviceOnOffFragment.newInstance(bean.getName(), bean.getExtInfo().getNode(),bean.getIndex()));
                     break;
             }
         });

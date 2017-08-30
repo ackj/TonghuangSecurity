@@ -122,17 +122,19 @@
 
             <View style="@style/MoreItem_LineStyle" />
 
-            <!--            <LinearLayout style="@style/MoreItem_LinearLayoutStyle">
+            <LinearLayout
+                android:id="@+id/ll_authorization"
+                style="@style/MoreItem_LinearLayoutStyle">
 
-                            <ImageView
-                                android:layout_width="75dp"
-                                android:layout_height="23dp"
-                                android:src="@drawable/ic_room_69_69" />
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="23dp"
+                    android:src="@drawable/ic_room_69_69" />
 
-                            <TextView
-                                style="@style/MoreItem_TitleStyle"
-                                android:text="授权" />
-                        </LinearLayout>-->
+                <TextView
+                    style="@style/MoreItem_TitleStyle"
+                    android:text="授权" />
+            </LinearLayout>
 
             <View style="@style/MoreItem_LineStyle" />
 

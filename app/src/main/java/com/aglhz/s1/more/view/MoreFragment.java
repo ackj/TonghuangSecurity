@@ -121,6 +121,7 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
             R.id.ll_host_setting,
             R.id.ll_wifi_setting,
             R.id.ll_add_host,
+            R.id.ll_authorization,
             R.id.ll_host_manager,
             R.id.ll_about,
             R.id.ll_logout})
@@ -143,6 +144,9 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
 //                _mActivity.start(LoacationFragment.newInstance());
 
                 showAddHostSelecotr();
+                break;
+            case R.id.ll_authorization:
+
                 break;
             case R.id.ll_host_manager:
                 _mActivity.start(GatewayListFragment.newInstance());

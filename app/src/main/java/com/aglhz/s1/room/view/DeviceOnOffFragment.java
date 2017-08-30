@@ -1,7 +1,10 @@
 package com.aglhz.s1.room.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +12,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.room.contract.DeviceOnOffContract;
+import com.aglhz.s1.room.presenter.DeviceOnOffPresenter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 
 /**
@@ -20,24 +32,35 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
  * Email: liujia95me@126.com
  */
 
-public class DeviceOnOffFragment extends BaseFragment {
+public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presenter> implements DeviceOnOffContract.View {
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
     Unbinder unbinder;
     private int node;
     private String name;
+    private DeviceOnOffRVAdapter adapter;
+    private Params params = Params.getInstance();
 
-    public static DeviceOnOffFragment newInstance(String name, int node) {
+    public static DeviceOnOffFragment newInstance(String name, int node, int index) {
         DeviceOnOffFragment fragment = new DeviceOnOffFragment();
         Bundle bundle = new Bundle();
         bundle.putString("name", name);
         bundle.putInt("node", node);
+        bundle.putInt("index", index);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @NonNull
+    @Override
+    protected DeviceOnOffContract.Presenter createPresenter() {
+        return new DeviceOnOffPresenter(this);
     }
 
     @Nullable
@@ -47,6 +70,7 @@ public class DeviceOnOffFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, view);
         name = getArguments().getString("name");
         node = getArguments().getInt("node");
+        params.index = getArguments().getInt("index");
         return view;
     }
 
@@ -71,9 +95,32 @@ public class DeviceOnOffFragment extends BaseFragment {
     }
 
     private void initData() {
+        List<Integer> data = new ArrayList<>();
+        for (int i = 1; i <= node; i++) {
+            data.add(i);
+        }
+        recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
+        adapter = new DeviceOnOffRVAdapter();
+        recyclerView.setAdapter(adapter);
+        adapter.setNewData(data);
     }
 
     private void initListener() {
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter1, View view, int position) {
+                params.nodeId = position + "";
+                switch (view.getId()) {
+                    case R.id.ll_open:
+                        params.status = 1;
+                        break;
+                    case R.id.ll_close:
+                        params.status = 1;
+                        break;
+                }
+                mPresenter.requestDeviceCtrl(params);
+            }
+        });
     }
 
     @Override
@@ -82,4 +129,8 @@ public class DeviceOnOffFragment extends BaseFragment {
         unbinder.unbind();
     }
 
+    @Override
+    public void responseOnOffSuccess(BaseBean bean) {
+        DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
+    }
 }
