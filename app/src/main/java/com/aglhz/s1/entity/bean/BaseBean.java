@@ -165,15 +165,4 @@ public class BaseBean implements Parcelable {
         this.other = in.readParcelable(OtherBean.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<BaseBean> CREATOR = new Parcelable.Creator<BaseBean>() {
-        @Override
-        public BaseBean createFromParcel(Parcel source) {
-            return new BaseBean(source);
-        }
-
-        @Override
-        public BaseBean[] newArray(int size) {
-            return new BaseBean[size];
-        }
-    };
 }

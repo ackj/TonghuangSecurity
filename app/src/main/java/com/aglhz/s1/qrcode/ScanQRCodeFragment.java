@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.aglhz.s1.App;
 import com.aglhz.s1.R;
-import com.aglhz.s1.more.view.AddHostFragment;
+import com.aglhz.s1.host.view.AddHostFragment;
 
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder;
@@ -142,12 +142,7 @@ public class ScanQRCodeFragment extends BaseFragment implements QRCodeView.Deleg
 
     private void handleQRCode(String result) {
         ALog.e("result-->" + result);
-
-        if ("GA11EU6B1000364".equalsIgnoreCase(result) || "GA11EU6B1000754".equalsIgnoreCase(result)) {
-            startWithPop(AddHostFragment.newInstance(result.replace("A", "1")));
-        } else {
-            startWithPop(AddHostFragment.newInstance(result));
-        }
+        startWithPop(AddHostFragment.newInstance(result, null));
     }
 
     @Override

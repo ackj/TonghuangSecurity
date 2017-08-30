@@ -1,4 +1,4 @@
-package com.aglhz.s1.more.view;
+package com.aglhz.s1.host.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,14 +13,16 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.LbsManager;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.GatewaysBean;
+import com.aglhz.s1.host.contract.AddHostContract;
+import com.aglhz.s1.host.presenter.AddHostPresenter;
 import com.aglhz.s1.location.LoacationFragment;
-import com.aglhz.s1.more.contract.AddHostContract;
-import com.aglhz.s1.more.presenter.AddHostPresenter;
 import com.amap.api.services.core.PoiItem;
 
 import butterknife.BindView;
@@ -30,6 +32,7 @@ import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.utils.KeyBoardUtils;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -55,13 +58,18 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     EditText etAddress;
     @BindView(R.id.bt_save_add_host_fragment)
     Button btSave;
+    @BindView(R.id.ll_device_code_add_host_fragment)
+    LinearLayout llDeviceCode;
+    @BindView(R.id.ll_name_add_host_fragment)
+    LinearLayout llName;
     private Unbinder unbinder;
     private Params params = Params.getInstance();
-    private PoiItem poiItem;
+    private GatewaysBean.DataBean hostBean;
 
-    public static AddHostFragment newInstance(String hostNumber) {
+    public static AddHostFragment newInstance(String hostCode, GatewaysBean.DataBean hostBean) {
         Bundle args = new Bundle();
-        args.putString(Constants.KEY_HOST_NUMBER, hostNumber);
+        args.putString(Constants.KEY_HOST_NUMBER, hostCode);
+        args.putParcelable(Constants.KEY_HOST, hostBean);
         AddHostFragment fragment = new AddHostFragment();
         fragment.setArguments(args);
         return fragment;
@@ -73,6 +81,7 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
         Bundle args = getArguments();
         if (args != null) {
             params.no = args.getString(Constants.KEY_HOST_NUMBER);
+            hostBean = args.getParcelable(Constants.KEY_HOST);
         }
     }
 
@@ -104,12 +113,19 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
                     && aMapLocation.getErrorCode() == 0) {
                 LbsManager.getInstance().stopLocation();
                 tvLocation.setText(aMapLocation.getAddress());
+                params.lng = aMapLocation.getLongitude() + "";
+                params.lat = aMapLocation.getLatitude() + "";
+
             }
         });
     }
 
     private void initData() {
         etDeviceCode.setText(params.no);
+        if (hostBean != null) {
+            llDeviceCode.setVisibility(View.GONE);
+            llName.setVisibility(View.GONE);
+        }
     }
 
     private void initToolbar() {
@@ -130,6 +146,14 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     public void responseAddHost(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
         pop();
+        KeyBoardUtils.hideKeybord(etAddress, App.mContext);
+    }
+
+    @Override
+    public void responseEditHostLocation(BaseBean baseBean) {
+        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
+        pop();
+        KeyBoardUtils.hideKeybord(etAddress, App.mContext);
     }
 
     @OnClick({R.id.ll_location_add_host_fragment, R.id.bt_save_add_host_fragment})
@@ -139,14 +163,18 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
                 startForResult(LoacationFragment.newInstance(), SupportFragment.RESULT_OK);
                 break;
             case R.id.bt_save_add_host_fragment:
-                if (TextUtils.isEmpty(etDeviceCode.getText().toString())) {
-                    DialogHelper.errorSnackbar(getView(), "主机编码不能为空！");
-                    return;
+
+                if (hostBean == null) {
+                    if (TextUtils.isEmpty(etDeviceCode.getText().toString())) {
+                        DialogHelper.errorSnackbar(getView(), "主机编码不能为空！");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(etName.getText().toString())) {
+                        DialogHelper.errorSnackbar(getView(), "主机名称不能为空！");
+                        return;
+                    }
                 }
-                if (TextUtils.isEmpty(etName.getText().toString())) {
-                    DialogHelper.errorSnackbar(getView(), "主机名称不能为空！");
-                    return;
-                }
+
                 if (TextUtils.isEmpty(tvLocation.getText().toString())) {
                     DialogHelper.errorSnackbar(getView(), "所在地区不能为空！");
                     return;
@@ -155,27 +183,18 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
                     DialogHelper.errorSnackbar(getView(), "详细地址不能为空！");
                     return;
                 }
-                if (poiItem == null) {
-                    DialogHelper.errorSnackbar(getView(), "为获取到定位信息，请重新选择地址！");
-                    return;
-                }
                 params.no = etDeviceCode.getText().toString().trim();
                 params.name = etName.getText().toString();
 
-                StringBuilder sb = new StringBuilder()
-                        .append(poiItem.getProvinceName())
-                        .append(poiItem.getCityName())
-                        .append(poiItem.getAdName())
-                        .append(poiItem.getSnippet())
-                        .append(poiItem.getTitle())
-                        .append(etAddress.getText().toString());
+                params.addr = tvLocation.getText().toString();
+                ALog.e(" params.addr -->" + params.addr);
 
-                ALog.e(" params.addr -->" + sb.toString());
-                params.addr = sb.toString();
-
-                params.lng = poiItem.getLatLonPoint().getLongitude() + "";
-                params.lat = poiItem.getLatLonPoint().getLatitude() + "";
-                mPresenter.requestAddHost(params);
+                if (hostBean == null) {
+                    mPresenter.requestAddHost(params);
+                } else {
+                    params.gateway = hostBean.getFid();
+                    mPresenter.requestEditHostLocation(params);
+                }
                 break;
         }
     }
@@ -184,22 +203,19 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
         if (data != null) {
-            poiItem = data.getParcelable(LoacationFragment.POI);
+            PoiItem poiItem = data.getParcelable(LoacationFragment.POI);
             if (poiItem != null) {
-                tvLocation.setText(poiItem.getTitle());
+                StringBuilder sb = new StringBuilder()
+                        .append(poiItem.getProvinceName())
+                        .append(poiItem.getCityName())
+                        .append(poiItem.getAdName())
+                        .append(poiItem.getSnippet())
+                        .append(poiItem.getTitle())
+                        .append(etAddress.getText().toString());
 
-
-                ALog.e(poiItem.getAdCode());
-                ALog.e(poiItem.getBusinessArea());
-                ALog.e(poiItem.getCityName());
-                ALog.e(poiItem.getParkingType());
-                ALog.e(poiItem.getDirection());
-                ALog.e(poiItem.getProvinceName());
-                ALog.e(poiItem.getSnippet());
-                ALog.e(poiItem.getTel());
-                ALog.e(poiItem.getTitle());
-                ALog.e(poiItem.getWebsite());
-
+                tvLocation.setText(sb.toString());
+                params.lng = poiItem.getLatLonPoint().getLongitude() + "";
+                params.lat = poiItem.getLatLonPoint().getLatitude() + "";
             }
         }
     }

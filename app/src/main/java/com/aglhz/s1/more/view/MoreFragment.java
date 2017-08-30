@@ -22,6 +22,7 @@ import com.aglhz.s1.common.Params;
 import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.event.EventLogin;
 import com.aglhz.s1.gateway.view.GatewayListFragment;
+import com.aglhz.s1.host.view.AddHostFragment;
 import com.aglhz.s1.login.LoginActivity;
 import com.aglhz.s1.more.contract.MoreContract;
 import com.aglhz.s1.more.presenter.MorePresenter;
@@ -105,23 +106,11 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
         toolbarTitle.setText("更多");
     }
 
-    private void initData() {
-        updataView();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-        EventBus.getDefault().unregister(this);
-    }
-
     @OnClick({R.id.rl_head,
             R.id.ll_room_manager,
-            R.id.ll_host_setting,
+            R.id.ll_host_manager,
             R.id.ll_wifi_setting,
             R.id.ll_add_host,
-            R.id.ll_host_manager,
             R.id.ll_about,
             R.id.ll_logout})
     public void onViewClicked(View view) {
@@ -133,19 +122,14 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
             case R.id.ll_room_manager:
                 _mActivity.start(RoomManagerFragment.newInstance());
                 break;
-            case R.id.ll_host_setting:
-                _mActivity.start(HostSettingsFragment.newInstance());
+            case R.id.ll_host_manager:
+                _mActivity.start(GatewayListFragment.newInstance());
                 break;
             case R.id.ll_wifi_setting:
                 _mActivity.start(SetWifiFragment.newInstance());
                 break;
             case R.id.ll_add_host:
-//                _mActivity.start(LoacationFragment.newInstance());
-
                 showAddHostSelecotr();
-                break;
-            case R.id.ll_host_manager:
-                _mActivity.start(GatewayListFragment.newInstance());
                 break;
             case R.id.ll_about:
                 _mActivity.startActivity(new Intent(_mActivity, AboutActivity.class));
@@ -162,6 +146,17 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
                         .show();
                 break;
         }
+    }
+
+    private void initData() {
+        updataView();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
 
     private void showAddHostSelecotr() {
@@ -183,7 +178,7 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
                             _mActivity.start(ScanQRCodeFragment.newInstance());
                             break;
                         case 1:
-                            _mActivity.start(AddHostFragment.newInstance(""));
+                            _mActivity.start(AddHostFragment.newInstance("", null));
                             break;
                     }
                 })

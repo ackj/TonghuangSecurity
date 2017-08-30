@@ -84,4 +84,8 @@ dependencies {
     compile 'com.amap.api:search:latest.integration'
     compile 'com.amap.api:3dmap:latest.integration'
 
+    //暂时使用的更新库
+    compile 'com.qianwen:update-app:3.3.1'
+    compile 'com.qianwen:okhttp-utils:3.8.0'
+    //配合更新库使用，后期要内化掉。
 }

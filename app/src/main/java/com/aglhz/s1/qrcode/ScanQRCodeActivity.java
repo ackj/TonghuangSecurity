@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.more.view.AddHostFragment;
 
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder;
@@ -120,7 +119,6 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
     private void handleQRCode(String result) {
         Toast.makeText(ScanQRCodeActivity.this, result, Toast.LENGTH_SHORT).show();
         ALog.e("result-->" + result);
-        start(AddHostFragment.newInstance(result));
     }
 
     @Override

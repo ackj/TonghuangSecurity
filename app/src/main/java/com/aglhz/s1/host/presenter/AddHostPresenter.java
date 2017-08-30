@@ -1,11 +1,11 @@
-package com.aglhz.s1.more.presenter;
+package com.aglhz.s1.host.presenter;
 
 import android.support.annotation.NonNull;
 
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
-import com.aglhz.s1.more.contract.AddHostContract;
-import com.aglhz.s1.more.model.AddHostModel;
+import com.aglhz.s1.host.contract.AddHostContract;
+import com.aglhz.s1.host.model.AddHostModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -38,6 +38,20 @@ public class AddHostPresenter extends BasePresenter<AddHostContract.View, AddHos
                 .subscribe(baseBean -> {
                     if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         getView().responseAddHost(baseBean);
+                    } else {
+                        getView().error(baseBean.getOther().getMessage());
+                    }
+                }, this::error, this::complete, disposable -> start(null))
+        );
+    }
+
+    @Override
+    public void requestEditHostLocation(Params params) {
+        mRxManager.add(mModel.requestEditHostLocation(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(baseBean -> {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseEditHostLocation(baseBean);
                     } else {
                         getView().error(baseBean.getOther().getMessage());
                     }
