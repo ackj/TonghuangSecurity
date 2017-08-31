@@ -10,6 +10,9 @@ import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Author: LiuJia on 2017/7/4 0004 15:04.
@@ -33,8 +36,9 @@ public class DetectorPropertyModel extends BaseModel implements DetectorProperty
     @Override
     public Observable<BaseBean> requestNotifProperty(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestModsensor(ApiService.requestDetectorProperty,
+                .requestModsensor(ApiService.requestModsensor,
                         params.token,
+                        params.file,
                         params.index,
                         params.name,
                         params.defenseLevel,
@@ -63,11 +67,20 @@ public class DetectorPropertyModel extends BaseModel implements DetectorProperty
 
     @Override
     public Observable<BaseBean> requestModsensor(Params params) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        if(params.file!=null){
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"), params.file);
+            builder.addFormDataPart("file", params.file.getName(), requestBody);
+        }
+        builder.addFormDataPart("index", params.index+"");
+        builder.addFormDataPart("name", params.name);
+        builder.addFormDataPart("defenseLevel", params.defenseLevel);
+        builder.addFormDataPart("alarmDelay", params.alarmDelay+"");
+
         return HttpHelper.getService(ApiService.class)
                 .requestModsensor(ApiService.requestModsensor,
                         params.token,
-                        params.index,
-                        params.name, params.defenseLevel, params.alarmDelay)
+                        builder.build())
                 .subscribeOn(Schedulers.io());
     }
 

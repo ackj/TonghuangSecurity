@@ -8,10 +8,13 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.BoxingGlideLoader;
 import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.entity.bean.NotificationBean;
 import com.aglhz.s1.event.EventDeviceChanged;
 import com.aglhz.s1.event.EventRefreshSecurity;
+import com.bilibili.boxing.BoxingMediaLoader;
+import com.bilibili.boxing.loader.IBoxingMediaLoader;
 import com.google.gson.Gson;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.MsgConstant;
@@ -43,10 +46,16 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
         gson = new Gson();
         initDate();
         initPush();//初始化友盟推送。
+        initBoxing();
     }
 
     private void initDate() {
         UserHelper.init();
+    }
+
+    private void initBoxing(){
+        IBoxingMediaLoader loader = new BoxingGlideLoader();
+        BoxingMediaLoader.getInstance().init(loader);
     }
 
     //初始化友盟推送

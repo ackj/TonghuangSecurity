@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.ApiService;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.main.MainActivity;
 
+import cn.itsite.abase.cache.SPCache;
 import cn.itsite.abase.common.RxManager;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
@@ -63,6 +65,11 @@ public class SplashFragment extends BaseFragment {
     }
 
     private void go2Main() {
+        boolean isFirst = (boolean) SPCache.get(_mActivity, Constants.IS_FIRST_ENTER, true);
+        if(isFirst){
+            _mActivity.start(WelcomeFragment.newInstance());
+            return;
+        }
         startActivity(new Intent(_mActivity, MainActivity.class));
         _mActivity.overridePendingTransition(0, 0);
         //此处之所以延迟退出是因为立即退出在小米手机上会有一个退出跳转动画，而我不想要这个垂直退出的跳转动画。

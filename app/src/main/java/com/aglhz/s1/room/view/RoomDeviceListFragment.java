@@ -1,8 +1,10 @@
 package com.aglhz.s1.room.view;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +25,7 @@ import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.entity.bean.RoomsBean;
 import com.aglhz.s1.event.EventAddDevice;
 import com.aglhz.s1.event.EventDeviceChanged;
+import com.aglhz.s1.event.EventSelectedDeviceType;
 import com.aglhz.s1.room.contract.RoomDeviceListContract;
 import com.aglhz.s1.room.presenter.RoomDeviceListPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
@@ -134,7 +137,12 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
             switch (item.getItemId()) {
                 case R.id.add_device:
                     ToastUtils.showToast(App.mContext, "添加设备");
-                    mPresenter.requestAddDevice(params);
+                    if(selectRoom==null){
+                        ToastUtils.showToast(_mActivity,"请选择房间");
+                        return true;
+                    }
+//                    mPresenter.requestAddDevice(params);
+                    _mActivity.start(DeviceTypeFragment.newInstance(selectRoom.getFid()));
                     break;
                 case R.id.change_room:
                     mPresenter.requestHouseList(params);
@@ -222,6 +230,22 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSelectedDeviceType(EventSelectedDeviceType event) {
+        new AlertDialog.Builder(_mActivity)
+                .setTitle("学习中...")
+                .setMessage("设备是否收到了正确的反馈？")
+                .setNegativeButton("否", null)
+                .setPositiveButton("是", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                params.status = 1;
+                mPresenter.requestNewDeviceConfirm(params);
+            }
+        })
+                .show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onChangeDataEvent(EventDeviceChanged event) {
         onRefresh();
     }
@@ -238,7 +262,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                     _mActivity.start(AddDeviceFragment.newInstance(bean, selectRoom));
                     break;
                 default:
-                    _mActivity.start(DeviceOnOffFragment.newInstance(bean.getName(), bean.getExtInfo().getNode(),bean.getIndex()));
+                    _mActivity.start(DeviceOnOffFragment.newInstance(bean.getName(), bean.getExtInfo().getNode(), bean.getIndex()));
                     break;
             }
         });
@@ -307,12 +331,13 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     }
 
     @Override
-    public void responseAddDevice(BaseBean bean) {
+    public void responseDevicectrl(BaseBean bean) {
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
     }
 
     @Override
-    public void responseDevicectrl(BaseBean bean) {
+    public void responseNewDeviceConfirm(BaseBean bean) {
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
+        onRefresh();
     }
 }

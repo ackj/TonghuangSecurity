@@ -2,10 +2,7 @@ package com.aglhz.s1.room.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -27,12 +24,17 @@ import com.aglhz.s1.entity.bean.RoomsBean;
 import com.aglhz.s1.event.EventDeviceChanged;
 import com.aglhz.s1.room.contract.AddDeviceContract;
 import com.aglhz.s1.room.presenter.AddDevicePresenter;
+import com.bilibili.boxing.Boxing;
+import com.bilibili.boxing.model.config.BoxingConfig;
+import com.bilibili.boxing.model.entity.BaseMedia;
+import com.bilibili.boxing_impl.ui.BoxingActivity;
 import com.bumptech.glide.Glide;
 import com.dd.CircularProgressButton;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -167,49 +169,71 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
                 mPresenter.requestHouseList(params);
                 break;
             case R.id.iv_change_image:
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                BoxingConfig config = new BoxingConfig(BoxingConfig.Mode.SINGLE_IMG); // Mode：Mode.SINGLE_IMG, Mode.MULTI_IMG, Mode.VIDEO
+                config.needCamera(R.drawable.ic_boxing_camera_white) // 支持gif，相机，设置最大选图数
+                        .withMediaPlaceHolderRes(R.drawable.ic_boxing_default_image); // 设置默认图片占位图，默认无
+                Boxing.of(config).withIntent(_mActivity, BoxingActivity.class).start(this, RESULT_LOAD_IMAGE);
                 break;
         }
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ALog.e(TAG,"onActivityResult:");
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        switch (requestCode) {
-            case RESULT_LOAD_IMAGE:
-                if (data == null) {
-                    return;
-                }
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor cursor = _mActivity.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String picturePath = cursor.getString(columnIndex);
-                cursor.close();
-
-                //拿到从系统选择好的图片后跳转到图片裁剪界面
-                Intent intent = new Intent(_mActivity, ClipActivity.class);
-                intent.putExtra("path", picturePath);
-                startActivityForResult(intent, RESULT_IMAGE_COMPLETE);
-                break;
-            case RESULT_IMAGE_COMPLETE:
-                //裁剪好的本地图片
-                String path = data.getStringExtra("path");
-                ALog.e(TAG,"path------>"+path);
-
-                Glide.with(_mActivity)
-                        .load(new File(path))
-                        .into(ivIcon);
-                break;
-        }
         super.onActivityResult(requestCode, resultCode, data);
+        ALog.d(TAG, "onActivityResult:" + requestCode + " --- :" + resultCode);
+        if (resultCode == RESULT_OK && requestCode == RESULT_LOAD_IMAGE) {
+            ArrayList<BaseMedia> medias = Boxing.getResult(data);
+            if (medias.size() > 0) {
+                File file = new File(medias.get(0).getPath());
+                Intent intent = new Intent(_mActivity, ClipActivity.class);
+                intent.putExtra("path", file.getPath());
+                startActivityForResult(intent, RESULT_IMAGE_COMPLETE);
+            }
+        }else if(resultCode == RESULT_OK && requestCode == RESULT_IMAGE_COMPLETE){
+            String path = data.getStringExtra("path");
+            ALog.e(TAG, "path------>" + path);
+            params.file = new File(path);
+            Glide.with(_mActivity)
+                    .load(params.file)
+                    .into(ivIcon);
+        }
     }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        ALog.e(TAG,"onActivityResult:");
+//        if (resultCode != RESULT_OK) {
+//            return;
+//        }
+//        switch (requestCode) {
+//            case RESULT_LOAD_IMAGE:
+//                if (data == null) {
+//                    return;
+//                }
+//                Uri selectedImage = data.getData();
+//                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+//                Cursor cursor = _mActivity.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+//                cursor.moveToFirst();
+//
+//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//                String picturePath = cursor.getString(columnIndex);
+//                cursor.close();
+//
+//                //拿到从系统选择好的图片后跳转到图片裁剪界面
+//                Intent intent = new Intent(_mActivity, ClipActivity.class);
+//                intent.putExtra("path", picturePath);
+//                startActivityForResult(intent, RESULT_IMAGE_COMPLETE);
+//                break;
+//            case RESULT_IMAGE_COMPLETE:
+//                //裁剪好的本地图片
+//                String path = data.getStringExtra("path");
+//                ALog.e(TAG,"path------>"+path);
+//
+//                Glide.with(_mActivity)
+//                        .load(new File(path))
+//                        .into(ivIcon);
+//                break;
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 
     @Override
     public void onDestroyView() {

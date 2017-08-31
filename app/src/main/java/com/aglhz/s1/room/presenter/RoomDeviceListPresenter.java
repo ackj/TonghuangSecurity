@@ -59,12 +59,12 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
     }
 
     @Override
-    public void requestAddDevice(Params params) {
-        mRxManager.add(mModel.requestAddDevice(params)
+    public void requestDevicectrl(Params params) {
+        mRxManager.add(mModel.requestDevicectrl(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
                     if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseAddDevice(bean);
+                        getView().responseDevicectrl(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
@@ -72,12 +72,12 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
     }
 
     @Override
-    public void requestDevicectrl(Params params) {
-        mRxManager.add(mModel.requestDevicectrl(params)
+    public void requestNewDeviceConfirm(Params params) {
+        mRxManager.add(mModel.requestNewDeviceConfirm(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
                     if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseDevicectrl(bean);
+                        getView().responseNewDeviceConfirm(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }

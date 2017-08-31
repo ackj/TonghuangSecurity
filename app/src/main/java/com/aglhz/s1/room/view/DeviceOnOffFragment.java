@@ -71,7 +71,7 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
         name = getArguments().getString("name");
         node = getArguments().getInt("node");
         params.index = getArguments().getInt("index");
-        return view;
+        return attachToSwipeBack(view);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
                         params.status = 1;
                         break;
                     case R.id.ll_close:
-                        params.status = 1;
+                        params.status = 0;
                         break;
                 }
                 mPresenter.requestDeviceCtrl(params);

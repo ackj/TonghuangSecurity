@@ -80,4 +80,6 @@ dependencies {
     compile 'com.qianwen:update-app:3.3.1'
     compile 'com.qianwen:okhttp-utils:3.8.0'
     //配合更新库使用，后期要内化掉。
+    //图片选择器
+    compile 'com.bilibili:boxing-impl:0.7.0'
 }

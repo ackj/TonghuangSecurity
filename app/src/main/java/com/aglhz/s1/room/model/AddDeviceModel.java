@@ -10,6 +10,9 @@ import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class AddDeviceModel extends BaseModel implements AddDeviceContract.Model {
     @Override
@@ -26,8 +29,17 @@ public class AddDeviceModel extends BaseModel implements AddDeviceContract.Model
 
     @Override
     public Observable<BaseBean> requestModDevice(Params params) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        if(params.file!=null){
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"), params.file);
+            builder.addFormDataPart("file", params.file.getName(), requestBody);
+        }
+        builder.addFormDataPart("index", params.index+"");
+        builder.addFormDataPart("name", params.name);
+        builder.addFormDataPart("roomFid", params.roomFid);
+
         return HttpHelper.getService(ApiService.class).requestModDevice(ApiService.requestModDevice
-                , params.token,params.index,params.name,params.roomFid)
+                , params.token,builder.build())
                 .subscribeOn(Schedulers.io());
     }
 

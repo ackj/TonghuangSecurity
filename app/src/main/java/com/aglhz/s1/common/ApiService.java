@@ -16,6 +16,8 @@ import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.entity.bean.SubDeviceDetBean;
 import com.aglhz.s1.entity.bean.UserBean;
 
+import java.io.File;
+
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
@@ -205,12 +207,17 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestModsensor(@Url String url
             , @Field("token") String token
+            , @Field("file") File file
             , @Field("index") int index
             , @Field("name") String name
             , @Field("defenseLevel") String defenseLevel
             , @Field("alarmDelay") int alarmDelay
     );
-
+    @POST
+    Observable<BaseBean> requestModsensor(@Url String url
+            , @Query("token") String token
+            , @Body MultipartBody file
+    );
     // 删除探测器
     String requestDelsensor = BASE_URL + "/client/delsensor";
 
@@ -246,7 +253,10 @@ public interface ApiService {
     @FormUrlEncoded
     @POST
     Observable<BaseBean> requestNewDevice(@Url String url
-            , @Field("token") String token);
+            , @Field("token") String token
+            , @Field("deviceType") String deviceType
+            , @Field("name") String name
+    );
 
     //修改设备
     String requestModDevice = BASE_URL + "/client/moddevice";
@@ -259,6 +269,10 @@ public interface ApiService {
             , @Field("name") String name
             , @Field("roomFid") String roomFid);
 
+    @POST
+    Observable<BaseBean> requestModDevice(@Url String url
+            , @Query("token") String token
+            , @Body MultipartBody file);
 
     //删除设备
     String requestDelDevice = BASE_URL + "/client/deldevice";
@@ -311,6 +325,21 @@ public interface ApiService {
             , @Field("page") int page
             , @Field("pageSize") int pageSize
     );
+
+    //设备类型
+    String requestCtrlSDeviceTypeList = BASE_URL+"/client/info/ctrlSDeviceTypeList";
+
+    @POST
+    Observable<DevicesBean> requestCtrlSDeviceTypeList(@Url String url);
+
+    String requestNewDeviceConfirm = BASE_URL+"/client/newDeviceConfirm";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestNewDeviceConfirm(@Url String url
+            , @Field("token") String token
+            , @Field("status") int status);
+
 
     //----------------------------- 房间相关 ---------------------------------
     String requestRoomList = BASE_URL + "/client/info/roomList";

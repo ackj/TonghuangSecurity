@@ -5,7 +5,6 @@ import android.support.multidex.MultiDexApplication;
 
 import cn.itsite.abase.exception.AppExceptionHandler;
 import cn.itsite.abase.log.ALog;
-import me.yokeyword.fragmentation.Fragmentation;
 
 
 /**
@@ -23,6 +22,7 @@ public class BaseApplication extends MultiDexApplication {
         mContext = this;
         initData();//数据的初始化.
     }
+
 
     private void initData() {
         if (BuildConfig.DEBUG) {
