@@ -25,6 +25,7 @@ import cn.itsite.abase.common.RxManager;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.network.http.HttpHelper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Author: LiuJia on 2017/5/2 0002 20:14.
@@ -101,7 +102,7 @@ public class EditHostFragment extends BaseFragment {
     @OnClick(R.id.toolbar_menu)
     public void onViewClicked() {
         if (TextUtils.isEmpty(etName.getText().toString())) {
-            DialogHelper.warningSnackbar(getView(), "主机名称不能为空！");
+            DialogHelper.errorSnackbar(getView(), "主机名称不能为空！");
             return;
         }
 
@@ -111,6 +112,7 @@ public class EditHostFragment extends BaseFragment {
                         params.token,
                         params.gateway,
                         params.name)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseBean -> {
                     if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
@@ -118,7 +120,6 @@ public class EditHostFragment extends BaseFragment {
                     } else {
                         error(baseBean.getOther().getMessage());
                     }
-                }, this::error, () -> complete(null), disposable -> start(null))
-        );
+                }, this::error, () -> complete(null), disposable -> start("")));
     }
 }

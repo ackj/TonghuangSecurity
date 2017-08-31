@@ -174,16 +174,33 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
 
     @Override
     public void responseGateways(List<GatewaysBean.DataBean> data) {
+//        if (params.page == 1) {
+//            adapter.setNewData(data);
+//        } else {
+//            adapter.addData(data);
+//        }
+//        if (data.size() < params.pageSize) {
+//            adapter.loadMoreEnd(true);
+//        } else {
+//            adapter.loadMoreComplete();
+//        }
+//        ptrFrameLayout.refreshComplete();
+        ptrFrameLayout.refreshComplete();
+        if (data == null || data.isEmpty()) {
+            if (params.page == 1) {
+                mStateManager.showEmpty();
+            }
+            adapter.loadMoreEnd();
+            return;
+        }
         if (params.page == 1) {
+            mStateManager.showContent();
             adapter.setNewData(data);
+            adapter.disableLoadMoreIfNotFullPage(recyclerView);
         } else {
             adapter.addData(data);
-        }
-        if (data.size() < params.pageSize) {
-            adapter.loadMoreEnd(true);
-        } else {
+            adapter.setEnableLoadMore(true);
             adapter.loadMoreComplete();
         }
-        ptrFrameLayout.refreshComplete();
     }
 }
