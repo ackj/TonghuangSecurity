@@ -15,7 +15,6 @@
             android:layout_marginLeft="10dp"
             android:text="探测器名称" />
 
-
         <EditText
             android:id="@+id/et_name"
             android:layout_marginRight="10dp"
@@ -106,7 +105,9 @@
         android:layout_height="1dp"
         android:background="@color/light_gray" />
 
-    <LinearLayout style="@style/LinearLayoutItemStyle">
+    <LinearLayout
+        android:visibility="gone"
+        style="@style/LinearLayoutItemStyle">
 
         <TextView
             style="@style/TextViewBaseColorWidthZeroWeightOneStyle"
@@ -141,6 +142,7 @@
     </LinearLayout>-->
 
     <View
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/light_gray" />

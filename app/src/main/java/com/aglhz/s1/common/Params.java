@@ -66,7 +66,6 @@ public class Params {
     public String fid;
     public File file;
 
-
     public static Params getInstance() {
         Params params = new Params();
         params.token = UserHelper.token;

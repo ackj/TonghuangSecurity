@@ -345,6 +345,7 @@ public interface ApiService {
 
 
     //----------------------------- 房间相关 ---------------------------------
+    //获取房间列表
     String requestRoomList = BASE_URL + "/client/info/roomList";
 
     @FormUrlEncoded
@@ -355,6 +356,7 @@ public interface ApiService {
             , @Field("pageSize") int pageSize
     );
 
+    //添加房间
     String requestNewroom = BASE_URL + "/client/newroom";
 
     @FormUrlEncoded
@@ -363,13 +365,24 @@ public interface ApiService {
             , @Field("token") String token
             , @Field("name") String roomName
             , @Field("roomTypeFid") String roomTypeFid
-            , @Field("residenceFid") String residenceFid
     );
 
+    //房间类型列表
     String requestRoomTypeList = BASE_URL + "/client/info/roomTypeList";
 
     @POST
     Observable<RoomTypesBean> requestRoomTypeList(@Url String url);
+
+    //删除房间
+    String requestDelroom = BASE_URL+"/client/delroom";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestDelroom(@Url String url
+            , @Field("token") String token
+            , @Field("fid") String fid
+    );
+
 
     //----------------------------- 联动相关 ---------------------------------
     //添加联动
@@ -443,6 +456,7 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestGatewayAuth(@Url String url
             , @Field("token") String token
+            , @Field("gateway") String gateway
             , @Field("mobile") String mobile
     );
 

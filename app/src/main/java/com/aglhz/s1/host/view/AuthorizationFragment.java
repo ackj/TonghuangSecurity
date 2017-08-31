@@ -157,6 +157,7 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
                             DialogHelper.warningSnackbar(getView(), "请输入电话号码");
                             return;
                         }
+                        params.gateway = hostBean.getFid();
                         params.mobile = etInputPhone.getText().toString();
                         mPresenter.requestGatewayAuth(params);
                         //确定

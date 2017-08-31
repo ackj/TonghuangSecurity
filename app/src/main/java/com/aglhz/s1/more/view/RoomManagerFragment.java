@@ -1,8 +1,10 @@
 package com.aglhz.s1.more.view;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -37,7 +39,6 @@ import cn.itsite.multiselector.MultiSelectorDialog;
  * Author: LiuJia on 2017/5/2 0002 20:17.
  * Email: liujia95me@126.com
  */
-
 public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presenter> implements RoomManagerContract.View {
     public static final String TAG = RoomManagerFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
@@ -48,12 +49,14 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrHTFrameLayout;
+
     private Unbinder unbinder;
     private RoomManagerRVAdapter adapter;
     private Params params = Params.getInstance();
     private MultiSelectorDialog switchRoomDialog;
     RoomsBean.DataBean.RoomListBean addIconBean = new RoomsBean.DataBean.RoomListBean();
     private List<RoomTypesBean.DataBean> roomTypeDatas;
+    private String[] dialogArr = {"删除"};
 
     public static RoomManagerFragment newInstance() {
         return new RoomManagerFragment();
@@ -79,7 +82,7 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
         initToolbar();
         initData();
         initListener();
-        initPtrFrameLayout(ptrHTFrameLayout,recyclerView);
+        initPtrFrameLayout(ptrHTFrameLayout, recyclerView);
     }
 
     private void initToolbar() {
@@ -97,9 +100,8 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
                     RoomTypesBean.DataBean bean = roomTypeDatas.get(optionPosition);
                     params.roomName = bean.getName();
                     params.roomTypeFid = bean.getFid();
-                    params.residenceFid = "irifirkfk";//todo:待改
-                    ALog.e(TAG,"name:"+params.roomName);
-                    ALog.e(TAG,"roomTypeFid:"+params.roomTypeFid);
+                    ALog.e(TAG, "name:" + params.roomName);
+                    ALog.e(TAG, "roomTypeFid:" + params.roomTypeFid);
                     mPresenter.requestAddHouse(params);
                     switchRoomDialog.dismiss();
                 })
@@ -116,25 +118,28 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
 
         adapter.setNewData(datas);
         params.page = 1;
-        params.pageSize = 10;
-        mPresenter.requestHouseList(params);
-    }
-
-    @Override
-    public void onRefresh() {
+        params.pageSize = 100;
         mPresenter.requestHouseList(params);
     }
 
     private void initListener() {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
+                RoomsBean.DataBean.RoomListBean bean = adapter.getItem(position);
                 if (position == adapter.getData().size() - 1) {
                     showLoading();
                     mPresenter.requestRoomTypeList(params);
                 } else {
 //                    _mActivity.start(DetectorPropertyFragment.newInstance());
-
+                    new AlertDialog.Builder(_mActivity)
+                            .setItems(dialogArr, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    params.fid = bean.getFid();
+                                    mPresenter.requestDelroom(params);
+                                }
+                            }).show();
                 }
             }
         });
@@ -177,5 +182,10 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
             strList.add(bean.getName());
         }
         getView().post(() -> switchRoomDialog.notifyDataSetChanged(strList));
+    }
+
+    @Override
+    public void responseDelroom(BaseBean bean) {
+        DialogHelper.successSnackbar(getView(), "删除成功");
     }
 }

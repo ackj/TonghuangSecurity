@@ -68,7 +68,7 @@ public class AboutUsFragment extends BaseFragment {
         toolbarTitle.setText("关于我们");
         tvVersionName.setText("版本：" + AppUtils.getVersionName(App.mContext));
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
-        toolbar.setNavigationOnClickListener(v -> onBackPressedSupport());
+        toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
 
     @OnClick({R.id.tv_check_update,
