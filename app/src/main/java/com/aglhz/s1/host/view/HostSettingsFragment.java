@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.entity.bean.GatewaysBean;
-import com.aglhz.s1.more.view.AuthorizationFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -103,7 +102,7 @@ public class HostSettingsFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_host_name_host_setting_fragment:
-
+                start(EditHostFragment.newInstance(hostBean));
                 break;
             case R.id.tv_location_host_setting_fragment:
                 start(AddHostFragment.newInstance("", hostBean));
@@ -115,6 +114,7 @@ public class HostSettingsFragment extends BaseFragment {
                 start(PushSettingsFragment.newInstance(hostBean));
                 break;
             case R.id.tv_volume_host_setting_fragment:
+                start(VolumeSettingsFragment.newInstance(hostBean));
                 break;
             case R.id.tv_accredit_host_setting_fragment:
                 start(AuthorizationFragment.newInstance(hostBean));

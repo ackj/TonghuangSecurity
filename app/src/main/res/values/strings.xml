@@ -27,4 +27,8 @@
     <string name="feedback">请填写反馈信息</string>
     <string name="feedback_hint">请写下您的宝贵意见</string>
 
+    <!--录音-->
+    <string name="zeffect_recordbutton_finger_up_to_cancal_send">手指上滑，取消发送</string>
+    <string name="zeffect_recordbutton_releasing_finger_to_cancal_send">松开手指，取消发送</string>
+    <string name="zeffect_recordbutton_time_too_short">时间太短</string>
 </resources>

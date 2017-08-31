@@ -1,11 +1,11 @@
-package com.aglhz.s1.more.presenter;
+package com.aglhz.s1.host.presenter;
 
 import android.support.annotation.NonNull;
 
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
-import com.aglhz.s1.more.contract.AuthorizationContract;
-import com.aglhz.s1.more.model.AuthorizationModel;
+import com.aglhz.s1.host.contract.AuthorizationContract;
+import com.aglhz.s1.host.model.AuthorizationModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;

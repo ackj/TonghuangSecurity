@@ -24,6 +24,8 @@ public interface SecurityContract {
         void responseSwichGateway(BaseBean baseBean);
 
         void responseSwichState(BaseBean baseBean);
+
+        void responseLeaveMassge(BaseBean baseBean);
     }
 
     interface Presenter extends BaseContract.Presenter {
@@ -36,6 +38,8 @@ public interface SecurityContract {
 
         void requestSwichState(Params params);
 
+        void requestLeaveMassge(Params params);
+
     }
 
     interface Model extends BaseContract.Model {
@@ -47,5 +51,8 @@ public interface SecurityContract {
         Observable<BaseBean> requestSwichGateway(Params params);
 
         Observable<BaseBean> requestSwichState(Params params);
+
+        Observable<BaseBean> requestLeaveMassge(Params params);
+
     }
 }

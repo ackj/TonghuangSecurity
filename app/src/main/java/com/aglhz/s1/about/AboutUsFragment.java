@@ -88,7 +88,7 @@ public class AboutUsFragment extends BaseFragment {
      * 检测是否有新版本需要下载更新。
      */
     private void updateApp() {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("appType", "1");
         new UpdateAppManager
                 .Builder()

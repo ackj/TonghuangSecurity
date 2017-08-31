@@ -30,7 +30,7 @@ public class RoomPresenter extends BasePresenter<RoomContract.View, RoomContract
         mRxManager.add(mModel.requestRoomInfo(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-//                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_NOMAL) {
+//                    if (bean.getOther().getCode() == BaseConstants.RESPONSE_CODE_NOMAL) {
 //                        getView().responseRoomInfo(bean);
 //                    } else {
 //                        getView().error(bean.getOther().getMessage());

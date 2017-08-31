@@ -1,58 +1,55 @@
 package com.aglhz.s1.host.view;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.aglhz.s1.App;
 import com.aglhz.s1.R;
+import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
-import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
-import com.aglhz.s1.host.contract.HostConfigContract;
-import com.aglhz.s1.host.presenter.HostConfigPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.common.RxManager;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
-import cn.itsite.abase.utils.KeyBoardUtils;
+import cn.itsite.abase.network.http.HttpHelper;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Author: LiuJia on 2017/5/2 0002 20:14.
  * Email: liujia95me@126.com
  */
 
-public class AlertSmsFragment extends BaseFragment<HostConfigContract.Presenter> implements HostConfigContract.View {
-    public static final String TAG = AlertSmsFragment.class.getSimpleName();
+public class EditHostFragment extends BaseFragment {
+    public static final String TAG = EditHostFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar_menu)
     TextView toolbarMenu;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.et_phone1_alert_sms_fragment)
-    EditText etPhone1;
-    @BindView(R.id.et_phone2_alert_sms_fragment)
-    EditText etPhone2;
+    @BindView(R.id.et_name_edit_host_fragment)
+    EditText etName;
     private Unbinder unbinder;
     private GatewaysBean.DataBean hostBean;
-    private RxManager mRxManager = new RxManager();
+    private RxManager rxManager = new RxManager();
     private Params params = Params.getInstance();
 
-    public static AlertSmsFragment newInstance(GatewaysBean.DataBean hostBean) {
+    public static EditHostFragment newInstance(GatewaysBean.DataBean hostBean) {
         Bundle args = new Bundle();
         args.putParcelable(Constants.KEY_HOST, hostBean);
-        AlertSmsFragment fragment = new AlertSmsFragment();
+        EditHostFragment fragment = new EditHostFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,16 +63,10 @@ public class AlertSmsFragment extends BaseFragment<HostConfigContract.Presenter>
         }
     }
 
-    @NonNull
-    @Override
-    protected HostConfigContract.Presenter createPresenter() {
-        return new HostConfigPresenter(this);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_alert_sms, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_host, container, false);
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }
@@ -84,34 +75,50 @@ public class AlertSmsFragment extends BaseFragment<HostConfigContract.Presenter>
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
+        initData();
+    }
+
+    private void initData() {
+        params.gateway = hostBean.getFid();
+        etName.setText(hostBean.getName());
     }
 
     private void initToolbar() {
         initStateBar(toolbar);
-        toolbarTitle.setText("报警短信");
+        toolbarTitle.setText("主机名称");
+        toolbarMenu.setText("保存");
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
-        toolbarMenu.setText("保存");
-        toolbarMenu.setOnClickListener(v -> {
-            params.gateway = hostBean.getFid();
-            params.type = Constants.PHONE;
-            params.subType = Constants.P_PUSH;
-            params.val = etPhone1.getText().toString().trim() + "," + etPhone2.getText().toString().trim();
-            mPresenter.requestHostConfig(params);
-        });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        KeyBoardUtils.hideKeybord(etPhone1, App.mContext);//必须在unbind之前调用。
         unbinder.unbind();
-        mRxManager.clear();
+        rxManager.clear();
     }
 
-    @Override
-    public void responseHostConfig(BaseBean baseBean) {
-        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
-        pop();
+    @OnClick(R.id.toolbar_menu)
+    public void onViewClicked() {
+        if (TextUtils.isEmpty(etName.getText().toString())) {
+            DialogHelper.warningSnackbar(getView(), "主机名称不能为空！");
+            return;
+        }
+
+        params.name = etName.getText().toString();
+        rxManager.add(HttpHelper.getService(ApiService.class)
+                .requestUpdateHostName(ApiService.requestUpdateHostName,
+                        params.token,
+                        params.gateway,
+                        params.name)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(baseBean -> {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
+                    } else {
+                        error(baseBean.getOther().getMessage());
+                    }
+                }, this::error, () -> complete(null), disposable -> start(null))
+        );
     }
 }

@@ -1,4 +1,4 @@
-package com.aglhz.s1.more.contract;
+package com.aglhz.s1.host.contract;
 
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.AuthorizationBean;

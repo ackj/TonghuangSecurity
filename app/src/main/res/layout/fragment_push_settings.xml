@@ -18,6 +18,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/ll_waijiedianyuandiaodian"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -42,6 +43,7 @@
                     android:id="@+id/sb_waijiedianyuandiaodian"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     app:kswTextOff="关"
                     app:kswTextOn="开"
                     app:kswTintColor="@color/base_color" />
@@ -53,6 +55,7 @@
                 android:background="@color/base_line" />
 
             <LinearLayout
+                android:id="@+id/ll_huifuwaijiedianyuan"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -77,6 +80,7 @@
                     android:id="@+id/sb_huifuwaijiedianyuan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     app:kswTextOff="关"
                     app:kswTextOn="开"
                     app:kswTintColor="@color/base_color" />
@@ -88,6 +92,7 @@
                 android:background="@color/base_line" />
 
             <LinearLayout
+                android:id="@+id/ll_bufangchefang"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -112,6 +117,7 @@
                     android:id="@+id/sb_bufangchefang"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     app:kswTextOff="关"
                     app:kswTextOn="开"
                     app:kswTintColor="@color/base_color" />
@@ -123,6 +129,7 @@
                 android:background="@color/base_line" />
 
             <LinearLayout
+                android:id="@+id/ll_zhujidianchidianliangdi"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -147,6 +154,7 @@
                     android:id="@+id/sb_zhujidianchidianliangdi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     app:kswTextOff="关"
                     app:kswTextOn="开"
                     app:kswTintColor="@color/base_color" />
@@ -158,6 +166,7 @@
                 android:background="@color/base_line" />
 
             <LinearLayout
+                android:id="@+id/ll_chuanganqidianliangdi"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -182,6 +191,7 @@
                     android:id="@+id/sb_chuanganqidianliangdi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     app:kswTextOff="关"
                     app:kswTextOn="开"
                     app:kswTintColor="@color/base_color" />
@@ -193,6 +203,7 @@
                 android:background="@color/base_line" />
 
             <LinearLayout
+                android:id="@+id/ll_wifilianjei"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -217,6 +228,7 @@
                     android:id="@+id/sb_wifilianjei"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     app:kswTextOff="关"
                     app:kswTextOn="开"
                     app:kswTintColor="@color/base_color" />
@@ -228,6 +240,7 @@
                 android:background="@color/base_line" />
 
             <LinearLayout
+                android:id="@+id/ll_wifiduankai"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -252,6 +265,7 @@
                     android:id="@+id/sb_wifiduankai"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     app:kswTextOff="关"
                     app:kswTextOn="开"
                     app:kswTintColor="@color/base_color" />
@@ -263,6 +277,7 @@
                 android:background="@color/base_line" />
 
             <LinearLayout
+                android:id="@+id/ll_duanxintuisong"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -287,6 +302,7 @@
                     android:id="@+id/sb_duanxintuisong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     app:kswTextOff="关"
                     app:kswTextOn="开"
                     app:kswTintColor="@color/base_color" />

@@ -33,6 +33,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
+    <!--录音-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:name=".App"
         android:allowBackup="true"

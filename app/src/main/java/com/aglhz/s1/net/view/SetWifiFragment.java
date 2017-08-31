@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
-import cn.itsite.abase.common.DialogHelper;
 import com.tsvclient.ipc.WifiIpc;
 
 import org.json.JSONArray;
@@ -33,6 +32,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.cache.SPCache;
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 
@@ -95,7 +95,7 @@ public class SetWifiFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_set_wifi, container, false);
         unbinder = ButterKnife.bind(this, view);
-        return view;
+        return attachToSwipeBack(view);
     }
 
     @Override
@@ -110,9 +110,7 @@ public class SetWifiFragment extends BaseFragment {
         initStateBar(toolbar);
         toolbarTitle.setText("Wifi设置");
         toolbarMenu.setText("扫描");
-        toolbarMenu.setOnClickListener(v -> {
-            scan();
-        });
+        toolbarMenu.setOnClickListener(v -> scan());
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
@@ -195,7 +193,7 @@ public class SetWifiFragment extends BaseFragment {
                             handler.sendMessage(msg);
                         }
 
-                    break;
+                        break;
                 }
             }
         }).start();

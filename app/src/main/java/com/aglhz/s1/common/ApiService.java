@@ -504,13 +504,35 @@ public interface ApiService {
                                                  @Field("lat") String lat,
                                                  @Field("gateway") String gateway);
 
-    //设置报警短信
-    String requestAlertSms = BASE_URL + "";
+    //主机配置都归为这一个借口。如：音量，短信，推送等。
+    String requestHostConfig = BASE_URL + "/client/gatewayConfig";
 
     @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestAlertSms(@Url String url,
-                                         @Field("token") String token);
+    Observable<BaseBean> requestHostConfig(@Url String url,
+                                           @Field("gateway") String gateway,
+                                           @Field("token") String token,
+                                           @Field("type") String type,
+                                           @Field("subType") String subType,
+                                           @Field("val") String val);
+
+    //主机配置都归为这一个借口。如：音量，短信，推送等。
+    String requestUpdateHostName = BASE_URL + "/client/modgateway";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestUpdateHostName(@Url String url,
+                                               @Field("token") String token,
+                                               @Field("gateway") String gateway,
+                                               @Field("name") String name);
+
+    //主机留言。
+    String requestLeaveMassge = BASE_URL + "/client/gatewayMsgLeave";
+
+    @POST
+    Observable<BaseBean> requestLeaveMassge(@Url String url,
+                                            @Query("token") String token,
+                                            @Body MultipartBody file);
 
     //----------------------------- 以上为主机操作相关 ---------------------------------
 
@@ -730,7 +752,7 @@ public interface ApiService {
 
 
     //********************以下为更新App接口*******************************
-    String requestAppUpdatae = BASE_URL + "";
+    String requestAppUpdatae = BASE_URL + "/client/info/checkVersion";
 
     @POST
     Observable<AppUpdateBean> requestAppUpdatae(@Url String url);

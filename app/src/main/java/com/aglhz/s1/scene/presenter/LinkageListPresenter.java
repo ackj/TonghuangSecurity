@@ -42,7 +42,7 @@ public class LinkageListPresenter extends BasePresenter<LinkageListContract.View
         mRxManager.add(mModel.requestLinkageSwitch(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-//                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+//                    if (bean.getOther().getCode() == BaseConstants.RESPONSE_CODE_SUCCESS) {
 //                        getView().responseLinkageSwitch(bean);
 //                    } else {
 //                        getView().error(bean.getOther().getMessage());
