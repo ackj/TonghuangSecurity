@@ -17,12 +17,17 @@ import io.reactivex.schedulers.Schedulers;
  * Email: liujia95me@126.com
  */
 
-public class RoomDeviceListModel extends BaseModel implements RoomDeviceListContract.Model{
+public class RoomDeviceListModel extends BaseModel implements RoomDeviceListContract.Model {
 
     @Override
     public Observable<DeviceListBean> requestDeviceList(Params params) {
-        return HttpHelper.getService(ApiService.class).requestSubDeviceList(ApiService.requestSubDeviceList
-                , params.token,params.page,params.pageSize,params.roomId,params.category)
+        return HttpHelper.getService(ApiService.class)
+                .requestSubDeviceList(ApiService.requestSubDeviceList,
+                        params.token,
+                        params.page,
+                        params.pageSize,
+                        params.roomId,
+                        params.category)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -38,15 +43,21 @@ public class RoomDeviceListModel extends BaseModel implements RoomDeviceListCont
 
     @Override
     public Observable<BaseBean> requestDevicectrl(Params params) {
-        return HttpHelper.getService(ApiService.class).requestDevicectrl(ApiService.requestDevicectrl
-                , params.token,params.index,params.nodeId,params.status)
+        return HttpHelper.getService(ApiService.class)
+                .requestDevicectrl(ApiService.requestDevicectrl,
+                        params.token,
+                        params.index,
+                        params.nodeId,
+                        params.status)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<BaseBean> requestNewDeviceConfirm(Params params) {
-        return HttpHelper.getService(ApiService.class).requestNewDeviceConfirm(ApiService.requestNewDeviceConfirm
-                , params.token,params.status)
+        return HttpHelper.getService(ApiService.class)
+                .requestNewDeviceConfirm(ApiService.requestNewDeviceConfirm,
+                        params.token,
+                        params.status)
                 .subscribeOn(Schedulers.io());
     }
 }

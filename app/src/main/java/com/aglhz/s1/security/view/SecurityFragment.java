@@ -1,9 +1,13 @@
 package com.aglhz.s1.security.view;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
@@ -43,6 +48,8 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateLayout;
 
+import static anet.channel.util.Utils.context;
+
 
 /**
  * Author: LiuJia on 2017/4/26 0026 11:11.
@@ -51,6 +58,7 @@ import cn.itsite.statemanager.StateLayout;
 
 public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> implements SecurityContract.View {
     public static final String TAG = SecurityFragment.class.getSimpleName();
+    static final int VOICE_REQUEST_CODE = 66;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -100,6 +108,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         initData();
         initListener();
         initPtrFrameLayout(ptrFrameLayout, recyclerView);
+        requestPermissions();
     }
 
     private void initToolbar() {
@@ -297,4 +306,33 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                 break;
         }
     }
+
+    /**
+     * 判断权限是否打开.
+     */
+    private void requestPermissions() {
+        if ((ContextCompat.checkSelfPermission(_mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) &&
+                (ContextCompat.checkSelfPermission(_mActivity, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)) {
+
+        } else {
+            ActivityCompat.requestPermissions(_mActivity,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO}, VOICE_REQUEST_CODE);
+        }
+    }
+
+    /**
+     * 请求权限回调.
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == VOICE_REQUEST_CODE) {
+            if ((grantResults[0] == PackageManager.PERMISSION_GRANTED) && (grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+
+            } else {
+                Toast.makeText(context, "已拒绝权限！", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }

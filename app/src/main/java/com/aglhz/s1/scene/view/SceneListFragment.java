@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.mvp.view.base.Decoration;
 import cn.itsite.statemanager.StateManager;
 
 /**
@@ -73,6 +74,7 @@ public class SceneListFragment extends BaseFragment<SceneListContract.Presenter>
     private void initData() {
         adapter = new SceneRVAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
+        recyclerView.addItemDecoration(new Decoration(_mActivity, Decoration.VERTICAL_LIST));
         adapter.setEnableLoadMore(true);
         //设置允许加载更多
         adapter.setOnLoadMoreListener(() -> {

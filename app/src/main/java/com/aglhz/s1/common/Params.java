@@ -52,7 +52,6 @@ public class Params {
     public int roomId;//roomIndex
     public String nodeId;
     public int status;
-    public File file;
     public String triggerType;
     public int cdt_sensorId;
     public String cdt_sensorAct;
