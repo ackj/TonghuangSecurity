@@ -18,6 +18,8 @@ public interface RoomManagerContract {
         void responseAddHouse(BaseBean bean);
 
         void responseRoomTypeList(List<RoomTypesBean.DataBean> data);
+
+        void responseDelroom(BaseBean bean);
     }
 
     interface Presenter extends BaseContract.Presenter {
@@ -26,12 +28,16 @@ public interface RoomManagerContract {
         void requestAddHouse(Params params);
 
         void requestRoomTypeList(Params params);
+
+        void requestDelroom(Params params);
     }
 
     interface Model extends BaseContract.Model {
         Observable<RoomsBean> requestHouseList(Params params);
 
         Observable<BaseBean> requestAddHouse(Params params);
+
+        Observable<BaseBean> requestDelroom(Params params);
 
         Observable<RoomTypesBean> requestRoomTypeList(Params params);
     }

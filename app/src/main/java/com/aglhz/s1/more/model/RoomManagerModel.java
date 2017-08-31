@@ -34,8 +34,16 @@ public class RoomManagerModel extends BaseModel implements RoomManagerContract.M
                 .requestNewroom(ApiService.requestNewroom,
                         params.token,
                         params.roomName,
-                        params.roomTypeFid,
-                        params.residenceFid)
+                        params.roomTypeFid)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseBean> requestDelroom(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestDelroom(ApiService.requestDelroom,
+                        params.token,
+                        params.fid)
                 .subscribeOn(Schedulers.io());
     }
 

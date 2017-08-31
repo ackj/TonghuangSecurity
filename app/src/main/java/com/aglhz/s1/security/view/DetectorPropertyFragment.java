@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -109,6 +110,16 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
         initData();
+        initListener();
+    }
+
+    private void initListener() {
+        sbAlarmDelay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                params.alarmDelay = isChecked ? 1 : 0;
+            }
+        });
     }
 
     private void initToolbar() {
@@ -139,13 +150,13 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
                 intent.putExtra("path", file.getPath());
                 startActivityForResult(intent, RESULT_IMAGE_COMPLETE);
             }
-        }else if(resultCode == RESULT_OK && requestCode == RESULT_IMAGE_COMPLETE){
+        } else if (resultCode == RESULT_OK && requestCode == RESULT_IMAGE_COMPLETE) {
             String path = data.getStringExtra("path");
-                ALog.e(TAG, "path------>" + path);
-                params.file = new File(path);
-                Glide.with(_mActivity)
-                        .load(params.file)
-                        .into(ivIcon);
+            ALog.e(TAG, "path------>" + path);
+            params.file = new File(path);
+            Glide.with(_mActivity)
+                    .load(params.file)
+                    .into(ivIcon);
         }
     }
 
@@ -285,6 +296,7 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
                 .error(R.mipmap.ic_logo)
                 .into(ivIcon);
         sbAlarmDelay.setChecked(bean.getData().getAlarmDelay() == 1);
+        params.alarmDelay = bean.getData().getAlarmDelay();
     }
 
     @Override
