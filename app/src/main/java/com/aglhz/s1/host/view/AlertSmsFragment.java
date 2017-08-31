@@ -16,8 +16,9 @@ import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
-import com.aglhz.s1.host.contract.HostConfigContract;
-import com.aglhz.s1.host.presenter.HostConfigPresenter;
+import com.aglhz.s1.entity.bean.HostSettingsBean;
+import com.aglhz.s1.host.contract.HostSettingsContract;
+import com.aglhz.s1.host.presenter.HostSettingsPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +33,7 @@ import cn.itsite.abase.utils.KeyBoardUtils;
  * Email: liujia95me@126.com
  */
 
-public class AlertSmsFragment extends BaseFragment<HostConfigContract.Presenter> implements HostConfigContract.View {
+public class AlertSmsFragment extends BaseFragment<HostSettingsContract.Presenter> implements HostSettingsContract.View {
     public static final String TAG = AlertSmsFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -68,8 +69,8 @@ public class AlertSmsFragment extends BaseFragment<HostConfigContract.Presenter>
 
     @NonNull
     @Override
-    protected HostConfigContract.Presenter createPresenter() {
-        return new HostConfigPresenter(this);
+    protected HostSettingsContract.Presenter createPresenter() {
+        return new HostSettingsPresenter(this);
     }
 
     @Nullable
@@ -97,7 +98,7 @@ public class AlertSmsFragment extends BaseFragment<HostConfigContract.Presenter>
             params.type = Constants.PHONE;
             params.subType = Constants.P_PUSH;
             params.val = etPhone1.getText().toString().trim() + "," + etPhone2.getText().toString().trim();
-            mPresenter.requestHostConfig(params);
+            mPresenter.requestSetHost(params);
         });
     }
 
@@ -110,8 +111,13 @@ public class AlertSmsFragment extends BaseFragment<HostConfigContract.Presenter>
     }
 
     @Override
-    public void responseHostConfig(BaseBean baseBean) {
+    public void responseSetHost(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
         pop();
+    }
+
+    @Override
+    public void responseHostSettings(HostSettingsBean baseBean) {
+
     }
 }

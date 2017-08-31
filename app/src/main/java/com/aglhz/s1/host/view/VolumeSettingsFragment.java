@@ -15,8 +15,9 @@ import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
-import com.aglhz.s1.host.contract.HostConfigContract;
-import com.aglhz.s1.host.presenter.HostConfigPresenter;
+import com.aglhz.s1.entity.bean.HostSettingsBean;
+import com.aglhz.s1.host.contract.HostSettingsContract;
+import com.aglhz.s1.host.presenter.HostSettingsPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
  * Email: liujia95me@126.com
  */
 
-public class VolumeSettingsFragment extends BaseFragment<HostConfigContract.Presenter> implements HostConfigContract.View {
+public class VolumeSettingsFragment extends BaseFragment<HostSettingsContract.Presenter> implements HostSettingsContract.View {
     public static final String TAG = VolumeSettingsFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -71,8 +72,8 @@ public class VolumeSettingsFragment extends BaseFragment<HostConfigContract.Pres
 
     @NonNull
     @Override
-    protected HostConfigContract.Presenter createPresenter() {
-        return new HostConfigPresenter(this);
+    protected HostSettingsContract.Presenter createPresenter() {
+        return new HostSettingsPresenter(this);
     }
 
     @Nullable
@@ -93,6 +94,8 @@ public class VolumeSettingsFragment extends BaseFragment<HostConfigContract.Pres
     private void initData() {
         params.gateway = hostBean.getFid();
         params.type = Constants.VOLUME;
+        mPresenter.requestSetHost(params);
+
         volumes.add("静音");
         volumes.add("小声");
         volumes.add("大声");
@@ -112,9 +115,33 @@ public class VolumeSettingsFragment extends BaseFragment<HostConfigContract.Pres
     }
 
     @Override
-    public void responseHostConfig(BaseBean baseBean) {
+    public void responseSetHost(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
         tvCurrent.setText((String) tvCurrent.getTag());
+    }
+
+    @Override
+    public void responseHostSettings(HostSettingsBean hostSettingsBean) {
+        HostSettingsBean.DataBean bean = hostSettingsBean.getData();
+        tvTips.setText(getVolume(bean.getTone()));
+        tvMessage.setText(getVolume(bean.getGsm()));
+        tvAlarm.setText(getVolume(bean.getAlarm()));
+    }
+
+    private String getVolume(int intVolume) {
+        String strVolume = "小声";
+        switch (intVolume) {
+            case 0:
+                strVolume = "静音";
+                break;
+            case 1:
+                strVolume = "小声";
+                break;
+            case 2:
+                strVolume = "大声";
+                break;
+        }
+        return strVolume;
     }
 
     @OnClick({R.id.tv_tips_volume_settings_fragment,
@@ -149,10 +176,11 @@ public class VolumeSettingsFragment extends BaseFragment<HostConfigContract.Pres
                     params.subType = subType;
                     params.val = which + "";
                     tvCurrent.setTag(volumes.get(which));
-                    mPresenter.requestHostConfig(params);
+                    mPresenter.requestSetHost(params);
                 })
                 .setAnimStyle(R.style.SlideAnimation)
                 .setGravity(Gravity.BOTTOM)
                 .show(getChildFragmentManager());
     }
+
 }

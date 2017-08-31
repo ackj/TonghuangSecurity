@@ -15,8 +15,9 @@ import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
-import com.aglhz.s1.host.contract.HostConfigContract;
-import com.aglhz.s1.host.presenter.HostConfigPresenter;
+import com.aglhz.s1.entity.bean.HostSettingsBean;
+import com.aglhz.s1.host.contract.HostSettingsContract;
+import com.aglhz.s1.host.presenter.HostSettingsPresenter;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import butterknife.BindView;
@@ -31,7 +32,7 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
  * Email: liujia95me@126.com
  */
 
-public class PushSettingsFragment extends BaseFragment<HostConfigContract.Presenter> implements HostConfigContract.View {
+public class PushSettingsFragment extends BaseFragment<HostSettingsContract.Presenter> implements HostSettingsContract.View {
     public static final String TAG = PushSettingsFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -93,8 +94,8 @@ public class PushSettingsFragment extends BaseFragment<HostConfigContract.Presen
 
     @NonNull
     @Override
-    protected HostConfigContract.Presenter createPresenter() {
-        return new HostConfigPresenter(this);
+    protected HostSettingsContract.Presenter createPresenter() {
+        return new HostSettingsPresenter(this);
     }
 
     @Nullable
@@ -115,6 +116,7 @@ public class PushSettingsFragment extends BaseFragment<HostConfigContract.Presen
     private void initData() {
         params.gateway = hostBean.getFid();
         params.type = Constants.PUSH;
+        mPresenter.requestHostSettings(params);
     }
 
     private void initToolbar() {
@@ -131,12 +133,32 @@ public class PushSettingsFragment extends BaseFragment<HostConfigContract.Presen
     }
 
     @Override
-    public void responseHostConfig(BaseBean baseBean) {
+    public void responseSetHost(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
         sbCurrent.setChecked(params.val.equals("1"));
     }
 
-    @OnClick({R.id.ll_waijiedianyuandiaodian, R.id.ll_huifuwaijiedianyuan, R.id.ll_bufangchefang, R.id.ll_zhujidianchidianliangdi, R.id.ll_chuanganqidianliangdi, R.id.ll_wifilianjei, R.id.ll_wifiduankai, R.id.ll_duanxintuisong})
+    @Override
+    public void responseHostSettings(HostSettingsBean baseBean) {
+        HostSettingsBean.DataBean bean = baseBean.getData();
+        sbWaijiedianyuandiaodian.setChecked(bean.getPower_fail() == 1);
+        sbHuifuwaijiedianyuan.setChecked(bean.getPower_recover() == 1);
+        sbBufangchefang.setChecked(bean.getDefense_chg() == 1);
+        sbZhujidianchidianliangdi.setChecked(bean.getHost_power_low() == 1);
+        sbChuanganqidianliangdi.setChecked(bean.getSensor_power_low() == 1);
+        sbWifilianjei.setChecked(bean.getWifi_connect() == 1);
+        sbWifiduankai.setChecked(bean.getWifi_disconnect() == 1);
+        sbDuanxintuisong.setChecked(bean.getSms_tophone() == 1);
+    }
+
+    @OnClick({R.id.ll_waijiedianyuandiaodian,
+            R.id.ll_huifuwaijiedianyuan,
+            R.id.ll_bufangchefang,
+            R.id.ll_zhujidianchidianliangdi,
+            R.id.ll_chuanganqidianliangdi,
+            R.id.ll_wifilianjei,
+            R.id.ll_wifiduankai,
+            R.id.ll_duanxintuisong})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_waijiedianyuandiaodian:
@@ -174,6 +196,6 @@ public class PushSettingsFragment extends BaseFragment<HostConfigContract.Presen
         }
         //这里之所以这么做是因为不想看到当网络出错的时候，而开关却显示已经切换了，所以为了避免这种情况，在网络访问成功的时候才切换。
         params.val = sbCurrent.isChecked() ? "0" : "1";//是相反的，这里需要注意一下。
-        mPresenter.requestHostConfig(params);
+        mPresenter.requestSetHost(params);
     }
 }

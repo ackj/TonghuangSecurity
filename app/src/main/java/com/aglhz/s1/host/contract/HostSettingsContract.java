@@ -3,6 +3,7 @@ package com.aglhz.s1.host.contract;
 
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.HostSettingsBean;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import io.reactivex.Observable;
@@ -13,20 +14,26 @@ import io.reactivex.Observable;
  * <p>
  * 主机模块所对应的各层对象应有的接口。
  */
-public interface HostConfigContract {
+public interface HostSettingsContract {
 
     interface View extends BaseContract.View {
 
-        void responseHostConfig(BaseBean baseBean);
+        void responseSetHost(BaseBean baseBean);
+
+        void responseHostSettings(HostSettingsBean baseBean);
 
     }
 
     interface Presenter extends BaseContract.Presenter {
-        void requestHostConfig(Params params);
+        void requestSetHost(Params params);
+
+        void requestHostSettings(Params params);
     }
 
     interface Model extends BaseContract.Model {
 
-        Observable<BaseBean> requestHostConfig(Params params);
+        Observable<BaseBean> requestSetHost(Params params);
+
+        Observable<HostSettingsBean> requestHostSettings(Params params);
     }
 }

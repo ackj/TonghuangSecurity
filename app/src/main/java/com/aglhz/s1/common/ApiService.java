@@ -8,6 +8,7 @@ import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.entity.bean.DeviceLogBean;
 import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
+import com.aglhz.s1.entity.bean.HostSettingsBean;
 import com.aglhz.s1.entity.bean.LinkageBean;
 import com.aglhz.s1.entity.bean.RoomTypesBean;
 import com.aglhz.s1.entity.bean.RoomsBean;
@@ -213,11 +214,13 @@ public interface ApiService {
             , @Field("defenseLevel") String defenseLevel
             , @Field("alarmDelay") int alarmDelay
     );
+
     @POST
     Observable<BaseBean> requestModsensor(@Url String url
             , @Query("token") String token
             , @Body MultipartBody file
     );
+
     // 删除探测器
     String requestDelsensor = BASE_URL + "/client/delsensor";
 
@@ -327,12 +330,12 @@ public interface ApiService {
     );
 
     //设备类型
-    String requestCtrlSDeviceTypeList = BASE_URL+"/client/info/ctrlSDeviceTypeList";
+    String requestCtrlSDeviceTypeList = BASE_URL + "/client/info/ctrlSDeviceTypeList";
 
     @POST
     Observable<DevicesBean> requestCtrlSDeviceTypeList(@Url String url);
 
-    String requestNewDeviceConfirm = BASE_URL+"/client/newDeviceConfirm";
+    String requestNewDeviceConfirm = BASE_URL + "/client/newDeviceConfirm";
 
     @FormUrlEncoded
     @POST
@@ -515,6 +518,17 @@ public interface ApiService {
                                            @Field("type") String type,
                                            @Field("subType") String subType,
                                            @Field("val") String val);
+
+
+    //获取主机设置信息。
+    String requestHostSettings = BASE_URL + "/client/info/gatewayConfigInfo";
+
+    @FormUrlEncoded
+    @POST
+    Observable<HostSettingsBean> requestHostSettings(@Url String url,
+                                                     @Field("gateway") String gateway,
+                                                     @Field("token") String token,
+                                                     @Field("type") String type);
 
     //主机配置都归为这一个借口。如：音量，短信，推送等。
     String requestUpdateHostName = BASE_URL + "/client/modgateway";
