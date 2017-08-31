@@ -198,9 +198,10 @@ public class RecordButton extends AppCompatButton {
         if (file.exists()) {
             file.delete();
         }
-
-        if (mRecorder == null) {
-            mRecorder = new MediaRecorder();
+        try {
+            if (mRecorder == null) {
+                mRecorder = new MediaRecorder();
+            }
             mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mRecorder.setAudioChannels(1);
             mRecorder.setAudioSamplingRate(8000);
@@ -208,13 +209,11 @@ public class RecordButton extends AppCompatButton {
             mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
             mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             mRecorder.setOutputFile(mFilePath);
-        }
-        try {
             mRecorder.prepare();
+            mRecorder.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mRecorder.start();
         mthread = new ObtainDecibelThread();
         mthread.start();
     }
@@ -225,9 +224,17 @@ public class RecordButton extends AppCompatButton {
             mthread = null;
         }
         if (mRecorder != null) {
-            mRecorder.stop();
-            mRecorder.release();
-            mRecorder = null;
+            try {
+                mRecorder.stop();
+                mRecorder.reset();
+                mRecorder.release();
+                mRecorder = null;
+            } catch (Exception e) {
+                mRecorder.reset();
+                mRecorder.release();
+                mRecorder = null;
+                e.printStackTrace();
+            }
         }
     }
 
