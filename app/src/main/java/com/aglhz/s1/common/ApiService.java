@@ -497,6 +497,14 @@ public interface ApiService {
                                                @Field("gateway") String gateway,
                                                @Field("name") String name);
 
+    //主机留言。
+    String requestLeaveMassge = BASE_URL + "/client/gatewayMsgLeave";
+
+    @POST
+    Observable<BaseBean> requestLeaveMassge(@Url String url,
+                                            @Query("token") String token,
+                                            @Body MultipartBody file);
+
     //----------------------------- 以上为主机操作相关 ---------------------------------
 
 

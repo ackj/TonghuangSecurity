@@ -2,15 +2,18 @@ package com.aglhz.s1.common;
 
 import com.aglhz.s1.BuildConfig;
 
+import cn.itsite.abase.common.BaseConstants;
+
 /**
  * Created by Administrator on 2017/5/2 0002.
  */
-public class Constants {
+public class Constants extends BaseConstants {
     public static final String TAG = Constants.class.getSimpleName();
     public static final int RESPONSE_CODE_SUCCESS = 200;
 
     //不允许new
     private Constants() {
+        super();
         throw new Error("Do not need instantiate!");
     }
 

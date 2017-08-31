@@ -24,11 +24,13 @@ import com.aglhz.s1.event.EventRefreshSecurity;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
+import com.aglhz.s1.widget.RecordButton;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateLayout;
@@ -66,10 +69,10 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     private TextView tvHome;
     private TextView tvCancel;
     private TextView tvFaraway;
-    private TextView tvMessage;
     private TextView tvDes;
     private SecurityBean.DataBean.SubDevicesBean addIconDevice;
     private List<SecurityBean.DataBean.SubDevicesBean> subDevices;
+    private RecordButton mRecord;
 
     public static SecurityFragment newInstance() {
         return new SecurityFragment();
@@ -133,7 +136,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         tvCancel = (TextView) headerView.findViewById(R.id.tv_cancel_item_security_header);
         tvHome = (TextView) headerView.findViewById(R.id.tv_home_item_security_header);
         tvFaraway = (TextView) headerView.findViewById(R.id.tv_faraway_item_security_header);
-        tvMessage = (TextView) headerView.findViewById(R.id.tv_message_item_security_header);
+        mRecord = (RecordButton) headerView.findViewById(R.id.tv_message_item_security_header);
         //设置状态。
         tvCancel.setOnClickListener(v -> {
             params.dstatus = Constants.GATEWAY_STATE_CANCLE;
@@ -149,6 +152,15 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
             params.dstatus = Constants.GATEWAY_STATE_FARAWAY;
             mPresenter.requestSwichState(params);
         });
+
+        mRecord.setSavePath(Constants.PATH_DATA + File.separator + "leavemassage.amr");
+
+        mRecord.setOnFinishedRecordListener(audioPath -> {
+            ALog.e("audioPath-->" + audioPath);
+            params.file = new File(audioPath);
+            mPresenter.requestLeaveMassge(params);
+        });
+
         return headerView;
     }
 
@@ -258,6 +270,11 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                 break;
         }
         adapter.setHostState(params.dstatus);
+    }
+
+    @Override
+    public void responseLeaveMassge(BaseBean baseBean) {
+        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

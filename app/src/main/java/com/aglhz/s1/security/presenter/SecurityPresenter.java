@@ -82,4 +82,18 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
                 }, this::error, this::complete, disposable -> start(null))
         );
     }
+
+    @Override
+    public void requestLeaveMassge(Params params) {
+        mRxManager.add(mModel.requestLeaveMassge(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(baseBean -> {
+                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseSwichState(baseBean);
+                    } else {
+                        getView().error(baseBean.getOther().getMessage());
+                    }
+                }, this::error, this::complete, disposable -> start(null))
+        );
+    }
 }

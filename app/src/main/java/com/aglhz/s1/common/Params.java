@@ -1,6 +1,8 @@
 package com.aglhz.s1.common;
 
 
+import java.io.File;
+
 /**
  * Created by leguang on 2017/5/6 0006.
  * Email：langmanleguang@qq.com
@@ -50,7 +52,7 @@ public class Params {
     public int roomId;//roomIndex
     public String nodeId;
     public int status;
-
+    public File file;
     public String triggerType;
     public int cdt_sensorId;
     public String cdt_sensorAct;
