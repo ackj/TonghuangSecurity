@@ -406,6 +406,28 @@ public interface ApiService {
             , @Field("act2") String act2
     );
 
+    //修改联动
+    String requestModLinkage = BASE_URL + "/client/modlinkage";
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestModLinkage(@Url String url
+            , @Field("token") String token
+            , @Field("index") int index
+            , @Field("name") String name
+            , @Field("triggerType") String triggerType
+            , @Field("cdt_sensorId") int cdt_sensorId
+            , @Field("cdt_sensorAct") String cdt_sensorAct
+            , @Field("cdt_day") String cdt_day
+            , @Field("cdt_time") String cdt_time
+            , @Field("targetType") String targetType
+            , @Field("targetId") String targetId
+            , @Field("nodeId") String nodeId
+            , @Field("act1") String act1
+            , @Field("delay") String delay
+            , @Field("act2") String act2
+            , @Field("status") int status);
+
+
     //联动列表
     String requestLinkageList = BASE_URL + "/client/info/linkageList";
 

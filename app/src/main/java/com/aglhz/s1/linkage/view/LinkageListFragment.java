@@ -18,6 +18,8 @@ import com.aglhz.s1.event.EventLinkageChanged;
 import com.aglhz.s1.linkage.contract.LinkageListContract;
 import com.aglhz.s1.linkage.presenter.LinkageListPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.kyleduo.switchbutton.SwitchButton;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,6 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.statemanager.StateManager;
 
@@ -51,6 +54,7 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
     private Params params = Params.getInstance();
     private StateManager mStateManager;
     private int delPosition;
+    private SwitchButton selectedSb;
 
     public static LinkageListFragment newInstance() {
         return new LinkageListFragment();
@@ -103,6 +107,14 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
                                 v -> _mActivity.start(LinkageEditFragment.newInstance()))
                                 .setText(R.id.bt_empty_state, "点击添加"))
                 .build();
+
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
+                LinkageBean.DataBean bean = adapter.getItem(position);
+                _mActivity.start(LinkageEditFragment.newInstance(bean));
+            }
+        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -119,6 +131,7 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
 
     private void initListener() {
         adapter.setOnItemChildClickListener((adapter1, view, position) -> {
+            LinkageBean.DataBean bean = adapter.getItem(position);
             switch (view.getId()) {
                 case R.id.tv_delete:
                     params.index = adapter.getItem(position).getIndex();
@@ -126,7 +139,30 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
                     mPresenter.requestDeleteLinkage(params);
                     break;
                 case R.id.ll_item_intelligence_linkage:
-                    _mActivity.start(LinkageEditFragment.newInstance());
+//                    _mActivity.start(LinkageEditFragment.newInstance());
+                    break;
+                case R.id.switch_button:
+                    selectedSb = (SwitchButton) view;
+                    ALog.e(TAG, "click switch button:" + selectedSb.isChecked());
+
+                    params.cdt_day = bean.getDay();
+                    params.index = bean.getIndex();
+                    params.name = bean.getName();
+                    params.cdt_sensorAct = bean.getSensorCmd() + "";
+                    params.cdt_sensorId = bean.getSensorIndex();
+
+                    params.act1 = bean.getTargetCmd() + "";
+                    params.targetId = bean.getTargetIndex() + "";
+                    params.nodeId = bean.getTargetNodeId() + "";
+                    params.delay = bean.getTargetTimeout() + "";
+                    params.act2 = bean.getTargetTimeoutCmd() + "";
+
+                    params.targetType = bean.getTargetType();
+                    params.cdt_time = bean.getTime();
+                    params.triggerType = bean.getTriggerType();
+                    params.status = sb.isChecked() ? 1 : 0;
+
+                    mPresenter.requestModLinkage(params);
                     break;
             }
         });
@@ -164,13 +200,13 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
     }
 
     @Override
-    public void responseLinkageSwitch(BaseBean bean) {
-
+    public void responseModLinkage(BaseBean bean) {
+        DialogHelper.successSnackbar(getView(), "修改成功");
     }
 
     @Override
     public void responseDeleteLinkage(BaseBean bean) {
-        DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
+        DialogHelper.successSnackbar(getView(), "删除成功");
         adapter.remove(delPosition);
     }
 

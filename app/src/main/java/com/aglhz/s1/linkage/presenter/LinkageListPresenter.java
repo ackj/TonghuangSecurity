@@ -38,15 +38,15 @@ public class LinkageListPresenter extends BasePresenter<LinkageListContract.View
     }
 
     @Override
-    public void requestLinkageSwitch(Params params) {
-        mRxManager.add(mModel.requestLinkageSwitch(params)
+    public void requestModLinkage(Params params) {
+        mRxManager.add(mModel.requestModLinkage(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
-//                    if (bean.getOther().getCode() == BaseConstants.RESPONSE_CODE_SUCCESS) {
-//                        getView().responseLinkageSwitch(bean);
-//                    } else {
-//                        getView().error(bean.getOther().getMessage());
-//                    }
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseModLinkage(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
                 }, this::error));
     }
 
