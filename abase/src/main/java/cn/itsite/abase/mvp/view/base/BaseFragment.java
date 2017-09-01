@@ -100,7 +100,8 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
 
     public void showLoading(String message) {
         if (loadingDialog == null) {
-            loadingDialog = new LoadingDialog(_mActivity).setText(message);
+            loadingDialog = new LoadingDialog(_mActivity);
+            loadingDialog.setDimAmount(0);
         } else {
             loadingDialog.setText(message);
         }
