@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.linkage.view.LinkageEditFragment;
+import com.aglhz.s1.linkage.view.LinkageListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

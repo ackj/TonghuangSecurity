@@ -1,10 +1,10 @@
-package com.aglhz.s1.scene.model;
+package com.aglhz.s1.linkage.model;
 
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.LinkageBean;
-import com.aglhz.s1.scene.contract.LinkageListContract;
+import com.aglhz.s1.linkage.contract.LinkageListContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;

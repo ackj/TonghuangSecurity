@@ -1,11 +1,11 @@
-package com.aglhz.s1.scene.presenter;
+package com.aglhz.s1.linkage.presenter;
 
 import android.support.annotation.NonNull;
 
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
-import com.aglhz.s1.scene.contract.AddLinkageContract;
-import com.aglhz.s1.scene.model.AddLinkageModel;
+import com.aglhz.s1.linkage.contract.AddLinkageContract;
+import com.aglhz.s1.linkage.model.AddLinkageModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;

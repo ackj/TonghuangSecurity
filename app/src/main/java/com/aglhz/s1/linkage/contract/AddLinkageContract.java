@@ -1,4 +1,4 @@
-package com.aglhz.s1.scene.contract;
+package com.aglhz.s1.linkage.contract;
 
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;

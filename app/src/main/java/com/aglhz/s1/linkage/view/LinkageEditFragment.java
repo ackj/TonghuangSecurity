@@ -1,4 +1,4 @@
-package com.aglhz.s1.scene.view;
+package com.aglhz.s1.linkage.view;
 
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -23,8 +23,8 @@ import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.entity.bean.SceneBean;
 import com.aglhz.s1.event.EventLinkageChanged;
-import com.aglhz.s1.scene.contract.AddLinkageContract;
-import com.aglhz.s1.scene.presenter.AddLinkagePresenter;
+import com.aglhz.s1.linkage.contract.AddLinkageContract;
+import com.aglhz.s1.linkage.presenter.AddLinkagePresenter;
 
 import org.greenrobot.eventbus.EventBus;
 

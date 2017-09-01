@@ -1,4 +1,4 @@
-package com.aglhz.s1.scene.view;
+package com.aglhz.s1.linkage.view;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.entity.bean.LinkageBean;
