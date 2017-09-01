@@ -206,7 +206,7 @@ public class RecordButton extends AppCompatButton {
             mRecorder.setAudioChannels(1);
             mRecorder.setAudioSamplingRate(8000);
             mRecorder.setAudioEncodingBitRate(8000);
-            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
             mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             mRecorder.setOutputFile(mFilePath);
             mRecorder.prepare();

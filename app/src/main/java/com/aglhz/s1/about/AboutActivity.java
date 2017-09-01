@@ -3,6 +3,7 @@ package com.aglhz.s1.about;
 import android.os.Bundle;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.about.view.AboutUsFragment;
 
 import cn.itsite.abase.mvp.view.base.BaseActivity;
 

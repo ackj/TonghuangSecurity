@@ -24,7 +24,6 @@ import cn.itsite.abase.mvp.contract.base.BaseContract;
  */
 public class BasePresenter<V extends BaseContract.View, M extends BaseContract.Model> implements BaseContract.Presenter {
     public final String TAG = BasePresenter.class.getSimpleName();
-
     public Reference<V> mViewReference;
     public M mModel;
     //每一套mvp应该拥有一个独立的RxManager
@@ -70,7 +69,7 @@ public class BasePresenter<V extends BaseContract.View, M extends BaseContract.M
     @Override
     public void start(Object request) {
         if (isViewAttached()) {
-            getView().start(null);
+            getView().start("");
         }
     }
 
@@ -124,8 +123,7 @@ public class BasePresenter<V extends BaseContract.View, M extends BaseContract.M
 
     public void complete() {
         if (isViewAttached()) {
-            getView().complete(null);
+            getView().complete("");
         }
     }
-
 }

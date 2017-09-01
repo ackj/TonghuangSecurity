@@ -76,7 +76,6 @@ public class DeviceListFragment extends BaseFragment {
         initToolbar();
         initData();
         initStateManager();
-//        initListener();
         initPtrFrameLayout(ptrFrameLayout, recyclerView);
     }
 
