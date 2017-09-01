@@ -203,5 +203,6 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
     }
 
     public void onRefresh() {
+
     }
 }

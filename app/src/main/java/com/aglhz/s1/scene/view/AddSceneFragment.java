@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
@@ -40,6 +41,7 @@ import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.mvp.view.base.Decoration;
+import cn.itsite.abase.utils.KeyBoardUtils;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateManager;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -161,6 +163,7 @@ public class AddSceneFragment extends BaseFragment<AddSceneContract.Presenter> i
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        KeyBoardUtils.hideKeybord(etName, App.mContext);
         unbinder.unbind();
     }
 
@@ -173,18 +176,16 @@ public class AddSceneFragment extends BaseFragment<AddSceneContract.Presenter> i
                     DialogHelper.warningSnackbar(getView(), "场景名称不能为空！");
                     return;
                 }
-
                 if (adapter.getData().isEmpty()) {
                     DialogHelper.warningSnackbar(getView(), "设备不能为空！");
                     return;
                 }
-
                 params.paramJson = new Gson().toJson(commandList);
                 ALog.e("params.paramJson-->" + params.paramJson);
                 mPresenter.requestAddScene(params);
-
                 break;
             case R.id.ll_add_device_add_scene_fragment:
+                KeyBoardUtils.hideKeybord(etName, App.mContext);
                 startForResult(DeviceListFragment.newInstance(), SupportFragment.RESULT_OK);
                 break;
         }
