@@ -14,9 +14,14 @@ import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.SceneBean;
+import com.aglhz.s1.event.EventRefreshSceneList;
 import com.aglhz.s1.scene.contract.SceneListContract;
 import com.aglhz.s1.scene.presenter.SceneListPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,6 +64,7 @@ public class SceneListFragment extends BaseFragment<SceneListContract.Presenter>
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recyclerview, container, false);
         unbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -127,6 +133,7 @@ public class SceneListFragment extends BaseFragment<SceneListContract.Presenter>
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         unbinder.unbind();
     }
 
@@ -172,5 +179,10 @@ public class SceneListFragment extends BaseFragment<SceneListContract.Presenter>
             adapter.loadMoreFail();
             params.page--;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAddScene(EventRefreshSceneList event) {
+        ptrFrameLayout.autoRefresh();
     }
 }

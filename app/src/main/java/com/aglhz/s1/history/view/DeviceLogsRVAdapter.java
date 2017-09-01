@@ -1,4 +1,4 @@
-package com.aglhz.s1.history;
+package com.aglhz.s1.history.view;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.entity.bean.DeviceLogBean;

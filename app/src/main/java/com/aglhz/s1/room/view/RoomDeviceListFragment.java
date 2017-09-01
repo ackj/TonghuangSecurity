@@ -1,6 +1,5 @@
 package com.aglhz.s1.room.view;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -137,8 +136,8 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
             switch (item.getItemId()) {
                 case R.id.add_device:
                     ToastUtils.showToast(App.mContext, "添加设备");
-                    if(selectRoom==null){
-                        ToastUtils.showToast(_mActivity,"请选择房间");
+                    if (selectRoom == null) {
+                        ToastUtils.showToast(_mActivity, "请选择房间");
                         return true;
                     }
 //                    mPresenter.requestAddDevice(params);
@@ -235,14 +234,10 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 .setTitle("学习中...")
                 .setMessage("设备是否收到了正确的反馈？")
                 .setNegativeButton("否", null)
-                .setPositiveButton("是", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                params.status = 1;
-                mPresenter.requestNewDeviceConfirm(params);
-            }
-        })
-                .show();
+                .setPositiveButton("是", (dialog, which) -> {
+                    params.status = 1;
+                    mPresenter.requestNewDeviceConfirm(params);
+                }).show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -252,7 +247,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     private void initListener() {
         adapter.setOnItemChildClickListener((adapter1, view, position) -> {
-            DeviceListBean.DataBean.SubDevicesBean bean = (DeviceListBean.DataBean.SubDevicesBean) adapter.getItem(position);
+            DeviceListBean.DataBean.SubDevicesBean bean = adapter.getItem(position);
             switch (view.getId()) {
                 case R.id.iv_setting:
                     if (selectRoom == null) {

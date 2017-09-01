@@ -1,4 +1,4 @@
-package com.aglhz.s1.clip;
+package com.aglhz.s1.common.clip;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

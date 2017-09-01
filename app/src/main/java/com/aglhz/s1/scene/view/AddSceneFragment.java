@@ -21,10 +21,13 @@ import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.CommandBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
+import com.aglhz.s1.event.EventRefreshSceneList;
 import com.aglhz.s1.scene.contract.AddSceneContract;
 import com.aglhz.s1.scene.presenter.AddScenePresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
 import com.google.gson.Gson;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -256,6 +259,7 @@ public class AddSceneFragment extends BaseFragment<AddSceneContract.Presenter> i
     @Override
     public void responseAddScene(BaseBean bean) {
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
+        EventBus.getDefault().post(new EventRefreshSceneList());
         pop();
     }
 }

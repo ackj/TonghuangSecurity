@@ -1,26 +1,26 @@
-package com.aglhz.s1.gateway.presenter;
+package com.aglhz.s1.host.presenter;
 
 import android.support.annotation.NonNull;
 
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
-import com.aglhz.s1.gateway.contract.GatewayListContract;
-import com.aglhz.s1.gateway.model.GatewayListModel;
+import com.aglhz.s1.host.contract.HostListContract;
+import com.aglhz.s1.host.model.HostListModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class GatewayListPresenter extends BasePresenter<GatewayListContract.View, GatewayListContract.Model> implements GatewayListContract.Presenter {
-    private final String TAG = GatewayListPresenter.class.getSimpleName();
+public class HostListPresenter extends BasePresenter<HostListContract.View, HostListContract.Model> implements HostListContract.Presenter {
+    private final String TAG = HostListPresenter.class.getSimpleName();
 
-    public GatewayListPresenter(GatewayListContract.View mView) {
+    public HostListPresenter(HostListContract.View mView) {
         super(mView);
     }
 
     @NonNull
     @Override
-    protected GatewayListContract.Model createModel() {
-        return new GatewayListModel();
+    protected HostListContract.Model createModel() {
+        return new HostListModel();
     }
 
     @Override

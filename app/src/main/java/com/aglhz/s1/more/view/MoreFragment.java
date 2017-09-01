@@ -21,7 +21,7 @@ import com.aglhz.s1.about.AboutActivity;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.event.EventLogin;
-import com.aglhz.s1.gateway.view.GatewayListFragment;
+import com.aglhz.s1.host.view.HostListFragment;
 import com.aglhz.s1.host.view.AddHostFragment;
 import com.aglhz.s1.login.LoginActivity;
 import com.aglhz.s1.more.contract.MoreContract;
@@ -126,7 +126,7 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
                 _mActivity.start(RoomManagerFragment.newInstance());
                 break;
             case R.id.ll_host_manager:
-                _mActivity.start(GatewayListFragment.newInstance());
+                _mActivity.start(HostListFragment.newInstance());
                 break;
             case R.id.ll_wifi_setting:
                 _mActivity.start(SetWifiFragment.newInstance());

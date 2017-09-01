@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.clip.ClipActivity;
+import com.aglhz.s1.common.clip.ClipActivity;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
