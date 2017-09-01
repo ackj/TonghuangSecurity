@@ -60,10 +60,10 @@ public interface ApiService {
     String requestLogin = BASE_USER + "/client/login.do";
 
     @POST
-    Observable<UserBean> requestLogin(@Url String url
-            , @Query("sc") String sc
-            , @Query("user") String user
-            , @Query("pwd") String pwd);
+    Observable<UserBean> requestLogin(@Url String url,
+                                      @Query("sc") String sc,
+                                      @Query("user") String user,
+                                      @Query("pwd") String pwd);
 
     //注册
     String requestRegister = BASE_USER + "/client/register.do";
@@ -374,7 +374,7 @@ public interface ApiService {
     Observable<RoomTypesBean> requestRoomTypeList(@Url String url);
 
     //删除房间
-    String requestDelroom = BASE_URL+"/client/delroom";
+    String requestDelroom = BASE_URL + "/client/delroom";
 
     @FormUrlEncoded
     @POST
