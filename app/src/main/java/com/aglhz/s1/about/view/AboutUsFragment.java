@@ -1,4 +1,4 @@
-package com.aglhz.s1.about;
+package com.aglhz.s1.about.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
