@@ -54,7 +54,7 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
     private Params params = Params.getInstance();
     private StateManager mStateManager;
     private int delPosition;
-    private SwitchButton selectedSb;
+    private SwitchButton sbSelected;
 
     public static LinkageListFragment newInstance() {
         return new LinkageListFragment();
@@ -142,8 +142,8 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
 //                    _mActivity.start(LinkageEditFragment.newInstance());
                     break;
                 case R.id.switch_button:
-                    selectedSb = (SwitchButton) view;
-                    ALog.e(TAG, "click switch button:" + selectedSb.isChecked());
+                    sbSelected = (SwitchButton) view;
+                    ALog.e(TAG, "click switch button:" + sbSelected.isChecked());
 
                     params.cdt_day = bean.getDay();
                     params.index = bean.getIndex();
@@ -160,7 +160,7 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
                     params.targetType = bean.getTargetType();
                     params.cdt_time = bean.getTime();
                     params.triggerType = bean.getTriggerType();
-                    params.status = sb.isChecked() ? 1 : 0;
+                    params.status = sbSelected.isChecked() ? 1 : 0;
 
                     mPresenter.requestModLinkage(params);
                     break;
