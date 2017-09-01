@@ -1,4 +1,4 @@
-package com.aglhz.s1.gateway.view;
+package com.aglhz.s1.host.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,10 +15,8 @@ import android.widget.TextView;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.GatewaysBean;
-import com.aglhz.s1.gateway.contract.GatewayListContract;
-import com.aglhz.s1.gateway.presenter.GatewayListPresenter;
-import com.aglhz.s1.host.view.AddHostFragment;
-import com.aglhz.s1.host.view.HostSettingsFragment;
+import com.aglhz.s1.host.contract.HostListContract;
+import com.aglhz.s1.host.presenter.HostListPresenter;
 import com.aglhz.s1.qrcode.ScanQRCodeFragment;
 import com.aglhz.s1.scene.view.AddSceneFragment;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
@@ -35,8 +33,8 @@ import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateLayout;
 import cn.itsite.statemanager.StateManager;
 
-public class GatewayListFragment extends BaseFragment<GatewayListContract.Presenter> implements GatewayListContract.View {
-    public static final String TAG = GatewayListFragment.class.getSimpleName();
+public class HostListFragment extends BaseFragment<HostListContract.Presenter> implements HostListContract.View {
+    public static final String TAG = HostListFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -47,20 +45,20 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
     StateLayout stateLayout;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
-    private GatewayListRVAdapter adapter;
+    private HostListRVAdapter adapter;
     private Unbinder unbinder;
     private Params params = Params.getInstance();
     private StateManager mStateManager;
     private List<String> addHostTypes;
 
-    public static GatewayListFragment newInstance() {
-        return new GatewayListFragment();
+    public static HostListFragment newInstance() {
+        return new HostListFragment();
     }
 
     @NonNull
     @Override
-    protected GatewayListContract.Presenter createPresenter() {
-        return new GatewayListPresenter(this);
+    protected HostListContract.Presenter createPresenter() {
+        return new HostListPresenter(this);
     }
 
     @Nullable
@@ -91,7 +89,7 @@ public class GatewayListFragment extends BaseFragment<GatewayListContract.Presen
     private void initData() {
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         recyclerView.addItemDecoration(new Decoration(_mActivity, Decoration.VERTICAL_LIST));
-        adapter = new GatewayListRVAdapter();
+        adapter = new HostListRVAdapter();
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(() -> {
             params.page++;

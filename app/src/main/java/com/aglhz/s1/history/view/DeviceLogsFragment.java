@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.DeviceLogBean;
-import com.aglhz.s1.history.DeviceLogsRVAdapter;
 import com.aglhz.s1.history.contract.DeviceLogsContract;
 import com.aglhz.s1.history.presenter.DeviceLogsPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;

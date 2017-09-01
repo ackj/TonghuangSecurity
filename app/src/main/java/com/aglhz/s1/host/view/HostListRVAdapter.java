@@ -1,4 +1,4 @@
-package com.aglhz.s1.gateway.view;
+package com.aglhz.s1.host.view;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.entity.bean.GatewaysBean;
@@ -6,9 +6,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
 
-public class GatewayListRVAdapter extends BaseRecyclerViewAdapter<GatewaysBean.DataBean, BaseViewHolder> {
+public class HostListRVAdapter extends BaseRecyclerViewAdapter<GatewaysBean.DataBean, BaseViewHolder> {
 
-    public GatewayListRVAdapter() {
+    public HostListRVAdapter() {
         super(R.layout.item_gateway);
     }
 
