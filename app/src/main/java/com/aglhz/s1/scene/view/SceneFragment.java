@@ -62,8 +62,8 @@ public class SceneFragment extends BaseFragment {
             fragments[1] = LinkageListFragment.newInstance();
             loadMultipleRootFragment(R.id.framelayout_scene, 0, fragments[0], fragments[1]);
         } else {
-            fragments[0] = findFragment(SceneListFragment.class);
-            fragments[1] = findFragment(LinkageListFragment.class);
+            fragments[0] = findChildFragment(SceneListFragment.class);
+            fragments[1] = findChildFragment(LinkageListFragment.class);
         }
         initToolbar();
         initData();

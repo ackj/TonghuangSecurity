@@ -19,6 +19,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class AddLinkageModel extends BaseModel implements AddLinkageContract.Model{
 
+    private static final String TAG = AddLinkageModel.class.getSimpleName();
+
     @Override
     public Observable<BaseBean> requestNewLinkage(Params params) {
         return HttpHelper.getService(ApiService.class)

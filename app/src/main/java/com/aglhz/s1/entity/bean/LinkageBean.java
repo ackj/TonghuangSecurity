@@ -1,5 +1,6 @@
 package com.aglhz.s1.entity.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -20,20 +21,22 @@ public class LinkageBean extends BaseBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
-         * day : 0,1,2
+         * day : 3
          * fid :
          * index : 0
-         * name : test123451
+         * name : 哈哈啊哈
          * sensorCmd : 254
          * sensorIndex : 1
-         * targetIndex : 0
+         * status : 1
+         * targetCmd : 1
+         * targetIndex : 2
          * targetNodeId : 0
-         * targetTimeout : 0
+         * targetTimeout : 12
          * targetTimeoutCmd : 0
          * targetType : device
-         * time : 7:7
+         * time : 0:0
          * triggerType : sensor
          */
 
@@ -43,6 +46,8 @@ public class LinkageBean extends BaseBean {
         private String name;
         private int sensorCmd;
         private int sensorIndex;
+        private int status;
+        private int targetCmd;
         private int targetIndex;
         private int targetNodeId;
         private int targetTimeout;
@@ -97,6 +102,22 @@ public class LinkageBean extends BaseBean {
 
         public void setSensorIndex(int sensorIndex) {
             this.sensorIndex = sensorIndex;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public int getTargetCmd() {
+            return targetCmd;
+        }
+
+        public void setTargetCmd(int targetCmd) {
+            this.targetCmd = targetCmd;
         }
 
         public int getTargetIndex() {

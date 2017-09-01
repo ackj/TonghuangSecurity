@@ -21,6 +21,7 @@ import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
+import com.aglhz.s1.entity.bean.LinkageBean;
 import com.aglhz.s1.entity.bean.SceneBean;
 import com.aglhz.s1.event.EventLinkageChanged;
 import com.aglhz.s1.linkage.contract.AddLinkageContract;
@@ -99,6 +100,16 @@ public class LinkageEditFragment extends BaseFragment<AddLinkageContract.Present
     private DeviceListBean.DataBean.SubDevicesBean.ActionsBean selectedDeviceAct2;
     private DeviceListBean.DataBean.SubDevicesBean.ActionsBean selectedSensorAct;
     private SceneBean.DataBean selectedScene;//选中的场景
+    private LinkageBean.DataBean bean;
+    private boolean isMod = false;
+
+    public static LinkageEditFragment newInstance(LinkageBean.DataBean bean) {
+        LinkageEditFragment fragment = new LinkageEditFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("bean", bean);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     public static LinkageEditFragment newInstance() {
         return new LinkageEditFragment();
@@ -114,6 +125,7 @@ public class LinkageEditFragment extends BaseFragment<AddLinkageContract.Present
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_linkage_edit, container, false);
+        bean = (LinkageBean.DataBean) getArguments().getSerializable("bean");
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }
@@ -135,7 +147,18 @@ public class LinkageEditFragment extends BaseFragment<AddLinkageContract.Present
     }
 
     private void initData() {
-
+        if (bean != null) {
+            isMod = true;
+            etName.setText(bean.getName());
+            if(bean.getTriggerType().equals("sensor")){
+                tvTriggerType.setText(triggerTypeArr[0]);
+//                tvSensor.setText();
+            }else{
+                tvTriggerType.setText(triggerTypeArr[0]);
+            }
+        }
+        //todo:触发类型为时间有问题，所以先设置死(2017/9/1 16:21
+        tvTriggerType.setText(triggerTypeArr[0]);
     }
 
     private void initListener() {
@@ -202,13 +225,14 @@ public class LinkageEditFragment extends BaseFragment<AddLinkageContract.Present
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_trigger_type:
-                new AlertDialog.Builder(_mActivity)
-                        .setItems(triggerTypeArr, (dialog, which) -> {
-                            llDateContainer.setVisibility(which == 0 ? View.GONE : View.VISIBLE);
-                            llSensorContainer.setVisibility(which == 0 ? View.VISIBLE : View.GONE);
-                            tvTriggerType.setText(triggerTypeArr[which]);
-                        }).show();
+//                new AlertDialog.Builder(_mActivity)
+//                        .setItems(triggerTypeArr, (dialog, which) -> {
+//                            llDateContainer.setVisibility(which == 0 ? View.GONE : View.VISIBLE);
+//                            llSensorContainer.setVisibility(which == 0 ? View.VISIBLE : View.GONE);
+//                            tvTriggerType.setText(triggerTypeArr[which]);
+//                        }).show();
                 break;
+
             case R.id.tv_linkage_type:
                 new AlertDialog.Builder(_mActivity)
                         .setItems(linkageTypeArr, (dialog, which) -> {
@@ -258,7 +282,7 @@ public class LinkageEditFragment extends BaseFragment<AddLinkageContract.Present
                         sb.append(":");
                         if (minute < 10) {
                             sb.append("0" + minute);
-                        }else{
+                        } else {
                             sb.append(minute);
                         }
                         tvTime.setText(sb.toString());
