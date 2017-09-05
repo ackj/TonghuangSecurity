@@ -281,7 +281,7 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     @Override
     public void responseDelSuccess(BaseBean baseBean) {
         cpbDelete.setProgress(100);
-        EventBus.getDefault().post(new EventRefreshSecurity(null));
+        EventBus.getDefault().post(new EventRefreshSecurity());
         DialogHelper.successSnackbar(getView(), "删除成功");
         pop();
     }

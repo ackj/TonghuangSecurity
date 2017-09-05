@@ -125,7 +125,6 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
                 ALog.e(TAG, msg.getRaw().toString());
                 updateUI(msg.getRaw().toString());
 
-
                 switch (msg.builder_id) {
                     //自定义通知样式编号
                     case 1:
@@ -171,9 +170,12 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
 
     }
 
+    /**
+     * 依靠推送来刷新界面。
+     * @param msg 友盟推送的json。
+     */
     private void updateUI(String msg) {
         NotificationBean notification = gson.fromJson(msg, NotificationBean.class);
-
         switch (notification.getExtra().getCtype()) {
             case Constants.SENSOR_LEARN:
             case Constants.GW_NOTIFIY_DEFENSE_ST:
