@@ -29,14 +29,14 @@ import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 /**
- * Author: LiuJia on 2017/7/4 0004 09:21.
- * Email: liujia95me@126.com
+ * Created by leguang on 2017/7/4 0022.
+ * Email：langmanleguang@qq.com
  */
 
 public interface ApiService {
 
-    String BASE_URL = "http://119.23.129.133:8096/gas";
-//    String BASE_URL = "http://120.77.83.45:8096/gas";
+    //    String BASE_URL = "http://119.23.129.133:8096/gas";
+    String BASE_URL = "http://120.77.83.45:8096/gas";
 
     String BASE_USER = Constants.BASE_USER;           //用户
 
@@ -408,6 +408,7 @@ public interface ApiService {
 
     //修改联动
     String requestModLinkage = BASE_URL + "/client/modlinkage";
+
     @FormUrlEncoded
     @POST
     Observable<BaseBean> requestModLinkage(@Url String url
