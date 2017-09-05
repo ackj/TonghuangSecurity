@@ -18,7 +18,6 @@ import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.host.contract.HostListContract;
 import com.aglhz.s1.host.presenter.HostListPresenter;
 import com.aglhz.s1.qrcode.ScanQRCodeFragment;
-import com.aglhz.s1.scene.view.AddSceneFragment;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
 
 import java.util.ArrayList;
@@ -106,8 +105,7 @@ public class HostListFragment extends BaseFragment<HostListContract.Presenter> i
                 .setErrorOnClickListener(v -> ptrFrameLayout.autoRefresh())
                 .setEmptyOnClickListener(v -> showAddHostSelecotr())
                 .setConvertListener((holder, stateLayout) ->
-                        holder.setOnClickListener(R.id.bt_empty_state,
-                                v -> _mActivity.start(AddSceneFragment.newInstance()))
+                        holder.setOnClickListener(R.id.bt_empty_state, v -> showAddHostSelecotr())
                                 .setText(R.id.bt_empty_state, "点击添加"))
                 .build();
     }
@@ -172,17 +170,6 @@ public class HostListFragment extends BaseFragment<HostListContract.Presenter> i
 
     @Override
     public void responseGateways(List<GatewaysBean.DataBean> data) {
-//        if (params.page == 1) {
-//            adapter.setNewData(data);
-//        } else {
-//            adapter.addData(data);
-//        }
-//        if (data.size() < params.pageSize) {
-//            adapter.loadMoreEnd(true);
-//        } else {
-//            adapter.loadMoreComplete();
-//        }
-//        ptrFrameLayout.refreshComplete();
         ptrFrameLayout.refreshComplete();
         if (data == null || data.isEmpty()) {
             if (params.page == 1) {
