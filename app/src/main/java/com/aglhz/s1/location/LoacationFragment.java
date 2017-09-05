@@ -1,6 +1,5 @@
 package com.aglhz.s1.location;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -406,6 +405,7 @@ public class LoacationFragment extends BaseFragment implements
      */
     @Override
     public void onPoiSearched(PoiResult poiResult, int resultCode) {
+        dismissLoading();
         if (resultCode == AMapException.CODE_AMAP_SUCCESS) {
             if (poiResult != null && poiResult.getQuery() != null) {
                 if (poiResult.getQuery().equals(query)) {
@@ -499,11 +499,11 @@ public class LoacationFragment extends BaseFragment implements
         public void onGetInputtips(List<Tip> list, int rCode) {
             if (rCode == AMapException.CODE_AMAP_SUCCESS) {// 正确返回
                 autoTips = list;
-                List<String> listString = new ArrayList<String>();
+                List<String> listString = new ArrayList<>();
                 for (int i = 0; i < list.size(); i++) {
                     listString.add(list.get(i).getName() + "\r\n" + list.get(i).getDistrict());
                 }
-                ArrayAdapter<String> aAdapter = new ArrayAdapter<String>(App.mContext,
+                ArrayAdapter<String> aAdapter = new ArrayAdapter<>(App.mContext,
                         R.layout.item_route_inputs, R.id.tv_name_item_route_inputs, listString);
                 searchText.setAdapter(aAdapter);
                 aAdapter.notifyDataSetChanged();
