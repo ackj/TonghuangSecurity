@@ -13,6 +13,7 @@ import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.entity.bean.NotificationBean;
 import com.aglhz.s1.event.EventDeviceChanged;
+import com.aglhz.s1.event.EventRefreshSecurity;
 import com.bilibili.boxing.BoxingMediaLoader;
 import com.bilibili.boxing.loader.IBoxingMediaLoader;
 import com.google.gson.Gson;
@@ -179,7 +180,7 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
         switch (notification.getExtra().getCtype()) {
             case Constants.SENSOR_LEARN:
             case Constants.GW_NOTIFIY_DEFENSE_ST:
-                EventBus.getDefault().post(new EventDeviceChanged());
+                EventBus.getDefault().post(new EventRefreshSecurity());
                 break;
             case Constants.DEVICE_LEARN:
                 break;
