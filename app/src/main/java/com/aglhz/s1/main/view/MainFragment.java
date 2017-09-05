@@ -37,6 +37,7 @@ import cn.itsite.abase.utils.AppUtils;
 import cn.itsite.abase.utils.ToastUtils;
 import me.yokeyword.fragmentation.SupportFragment;
 import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /**
@@ -217,6 +218,11 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-
+        //这里需要重新设置Rationale和title，否则默认是英文格式
+        new AppSettingsDialog.Builder(this)
+                .setRationale("没有该权限，此应用程序可能无法正常工作。打开应用设置屏幕以修改应用权限")
+                .setTitle("必需权限")
+                .build()
+                .show();
     }
 }

@@ -235,8 +235,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                 .setData(gateways.getData())
                 .setOnItemConvertListener((holder, position, dialog) -> {
                     GatewaysBean.DataBean item = gateways.getData().get(position);
-                    holder.setText(R.id.tv_name_item_rv_host_selector, item.getName())
-                            .setText(R.id.tv_role_item_rv_host_selector, item.getIsManager() == 1 ? "管理员" : "成员")
+                    holder.setText(R.id.tv_role_item_rv_host_selector, item.getIsManager() == 1 ? "管理员" : "成员")
                             .setText(R.id.tv_current_item_rv_host_selector, item.getIsCurrent() == 1 ? "当前主机" : "")
                             .setText(R.id.tv_name_item_rv_host_selector, item.getName() + (item.getIsOnline() == 1 ? "　(在线)" : "　(离线)"))
                             .setTextColor(R.id.tv_name_item_rv_host_selector,
