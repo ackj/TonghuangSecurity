@@ -46,9 +46,7 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
  * 联动模块。
  */
 public class LinkageEditFragment extends BaseFragment<AddLinkageContract.Presenter> implements AddLinkageContract.View {
-
     public static final String TAG = LinkageEditFragment.class.getSimpleName();
-
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)

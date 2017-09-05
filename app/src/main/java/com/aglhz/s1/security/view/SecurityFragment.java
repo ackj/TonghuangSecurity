@@ -23,7 +23,6 @@ import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
-import com.aglhz.s1.entity.bean.NotificationBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.event.EventRefreshSecurity;
 import com.aglhz.s1.security.contract.SecurityContract;
@@ -288,22 +287,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshSecurity(EventRefreshSecurity event) {
         onRefresh();
-        if (event.notificationBean == null) {
-            return;
-        }
-
-        switch (event.notificationBean.getExtra().getType()) {
-            case Constants.SENSOR_LEARN:
-            case Constants.GW_NOTIFIY_DEFENSE_ST:
-                ptrFrameLayout.autoRefresh();
-                NotificationBean.ExtraBean extraBean = event.notificationBean.getExtra();
-                if (extraBean.getStatus() == 1) {
-                    DialogHelper.successSnackbar(getView(), extraBean.getDes());
-                } else {
-                    DialogHelper.errorSnackbar(getView(), extraBean.getDes());
-                }
-                break;
-        }
     }
 
     /**

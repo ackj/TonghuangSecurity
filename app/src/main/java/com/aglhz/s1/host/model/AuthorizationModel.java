@@ -12,30 +12,35 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
 public class AuthorizationModel extends BaseModel implements AuthorizationContract.Model {
-    @Override
-    public void start(Object request) {
-
-    }
 
     @Override
     public Observable<AuthorizationBean> requestgatewayAuthList(Params params) {
-        return HttpHelper.getService(ApiService.class).requestGatewayAuthList(ApiService.requestGatewayAuthList
-                , params.token, params.page, params.pageSize)
+        return HttpHelper.getService(ApiService.class)
+                .requestGatewayAuthList(ApiService.requestGatewayAuthList,
+                        params.token,
+                        params.gateway,
+                        params.page,
+                        params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<BaseBean> requestGatewayAuth(Params params) {
-        return HttpHelper.getService(ApiService.class).requestGatewayAuth(ApiService.requestGatewayAuth
-                , params.token, params.gateway, params.mobile)
+        return HttpHelper.getService(ApiService.class)
+                .requestGatewayAuth(ApiService.requestGatewayAuth,
+                        params.token,
+                        params.gateway,
+                        params.mobile)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<BaseBean> requestGatewayUnAuth(Params params) {
-        return HttpHelper.getService(ApiService.class).requestGatewayUnAuth(ApiService.requestGatewayUnAuth
-                , params.token, params.fid)
+        return HttpHelper.getService(ApiService.class)
+                .requestGatewayUnAuth(ApiService.requestGatewayUnAuth,
+                        params.token,
+                        params.gateway,
+                        params.fid)
                 .subscribeOn(Schedulers.io());
     }
-
 }

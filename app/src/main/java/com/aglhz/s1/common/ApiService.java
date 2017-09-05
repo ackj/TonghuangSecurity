@@ -35,8 +35,8 @@ import retrofit2.http.Url;
 
 public interface ApiService {
 
-//    String BASE_URL = "http://119.23.129.133:8096/gas";
-    String BASE_URL = "http://120.77.83.45:8096/gas";
+    String BASE_URL = "http://119.23.129.133:8096/gas";
+//    String BASE_URL = "http://120.77.83.45:8096/gas";
 
     String BASE_USER = Constants.BASE_USER;           //用户
 
@@ -456,10 +456,11 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST
-    Observable<AuthorizationBean> requestGatewayAuthList(@Url String url
-            , @Field("token") String token
-            , @Field("page") int page
-            , @Field("pageSize") int pageSize
+    Observable<AuthorizationBean> requestGatewayAuthList(@Url String url,
+                                                         @Field("token") String token,
+                                                         @Field("gateway") String gateway,
+                                                         @Field("page") int page,
+                                                         @Field("pageSize") int pageSize
     );
 
     //解除主机授权
@@ -467,10 +468,10 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestGatewayUnAuth(@Url String url
-            , @Field("token") String token
-            , @Field("fid") String fid
-    );
+    Observable<BaseBean> requestGatewayUnAuth(@Url String url,
+                                              @Field("token") String token,
+                                              @Field("gateway") String gateway,
+                                              @Field("fid") String fid);
 
     //选择一个主机，授权给用户
     String requestGatewayAuth = BASE_URL + "/client/gatewayAuth";
