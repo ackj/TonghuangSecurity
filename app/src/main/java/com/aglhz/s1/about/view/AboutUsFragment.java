@@ -13,6 +13,7 @@ import com.aglhz.s1.R;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.appupdate.UpdateAppHttpUtils;
 import com.aglhz.s1.entity.bean.AppUpdateBean;
+import com.aglhz.s1.utils.PermissionHelper;
 import com.google.gson.Gson;
 import com.vector.update_app.UpdateAppBean;
 import com.vector.update_app.UpdateAppManager;
@@ -72,11 +73,15 @@ public class AboutUsFragment extends BaseFragment {
     }
 
     @OnClick({R.id.tv_check_update,
+            R.id.tv_permission,
             R.id.tv_feedback})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_check_update:
                 updateApp();
+                break;
+            case R.id.tv_permission:
+                new PermissionHelper(_mActivity).gotoPermission();
                 break;
             case R.id.tv_feedback:
                 start(FeedbackFragment.newInstance());

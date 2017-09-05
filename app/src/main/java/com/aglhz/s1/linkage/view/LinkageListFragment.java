@@ -156,12 +156,10 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
                     params.nodeId = bean.getTargetNodeId() + "";
                     params.delay = bean.getTargetTimeout() + "";
                     params.act2 = bean.getTargetTimeoutCmd() + "";
-
                     params.targetType = bean.getTargetType();
                     params.cdt_time = bean.getTime();
                     params.triggerType = bean.getTriggerType();
-                    params.status = sb.isChecked() ? 1 : 0;
-
+                    params.status = selectedSb.isChecked() ? 1 : 0;
                     mPresenter.requestModLinkage(params);
                     break;
             }
