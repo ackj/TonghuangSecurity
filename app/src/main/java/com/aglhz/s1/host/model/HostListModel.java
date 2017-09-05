@@ -1,8 +1,8 @@
 package com.aglhz.s1.host.model;
 
-import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.host.contract.HostListContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
@@ -20,8 +20,8 @@ public class HostListModel extends BaseModel implements HostListContract.Model {
         return HttpHelper.getService(ApiService.class)
                 .requestGateways(ApiService.requestGateways,
                         params.token,
-                        params.pageSize,
-                        params.page)
+                        params.page,
+                        params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 

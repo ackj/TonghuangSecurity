@@ -1,5 +1,6 @@
 package com.aglhz.s1.main.view;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,15 +36,18 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.AppUtils;
 import cn.itsite.abase.utils.ToastUtils;
 import me.yokeyword.fragmentation.SupportFragment;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * Author: LiuJia on 2017/4/27 0027 11:12.
  * Email: liujia95me@126.com
  */
 
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements EasyPermissions.PermissionCallbacks {
     public static final String TAG = MainFragment.class.getSimpleName();
     private static final long WAIT_TIME = 2000L;// 再点一次退出程序时间设置
+    private static final int CAMERA_LOCATION = 100;
     private long TOUCH_TIME = 0;
     private AHBottomNavigation ahbn;
     private SupportFragment[] fragments = new SupportFragment[5];
@@ -81,6 +85,7 @@ public class MainFragment extends BaseFragment {
             bottomNavigationPreposition = savedInstanceState.getInt(KEY_CURR_POSITION);
         }
         initData();
+        requiresPermissions();
     }
 
 
@@ -187,5 +192,31 @@ public class MainFragment extends BaseFragment {
                         updateAppManager.showDialogFragment();
                     }
                 });
+    }
+
+    @AfterPermissionGranted(CAMERA_LOCATION)
+    private void requiresPermissions() {
+        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION};
+        if (EasyPermissions.hasPermissions(_mActivity, perms)) {
+
+        } else {
+            EasyPermissions.requestPermissions(this, "需要定位权限", CAMERA_LOCATION, perms);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+
     }
 }

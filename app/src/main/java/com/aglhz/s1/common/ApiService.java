@@ -29,14 +29,14 @@ import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 /**
- * Author: LiuJia on 2017/7/4 0004 09:21.
- * Email: liujia95me@126.com
+ * Created by leguang on 2017/7/4 0022.
+ * Email：langmanleguang@qq.com
  */
 
 public interface ApiService {
 
-    String BASE_URL = "http://119.23.129.133:8096/gas";
-//    String BASE_URL = "http://120.77.83.45:8096/gas";
+//    String BASE_URL = "http://119.23.129.133:8096/gas";
+    String BASE_URL = "http://120.77.83.45:8096/gas";
 
     String BASE_USER = Constants.BASE_USER;           //用户
 
@@ -60,10 +60,10 @@ public interface ApiService {
     String requestLogin = BASE_USER + "/client/login.do";
 
     @POST
-    Observable<UserBean> requestLogin(@Url String url
-            , @Query("sc") String sc
-            , @Query("user") String user
-            , @Query("pwd") String pwd);
+    Observable<UserBean> requestLogin(@Url String url,
+                                      @Query("sc") String sc,
+                                      @Query("user") String user,
+                                      @Query("pwd") String pwd);
 
     //注册
     String requestRegister = BASE_USER + "/client/register.do";
@@ -374,7 +374,7 @@ public interface ApiService {
     Observable<RoomTypesBean> requestRoomTypeList(@Url String url);
 
     //删除房间
-    String requestDelroom = BASE_URL+"/client/delroom";
+    String requestDelroom = BASE_URL + "/client/delroom";
 
     @FormUrlEncoded
     @POST
@@ -408,6 +408,7 @@ public interface ApiService {
 
     //修改联动
     String requestModLinkage = BASE_URL + "/client/modlinkage";
+
     @FormUrlEncoded
     @POST
     Observable<BaseBean> requestModLinkage(@Url String url
@@ -502,7 +503,7 @@ public interface ApiService {
                                              @Query("token") String token,
                                              @Query("gateway") String gateway);
 
-    //切换主机
+    //切换主机状态
     String requestSwichState = BASE_URL + "/client/gatewayDSS";
 
     @POST

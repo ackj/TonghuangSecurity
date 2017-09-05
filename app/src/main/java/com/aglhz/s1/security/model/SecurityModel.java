@@ -41,8 +41,8 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
         return HttpHelper.getService(ApiService.class)
                 .requestGateways(ApiService.requestGateways,
                         params.token,
-                        params.pageSize,
-                        params.page)
+                        params.page,
+                        params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 

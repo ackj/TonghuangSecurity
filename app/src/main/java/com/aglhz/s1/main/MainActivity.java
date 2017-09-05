@@ -6,7 +6,10 @@ import com.aglhz.s1.R;
 import com.aglhz.s1.main.view.MainFragment;
 
 import cn.itsite.abase.mvp.view.base.BaseActivity;
-
+/**
+ * Author：leguang on 2017/4/12 0009 14:23
+ * Email：langmanleguang@qq.com
+ */
 public class MainActivity extends BaseActivity {
 
     @Override

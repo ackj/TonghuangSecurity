@@ -334,5 +334,4 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
             }
         }
     }
-
 }

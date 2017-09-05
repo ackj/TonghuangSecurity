@@ -79,7 +79,8 @@ dependencies {
     //暂时使用的更新库
     compile 'com.qianwen:update-app:3.3.1'
     compile 'com.qianwen:okhttp-utils:3.8.0'
-    //配合更新库使用，后期要内化掉。
     //图片选择器
     compile 'com.bilibili:boxing-impl:0.7.0'
+    //谷歌权限申请框架
+    compile 'pub.devrel:easypermissions:1.0.0'
 }

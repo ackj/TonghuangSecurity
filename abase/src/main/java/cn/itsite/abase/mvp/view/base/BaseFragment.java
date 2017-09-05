@@ -106,6 +106,7 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
             loadingDialog.setText(message);
         }
         loadingDialog.show();
+        loadingDialog.setCancelable(true);
     }
 
     public void dismissLoading() {
