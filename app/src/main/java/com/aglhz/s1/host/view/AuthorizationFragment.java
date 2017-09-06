@@ -110,6 +110,11 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
     private void initData() {
         adapter = new AuthorizationRVAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
+        adapter.setEnableLoadMore(true);
+        adapter.setOnLoadMoreListener(() -> {
+            params.page++;
+            mPresenter.requestgatewayAuthList(params);
+        }, recyclerView);
         recyclerView.setAdapter(adapter);
         mPresenter.requestgatewayAuthList(params);
     }
@@ -154,7 +159,23 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
 
     @Override
     public void responsegatewayAuthList(List<AuthorizationBean.DataBean> data) {
-        adapter.setNewData(data);
+        ptrFrameLayout.refreshComplete();
+        if (data == null || data.isEmpty()) {
+            if (params.page == 1) {
+                mStateManager.showEmpty();
+            }
+            adapter.loadMoreEnd();
+            return;
+        }
+        if (params.page == 1) {
+            mStateManager.showContent();
+            adapter.setNewData(data);
+            adapter.disableLoadMoreIfNotFullPage(recyclerView);
+        } else {
+            adapter.addData(data);
+            adapter.setEnableLoadMore(true);
+            adapter.loadMoreComplete();
+        }
     }
 
     @Override
@@ -217,5 +238,18 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
                 .setAnimStyle(R.style.SlideAnimation)
                 .setGravity(Gravity.BOTTOM)
                 .show(getChildFragmentManager());
+    }
+
+
+    @Override
+    public void error(String errorMessage) {
+        super.error(errorMessage);
+        ptrFrameLayout.refreshComplete();
+        if (params.page == 1) {
+            mStateManager.showError();
+        } else if (params.page > 1) {
+            adapter.loadMoreFail();
+            params.page--;
+        }
     }
 }
