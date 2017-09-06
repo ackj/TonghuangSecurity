@@ -17,8 +17,8 @@ public class Constants extends BaseConstants {
     static {
         if (BuildConfig.DEBUG) {
             //调试可以改这里的地址。
-            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
-//            BASE_USER = "http://120.77.83.45:8076/gasMember/";
+//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+            BASE_USER = "http://120.77.83.45:8076/gasMember/";
         } else {
             //这里的是正式版的基础地址，永远不要动。
 //            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户

@@ -17,16 +17,16 @@ android {
 
     signingConfigs {
         debug {
-            keyAlias 'agl'
-            keyPassword 'aglandroid'
-            storeFile file('D:/Android/Workspace/gckj/agl.keystore')
-            storePassword 'aglandroid'
+            keyAlias 'guangneng'
+            keyPassword 'guangneng'
+            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
+            storePassword 'guangneng'
         }
         release {
-            keyAlias 'agl'
-            keyPassword 'aglandroid'
-            storeFile file('D:/Android/Workspace/gckj/agl.keystore')
-            storePassword 'aglandroid'
+            keyAlias 'guangneng'
+            keyPassword 'guangneng'
+            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
+            storePassword 'guangneng'
         }
     }
 
