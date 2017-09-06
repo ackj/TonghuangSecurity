@@ -1,6 +1,7 @@
 package com.aglhz.s1.net.view;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -46,13 +47,11 @@ import static android.content.Context.WIFI_SERVICE;
  */
 public class SetWifiFragment extends BaseFragment {
     private static final String TAG = SetWifiFragment.class.getSimpleName();
-
     private static final int SHOW_PROMPT_STR = 1;
     private static final int GET_APMODE_INFO = 2;
     private static final int GET_WIFI_STATE = 3;
     private static final int GET_AP_RESULT = 4;
     private static final int GET_AP_FAILED = 5;
-
     //状态
     static public final int E_WIFI_BOND_CONNECTING = 1;
     static public final int E_WIFI_BOND_SUCESS = 2;
@@ -60,13 +59,11 @@ public class SetWifiFragment extends BaseFragment {
     static public final int E_WIFI_BOND_PWD_WRONG = 4;
     static public final int E_WIFI_BOND_CONNECT_ERR = 5;
     static public final int E_WIFI_BOND_ERROR = 6;
-
     //指令
     static public final int E_SRV_APMODE_GET_INFO = 206;
     static public final int E_SRV_APMODE_BONDING = 207;
     static public final int E_SRV_GET_APLIST = 216;
     static public final int E_SRV_START_SCAN_APLIST = 215;
-
     static public final String IP = "10.10.10.250";
     static public final int PORT = 12368;
     public static final int TIMEOUT_SCAN = 3;
@@ -89,6 +86,8 @@ public class SetWifiFragment extends BaseFragment {
     private Timer timerScan;
     private Timer timerGetInfo;
     private int scan_time = 0;
+    public static final int SET_WIFI = 1001;
+    public static final String WIFI_NAME = "IWTAC_";
 
     public static SetWifiFragment newInstance() {
         return new SetWifiFragment();
@@ -107,7 +106,6 @@ public class SetWifiFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
         initData();
-        scan();
     }
 
     private void initToolbar() {
@@ -126,12 +124,22 @@ public class SetWifiFragment extends BaseFragment {
         etWifiName.setText(name);
         etWifiPassword.setText(password);
 
-
         WifiManager wifiManager = (WifiManager) App.mContext.getApplicationContext().getSystemService(WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        ALog.d(TAG, wifiInfo.toString());
-        ALog.d(TAG, wifiInfo.getSSID());
+        ALog.e(TAG, wifiInfo.getSSID());
 
+        if (wifiInfo.getSSID().contains(WIFI_NAME)) {
+            scan();
+        } else {
+            new AlertDialog.Builder(_mActivity)
+                    .setTitle("提示")
+                    .setMessage("您当前连接的Wifi非主机直连Wifi，是否重新连接Wifi？")
+                    .setNegativeButton("否", null)
+                    .setPositiveButton("是", (dialog, which) -> {
+                        Intent intent = new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
+                        startActivityForResult(intent, SET_WIFI);
+                    }).show();
+        }
     }
 
     private void scan() {
@@ -445,5 +453,20 @@ public class SetWifiFragment extends BaseFragment {
         root.put(jsonMembers);
         String json = root.toString();
         IPC_DispatchText("10.10.10.250", E_SRV_APMODE_BONDING, E_SRV_APMODE_BONDING, json);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ALog.e("11111111" + requestCode);
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == SET_WIFI) {
+            WifiManager wifiManager = (WifiManager) App.mContext.getApplicationContext().getSystemService(WIFI_SERVICE);
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            if (wifiInfo.getSSID().contains(WIFI_NAME)) {
+                scan();
+            }
+        }
     }
 }
