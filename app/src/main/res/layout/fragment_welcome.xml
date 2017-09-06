@@ -11,12 +11,18 @@
     <Button
         android:id="@+id/btn_begin"
         android:layout_width="110dp"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/selector_submit"
         android:text="立即体验"
         android:textColor="@color/white"
-        android:textSize="15sp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:background="@drawable/selector_submit"
-        android:layout_marginBottom="40dp"
-        android:layout_height="45dp" />
+        android:textSize="15sp" />
+
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/indicator_welcome_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom|center" />
 
 </FrameLayout>

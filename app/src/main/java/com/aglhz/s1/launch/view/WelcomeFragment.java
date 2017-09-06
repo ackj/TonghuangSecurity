@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -11,10 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.main.MainActivity;
 import com.bumptech.glide.Glide;
+
+import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.buildins.circlenavigator.CircleNavigator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,14 +35,14 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
  */
 
 public class WelcomeFragment extends BaseFragment {
-
+    public static final String TAG = WelcomeFragment.class.getSimpleName();
     @BindView(R.id.viewpager)
     ViewPager viewPager;
     @BindView(R.id.btn_begin)
     Button btnBegin;
-
+    @BindView(R.id.indicator_welcome_fragment)
+    MagicIndicator indicator;
     private Unbinder unbinder;
-
     Integer[] res = {
             R.drawable.bg_yingdao1ye_1242px_2208px,
             R.drawable.bg_yingdao2ye_1242px_2208px,
@@ -59,6 +65,7 @@ public class WelcomeFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initData();
         initListener();
+        initIndicator();
     }
 
     private void initData() {
@@ -77,6 +84,7 @@ public class WelcomeFragment extends BaseFragment {
             @Override
             public Object instantiateItem(ViewGroup container, int position) {
                 ImageView iv = new ImageView(_mActivity);
+                iv.setScaleType(ImageView.ScaleType.FIT_XY);
                 Glide.with(_mActivity)
                         .load(res[position])
                         .into(iv);
@@ -113,6 +121,15 @@ public class WelcomeFragment extends BaseFragment {
 
             }
         });
+    }
+
+    private void initIndicator() {
+        CircleNavigator circleNavigator = new CircleNavigator(_mActivity);
+        circleNavigator.setCircleCount(res.length);
+        circleNavigator.setCircleColor(ContextCompat.getColor(_mActivity, R.color.base_color));
+        circleNavigator.setCircleClickListener(index -> viewPager.setCurrentItem(index));
+        indicator.setNavigator(circleNavigator);
+        ViewPagerHelper.bind(indicator, viewPager);
     }
 
     @Override
