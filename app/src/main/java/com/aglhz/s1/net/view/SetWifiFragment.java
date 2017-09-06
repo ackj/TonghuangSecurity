@@ -457,10 +457,7 @@ public class SetWifiFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ALog.e("11111111" + requestCode);
         super.onActivityResult(requestCode, resultCode, data);
-
-
         if (requestCode == SET_WIFI) {
             WifiManager wifiManager = (WifiManager) App.mContext.getApplicationContext().getSystemService(WIFI_SERVICE);
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
