@@ -1,6 +1,8 @@
 package com.aglhz.s1.net.view;
 
 import android.app.Dialog;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -35,6 +37,8 @@ import cn.itsite.abase.cache.SPCache;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+
+import static android.content.Context.WIFI_SERVICE;
 
 /**
  * Created by leguang on 2017/5/24 0029.
@@ -121,6 +125,13 @@ public class SetWifiFragment extends BaseFragment {
         String password = (String) SPCache.get(App.mContext, Constants.WIFI_PASSWORD, "");
         etWifiName.setText(name);
         etWifiPassword.setText(password);
+
+
+        WifiManager wifiManager = (WifiManager) App.mContext.getApplicationContext().getSystemService(WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        ALog.d(TAG, wifiInfo.toString());
+        ALog.d(TAG, wifiInfo.getSSID());
+
     }
 
     private void scan() {

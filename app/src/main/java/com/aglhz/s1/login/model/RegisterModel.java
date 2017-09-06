@@ -17,10 +17,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class RegisterModel extends BaseModel implements RegisterContract.Model {
-    @Override
-    public void start(Object request) {
-
-    }
 
     @Override
     public Observable<BaseBean> register(Params params) {

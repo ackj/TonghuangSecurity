@@ -9,13 +9,6 @@ import cn.itsite.abase.common.BaseConstants;
  */
 public class Constants extends BaseConstants {
     public static final String TAG = Constants.class.getSimpleName();
-    public static final int RESPONSE_CODE_SUCCESS = 200;
-
-    //不允许new
-    private Constants() {
-        super();
-        throw new Error("Do not need instantiate!");
-    }
 
     //--------------------以下是区分debug版和非debug版的baseurl-----------
 
@@ -25,12 +18,16 @@ public class Constants extends BaseConstants {
         if (BuildConfig.DEBUG) {
             //调试可以改这里的地址。
             BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+//            BASE_USER = "http://120.77.83.45:8076/gasMember/";
         } else {
             //这里的是正式版的基础地址，永远不要动。
-            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+            BASE_USER = "http://120.77.83.45:8076/gasMember/";
         }
     }
     //-------------------以上是区分debug版和非debug版的baseurl-----------------
+
+    public static final int RESPONSE_CODE_SUCCESS = 200;
 
     public static final String PRESS_AGAIN = "再按一次退出";
 
