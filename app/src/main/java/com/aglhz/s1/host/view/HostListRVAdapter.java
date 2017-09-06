@@ -18,8 +18,9 @@ public class HostListRVAdapter extends BaseRecyclerViewAdapter<GatewaysBean.Data
     protected void convert(BaseViewHolder helper, GatewaysBean.DataBean item) {
         helper.setText(R.id.tv_people_type_item_rv_gateway, item.getIsManager() == 1 ? "管理员" : "成员")
                 .setText(R.id.tv_current_item_rv_gateway, item.getIsCurrent() == 1 ? "当前主机" : "")
-                .setText(R.id.tv_name_item_rv_gateway, item.getName() + (item.getIsOnline() == 1 ? "　(在线)" : "　(离线)"))
+                .setText(R.id.tv_name_item_rv_gateway, "名称：" + item.getName() + (item.getIsOnline() == 1 ? "　(在线)" : "　(离线)"))
+                .setText(R.id.tv_code_item_rv_gateway, "编号：" + item.getNo())
                 .setTextColor(R.id.tv_name_item_rv_gateway,
-                        item.getIsOnline() == 1 ? Color.parseColor("#999999") : Color.parseColor("#FF0000"));
+                        item.getIsOnline() == 1 ? Color.parseColor("#32E232") : Color.parseColor("#999999"));
     }
 }

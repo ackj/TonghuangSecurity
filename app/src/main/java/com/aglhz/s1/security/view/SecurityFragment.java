@@ -81,16 +81,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     private List<SecurityBean.DataBean.SubDevicesBean> subDevices;
     private RecordButton mRecord;
 
-    public static SecurityFragment newInstance() {
-        return new SecurityFragment();
-    }
-
-    @NonNull
-    @Override
-    protected SecurityContract.Presenter createPresenter() {
-        return new SecurityPresenter(this);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -108,6 +98,23 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         initListener();
         initPtrFrameLayout(ptrFrameLayout, recyclerView);
         requestPermissions();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+        unbinder.unbind();
+    }
+
+    public static SecurityFragment newInstance() {
+        return new SecurityFragment();
+    }
+
+    @NonNull
+    @Override
+    protected SecurityContract.Presenter createPresenter() {
+        return new SecurityPresenter(this);
     }
 
     private void initToolbar() {
@@ -187,13 +194,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        EventBus.getDefault().unregister(this);
-        unbinder.unbind();
-    }
-
-    @Override
     public void error(String errorMessage) {
         super.error(errorMessage);
         ptrFrameLayout.refreshComplete();
@@ -236,9 +236,10 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                     GatewaysBean.DataBean item = gateways.getData().get(position);
                     holder.setText(R.id.tv_role_item_rv_host_selector, item.getIsManager() == 1 ? "管理员" : "成员")
                             .setText(R.id.tv_current_item_rv_host_selector, item.getIsCurrent() == 1 ? "当前主机" : "")
-                            .setText(R.id.tv_name_item_rv_host_selector, item.getName() + (item.getIsOnline() == 1 ? "　(在线)" : "　(离线)"))
+                            .setText(R.id.tv_name_item_rv_host_selector, "名称：" + item.getName() + (item.getIsOnline() == 1 ? "　(在线)" : "　(离线)"))
+                            .setText(R.id.tv_code_item_rv_host_selector, "编号：" + item.getNo())
                             .setTextColor(R.id.tv_name_item_rv_host_selector,
-                                    item.getIsOnline() == 1 ? Color.parseColor("#999999") : Color.parseColor("#FF0000"));
+                                    item.getIsOnline() == 1 ? Color.parseColor("#32E232") : Color.parseColor("#999999"));
                 })
                 .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
                     dialog.dismiss();
