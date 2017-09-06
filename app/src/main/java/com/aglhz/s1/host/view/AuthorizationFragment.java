@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,10 @@ import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.host.contract.AuthorizationContract;
 import com.aglhz.s1.host.presenter.AuthorizationPresenter;
-import com.aglhz.s1.more.view.AuthorizationRVAdapter;
+import com.aglhz.s1.qrcode.ScanQRCodeFragment;
+import com.aglhz.s1.widget.PtrHTFrameLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,6 +35,8 @@ import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.adialog.dialog.BaseDialog;
+import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
+import cn.itsite.statemanager.StateManager;
 
 /**
  * Author: LiuJia on 2017/8/30 0030 10:22.
@@ -48,10 +53,14 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
     RecyclerView recyclerView;
     @BindView(R.id.toolbar_menu)
     TextView toolbarMenu;
+    @BindView(R.id.ptrFrameLayout)
+    PtrHTFrameLayout ptrFrameLayout;
     private Unbinder unbinder;
     private AuthorizationRVAdapter adapter;
     private Params params = Params.getInstance();
     private GatewaysBean.DataBean hostBean;
+    private StateManager mStateManager;
+    private List<String> addHostTypes;
 
     public static AuthorizationFragment newInstance(GatewaysBean.DataBean hostBean) {
         AuthorizationFragment fragment = new AuthorizationFragment();
@@ -82,6 +91,8 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
         initToolbar();
         initData();
         initListener();
+        initStateManager();
+        initPtrFrameLayout(ptrFrameLayout, recyclerView);
     }
 
     private void initToolbar() {
@@ -100,7 +111,6 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
         adapter = new AuthorizationRVAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         recyclerView.setAdapter(adapter);
-
         mPresenter.requestgatewayAuthList(params);
     }
 
@@ -121,6 +131,20 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
             }
         });
     }
+
+    private void initStateManager() {
+        mStateManager = StateManager.builder(_mActivity)
+                .setContent(recyclerView)
+                .setEmptyView(R.layout.state_empty)
+                .setEmptyText("还没有主机哦，赶紧添加吧！")
+                .setErrorOnClickListener(v -> ptrFrameLayout.autoRefresh())
+                .setEmptyOnClickListener(v -> showAddHostSelecotr())
+                .setConvertListener((holder, stateLayout) ->
+                        holder.setOnClickListener(R.id.bt_empty_state, v -> showAddHostSelecotr())
+                                .setText(R.id.bt_empty_state, "点击添加"))
+                .build();
+    }
+
 
     @Override
     public void onDestroyView() {
@@ -165,5 +189,33 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
                     }).setOnClickListener(R.id.tv_cancel, v -> dialog.dismiss());
                 })
                 .show();//显示。
+    }
+
+    private void showAddHostSelecotr() {
+        if (addHostTypes == null) {
+            addHostTypes = new ArrayList<>();
+            addHostTypes.add(0, "扫码添加");
+            addHostTypes.add(1, "手动输入添加");
+        }
+        new SelectorDialogFragment()
+                .setTitle("请选择添加方式")
+                .setItemLayoutId(R.layout.item_rv_simple_selector)
+                .setData(addHostTypes)
+                .setOnItemConvertListener((holder, position, dialog) ->
+                        holder.setText(R.id.tv_item_rv_simple_selector, addHostTypes.get(position)))
+                .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
+                    dialog.dismiss();
+                    switch (position) {
+                        case 0:
+                            _mActivity.start(ScanQRCodeFragment.newInstance());
+                            break;
+                        case 1:
+                            _mActivity.start(AddHostFragment.newInstance("", null));
+                            break;
+                    }
+                })
+                .setAnimStyle(R.style.SlideAnimation)
+                .setGravity(Gravity.BOTTOM)
+                .show(getChildFragmentManager());
     }
 }

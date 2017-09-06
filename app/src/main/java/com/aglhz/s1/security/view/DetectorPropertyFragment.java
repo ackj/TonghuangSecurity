@@ -11,15 +11,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.common.clip.ClipActivity;
 import com.aglhz.s1.common.DefenseLineLevel;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.common.clip.ClipActivity;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.entity.bean.SubDeviceDetBean;
@@ -53,10 +52,9 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
  * Email:liujia95me@126.com
  */
 public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContract.Presenter> implements DetectorPropertyContract.View {
-
+    public static final String TAG = DetectorPropertyFragment.class.getSimpleName();
     private final static int RESULT_LOAD_IMAGE = 0x100;
     private final static int RESULT_IMAGE_COMPLETE = 0x101;
-
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar_menu)
@@ -75,7 +73,6 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     SwitchButton sbDetectionDoorWindow;
     @BindView(R.id.sb_alarm_delay)
     SwitchButton sbAlarmDelay;
-
     private String[] lineOfDefenseArr = {"第一防线", "第二防线", "24小时防线"};
     private String defenseLevel = DefenseLineLevel.DLL_FIRST;
     Params params = Params.getInstance();
@@ -114,12 +111,8 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     }
 
     private void initListener() {
-        sbAlarmDelay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                params.alarmDelay = isChecked ? 1 : 0;
-            }
-        });
+        sbAlarmDelay.setOnCheckedChangeListener((buttonView, isChecked) ->
+                params.alarmDelay = isChecked ? 1 : 0);
     }
 
     private void initToolbar() {

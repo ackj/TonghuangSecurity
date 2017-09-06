@@ -29,7 +29,8 @@ public class DetectorPropertyModel extends BaseModel implements DetectorProperty
 
     @Override
     public Observable<BaseBean> requestDetectorProperty(Params params) {
-        return HttpHelper.getService(ApiService.class).requestDetectorProperty(ApiService.requestDetectorProperty)
+        return HttpHelper.getService(ApiService.class)
+                .requestDetectorProperty(ApiService.requestDetectorProperty)
                 .subscribeOn(Schedulers.io());
     }
 

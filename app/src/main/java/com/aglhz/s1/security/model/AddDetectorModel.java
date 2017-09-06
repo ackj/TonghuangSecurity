@@ -15,10 +15,6 @@ import okhttp3.MultipartBody;
 
 public class AddDetectorModel extends BaseModel implements AddDetectorContract.Model {
     private static final String TAG = AddDetectorModel.class.getSimpleName();
-    @Override
-    public void start(Object request) {
-
-    }
 
     @Override
     public Observable<DevicesBean> requestDetectorList(Params params) {
@@ -36,13 +32,10 @@ public class AddDetectorModel extends BaseModel implements AddDetectorContract.M
         builder.addFormDataPart("token", params.token);
         builder.addFormDataPart("sensorType", params.sensorType);
         builder.addFormDataPart("name", params.name);
-        ALog.e(TAG,"params.name:"+params.name);
         builder.addFormDataPart("defenseLevel", params.defenseLevel);
-        builder.addFormDataPart("roomFid", params.roomFid);
         return HttpHelper.getService(ApiService.class)
                 .reqeuestNewsensor(ApiService.reqeuestNewsensor,
                         builder.build())
                 .subscribeOn(Schedulers.io());
     }
-
 }
