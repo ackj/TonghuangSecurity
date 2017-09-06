@@ -434,6 +434,7 @@ public class SetWifiFragment extends BaseFragment {
     private void showDialog(String[] ssids) {
         new AlertDialog.Builder(_mActivity)
                 .setTitle("请选择联网Wifi")
+                .setNegativeButton("取消", null)
                 .setItems(ssids, (dialog, which) -> etWifiName.setText(ssids[which]))
                 .show();
     }
