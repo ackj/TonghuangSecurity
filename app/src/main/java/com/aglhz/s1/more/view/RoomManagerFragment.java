@@ -52,16 +52,6 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
     private RoomsBean.DataBean.RoomListBean addIconBean = new RoomsBean.DataBean.RoomListBean();
     private StateManager mStateManager;
 
-    public static RoomManagerFragment newInstance() {
-        return new RoomManagerFragment();
-    }
-
-    @NonNull
-    @Override
-    protected RoomManagerContract.Presenter createPresenter() {
-        return new RoomManagerPresenter(this);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,6 +68,22 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
         initListener();
         initStateManager();
         initPtrFrameLayout(ptrFrameLayout, recyclerView);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    public static RoomManagerFragment newInstance() {
+        return new RoomManagerFragment();
+    }
+
+    @NonNull
+    @Override
+    protected RoomManagerContract.Presenter createPresenter() {
+        return new RoomManagerPresenter(this);
     }
 
     private void initToolbar() {
@@ -134,12 +140,6 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
     public void error(String errorMessage) {
         super.error(errorMessage);
         ptrFrameLayout.refreshComplete();
@@ -147,6 +147,7 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
 
     @Override
     public void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data) {
+        //由于没有分页，所以只需要管理显示空和显示内容。
         ptrFrameLayout.refreshComplete();
         if (data == null || data.isEmpty()) {
             mStateManager.showEmpty();
@@ -160,11 +161,13 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
     @Override
     public void responseAddHouse(BaseBean bean) {
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
+        //添加后要刷新。
         onRefresh();
     }
 
     @Override
     public void responseRoomTypeList(List<RoomTypesBean.DataBean> data) {
+        //拿到房间类型后要弹框提示。
         new SelectorDialogFragment()
                 .setTitle("请选房间类型")
                 .setItemLayoutId(R.layout.item_rv_simple_selector)
@@ -186,5 +189,7 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
     @Override
     public void responseDelroom(BaseBean bean) {
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
+        //添加后要刷新。
+        onRefresh();
     }
 }
