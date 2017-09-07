@@ -194,16 +194,13 @@ public class AddSceneFragment extends BaseFragment<AddSceneContract.Presenter> i
     @Override
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
-        ALog.e("1111-->");
         if (requestCode == SupportFragment.RESULT_OK && data != null) {
             ArrayList<DeviceListBean.DataBean.SubDevicesBean> selector = data.getParcelableArrayList(Constants.KEY_SELECTOR);
-
             if (selector != null) {
                 for (DeviceListBean.DataBean.SubDevicesBean subDevice : selector) {
                     commandList.add(new CommandBean(subDevice.getIndex(), 0, 1));
                 }
             }
-
             if (adapter.getData().isEmpty()) {
                 adapter.getData().addAll(selector);
                 adapter.setNewData(adapter.getData());

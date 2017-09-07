@@ -158,7 +158,6 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
                 .build();
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
