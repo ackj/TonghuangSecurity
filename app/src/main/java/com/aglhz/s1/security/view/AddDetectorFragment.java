@@ -104,7 +104,6 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
             DevicesBean.DataBean.DeviceTypeListBean bean = adapter.getData().get(position);
             params.sensorType = bean.getCode();
             params.name = bean.getName();
-            params.defenseLevel = DefenseLineLevel.DLL_FIRST;
             mPresenter.requestAddDetector(params);
         });
     }
