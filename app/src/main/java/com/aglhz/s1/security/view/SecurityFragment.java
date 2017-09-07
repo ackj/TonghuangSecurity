@@ -82,6 +82,16 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     private List<SecurityBean.DataBean.SubDevicesBean> subDevices;
     private RecordButton mRecord;
 
+    public static SecurityFragment newInstance() {
+        return new SecurityFragment();
+    }
+
+    @NonNull
+    @Override
+    protected SecurityContract.Presenter createPresenter() {
+        return new SecurityPresenter(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -106,16 +116,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
         unbinder.unbind();
-    }
-
-    public static SecurityFragment newInstance() {
-        return new SecurityFragment();
-    }
-
-    @NonNull
-    @Override
-    protected SecurityContract.Presenter createPresenter() {
-        return new SecurityPresenter(this);
     }
 
     private void initToolbar() {

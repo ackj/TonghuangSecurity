@@ -201,12 +201,12 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
 
     @Override
     public void responseModLinkage(BaseBean bean) {
-        DialogHelper.successSnackbar(getView(), "修改成功");
+        DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
     }
 
     @Override
     public void responseDeleteLinkage(BaseBean bean) {
-        DialogHelper.successSnackbar(getView(), "删除成功");
+        DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
         adapter.remove(delPosition);
     }
 

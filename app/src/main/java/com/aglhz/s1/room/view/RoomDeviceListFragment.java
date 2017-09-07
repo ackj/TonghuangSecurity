@@ -261,13 +261,6 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         });
     }
 
-    private void changedRoom(String room) {
-        toolbarTitle.setText(room);
-        Glide.with(_mActivity)
-                .load(R.drawable.room_dating_1242px_745px)
-                .into(ivHeader);
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
