@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.common.DefenseLineLevel;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DevicesBean;
@@ -120,6 +119,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     public void error(String errorMessage) {
         super.error(errorMessage);
         ptrFrameLayout.refreshComplete();
+        mStateManager.showError();
     }
 
     @Override
@@ -131,6 +131,9 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     @Override
     public void responseDetectorList(List<DevicesBean.DataBean.DeviceTypeListBean> data) {
         ptrFrameLayout.refreshComplete();
+        if (data == null && data.isEmpty()) {
+            mStateManager.showEmpty();
+        }
         adapter.setNewData(data);
     }
 

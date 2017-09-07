@@ -7,19 +7,37 @@
 
     <include layout="@layout/toolbar" />
 
-    <TextView
-        android:id="@+id/tv_host_name_host_setting_fragment"
+    <LinearLayout
+        android:id="@+id/ll_host_name_host_setting_fragment"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:drawableEnd="@drawable/ic_arrow_right_gray_60px"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:orientation="horizontal">
 
-        android:text="主机名称"
-        android:textColor="@color/base_black"
-        android:textSize="15sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="主机名称"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_host_name_host_setting_fragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:textColor="@color/base_black" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:src="@drawable/ic_arrow_right_gray_60px" />
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -36,7 +54,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="地理位置"
-        android:textColor="@color/base_black"
         android:textSize="15sp" />
 
     <View
@@ -53,8 +70,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="报警短信"
-        android:textColor="@color/base_black"
+        android:text="报警短信推送"
         android:textSize="15sp" />
 
     <View
@@ -72,7 +88,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="推送设置"
-        android:textColor="@color/base_black"
         android:textSize="15sp" />
 
     <View
@@ -90,7 +105,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="音量设置"
-        android:textColor="@color/base_black"
         android:textSize="15sp" />
 
     <View
@@ -108,7 +122,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="授权设置"
-        android:textColor="@color/base_black"
         android:textSize="15sp" />
 
     <View
