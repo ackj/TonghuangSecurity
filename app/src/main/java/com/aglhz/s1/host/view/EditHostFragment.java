@@ -102,7 +102,7 @@ public class EditHostFragment extends BaseFragment {
     @OnClick(R.id.toolbar_menu)
     public void onViewClicked() {
         if (TextUtils.isEmpty(etName.getText().toString())) {
-            DialogHelper.errorSnackbar(getView(), "主机名称不能为空！");
+            DialogHelper.warningSnackbar(getView(), "主机名称不能为空！");
             return;
         }
 

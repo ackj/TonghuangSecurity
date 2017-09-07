@@ -226,7 +226,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     public void responseGateways(GatewaysBean gateways) {
         if (gateways == null || gateways.getData() == null
                 || gateways.getData().isEmpty()) {
-            DialogHelper.errorSnackbar(getView(), "您尚未配置网关！");
+            DialogHelper.warningSnackbar(getView(), "您尚未配置网关！");
             return;
         }
         new SelectorDialogFragment()

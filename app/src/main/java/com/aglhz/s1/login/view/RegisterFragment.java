@@ -162,11 +162,11 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
         String verCode = etVerifyCode.getText().toString();
 
         if (!password.equals(againPassword)) {
-            DialogHelper.errorSnackbar(getView(), "两次密码输入不一致！");
+            DialogHelper.warningSnackbar(getView(), "两次密码输入不一致！");
             return;
         }
         if (!(password.length() >= 6 && password.length() <= 12)) {
-            DialogHelper.errorSnackbar(getView(), "请设置6-12位密码！");
+            DialogHelper.warningSnackbar(getView(), "请设置6-12位密码！");
             return;
         }
         params.account = phoneNo;

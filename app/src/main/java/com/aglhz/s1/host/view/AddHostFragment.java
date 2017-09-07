@@ -168,28 +168,27 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
 
                 if (hostBean == null) {
                     if (TextUtils.isEmpty(etDeviceCode.getText().toString())) {
-                        DialogHelper.errorSnackbar(getView(), "主机编码不能为空！");
+                        DialogHelper.warningSnackbar(getView(), "主机编码不能为空！");
                         return;
                     }
                     if (TextUtils.isEmpty(etName.getText().toString())) {
-                        DialogHelper.errorSnackbar(getView(), "主机名称不能为空！");
+                        DialogHelper.warningSnackbar(getView(), "主机名称不能为空！");
                         return;
                     }
                 }
 
                 if (TextUtils.isEmpty(tvLocation.getText().toString())) {
-                    DialogHelper.errorSnackbar(getView(), "所在地区不能为空！");
+                    DialogHelper.warningSnackbar(getView(), "所在地区不能为空！");
                     return;
                 }
                 if (TextUtils.isEmpty(etAddress.getText().toString())) {
-                    DialogHelper.errorSnackbar(getView(), "详细地址不能为空！");
+                    DialogHelper.warningSnackbar(getView(), "详细地址不能为空！");
                     return;
                 }
                 params.no = etDeviceCode.getText().toString().trim();
                 params.name = etName.getText().toString();
 
                 params.addr = tvLocation.getText().toString();
-                ALog.e(" params.addr -->" + params.addr);
 
                 if (hostBean == null) {
                     mPresenter.requestAddHost(params);

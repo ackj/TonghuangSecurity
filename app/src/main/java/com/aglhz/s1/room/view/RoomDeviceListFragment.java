@@ -67,12 +67,9 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
     Unbinder unbinder;
-    private BaseRecyclerViewAdapter<String, BaseViewHolder> selectorAdapter;
-    private List<String> roomList = new ArrayList<>();
     private ImageView ivHeader;
     private Params params = Params.getInstance();
     private RoomDeviceList2RVAdapter adapter;
-    //    private List<RoomsBean.DataBean.RoomListBean> roomListBean;
     private RoomsBean.DataBean.RoomListBean selectRoom;
     private boolean isFirst = true;//是否是第一次进来
     private StateManager mStateManager;
@@ -162,12 +159,6 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         adapter.setHeaderView(ivHeader);
         recyclerView.setAdapter(adapter);
         mPresenter.requestHouseList(params);
-        selectorAdapter = new BaseRecyclerViewAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1) {
-            @Override
-            protected void convert(BaseViewHolder helper, String item) {
-                helper.setText(android.R.id.text1, item);
-            }
-        };
     }
 
     private void initStateManager() {
