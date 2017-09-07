@@ -29,10 +29,9 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.KeyBoardUtils;
 
 /**
- * Author: LiuJia on 2017/5/2 0002 20:14.
- * Email: liujia95me@126.com
+ * Created by leguang on 2017/6/22 0022.
+ * Email：langmanleguang@qq.com
  */
-
 public class AlertSmsFragment extends BaseFragment<HostSettingsContract.Presenter> implements HostSettingsContract.View {
     public static final String TAG = AlertSmsFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)

@@ -36,8 +36,8 @@ import cn.itsite.abase.utils.KeyBoardUtils;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
- * Author: LiuJia on 2017/5/2 0002 20:46.
- * Email: liujia95me@126.com
+ * Created by leguang on 2017/6/22 0022.
+ * Email：langmanleguang@qq.com
  */
 
 public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> implements AddHostContract.View {
