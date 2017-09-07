@@ -12,17 +12,19 @@ public class Constants extends BaseConstants {
 
     //--------------------以下是区分debug版和非debug版的baseurl-----------
 
-    public static String BASE_USER = "";
+    public static String BASE_USER = "";//用户系统
+    public static String BASE_URL = "";
 
     static {
         if (BuildConfig.DEBUG) {
             //调试可以改这里的地址。
-//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
-            BASE_USER = "http://120.77.83.45:8076/gasMember/";
+            BASE_USER = "http://120.77.83.45:8076/gasMember/";//用户系统
+//            BASE_URL = "http://119.23.129.133:8096/gas";
+            BASE_URL = "http://120.77.83.45:8096/gas";
         } else {
             //这里的是正式版的基础地址，永远不要动。
-//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
-            BASE_USER = "http://120.77.83.45:8076/gasMember/";
+            BASE_USER = "http://120.77.83.45:8076/gasMember/";//用户系统
+            BASE_URL = "http://120.77.83.45:8096/gas";
         }
     }
     //-------------------以上是区分debug版和非debug版的baseurl-----------------

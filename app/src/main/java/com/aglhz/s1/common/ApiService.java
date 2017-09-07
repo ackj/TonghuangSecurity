@@ -35,8 +35,7 @@ import retrofit2.http.Url;
 
 public interface ApiService {
 
-//    String BASE_URL = "http://119.23.129.133:8096/gas";
-    String BASE_URL = "http://120.77.83.45:8096/gas";
+    String BASE_URL = Constants.BASE_URL;
 
     String BASE_USER = Constants.BASE_USER;           //用户
 
