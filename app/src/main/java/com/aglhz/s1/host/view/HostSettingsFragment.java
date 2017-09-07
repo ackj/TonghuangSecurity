@@ -129,7 +129,6 @@ public class HostSettingsFragment extends BaseFragment {
     @Override
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
-
         if (data != null) {
             tvHostName.setText(data.getString(Constants.KEY_HOST_NAME));
         }
