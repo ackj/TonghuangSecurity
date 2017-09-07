@@ -82,6 +82,9 @@ public class HostSettingsFragment extends BaseFragment {
 
     private void initData() {
         tvHostName.setText(hostBean.getName());
+        if (hostBean.getIsManager() != 1) {
+            tvAccredit.setVisibility(View.GONE);
+        }
     }
 
     private void initToolbar() {

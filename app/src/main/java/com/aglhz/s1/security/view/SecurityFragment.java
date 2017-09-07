@@ -246,9 +246,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                     dialog.dismiss();
                     params.gateway = gateways.getData().get(position).getFid();
                     mPresenter.requestSwichGateway(params);
-                    ptrFrameLayout.autoRefresh();
-
-                    EventBus.getDefault().post(new EventSwitchHost());
                 })
                 .setAnimStyle(R.style.SlideAnimation)
                 .setGravity(Gravity.BOTTOM)
@@ -259,6 +256,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     public void responseSwichGateway(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
         ptrFrameLayout.autoRefresh();
+        EventBus.getDefault().post(new EventSwitchHost());
     }
 
     @Override

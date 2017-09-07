@@ -123,10 +123,4 @@
         android:paddingRight="10dp"
         android:text="授权设置"
         android:textSize="15sp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/base_line" />
-
 </LinearLayout>

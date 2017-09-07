@@ -107,6 +107,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Override
     public void onRefresh() {
+        params.page = 1;
         params.category = Constants.DEVICE_CTRL;
         mPresenter.requestDeviceList(params);
     }
@@ -163,6 +164,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter = new RoomDeviceList2RVAdapter();
         ivHeader = new ImageView(_mActivity);
+        ivHeader.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(_mActivity)
                 .load(R.drawable.room_cesuo_1242px_745px)
                 .into(ivHeader);
@@ -246,7 +248,10 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSwitchHost(EventSwitchHost event) {
-        onRefresh();
+        params.page = 1;
+        params.roomFid = "0";
+        params.category = Constants.DEVICE_CTRL;
+        mPresenter.requestDeviceList(params);
     }
 
     private void initListener() {

@@ -12,7 +12,7 @@ public class Params {
     private static final String TAG = Params.class.getSimpleName();
     public static String token;//测试用
     public int page = 1;
-    public int pageSize = 20;
+    public int pageSize = 50;
     public String sc = "AglhzSmart";
     public String user = "";
     public String pwd = "";
