@@ -262,11 +262,6 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     }
 
     @Override
-    public void responseDetectorProperty(BaseBean baseBean) {
-
-    }
-
-    @Override
     public void responseNodifSuccess(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), "修改成功");
     }

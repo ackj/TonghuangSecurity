@@ -1,6 +1,5 @@
 package com.aglhz.s1.common;
 
-import com.aglhz.s1.entity.bean.AppUpdateBean;
 import com.aglhz.s1.entity.bean.AuthorizationBean;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.CheckTokenBean;
@@ -170,20 +169,19 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestDelsensor(@Url String url
-            , @Field("token") String token
-            , @Field("index") int index
-    );
+    Observable<BaseBean> requestDelsensor(@Url String url,
+                                          @Field("token") String token,
+                                          @Field("index") int index);
 
     //获取探测器/设备详情
     String requestSubDeviceDet = BASE_URL + "/client/info/subDeviceDet";
 
     @FormUrlEncoded
     @POST
-    Observable<SubDeviceDetBean> requestSubDeviceDet(@Url String url
-            , @Field("token") String token
-            , @Field("category") String category
-            , @Field("index") int index);
+    Observable<SubDeviceDetBean> requestSubDeviceDet(@Url String url,
+                                                     @Field("token") String token,
+                                                     @Field("category") String category,
+                                                     @Field("index") int index);
 
     //----------------------------- 设备相关 ---------------------------------
     //添加设备
@@ -191,30 +189,15 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestNewDevice(@Url String url
-            , @Field("token") String token
-            , @Field("deviceType") String deviceType
-            , @Field("name") String name
-            , @Field("roomFid") String roomFid);
+    Observable<BaseBean> requestNewDevice(@Url String url,
+                                          @Field("token") String token,
+                                          @Field("deviceType") String deviceType,
+                                          @Field("name") String name,
+                                          @Field("roomFid") String roomFid);
 
-    @FormUrlEncoded
-    @POST
-    Observable<BaseBean> requestNewDevice(@Url String url
-            , @Field("token") String token
-            , @Field("deviceType") String deviceType
-            , @Field("name") String name
-    );
 
     //修改设备
     String requestModDevice = BASE_URL + "/client/moddevice";
-
-    @FormUrlEncoded
-    @POST
-    Observable<BaseBean> requestModDevice(@Url String url
-            , @Field("token") String token
-            , @Field("index") int index
-            , @Field("name") String name
-            , @Field("roomFid") String roomFid);
 
     @POST
     Observable<BaseBean> requestModDevice(@Url String url
@@ -235,12 +218,12 @@ public interface ApiService {
     //设备列表
     @FormUrlEncoded
     @POST
-    Observable<DeviceListBean> requestSubDeviceList(@Url String url
-            , @Field("token") String token
-            , @Field("page") int page
-            , @Field("pageSize") int pageSize
-            , @Field("roomId") int roomId
-            , @Field("category") String category);
+    Observable<DeviceListBean> requestSubDeviceList(@Url String url,
+                                                    @Field("token") String token,
+                                                    @Field("page") int page,
+                                                    @Field("pageSize") int pageSize,
+                                                    @Field("roomId") int roomId,
+                                                    @Field("category") String category);
 
     //设备列表
     @FormUrlEncoded
@@ -532,154 +515,6 @@ public interface ApiService {
 
     //----------------------------- 以上为主机操作相关 ---------------------------------
 
-
-    //----------------------------- 以下为探测器相关 ---------------------------------
-    //删除该探测器
-    String requestDeleteDetector = BASE_URL + "/client/delsensor";
-
-    @POST
-    Observable<BaseBean> requestDeleteDetector(@Url String url,
-                                               @Query("token") String token,
-                                               @Query("index") String index);
-
-
-    //----------------------------- 以上为探测器相关 ---------------------------------
-
-
-    //----------------------------- 安防 ----------------------------------
-
-
-    //探测器属性显示
-    String requestDetectorProperty = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestDetectorProperty(@Url String url);
-
-    //设置探测器名称
-    String requestUpdateDetectorName = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestUpdateDetectorName(@Url String url);
-
-    //设置探测器图片
-    String requestUpdateDetectorPicture = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestUpdateDetectorPicture(@Url String url);
-
-    //设置探测器防线
-    String requestUpdateDetectorLine = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestUpdateDetectorLine(@Url String url);
-
-    //设置探测器延迟
-    String requestUpdateDetectorIsDelay = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestUpdateDetectorIsDelay(@Url String url);
-
-
-    //获取探测器列表
-    String requestDetectorList = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestDetectorList(@Url String url);
-
-    //添加探测器
-    String requestAddDetector = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestAddDetector(@Url String url);
-
-    //----------------------------- 房间 ----------------------------------
-    //获取房间信息
-    String requestRoomInfo = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestRoomInfo(@Url String url);
-
-    //获取插座列表
-    String requestSocketList = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestSocketList(@Url String url);
-
-    //更改插座名称和图片
-    String requestEditSocketInfo = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestEditSocketInfo(@Url String url);
-
-    //删除该插座
-    String requestDeleteSocket = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestDeleteSocket(@Url String url);
-
-    //添加插座
-    String requestAddSocket = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestAddSocket(@Url String url);
-
-    //获取灯光列表
-    String requestLampList = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestLampList(@Url String url);
-
-    //更改灯光的名称和图片
-    String requestChangeLamp = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestChangeLamp(@Url String url);
-
-    //删除该灯光
-    String requestDeleteLamp = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestDeleteLamp(@Url String url);
-
-    //添加灯光
-    String requestAddLamp = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestAddLamp(@Url String url);
-
-    //获取警号列表
-    String requestAlarmList = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestAlarmList(@Url String url);
-
-    //更改警号名称和图片
-    String requestEditAlarm = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestEditAlarm(@Url String url);
-
-    //删除该警号
-    String requestDeleteAlarm = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestDeleteAlarm(@Url String url);
-
-    //添加警号
-    String requestAddAlarm = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestAddAlarm(@Url String url);
-
-    //----------------------------- 以下为历史 ----------------------------------
-    //获取历史列表
-    String requestHistory = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestHistory(@Url String url);
-
-    //----------------------------- 以上为历史 ----------------------------------
-
     //----------------------------- 以下为场景 ----------------------------------
 
     //场景列表
@@ -719,39 +554,11 @@ public interface ApiService {
                                          @Field("name") String name,
                                          @Field("paramJson") String paramJson);
 
-    //场景编辑
-    String requestEditScene = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestEditScene(@Url String url);
-
-    //保存场景
-    String requestSaveScene = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestSaveScene(@Url String url);
-
     //----------------------------- 以上为场景 ----------------------------------
-
-    //联动开关
-    String requestLinkageSwitch = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestLinkageSwitch(@Url String url);
-
-    //----------------------------- 更多 ----------------------------------
-    //房屋列表
-    String requestHouseList = BASE_URL + "";
-
-    @POST
-    Observable<BaseBean> requestHouseList(@Url String url);
 
 
     //********************以下为更新App接口*******************************
     String requestAppUpdatae = BASE_URL + "/client/info/checkVersion";
-
-    @POST
-    Observable<AppUpdateBean> requestAppUpdatae(@Url String url);
 
     //********************以上为更新App接口*******************************
 }
