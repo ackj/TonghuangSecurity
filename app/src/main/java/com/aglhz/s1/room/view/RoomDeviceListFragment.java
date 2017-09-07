@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.aglhz.s1.App;
 import com.aglhz.s1.R;
+import com.aglhz.s1.camera.CameraListFragment;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
@@ -68,7 +69,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     Unbinder unbinder;
     private BaseRecyclerViewAdapter<String, BaseViewHolder> selectorAdapter;
     private List<String> roomList = new ArrayList<>();
-    private ImageView ivHeader;
+    private ImageView ivRoom;
     private Params params = Params.getInstance();
     private RoomDeviceList2RVAdapter adapter;
     private MultiSelectorDialog switchRoomDialog;
@@ -76,6 +77,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     private RoomsBean.DataBean.RoomListBean selectRoom;
     private boolean isFirst = true;//是否是第一次进来
     private StateManager mStateManager;
+    private ImageView ivCamera;
 
     public static RoomDeviceListFragment newInstance() {
         return new RoomDeviceListFragment();
@@ -163,11 +165,15 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter = new RoomDeviceList2RVAdapter();
-        ivHeader = new ImageView(_mActivity);
+
+        View viewHeader = LayoutInflater.from(_mActivity).inflate(R.layout.layout_room_header,null);
+
+        ivRoom = (ImageView) viewHeader.findViewById(R.id.iv_room);
+        ivCamera = (ImageView) viewHeader.findViewById(R.id.iv_camera);
         Glide.with(_mActivity)
                 .load(R.drawable.room_cesuo_1242px_745px)
-                .into(ivHeader);
-        adapter.setHeaderView(ivHeader);
+                .into(ivRoom);
+        adapter.setHeaderView(viewHeader);
         recyclerView.setAdapter(adapter);
 
         mPresenter.requestHouseList(params);
@@ -220,7 +226,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         toolbarTitle.setText(bean.getName());
         Glide.with(_mActivity)
                 .load(resId)
-                .into(ivHeader);
+                .into(ivRoom);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -261,13 +267,14 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                     break;
             }
         });
+        ivCamera.setOnClickListener(v -> _mActivity.start(CameraListFragment.newInstance()));
     }
 
     private void changedRoom(String room) {
         toolbarTitle.setText(room);
         Glide.with(_mActivity)
                 .load(R.drawable.room_dating_1242px_745px)
-                .into(ivHeader);
+                .into(ivRoom);
     }
 
     @Override

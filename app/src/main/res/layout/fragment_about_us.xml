@@ -64,12 +64,11 @@
         android:text="权限管理"
         android:textColor="@color/base_black"
         android:textSize="15sp" />
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/base_gray" />
-    <TextView
+    <TextViewz
         android:id="@+id/tv_check_update"
         android:layout_width="match_parent"
         android:layout_height="60dp"

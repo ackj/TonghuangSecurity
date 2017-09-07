@@ -96,7 +96,7 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
     }
 
     private void initStateManager() {
-        mStateManager = StateManager.builder(_mActivity)
+               mStateManager = StateManager.builder(_mActivity)
                 .setContent(recyclerView)
                 .setEmptyView(R.layout.state_empty)
                 .setEmptyText("暂无联动，请点击添加！")
