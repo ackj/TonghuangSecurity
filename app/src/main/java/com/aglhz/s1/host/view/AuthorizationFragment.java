@@ -109,6 +109,7 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
     }
 
     private void initData() {
+        params.gateway = hostBean.getFid();
         adapter = new AuthorizationRVAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter.setEnableLoadMore(true);

@@ -23,10 +23,6 @@ public class AuthorizationPresenter extends BasePresenter<AuthorizationContract.
     }
 
     @Override
-    public void start(Object request) {
-    }
-
-    @Override
     public void requestgatewayAuthList(Params params) {
         mRxManager.add(mModel.requestgatewayAuthList(params)
                 .observeOn(AndroidSchedulers.mainThread())
