@@ -25,6 +25,7 @@ import com.aglhz.s1.entity.bean.RoomsBean;
 import com.aglhz.s1.event.EventAddDevice;
 import com.aglhz.s1.event.EventDeviceChanged;
 import com.aglhz.s1.event.EventSelectedDeviceType;
+import com.aglhz.s1.event.EventSwitchHost;
 import com.aglhz.s1.room.contract.RoomDeviceListContract;
 import com.aglhz.s1.room.presenter.RoomDeviceListPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
@@ -240,6 +241,11 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onChangeDataEvent(EventDeviceChanged event) {
+        onRefresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSwitchHost(EventSwitchHost event) {
         onRefresh();
     }
 

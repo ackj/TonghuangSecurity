@@ -15,10 +15,10 @@ import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.LinkageBean;
 import com.aglhz.s1.event.EventLinkageChanged;
+import com.aglhz.s1.event.EventSwitchHost;
 import com.aglhz.s1.linkage.contract.LinkageListContract;
 import com.aglhz.s1.linkage.presenter.LinkageListPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import org.greenrobot.eventbus.EventBus;
@@ -108,17 +108,19 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
                                 .setText(R.id.bt_empty_state, "点击添加"))
                 .build();
 
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
-                LinkageBean.DataBean bean = adapter.getItem(position);
-                _mActivity.start(LinkageEditFragment.newInstance(bean));
-            }
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            LinkageBean.DataBean bean = adapter.getItem(position);
+            _mActivity.start(LinkageEditFragment.newInstance(bean));
         });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventLinkageChanged(EventLinkageChanged event) {
+        onRefresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSwitchHost(EventSwitchHost event) {
         onRefresh();
     }
 

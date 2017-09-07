@@ -31,7 +31,6 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
         return new RoomDeviceListModel();
     }
 
-
     @Override
     public void requestDeviceList(Params params) {
         mRxManager.add(mModel.requestDeviceList(params)

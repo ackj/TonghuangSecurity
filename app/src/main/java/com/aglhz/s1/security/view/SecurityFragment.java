@@ -25,6 +25,7 @@ import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.event.EventRefreshSecurity;
+import com.aglhz.s1.event.EventSwitchHost;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
@@ -245,6 +246,9 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
                     dialog.dismiss();
                     params.gateway = gateways.getData().get(position).getFid();
                     mPresenter.requestSwichGateway(params);
+                    ptrFrameLayout.autoRefresh();
+
+                    EventBus.getDefault().post(new EventSwitchHost());
                 })
                 .setAnimStyle(R.style.SlideAnimation)
                 .setGravity(Gravity.BOTTOM)
