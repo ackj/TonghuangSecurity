@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.LbsManager;
@@ -130,7 +129,11 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
 
     private void initToolbar() {
         initStateBar(toolbar);
-        toolbarTitle.setText("添加主机");
+        if (hostBean != null) {
+            toolbarTitle.setText("地理位置");
+        } else {
+            toolbarTitle.setText("添加主机");
+        }
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
