@@ -109,6 +109,10 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
                 .setEmptyText("暂无历史记录！")
                 .setErrorOnClickListener(v -> ptrFrameLayout.autoRefresh())
                 .setEmptyOnClickListener(v -> ptrFrameLayout.autoRefresh())
+                .setConvertListener((holder, stateLayout) ->
+                        holder.setOnClickListener(R.id.bt_empty_state,
+                                v -> ptrFrameLayout.autoRefresh())
+                                .setText(R.id.bt_empty_state, "点击刷新"))
                 .build();
     }
 
