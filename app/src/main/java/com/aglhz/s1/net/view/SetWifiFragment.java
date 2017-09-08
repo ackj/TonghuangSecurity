@@ -41,6 +41,7 @@ import cn.itsite.abase.cache.SPCache;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.utils.NetworkUtils;
 
 import static android.content.Context.WIFI_SERVICE;
 
@@ -85,9 +86,7 @@ public class SetWifiFragment extends BaseFragment {
     Button btSubmit;
     @BindView(R.id.tv_current_wifi)
     TextView tvCurrentWifi;
-
     Unbinder unbinder;
-
     private Dialog loadingDialog;
     private MyHandler handler;
     private Timer timerScan;
@@ -127,8 +126,17 @@ public class SetWifiFragment extends BaseFragment {
     private void initData() {
         WifiManager wifiManager = (WifiManager) App.mContext.getApplicationContext().getSystemService(WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        ALog.e(TAG, wifiInfo.getSSID());
-        tvCurrentWifi.setText(wifiInfo.getSSID());
+        if (NetworkUtils.isWifiConnected(App.mContext)) {
+            tvCurrentWifi.setText(wifiInfo.getSSID());
+        } else {
+            ALog.e(NetworkUtils.getNetworkType(App.mContext).value);
+            ALog.e(NetworkUtils.getNetworkType(App.mContext));
+            if (NetworkUtils.getNetworkType(App.mContext) == NetworkUtils.NetWorkType.UnKnown) {
+                tvCurrentWifi.setText("未知网络");
+            } else {
+                tvCurrentWifi.setText(NetworkUtils.getNetworkType(App.mContext).value + "G网络");
+            }
+        }
 
         handler = new MyHandler(this);
         String name = (String) SPCache.get(App.mContext, Constants.WIFI_NAME, "");
@@ -180,9 +188,9 @@ public class SetWifiFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.bt_submit_set_net_fragment,R.id.ll_current_wifi,R.id.et_wifi_name_set_net_fragment})
+    @OnClick({R.id.bt_submit_set_net_fragment, R.id.ll_current_wifi, R.id.et_wifi_name_set_net_fragment})
     public void onViewClicked(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.bt_submit_set_net_fragment:
                 bindWifi(etWifiName.getText().toString().trim(), etWifiPassword.getText().toString().trim());
                 break;
@@ -192,8 +200,8 @@ public class SetWifiFragment extends BaseFragment {
                 break;
             case R.id.et_wifi_name_set_net_fragment:
                 String wifiName = tvCurrentWifi.getText().toString();
-                if(TextUtils.isEmpty(wifiName) || !wifiName.contains(WIFI_NAME)){
-                    DialogHelper.warningSnackbar(getView(),"选择报警主机的热点“IWTAC_...”进行连接");
+                if (TextUtils.isEmpty(wifiName) || !wifiName.contains(WIFI_NAME)) {
+                    DialogHelper.warningSnackbar(getView(), "选择报警主机的热点“IWTAC_...”进行连接");
                     etWifiName.setCursorVisible(false);
                     return;
                 }

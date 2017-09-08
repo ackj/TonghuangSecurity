@@ -13,7 +13,7 @@ android {
         versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        ndk{
+        ndk {
             abiFilters("armeabi", "armeabi-v7a", "x86", "mips")
         }
     }
@@ -22,7 +22,7 @@ android {
         debug {
             keyAlias 'guangneng'
             keyPassword 'guangneng'
-            storeFile file('F:/gaocheng/guangnenganfang.jks')
+            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
             storePassword 'guangneng'
         }
         release {
