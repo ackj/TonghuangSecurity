@@ -133,9 +133,9 @@ public class SetWifiFragment extends BaseFragment {
         } else {
             new AlertDialog.Builder(_mActivity)
                     .setTitle("提示")
-                    .setMessage("您当前连接的Wifi非主机直连Wifi，是否重新连接Wifi？")
-                    .setNegativeButton("否", null)
-                    .setPositiveButton("是", (dialog, which) -> {
+                    .setMessage("请选择名称为IWTAC_的WiFi为主机配网")
+                    .setNegativeButton("不选择", null)
+                    .setPositiveButton("选择WIFI", (dialog, which) -> {
                         Intent intent = new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
                         startActivityForResult(intent, SET_WIFI);
                     }).show();

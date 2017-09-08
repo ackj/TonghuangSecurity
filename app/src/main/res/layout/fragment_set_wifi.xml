@@ -31,7 +31,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/shape_stroke_base_color"
-                android:gravity="center" />
+                android:gravity="center"
+                android:hint="请选择WIFI"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/et_wifi_password_set_net_fragment"
@@ -42,7 +44,8 @@
                 android:background="@drawable/shape_stroke_base_color"
                 android:gravity="center"
                 android:hint="@string/input_wifi_password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/bt_submit_set_net_fragment"
