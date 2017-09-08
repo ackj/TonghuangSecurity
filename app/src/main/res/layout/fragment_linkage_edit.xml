@@ -11,7 +11,7 @@
 
         <TextView
             style="@style/LinkageEditItem_TitleStyle"
-            android:text="场景名称" />
+            android:text="联动名称" />
 
         <EditText
             android:id="@+id/et_name"
@@ -156,6 +156,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <View style="@style/NormalLineStyle" />
 
         <LinearLayout style="@style/LinkageEditItem_LinearLayoutStyle">
@@ -169,6 +170,7 @@
                 style="@style/LinkageEditItem_SelectTextStyle"
                 android:text="请选择" />
         </LinearLayout>
+
         <View style="@style/NormalLineStyle" />
 
         <LinearLayout style="@style/LinkageEditItem_LinearLayoutStyle">
@@ -203,13 +205,13 @@
                 <EditText
                     android:id="@+id/et_minute"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@null"
                     android:inputType="number"
                     android:text="0"
-                    android:background="@null"
                     android:textColor="@color/light_blue"
-                    android:textSize="15sp"
-                    android:layout_height="wrap_content" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"

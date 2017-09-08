@@ -3,30 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
 
     <EditText
+        android:id="@+id/et_input_1"
         android:layout_width="260dp"
         android:layout_height="40dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/shape_stroke_base_color"
-        android:hint="请输入WIFI帐号"
+        android:hint="请输入设备ID"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:textSize="15sp" />
 
     <EditText
+        android:id="@+id/et_input_2"
         android:layout_width="260dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_stroke_base_color"
-        android:hint="请输入WIFI密码"
+        android:hint="请输入用户名"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:textSize="15sp" />
-
+    <EditText
+        android:id="@+id/et_input_3"
+        android:layout_width="260dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_stroke_base_color"
+        android:hint="请输入密码"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textSize="15sp" />
     <Button
         android:layout_width="260dp"
         android:layout_height="40dp"

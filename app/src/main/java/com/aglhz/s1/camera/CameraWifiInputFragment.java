@@ -3,16 +3,21 @@ package com.aglhz.s1.camera;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.macrovideo.sdk.smartlink.SmarkLinkTool;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 
 /**
@@ -20,7 +25,7 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
  * Email: liujia95me@126.com
  */
 
-public class CameraInputFragment extends BaseFragment {
+public class CameraWifiInputFragment extends BaseFragment {
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -28,16 +33,20 @@ public class CameraInputFragment extends BaseFragment {
     Toolbar toolbar;
 
     Unbinder unbinder;
+    @BindView(R.id.et_nickname)
+    EditText etNickname;
+    @BindView(R.id.et_password)
+    EditText etPassword;
 
-    public static CameraInputFragment newInstance() {
-        CameraInputFragment fragment = new CameraInputFragment();
+    public static CameraWifiInputFragment newInstance() {
+        CameraWifiInputFragment fragment = new CameraWifiInputFragment();
         return fragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_camera_input, container, false);
+        View view = inflater.inflate(R.layout.fragment_input_wifi, container, false);
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }
@@ -74,4 +83,15 @@ public class CameraInputFragment extends BaseFragment {
         unbinder.unbind();
     }
 
+    @OnClick(R.id.btn_next)
+    public void onViewClicked() {
+        String nickname = etNickname.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+        if(TextUtils.isEmpty(nickname) || TextUtils.isEmpty(password)){
+            DialogHelper.successSnackbar(getView(),"请输入完整信息");
+            return;
+        }
+        SmarkLinkTool.StartSmartConnection(nickname, password);
+        _mActivity.start(CameraScanFragment.newInstance());
+    }
 }

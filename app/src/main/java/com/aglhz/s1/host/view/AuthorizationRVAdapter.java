@@ -1,4 +1,4 @@
-package com.aglhz.s1.more.view;
+package com.aglhz.s1.host.view;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.entity.bean.AuthorizationBean;

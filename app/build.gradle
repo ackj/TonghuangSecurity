@@ -10,26 +10,28 @@ android {
         minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        ndk{
+            abiFilters("armeabi", "armeabi-v7a", "x86", "mips")
+        }
     }
 
     signingConfigs {
         debug {
-            keyAlias 'agl'
-            keyPassword 'aglandroid'
-            storeFile file('F:/gaocheng/agl.keystore')
-            storePassword 'aglandroid'
+            keyAlias 'guangneng'
+            keyPassword 'guangneng'
+            storeFile file('F:/gaocheng/guangnenganfang.jks')
+            storePassword 'guangneng'
         }
         release {
-            keyAlias 'agl'
-            keyPassword 'aglandroid'
-            storeFile file('D:/Android/Workspace/gckj/agl.keystore')
-            storePassword 'aglandroid'
+            keyAlias 'guangneng'
+            keyPassword 'guangneng'
+            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
+            storePassword 'guangneng'
         }
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -84,4 +86,6 @@ dependencies {
     //谷歌权限申请框架
     compile 'pub.devrel:easypermissions:1.0.0'
     compile files('libs/nvsdk_1.3.jar')
+    //ViewPager的指示器
+    compile 'com.github.hackware1993:MagicIndicator:1.5.0'
 }

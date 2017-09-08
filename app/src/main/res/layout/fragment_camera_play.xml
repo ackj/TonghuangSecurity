@@ -7,18 +7,16 @@
     <include layout="@layout/toolbar" />
 
     <LinearLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <FrameLayout
+            android:id="@+id/fl_video_play_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
             <ImageView
                 android:layout_width="27dp"
@@ -57,6 +55,7 @@
                 android:src="@drawable/ic_left_150px" />
 
             <ImageView
+                android:id="@+id/iv_down"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_below="@id/iv_left"
@@ -71,6 +70,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/ll_inversion"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -97,6 +97,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_talkback"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -123,6 +124,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_photograph"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -149,6 +151,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_video"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

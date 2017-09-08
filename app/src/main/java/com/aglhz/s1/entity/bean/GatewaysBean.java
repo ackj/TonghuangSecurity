@@ -2,7 +2,6 @@ package com.aglhz.s1.entity.bean;
 
 import android.os.Parcel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,22 +22,44 @@ public class GatewaysBean extends BaseBean{
 
     public static class DataBean implements android.os.Parcelable {
         /**
-         * fid : qbfvfdvd
-         * isCurrent : 1
+         * defenseStatus : cancel
+         * defenseStatusDes : 当前处于撤防状态,仅24小时防线的探测器处于防御状态，其他探测器均处于未设防状态
+         * fid : 512601dd-c8de-4937-8a80-96a26029ce7e
+         * isCurrent : 0
          * isManager : 1
          * isOnline : 0
-         * name : S1智能网关
-         * residence : {"addr":"惠州江北凯宾斯基C座","fid":"irifirkfk","name":"凯宾斯基"}
+         * name : 111
+         * no : G111EU6B1000111
+         * residence : {"fid":"c5862da4-322c-4fe8-8a63-dd9eecebf94a","name":""}
          * status : 0
          */
 
+        private String defenseStatus;
+        private String defenseStatusDes;
         private String fid;
         private int isCurrent;
         private int isManager;
         private int isOnline;
         private String name;
+        private String no;
         private ResidenceBean residence;
         private int status;
+
+        public String getDefenseStatus() {
+            return defenseStatus;
+        }
+
+        public void setDefenseStatus(String defenseStatus) {
+            this.defenseStatus = defenseStatus;
+        }
+
+        public String getDefenseStatusDes() {
+            return defenseStatusDes;
+        }
+
+        public void setDefenseStatusDes(String defenseStatusDes) {
+            this.defenseStatusDes = defenseStatusDes;
+        }
 
         public String getFid() {
             return fid;
@@ -80,6 +101,14 @@ public class GatewaysBean extends BaseBean{
             this.name = name;
         }
 
+        public String getNo() {
+            return no;
+        }
+
+        public void setNo(String no) {
+            this.no = no;
+        }
+
         public ResidenceBean getResidence() {
             return residence;
         }
@@ -98,22 +127,12 @@ public class GatewaysBean extends BaseBean{
 
         public static class ResidenceBean implements android.os.Parcelable {
             /**
-             * addr : 惠州江北凯宾斯基C座
-             * fid : irifirkfk
-             * name : 凯宾斯基
+             * fid : c5862da4-322c-4fe8-8a63-dd9eecebf94a
+             * name :
              */
 
-            private String addr;
             private String fid;
             private String name;
-
-            public String getAddr() {
-                return addr;
-            }
-
-            public void setAddr(String addr) {
-                this.addr = addr;
-            }
 
             public String getFid() {
                 return fid;
@@ -138,7 +157,6 @@ public class GatewaysBean extends BaseBean{
 
             @Override
             public void writeToParcel(Parcel dest, int flags) {
-                dest.writeString(this.addr);
                 dest.writeString(this.fid);
                 dest.writeString(this.name);
             }
@@ -147,7 +165,6 @@ public class GatewaysBean extends BaseBean{
             }
 
             protected ResidenceBean(Parcel in) {
-                this.addr = in.readString();
                 this.fid = in.readString();
                 this.name = in.readString();
             }
@@ -172,11 +189,14 @@ public class GatewaysBean extends BaseBean{
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.defenseStatus);
+            dest.writeString(this.defenseStatusDes);
             dest.writeString(this.fid);
             dest.writeInt(this.isCurrent);
             dest.writeInt(this.isManager);
             dest.writeInt(this.isOnline);
             dest.writeString(this.name);
+            dest.writeString(this.no);
             dest.writeParcelable(this.residence, flags);
             dest.writeInt(this.status);
         }
@@ -185,11 +205,14 @@ public class GatewaysBean extends BaseBean{
         }
 
         protected DataBean(Parcel in) {
+            this.defenseStatus = in.readString();
+            this.defenseStatusDes = in.readString();
             this.fid = in.readString();
             this.isCurrent = in.readInt();
             this.isManager = in.readInt();
             this.isOnline = in.readInt();
             this.name = in.readString();
+            this.no = in.readString();
             this.residence = in.readParcelable(ResidenceBean.class.getClassLoader());
             this.status = in.readInt();
         }
@@ -206,36 +229,4 @@ public class GatewaysBean extends BaseBean{
             }
         };
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
-        dest.writeList(this.data);
-    }
-
-    public GatewaysBean() {
-    }
-
-    protected GatewaysBean(Parcel in) {
-        super(in);
-        this.data = new ArrayList<DataBean>();
-        in.readList(this.data, DataBean.class.getClassLoader());
-    }
-
-    public static final Creator<GatewaysBean> CREATOR = new Creator<GatewaysBean>() {
-        @Override
-        public GatewaysBean createFromParcel(Parcel source) {
-            return new GatewaysBean(source);
-        }
-
-        @Override
-        public GatewaysBean[] newArray(int size) {
-            return new GatewaysBean[size];
-        }
-    };
 }

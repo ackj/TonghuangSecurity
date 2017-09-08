@@ -1,6 +1,7 @@
 package com.aglhz.s1.camera;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -11,12 +12,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.camera.contract.CameraPlayContract;
+import com.aglhz.s1.camera.presenter.CameraPlayPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
-import com.macrovideo.sdk.smartlink.SmarkLinkTool;
+import com.macrovideo.sdk.custom.DeviceInfo;
+import com.macrovideo.sdk.defines.Defines;
+import com.macrovideo.sdk.media.LoginHandle;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.statemanager.StateManager;
 
@@ -25,7 +31,9 @@ import cn.itsite.statemanager.StateManager;
  * Email: liujia95me@126.com
  */
 
-public class CameraListFragment extends BaseFragment {
+public class CameraListFragment extends BaseFragment<CameraPlayContract.Presenter> implements CameraPlayContract.View {
+
+    private static final String TAG = CameraListFragment.class.getSimpleName();
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -38,11 +46,20 @@ public class CameraListFragment extends BaseFragment {
 
     Unbinder unbinder;
     private StateManager mStateManager;
-    private String[] addSelectedArr = {"新设备配置网络","添加已联网设备"};
+    private String[] addSelectedArr = {"新设备配置网络", "添加已联网设备"};
+    private DeviceInfo deviceInfo = new DeviceInfo(-1, 30754848, "30754848",
+            "", 8800, "admin", "", "unkown mac addr",
+            "30754848.nvdvr.net", Defines.SERVER_SAVE_TYPE_ADD);
 
     public static CameraListFragment newInstance() {
         CameraListFragment fragment = new CameraListFragment();
         return fragment;
+    }
+
+    @NonNull
+    @Override
+    protected CameraPlayContract.Presenter createPresenter() {
+        return new CameraPlayPresenter(this);
     }
 
     @Nullable
@@ -95,13 +112,16 @@ public class CameraListFragment extends BaseFragment {
         mStateManager.showEmpty();
     }
 
-    private void showSelectedDialog(){
+    private void showSelectedDialog() {
         new AlertDialog.Builder(_mActivity)
                 .setItems(addSelectedArr, (dialog, which) -> {
-                    if(which == 0){
-                        SmarkLinkTool.StartSmartConnection("GC_M", "801801aglm");//test
-                    }else{
-                        _mActivity.start(CameraInputFragment.newInstance());
+                    if (which == 0) {
+//                        int gc_m = SmarkLinkTool.StartSmartConnection("GC_M", "801801aglm");//test
+//                        ALog.e(TAG, "StartSmartConnection result:" + gc_m);
+                        _mActivity.start(CameraWifiInputFragment.newInstance());
+                    } else {
+//                        _mActivity.start(CameraWifiInputFragment.newInstance());
+                        mPresenter.requestLogin(deviceInfo);
                     }
                 })
                 .show();
@@ -116,4 +136,14 @@ public class CameraListFragment extends BaseFragment {
         unbinder.unbind();
     }
 
+    @Override
+    public void error(String errorMessage) {
+        DialogHelper.errorSnackbar(getView(),errorMessage);
+    }
+
+    @Override
+    public void responseLoginSuccess(LoginHandle handle) {
+        DialogHelper.successSnackbar(getView(),"登录成功");
+        _mActivity.start(CameraPlayFragment.newInstance(handle));
+    }
 }

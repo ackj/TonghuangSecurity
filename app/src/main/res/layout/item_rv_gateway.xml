@@ -13,24 +13,28 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_name_item_rv_gateway"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="智能安防S1"
-            android:textColor="@color/base_black"
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/tv_people_type"
+            android:id="@+id/tv_code_item_rv_gateway"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:text="111111" />
+
+        <TextView
+            android:id="@+id/tv_people_type_item_rv_gateway"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="管理员"
             android:textColor="@color/base_color" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_current"
+        android:id="@+id/tv_current_item_rv_gateway"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="当前主机" />

@@ -51,8 +51,6 @@ import cn.itsite.abase.utils.ToastUtils;
 import cn.itsite.multiselector.MultiSelectorDialog;
 import cn.itsite.statemanager.StateManager;
 
-import static com.aglhz.s1.R.id.ptrFrameLayout;
-
 /**
  * Author： Administrator on 2017/8/18 0018.
  * Email： liujia95me@126.com
@@ -64,8 +62,8 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     Toolbar toolbar;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(ptrFrameLayout)
-    PtrHTFrameLayout ptrHTFrameLayout;
+    @BindView(R.id.ptrFrameLayout)
+    PtrHTFrameLayout ptrFrameLayout;
     Unbinder unbinder;
     private BaseRecyclerViewAdapter<String, BaseViewHolder> selectorAdapter;
     private List<String> roomList = new ArrayList<>();
@@ -105,7 +103,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         initData();
         initListener();
         initStateManager();
-        initPtrFrameLayout(ptrHTFrameLayout, recyclerView);
+        initPtrFrameLayout(ptrFrameLayout, recyclerView);
     }
 
     @Override
@@ -192,11 +190,11 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 .setEmptyView(R.layout.state_empty)
                 .setEmptyText("该房间暂无设备，空空如也！")
                 .setEmptyImage(R.drawable.ic_no_device_empty_state_300)
-                .setErrorOnClickListener(v -> ptrHTFrameLayout.autoRefresh())
-                .setEmptyOnClickListener(v -> ptrHTFrameLayout.autoRefresh())
+                .setErrorOnClickListener(v -> ptrFrameLayout.autoRefresh())
+                .setEmptyOnClickListener(v -> ptrFrameLayout.autoRefresh())
                 .setConvertListener((holder, stateLayout) ->
                         holder.setOnClickListener(R.id.bt_empty_state,
-                                v -> ptrHTFrameLayout.autoRefresh())
+                                v -> ptrFrameLayout.autoRefresh())
                                 .setText(R.id.bt_empty_state, "点击刷新"))
                 .build();
     }
@@ -286,7 +284,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Override
     public void responseDeviceList(List<DeviceListBean.DataBean.SubDevicesBean> data) {
-        ptrHTFrameLayout.refreshComplete();
+        ptrFrameLayout.refreshComplete();
         if (data.size() < Constants.PAGE_SIZE) {
             //如果加载数量小于个数，直接完成
             adapter.loadMoreEnd();
@@ -329,7 +327,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     @Override
     public void error(String errorMessage) {
         super.error(errorMessage);
-        ptrHTFrameLayout.refreshComplete();
+        ptrFrameLayout.refreshComplete();
     }
 
     @Override

@@ -47,7 +47,6 @@ public class AlertSmsFragment extends BaseFragment<HostSettingsContract.Presente
     EditText etPhone2;
     private Unbinder unbinder;
     private GatewaysBean.DataBean hostBean;
-    private RxManager mRxManager = new RxManager();
     private Params params = Params.getInstance();
 
     public static AlertSmsFragment newInstance(GatewaysBean.DataBean hostBean) {
@@ -107,7 +106,6 @@ public class AlertSmsFragment extends BaseFragment<HostSettingsContract.Presente
         super.onDestroyView();
         KeyBoardUtils.hideKeybord(etPhone1, App.mContext);//必须在unbind之前调用。
         unbinder.unbind();
-        mRxManager.clear();
     }
 
     @Override

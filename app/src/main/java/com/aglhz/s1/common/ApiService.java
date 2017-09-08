@@ -113,52 +113,6 @@ public interface ApiService {
     //----------以上为Launch模块--------------
 
 
-    // 确认主机结束安装
-    String requestConfirmInstallFinished = "/client/confirmInstallFinished";
-
-    // 确认主机开始安装
-    String requestConfirmInstallStart = "/client/confirmInstallStart";
-
-    // 删除设备(非传感器类)
-    String requestDeldevice = "/client/deldevice ";
-
-    // 删除设备日志消息记录；主机管理员可删除
-    String requestDeldevicelog = "/client/deldevicelog";
-
-    // 删除主机
-    String requestDelgateway = "/client/delgateway";
-
-    // 会员主机布防状态设置
-    String requestGatewayDSS = "/client/gatewayDSS";
-
-    // 会员主机切换
-    String requestGatewaySW = "/client/gatewaySW";
-
-    //修改控制类设备(非传感器类)的属性
-    String requestModdevice = "/client/moddevice";
-
-    //修改场景
-    String requestModscene = "/client/modscene";
-
-    // 消息处理登记
-    String requestMsgprocl = "/client/msgprocl";
-
-    //消息已读登记
-    String requestMsgread = "/client/msgread";
-
-    //添加控制类设备(非传感器类)
-    String requestNewdevice = "/client/newdevice";
-
-    //会员扫描添加主机
-    String requestNewgateway = "/client/newgateway";
-
-    //会员扫描添加主机跳过安装
-    String requestNewgateway2 = "/client/newgateway2";
-
-
-    //添加探测器(传感器)
-    String requestNewsensor = "/client/newsensor";
-
     //----------------------------- 以下为主机操作相关 ---------------------------------
     //获取主机列表
     String requestGateways = BASE_URL + "/client/info/gatewayList";
@@ -186,15 +140,6 @@ public interface ApiService {
     //添加探测器
     String reqeuestNewsensor = BASE_URL + "/client/newsensor";
 
-//    @FormUrlEncoded
-//    @POST
-//    Observable<BaseBean> reqeuestNewsensor(@Url String url
-//            , @Field("token") String token
-//            , @Field("sensorType") String sensorType
-//            , @Field("name") String name
-//            , @Field("defenseLevel") String defenseLevel
-//            , @Field("roomFid") String roomFid
-//    );
 
     @POST
     Observable<BaseBean> reqeuestNewsensor(@Url String url
@@ -456,10 +401,11 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST
-    Observable<AuthorizationBean> requestGatewayAuthList(@Url String url
-            , @Field("token") String token
-            , @Field("page") int page
-            , @Field("pageSize") int pageSize
+    Observable<AuthorizationBean> requestGatewayAuthList(@Url String url,
+                                                         @Field("token") String token,
+                                                         @Field("gateway") String gateway,
+                                                         @Field("page") int page,
+                                                         @Field("pageSize") int pageSize
     );
 
     //解除主机授权
@@ -467,10 +413,10 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestGatewayUnAuth(@Url String url
-            , @Field("token") String token
-            , @Field("fid") String fid
-    );
+    Observable<BaseBean> requestGatewayUnAuth(@Url String url,
+                                              @Field("token") String token,
+                                              @Field("gateway") String gateway,
+                                              @Field("fid") String fid);
 
     //选择一个主机，授权给用户
     String requestGatewayAuth = BASE_URL + "/client/gatewayAuth";

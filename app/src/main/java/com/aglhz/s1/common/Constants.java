@@ -9,13 +9,6 @@ import cn.itsite.abase.common.BaseConstants;
  */
 public class Constants extends BaseConstants {
     public static final String TAG = Constants.class.getSimpleName();
-    public static final int RESPONSE_CODE_SUCCESS = 200;
-
-    //不允许new
-    private Constants() {
-        super();
-        throw new Error("Do not need instantiate!");
-    }
 
     //--------------------以下是区分debug版和非debug版的baseurl-----------
 
@@ -24,13 +17,17 @@ public class Constants extends BaseConstants {
     static {
         if (BuildConfig.DEBUG) {
             //调试可以改这里的地址。
-            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+            BASE_USER = "http://120.77.83.45:8076/gasMember/";
         } else {
             //这里的是正式版的基础地址，永远不要动。
-            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
+            BASE_USER = "http://120.77.83.45:8076/gasMember/";
         }
     }
     //-------------------以上是区分debug版和非debug版的baseurl-----------------
+
+    public static final int RESPONSE_CODE_SUCCESS = 200;
 
     public static final String PRESS_AGAIN = "再按一次退出";
 
@@ -55,10 +52,15 @@ public class Constants extends BaseConstants {
 //    public static final int TYPE_EDIT_HOST = 1;//1是编辑。
 
 
-    //额外推送类型。
+    //友盟推送extra字段类型。
     public static final String SENSOR_LEARN = "sensor_learn";//传感器学习
+    public static final String DEVICE_LEARN = "device_learn";//设备学习
     public static final String GW_ALARM_GAS = "gw_alarm_gas";//燃气报警
     public static final String GW_NOTIFIY_DEFENSE_ST = "gw_defense_satus";//主机布防状态变更
+    public static final String GW_ALARM_SOS = "gw_alarm_sos";//sos报警
+    public static final String ALARM_RED = "alarm_red";//红外报警
+    public static final String ALARM_DOOR = "alarm_door";//门磁报警
+
 
     public static final int PAGE_SIZE = 20;
 

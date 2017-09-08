@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.BoxingGlideLoader;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.entity.bean.NotificationBean;
 import com.aglhz.s1.event.EventDeviceChanged;
@@ -38,12 +39,11 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class App extends BaseApplication implements Application.ActivityLifecycleCallbacks {
     private static final String TAG = App.class.getSimpleName();
-    public Gson gson;
+    public Gson gson = new Gson();
 
     @Override
     public void onCreate() {
         super.onCreate();
-        gson = new Gson();
         initDate();
         initPush();//初始化友盟推送。
         initBoxing();
@@ -53,7 +53,7 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
         UserHelper.init();
     }
 
-    private void initBoxing(){
+    private void initBoxing() {
         IBoxingMediaLoader loader = new BoxingGlideLoader();
         BoxingMediaLoader.getInstance().init(loader);
     }
@@ -124,13 +124,7 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
             public Notification getNotification(Context context, UMessage msg) {
                 //每当有通知送达时，均会回调getNotification方法，因此可以通过监听此方法来判断通知是否送达。
                 ALog.e(TAG, msg.getRaw().toString());
-                NotificationBean notificationBean = gson.fromJson(msg.getRaw().toString(), NotificationBean.class);
-
-                if(notificationBean.getBody().getText().contains("成功") && notificationBean.getBody().getTitle().contains("设备")){
-                    EventBus.getDefault().post(new EventDeviceChanged());
-                }else{
-                    EventBus.getDefault().post(new EventRefreshSecurity(notificationBean));
-                }
+                updateUI(msg.getRaw().toString());
 
                 switch (msg.builder_id) {
                     //自定义通知样式编号
@@ -177,6 +171,30 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
 
     }
 
+    /**
+     * 依靠推送来刷新界面。
+     * @param msg 友盟推送的json。
+     */
+    private void updateUI(String msg) {
+        NotificationBean notification = gson.fromJson(msg, NotificationBean.class);
+        switch (notification.getExtra().getCtype()) {
+            case Constants.SENSOR_LEARN:
+            case Constants.GW_NOTIFIY_DEFENSE_ST:
+                EventBus.getDefault().post(new EventRefreshSecurity());
+                break;
+            case Constants.DEVICE_LEARN:
+                break;
+            case Constants.GW_ALARM_GAS:
+                break;
+            case Constants.GW_ALARM_SOS:
+                break;
+            case Constants.ALARM_RED:
+                break;
+            case Constants.ALARM_DOOR:
+                break;
+        }
+    }
+
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         ALog.e("onActivityCreated");
@@ -212,5 +230,4 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
     public void onActivityDestroyed(Activity activity) {
         ALog.e("onActivityDestroyed");
     }
-
 }

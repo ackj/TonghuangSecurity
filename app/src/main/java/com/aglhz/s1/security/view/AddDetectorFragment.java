@@ -102,7 +102,6 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     private void initListener() {
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             DevicesBean.DataBean.DeviceTypeListBean bean = adapter.getData().get(position);
-            params.roomFid = "117ba3e3-88d6-45f5-bd38-cc952a16daa8";//添加传感器不需要房间号，等基哥删除掉。
             params.sensorType = bean.getCode();
             params.name = bean.getName();
             params.defenseLevel = DefenseLineLevel.DLL_FIRST;
@@ -138,7 +137,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
 
     @Override
     public void responseAddDetector(BaseBean bean) {
-        DialogHelper.successSnackbar(getView(), "添加成功");
+        DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
         pop();
     }
 }

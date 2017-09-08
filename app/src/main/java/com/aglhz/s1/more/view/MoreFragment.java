@@ -71,10 +71,7 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
     RelativeLayout rlHead;
     @BindView(R.id.sv_more_fragment)
     ScrollView sv;
-
-
     Unbinder unbinder;
-
     private Params params = Params.getInstance();
     private List<String> addHostTypes;
 

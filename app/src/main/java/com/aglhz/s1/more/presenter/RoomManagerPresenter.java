@@ -9,6 +9,7 @@ import com.aglhz.s1.more.model.RoomManagerModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+
 public class RoomManagerPresenter extends BasePresenter<RoomManagerContract.View, RoomManagerContract.Model> implements RoomManagerContract.Presenter {
     private final String TAG = RoomManagerPresenter.class.getSimpleName();
 
@@ -20,10 +21,6 @@ public class RoomManagerPresenter extends BasePresenter<RoomManagerContract.View
     @Override
     protected RoomManagerContract.Model createModel() {
         return new RoomManagerModel();
-    }
-
-    @Override
-    public void start(Object request) {
     }
 
     @Override
@@ -49,7 +46,7 @@ public class RoomManagerPresenter extends BasePresenter<RoomManagerContract.View
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error));
+                }, this::error, this::complete, disposable -> start(null)));
     }
 
     @Override
@@ -62,7 +59,7 @@ public class RoomManagerPresenter extends BasePresenter<RoomManagerContract.View
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error));
+                }, this::error, this::complete, disposable -> start(null)));
     }
 
     @Override
@@ -75,7 +72,7 @@ public class RoomManagerPresenter extends BasePresenter<RoomManagerContract.View
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error));
+                }, this::error, this::complete, disposable -> start(null)));
     }
 
 }
