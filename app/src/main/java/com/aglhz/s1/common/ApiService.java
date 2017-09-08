@@ -34,9 +34,9 @@ import retrofit2.http.Url;
 
 public interface ApiService {
 
-    String BASE_URL = Constants.BASE_URL;
-
     String BASE_USER = Constants.BASE_USER;           //用户
+
+    String BASE_URL = Constants.BASE_URL;
 
     //*************以上基础路径*******************
 

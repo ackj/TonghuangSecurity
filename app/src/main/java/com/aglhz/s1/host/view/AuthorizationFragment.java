@@ -253,7 +253,7 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
         super.error(errorMessage);
         ptrFrameLayout.refreshComplete();
         if (params.page == 1) {
-            mStateManager.showError();
+//            mStateManager.showError();
         } else if (params.page > 1) {
             adapter.loadMoreFail();
             params.page--;
