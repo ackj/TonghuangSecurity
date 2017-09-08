@@ -29,7 +29,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.KeyBoardUtils;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -106,27 +105,6 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
         initLocation();
     }
 
-    private void initLocation() {
-        LbsManager.getInstance().startLocation(aMapLocation -> {
-            if (aMapLocation != null
-                    && aMapLocation.getErrorCode() == 0) {
-                LbsManager.getInstance().stopLocation();
-                tvLocation.setText(aMapLocation.getAddress());
-                params.lng = aMapLocation.getLongitude() + "";
-                params.lat = aMapLocation.getLatitude() + "";
-
-            }
-        });
-    }
-
-    private void initData() {
-        etDeviceCode.setText(params.no);
-        if (hostBean != null) {
-            llDeviceCode.setVisibility(View.GONE);
-            llName.setVisibility(View.GONE);
-        }
-    }
-
     private void initToolbar() {
         initStateBar(toolbar);
         if (hostBean != null) {
@@ -136,6 +114,31 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
         }
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
+    }
+
+    private void initData() {
+        etDeviceCode.setText(params.no);
+        if (hostBean != null) {
+            llDeviceCode.setVisibility(View.GONE);
+            llName.setVisibility(View.GONE);
+            tvLocation.setText(hostBean.getResidence().getAddr());
+            params.lng = hostBean.getResidence().getLng();
+            params.lat = hostBean.getResidence().getLat();
+        }
+    }
+
+    private void initLocation() {
+        LbsManager.getInstance().startLocation(aMapLocation -> {
+            if (aMapLocation != null
+                    && aMapLocation.getErrorCode() == 0) {
+                LbsManager.getInstance().stopLocation();
+                if (hostBean == null) {
+                    tvLocation.setText(aMapLocation.getAddress());
+                    params.lng = aMapLocation.getLongitude() + "";
+                    params.lat = aMapLocation.getLatitude() + "";
+                }
+            }
+        });
     }
 
     @Override
@@ -188,7 +191,7 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
                 params.no = etDeviceCode.getText().toString().trim();
                 params.name = etName.getText().toString();
 
-                params.addr = tvLocation.getText().toString();
+                params.addr = tvLocation.getText().toString() + etAddress.getText().toString().trim();
 
                 if (hostBean == null) {
                     mPresenter.requestAddHost(params);

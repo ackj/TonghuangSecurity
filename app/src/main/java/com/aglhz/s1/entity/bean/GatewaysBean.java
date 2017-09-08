@@ -8,7 +8,7 @@ import java.util.List;
  * Author： Administrator on 2017/8/9 0009.
  * Email： liujia95me@126.com
  */
-public class GatewaysBean extends BaseBean{
+public class GatewaysBean extends BaseBean {
 
     private List<DataBean> data;
 
@@ -24,13 +24,13 @@ public class GatewaysBean extends BaseBean{
         /**
          * defenseStatus : cancel
          * defenseStatusDes : 当前处于撤防状态,仅24小时防线的探测器处于防御状态，其他探测器均处于未设防状态
-         * fid : 512601dd-c8de-4937-8a80-96a26029ce7e
+         * fid : f420fa1a-97c4-44fa-a608-144ac54c21bc
          * isCurrent : 0
-         * isManager : 1
+         * isManager : 0
          * isOnline : 0
-         * name : 111
-         * no : G111EU6B1000111
-         * residence : {"fid":"c5862da4-322c-4fe8-8a63-dd9eecebf94a","name":""}
+         * name : 754
+         * no : G111EU6B1000754
+         * residence : {"addr":"惠阳淡水万联广场街道","fid":"21831c1f-e8f1-4b88-9d01-2688aa798b10","lat":"22.78348","lng":"114.46327","name":""}
          * status : 0
          */
 
@@ -127,12 +127,26 @@ public class GatewaysBean extends BaseBean{
 
         public static class ResidenceBean implements android.os.Parcelable {
             /**
-             * fid : c5862da4-322c-4fe8-8a63-dd9eecebf94a
+             * addr : 惠阳淡水万联广场街道
+             * fid : 21831c1f-e8f1-4b88-9d01-2688aa798b10
+             * lat : 22.78348
+             * lng : 114.46327
              * name :
              */
 
+            private String addr;
             private String fid;
+            private String lat;
+            private String lng;
             private String name;
+
+            public String getAddr() {
+                return addr;
+            }
+
+            public void setAddr(String addr) {
+                this.addr = addr;
+            }
 
             public String getFid() {
                 return fid;
@@ -140,6 +154,22 @@ public class GatewaysBean extends BaseBean{
 
             public void setFid(String fid) {
                 this.fid = fid;
+            }
+
+            public String getLat() {
+                return lat;
+            }
+
+            public void setLat(String lat) {
+                this.lat = lat;
+            }
+
+            public String getLng() {
+                return lng;
+            }
+
+            public void setLng(String lng) {
+                this.lng = lng;
             }
 
             public String getName() {
@@ -157,7 +187,10 @@ public class GatewaysBean extends BaseBean{
 
             @Override
             public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(this.addr);
                 dest.writeString(this.fid);
+                dest.writeString(this.lat);
+                dest.writeString(this.lng);
                 dest.writeString(this.name);
             }
 
@@ -165,7 +198,10 @@ public class GatewaysBean extends BaseBean{
             }
 
             protected ResidenceBean(Parcel in) {
+                this.addr = in.readString();
                 this.fid = in.readString();
+                this.lat = in.readString();
+                this.lng = in.readString();
                 this.name = in.readString();
             }
 
