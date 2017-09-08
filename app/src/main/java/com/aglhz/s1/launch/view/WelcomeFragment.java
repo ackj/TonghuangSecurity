@@ -30,8 +30,8 @@ import cn.itsite.abase.cache.SPCache;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 
 /**
- * Author: LiuJia on 2017/8/30 0030 18:00.
- * Email: liujia95me@126.com
+ * Author：leguang on 2017/4/12 0009 14:23
+ * Email：langmanleguang@qq.com
  */
 
 public class WelcomeFragment extends BaseFragment {
