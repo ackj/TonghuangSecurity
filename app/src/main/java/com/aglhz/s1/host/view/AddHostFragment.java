@@ -210,12 +210,11 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
             PoiItem poiItem = data.getParcelable(LoacationFragment.POI);
             if (poiItem != null) {
                 StringBuilder sb = new StringBuilder()
-                        .append(poiItem.getProvinceName())
-                        .append(poiItem.getCityName())
-                        .append(poiItem.getAdName())
-                        .append(poiItem.getSnippet())
-                        .append(poiItem.getTitle())
-                        .append(etAddress.getText().toString());
+                        .append(TextUtils.isEmpty(poiItem.getProvinceName()) ? "" : poiItem.getProvinceName())
+                        .append(TextUtils.isEmpty(poiItem.getCityName()) ? "" : poiItem.getCityName())
+                        .append(TextUtils.isEmpty(poiItem.getAdName()) ? "" : poiItem.getAdName())
+                        .append(TextUtils.isEmpty(poiItem.getSnippet()) ? "" : poiItem.getSnippet())
+                        .append(TextUtils.isEmpty(poiItem.getTitle()) ? "" : poiItem.getTitle());
 
                 tvLocation.setText(sb.toString());
                 params.lng = poiItem.getLatLonPoint().getLongitude() + "";
