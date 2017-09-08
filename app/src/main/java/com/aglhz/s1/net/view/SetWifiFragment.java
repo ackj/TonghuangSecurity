@@ -11,8 +11,6 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +39,6 @@ import cn.itsite.abase.cache.SPCache;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
-import cn.itsite.abase.utils.NetworkUtils;
 
 import static android.content.Context.WIFI_SERVICE;
 
@@ -126,28 +123,29 @@ public class SetWifiFragment extends BaseFragment {
     private void initData() {
         WifiManager wifiManager = (WifiManager) App.mContext.getApplicationContext().getSystemService(WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        if (NetworkUtils.isWifiConnected(App.mContext)) {
-            tvCurrentWifi.setText(wifiInfo.getSSID());
-        } else {
-            ALog.e(NetworkUtils.getNetworkType(App.mContext).value);
-            ALog.e(NetworkUtils.getNetworkType(App.mContext));
-            if (NetworkUtils.getNetworkType(App.mContext) == NetworkUtils.NetWorkType.UnKnown) {
-                tvCurrentWifi.setText("未知网络");
-            } else {
-                tvCurrentWifi.setText(NetworkUtils.getNetworkType(App.mContext).value + "G网络");
-            }
-        }
+//        if (NetworkUtils.isWifiConnected(App.mContext)) {
+//            tvCurrentWifi.setText(wifiInfo.getSSID());
+//        } else {
+//            ALog.e(NetworkUtils.getNetworkType(App.mContext).value);
+//            ALog.e(NetworkUtils.getNetworkType(App.mContext));
+//            if (NetworkUtils.getNetworkType(App.mContext) == NetworkUtils.NetWorkType.UnKnown) {
+//                tvCurrentWifi.setText("未知网络");
+//            } else {
+//                tvCurrentWifi.setText(NetworkUtils.getNetworkType(App.mContext).value + "G网络");
+//            }
+//        }
 
         handler = new MyHandler(this);
         String name = (String) SPCache.get(App.mContext, Constants.WIFI_NAME, "");
         String password = (String) SPCache.get(App.mContext, Constants.WIFI_PASSWORD, "");
         etWifiName.setText(name);
-        etWifiName.setCursorVisible(false);
-        etWifiName.setInputType(InputType.TYPE_NULL);
         etWifiPassword.setText(password);
 
         if (wifiInfo.getSSID().contains(WIFI_NAME)) {
+            tvCurrentWifi.setText(wifiInfo.getSSID());
             scan();
+        } else {
+            tvCurrentWifi.setText("非主机热点");
         }
 
         /*else {
@@ -188,7 +186,7 @@ public class SetWifiFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.bt_submit_set_net_fragment, R.id.ll_current_wifi, R.id.et_wifi_name_set_net_fragment})
+    @OnClick({R.id.bt_submit_set_net_fragment, R.id.ll_current_wifi})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_submit_set_net_fragment:
@@ -197,17 +195,6 @@ public class SetWifiFragment extends BaseFragment {
             case R.id.ll_current_wifi:
                 Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
                 startActivityForResult(intent, SET_WIFI);
-                break;
-            case R.id.et_wifi_name_set_net_fragment:
-                String wifiName = tvCurrentWifi.getText().toString();
-                if (TextUtils.isEmpty(wifiName) || !wifiName.contains(WIFI_NAME)) {
-                    DialogHelper.warningSnackbar(getView(), "选择报警主机的热点“IWTAC_...”进行连接");
-                    etWifiName.setCursorVisible(false);
-                    return;
-                }
-                etWifiName.setInputType(InputType.TYPE_CLASS_TEXT);
-                etWifiName.setCursorVisible(true);
-                scan();
                 break;
         }
     }
@@ -494,7 +481,12 @@ public class SetWifiFragment extends BaseFragment {
         if (requestCode == SET_WIFI) {
             WifiManager wifiManager = (WifiManager) App.mContext.getApplicationContext().getSystemService(WIFI_SERVICE);
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            tvCurrentWifi.setText(wifiInfo.getSSID());
+            if (wifiInfo.getSSID().contains(WIFI_NAME)) {
+                tvCurrentWifi.setText(wifiInfo.getSSID());
+                scan();
+            } else {
+                tvCurrentWifi.setText("非主机热点");
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ package com.aglhz.s1.host.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +11,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Constants;
+import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.itsite.abase.common.DialogHelper;
+import cn.itsite.abase.common.RxManager;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.network.http.HttpHelper;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by leguang on 2017/6/22 0022.
@@ -45,8 +53,11 @@ public class HostSettingsFragment extends BaseFragment {
     TextView tvAccredit;
     @BindView(R.id.ll_host_name_host_setting_fragment)
     LinearLayout llHostName;
+    @BindView(R.id.tv_unbind_host_setting_fragment)
+    TextView tvUnbind;
     private Unbinder unbinder;
     private GatewaysBean.DataBean hostBean;
+    private RxManager mRxManager = new RxManager();
 
     public static HostSettingsFragment newInstance(GatewaysBean.DataBean hostBean) {
         Bundle args = new Bundle();
@@ -98,6 +109,7 @@ public class HostSettingsFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        mRxManager.clear();
     }
 
     @OnClick({R.id.ll_host_name_host_setting_fragment,
@@ -105,6 +117,7 @@ public class HostSettingsFragment extends BaseFragment {
             R.id.tv_alert_sms_host_setting_fragment,
             R.id.tv_push_host_setting_fragment,
             R.id.tv_volume_host_setting_fragment,
+            R.id.tv_unbind_host_setting_fragment,
             R.id.tv_accredit_host_setting_fragment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -122,6 +135,25 @@ public class HostSettingsFragment extends BaseFragment {
                 break;
             case R.id.tv_volume_host_setting_fragment:
                 start(VolumeSettingsFragment.newInstance(hostBean));
+                break;
+            case R.id.tv_unbind_host_setting_fragment:
+                new AlertDialog.Builder(_mActivity)
+                        .setTitle("提醒")
+                        .setMessage("确定要解除绑定当前主机吗？")
+                        .setPositiveButton("确定", (dialog, which) ->
+                                mRxManager.add(HttpHelper.getService(ApiService.class)
+                                        .requestUnbindHost(ApiService.requestUnbindHost, UserHelper.token, hostBean.getFid())
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(bean -> {
+                                            if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                                                DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
+                                            } else {
+                                                error(bean.getOther().getMessage());
+                                            }
+                                        }, this::error, () -> complete(""), disposable -> start(""))))
+                        .setNegativeButton("取消", null)
+                        .show();
                 break;
             case R.id.tv_accredit_host_setting_fragment:
                 start(AuthorizationFragment.newInstance(hostBean));
