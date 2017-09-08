@@ -22,7 +22,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.RxManager;
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.mvp.view.base.Decoration;
 import cn.itsite.abase.network.http.HttpHelper;

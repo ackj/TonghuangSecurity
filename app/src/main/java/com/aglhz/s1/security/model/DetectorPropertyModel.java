@@ -21,19 +21,6 @@ import okhttp3.RequestBody;
 
 public class DetectorPropertyModel extends BaseModel implements DetectorPropertyContract.Model {
 
-
-    @Override
-    public void start(Object request) {
-
-    }
-
-    @Override
-    public Observable<BaseBean> requestDetectorProperty(Params params) {
-        return HttpHelper.getService(ApiService.class)
-                .requestDetectorProperty(ApiService.requestDetectorProperty)
-                .subscribeOn(Schedulers.io());
-    }
-
     @Override
     public Observable<BaseBean> requestNotifProperty(Params params) {
         return HttpHelper.getService(ApiService.class)
@@ -50,7 +37,7 @@ public class DetectorPropertyModel extends BaseModel implements DetectorProperty
     @Override
     public Observable<BaseBean> requestDelsensor(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestDelsensor(ApiService.requestDeleteDetector,
+                .requestDelsensor(ApiService.requestDelsensor,
                         params.token,
                         params.index)
                 .subscribeOn(Schedulers.io());

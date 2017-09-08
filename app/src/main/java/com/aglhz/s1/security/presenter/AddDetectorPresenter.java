@@ -24,10 +24,6 @@ public class AddDetectorPresenter extends BasePresenter<AddDetectorContract.View
     }
 
     @Override
-    public void start(Object request) {
-    }
-
-    @Override
     public void requestDetectorList(Params params) {
         mRxManager.add(mModel.requestDetectorList(params)
                 .observeOn(AndroidSchedulers.mainThread())

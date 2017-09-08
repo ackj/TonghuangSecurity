@@ -7,9 +7,12 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +83,11 @@ public class SetWifiFragment extends BaseFragment {
     EditText etWifiPassword;
     @BindView(R.id.bt_submit_set_net_fragment)
     Button btSubmit;
+    @BindView(R.id.tv_current_wifi)
+    TextView tvCurrentWifi;
+
     Unbinder unbinder;
+
     private Dialog loadingDialog;
     private MyHandler handler;
     private Timer timerScan;
@@ -110,7 +117,7 @@ public class SetWifiFragment extends BaseFragment {
 
     private void initToolbar() {
         initStateBar(toolbar);
-        toolbarTitle.setText("Wifi设置");
+        toolbarTitle.setText("为主机配网");
         toolbarMenu.setText("扫描");
         toolbarMenu.setOnClickListener(v -> scan());
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
@@ -118,28 +125,33 @@ public class SetWifiFragment extends BaseFragment {
     }
 
     private void initData() {
+        WifiManager wifiManager = (WifiManager) App.mContext.getApplicationContext().getSystemService(WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        ALog.e(TAG, wifiInfo.getSSID());
+        tvCurrentWifi.setText(wifiInfo.getSSID());
+
         handler = new MyHandler(this);
         String name = (String) SPCache.get(App.mContext, Constants.WIFI_NAME, "");
         String password = (String) SPCache.get(App.mContext, Constants.WIFI_PASSWORD, "");
         etWifiName.setText(name);
+        etWifiName.setCursorVisible(false);
+        etWifiName.setInputType(InputType.TYPE_NULL);
         etWifiPassword.setText(password);
-
-        WifiManager wifiManager = (WifiManager) App.mContext.getApplicationContext().getSystemService(WIFI_SERVICE);
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        ALog.e(TAG, wifiInfo.getSSID());
 
         if (wifiInfo.getSSID().contains(WIFI_NAME)) {
             scan();
-        } else {
+        }
+
+        /*else {
             new AlertDialog.Builder(_mActivity)
                     .setTitle("提示")
-                    .setMessage("您当前连接的Wifi非主机直连Wifi，是否重新连接Wifi？")
-                    .setNegativeButton("否", null)
-                    .setPositiveButton("是", (dialog, which) -> {
-                        Intent intent = new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS);
+                    .setMessage("请选择名称为IWTAC_的WiFi为主机配网")
+                    .setNegativeButton("不选择", null)
+                    .setPositiveButton("选择WIFI", (dialog, which) -> {
+                        Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
                         startActivityForResult(intent, SET_WIFI);
                     }).show();
-        }
+        }*/
     }
 
     private void scan() {
@@ -147,14 +159,11 @@ public class SetWifiFragment extends BaseFragment {
             loadingDialog = DialogHelper.loading(_mActivity);
         }
         loadingDialog.show();
-
         IPC_DispatchText(IP, E_SRV_START_SCAN_APLIST, E_SRV_START_SCAN_APLIST, "");
         Toast.makeText(App.mContext, "scaning AP.", Toast.LENGTH_SHORT).show();
-
         timerScan = new Timer();
         timerScan.schedule(createTimerTaskAP(), 3000, 2000);
     }
-
 
     @Override
     public void onDestroyView() {
@@ -171,9 +180,28 @@ public class SetWifiFragment extends BaseFragment {
         }
     }
 
-    @OnClick(R.id.bt_submit_set_net_fragment)
-    public void onViewClicked() {
-        bindWifi(etWifiName.getText().toString().trim(), etWifiPassword.getText().toString().trim());
+    @OnClick({R.id.bt_submit_set_net_fragment,R.id.ll_current_wifi,R.id.et_wifi_name_set_net_fragment})
+    public void onViewClicked(View view) {
+        switch (view.getId()){
+            case R.id.bt_submit_set_net_fragment:
+                bindWifi(etWifiName.getText().toString().trim(), etWifiPassword.getText().toString().trim());
+                break;
+            case R.id.ll_current_wifi:
+                Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                startActivityForResult(intent, SET_WIFI);
+                break;
+            case R.id.et_wifi_name_set_net_fragment:
+                String wifiName = tvCurrentWifi.getText().toString();
+                if(TextUtils.isEmpty(wifiName) || !wifiName.contains(WIFI_NAME)){
+                    DialogHelper.warningSnackbar(getView(),"选择报警主机的热点“IWTAC_...”进行连接");
+                    etWifiName.setCursorVisible(false);
+                    return;
+                }
+                etWifiName.setInputType(InputType.TYPE_CLASS_TEXT);
+                etWifiName.setCursorVisible(true);
+                scan();
+                break;
+        }
     }
 
     private int IPC_DispatchText(final String ipaddr, final int cmdId, final int cmdIndex, final String xmlData) {
@@ -183,9 +211,7 @@ public class SetWifiFragment extends BaseFragment {
                 ALog.e("IPC_DispatchText", "TSV_C_SendXmlCommand:" + cmdId + " answer:" + result);
                 switch (cmdId) {
                     case E_SRV_APMODE_GET_INFO:
-
                         ALog.e("这段代码块是永远不会走的");
-
                         if (result == null || result.equals("fail")) {
                             Message mMsg = new Message();
                             mMsg.what = GET_APMODE_INFO;
@@ -211,7 +237,6 @@ public class SetWifiFragment extends BaseFragment {
                             msg.arg1 = 0;
                             handler.sendMessage(msg);
                         }
-
                         break;
                 }
             }
@@ -445,7 +470,6 @@ public class SetWifiFragment extends BaseFragment {
             loadingDialog = DialogHelper.loading(_mActivity);
         }
         loadingDialog.show();
-
         JSONArray root = new JSONArray();
         root.put(E_SRV_APMODE_BONDING);
         JSONArray jsonMembers = new JSONArray();
@@ -462,9 +486,7 @@ public class SetWifiFragment extends BaseFragment {
         if (requestCode == SET_WIFI) {
             WifiManager wifiManager = (WifiManager) App.mContext.getApplicationContext().getSystemService(WIFI_SERVICE);
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            if (wifiInfo.getSSID().contains(WIFI_NAME)) {
-                scan();
-            }
+            tvCurrentWifi.setText(wifiInfo.getSSID());
         }
     }
 }

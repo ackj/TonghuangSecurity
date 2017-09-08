@@ -12,17 +12,19 @@ public class Constants extends BaseConstants {
 
     //--------------------以下是区分debug版和非debug版的baseurl-----------
 
-    public static String BASE_USER = "";
+    public static String BASE_USER = "";//用户系统
+    public static String BASE_URL = "";
 
     static {
         if (BuildConfig.DEBUG) {
             //调试可以改这里的地址。
-//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
-            BASE_USER = "http://120.77.83.45:8076/gasMember/";
+            BASE_USER = "http://120.77.83.45:8076/gasMember/";//用户系统
+//            BASE_URL = "http://119.23.129.133:8096/gas";
+            BASE_URL = "http://120.77.83.45:8096/gas";
         } else {
             //这里的是正式版的基础地址，永远不要动。
-//            BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";           //用户
-            BASE_USER = "http://120.77.83.45:8076/gasMember/";
+            BASE_USER = "http://120.77.83.45:8076/gasMember/";//用户系统
+            BASE_URL = "http://120.77.83.45:8096/gas";
         }
     }
     //-------------------以上是区分debug版和非debug版的baseurl-----------------
@@ -35,7 +37,7 @@ public class Constants extends BaseConstants {
 
     //配网模块
     public static final String WIFI_NAME = "wifi_name";
-    public static final String WIFI_PASSWORD = "WIFI_PASSWORD";
+    public static final String WIFI_PASSWORD = "wifi_password";
 
     //安全模块
     public static final String GATEWAY_STATE_CANCLE = "cancel";
@@ -45,7 +47,7 @@ public class Constants extends BaseConstants {
     //key
     public static final String KEY_HOST_NUMBER = "host_number";
     public static final String KEY_HOST = "key_host";
-//    public static final String KEY_ADD_TYPE = "KEY_ADD_TYPE";//0是添加，1是编辑。
+    public static final String KEY_HOST_NAME = "key_host_name";
 
 
 //    public static final int TYPE_ADD_HOST = 0;//0是添加。

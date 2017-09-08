@@ -24,15 +24,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
-import cn.itsite.abase.common.RxManager;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.KeyBoardUtils;
 
 /**
- * Author: LiuJia on 2017/5/2 0002 20:14.
- * Email: liujia95me@126.com
+ * Created by leguang on 2017/6/22 0022.
+ * Email：langmanleguang@qq.com
  */
-
 public class AlertSmsFragment extends BaseFragment<HostSettingsContract.Presenter> implements HostSettingsContract.View {
     public static final String TAG = AlertSmsFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
@@ -84,6 +82,13 @@ public class AlertSmsFragment extends BaseFragment<HostSettingsContract.Presente
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
+        initData();
+    }
+
+    private void initData() {
+        params.gateway = hostBean.getFid();
+        params.type = Constants.PHONE;
+        mPresenter.requestHostSettings(params);
     }
 
     private void initToolbar() {
@@ -93,8 +98,6 @@ public class AlertSmsFragment extends BaseFragment<HostSettingsContract.Presente
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
         toolbarMenu.setText("保存");
         toolbarMenu.setOnClickListener(v -> {
-            params.gateway = hostBean.getFid();
-            params.type = Constants.PHONE;
             params.subType = Constants.P_PUSH;
             params.val = etPhone1.getText().toString().trim() + "," + etPhone2.getText().toString().trim();
             mPresenter.requestSetHost(params);
@@ -115,7 +118,8 @@ public class AlertSmsFragment extends BaseFragment<HostSettingsContract.Presente
     }
 
     @Override
-    public void responseHostSettings(HostSettingsBean baseBean) {
-
+    public void responseHostSettings(HostSettingsBean bean) {
+        etPhone1.setText(bean.getData().getSmspush_number1());
+        etPhone2.setText(bean.getData().getSmspush_number2());
     }
 }

@@ -18,7 +18,9 @@ public class LinkageListModel extends BaseModel implements LinkageListContract.M
     public Observable<LinkageBean> requestLinkageList(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestLinkageList(ApiService.requestLinkageList,
-                        params.token, params.page, params.pageSize)
+                        params.token,
+                        params.page,
+                        params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -64,5 +66,4 @@ public class LinkageListModel extends BaseModel implements LinkageListContract.M
                 .requestDellinkage(ApiService.requestDellinkage, params.token, params.index)
                 .subscribeOn(Schedulers.io());
     }
-
 }

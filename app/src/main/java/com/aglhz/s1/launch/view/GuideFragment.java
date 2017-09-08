@@ -15,7 +15,8 @@ import cn.itsite.abase.cache.SPCache;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 
 /**
- * Created by Administrator on 2017/5/2 0002.
+ * Author：leguang on 2017/4/12 0009 14:23
+ * Email：langmanleguang@qq.com
  */
 public class GuideFragment extends BaseFragment {
 

@@ -31,7 +31,10 @@ import cn.itsite.abase.mvp.view.base.Decoration;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateLayout;
 import cn.itsite.statemanager.StateManager;
-
+/**
+ * Created by leguang on 2017/6/22 0022.
+ * Email：langmanleguang@qq.com
+ */
 public class HostListFragment extends BaseFragment<HostListContract.Presenter> implements HostListContract.View {
     public static final String TAG = HostListFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)

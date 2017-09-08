@@ -14,9 +14,14 @@ import android.widget.TextView;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.DeviceLogBean;
+import com.aglhz.s1.event.EventSwitchHost;
 import com.aglhz.s1.history.contract.DeviceLogsContract;
 import com.aglhz.s1.history.presenter.DeviceLogsPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -61,6 +66,7 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -120,6 +126,7 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -154,5 +161,10 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
             adapter.setEnableLoadMore(true);
             adapter.loadMoreComplete();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSwitchHost(EventSwitchHost event) {
+        onRefresh();
     }
 }

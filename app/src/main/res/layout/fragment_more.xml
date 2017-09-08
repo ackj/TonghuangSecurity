@@ -59,17 +59,33 @@
             <View style="@style/MoreItem_LineStyle" />
 
             <LinearLayout
-                android:id="@+id/ll_room_manager"
+                android:id="@+id/ll_wifi_setting"
                 style="@style/MoreItem_LinearLayoutStyle">
 
                 <ImageView
                     android:layout_width="75dp"
                     android:layout_height="23dp"
-                    android:src="@drawable/ic_room_69_69" />
+                    android:src="@drawable/ic_wifi_setting_69_69" />
 
                 <TextView
                     style="@style/MoreItem_TitleStyle"
-                    android:text="房间管理" />
+                    android:text="主机配网" />
+            </LinearLayout>
+
+            <View style="@style/MoreItem_LineStyle" />
+
+            <LinearLayout
+                android:id="@+id/ll_add_host"
+                style="@style/MoreItem_LinearLayoutStyle">
+
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="23dp"
+                    android:src="@drawable/ic_add_host_69_69" />
+
+                <TextView
+                    style="@style/MoreItem_TitleStyle"
+                    android:text="添加主机" />
             </LinearLayout>
 
             <View style="@style/MoreItem_LineStyle" />
@@ -91,34 +107,19 @@
             <View style="@style/MoreItem_LineStyle" />
 
             <LinearLayout
-                android:id="@+id/ll_wifi_setting"
+                android:id="@+id/ll_room_manager"
                 style="@style/MoreItem_LinearLayoutStyle">
 
                 <ImageView
                     android:layout_width="75dp"
                     android:layout_height="23dp"
-                    android:src="@drawable/ic_wifi_setting_69_69" />
+                    android:src="@drawable/ic_room_69_69" />
 
                 <TextView
                     style="@style/MoreItem_TitleStyle"
-                    android:text="WIFI设置" />
+                    android:text="房间管理" />
             </LinearLayout>
 
-            <View style="@style/MoreItem_LineStyle" />
-
-            <LinearLayout
-                android:id="@+id/ll_add_host"
-                style="@style/MoreItem_LinearLayoutStyle">
-
-                <ImageView
-                    android:layout_width="75dp"
-                    android:layout_height="23dp"
-                    android:src="@drawable/ic_add_host_69_69" />
-
-                <TextView
-                    style="@style/MoreItem_TitleStyle"
-                    android:text="添加主机" />
-            </LinearLayout>
 
             <!--<View style="@style/MoreItem_LineStyle" />
 

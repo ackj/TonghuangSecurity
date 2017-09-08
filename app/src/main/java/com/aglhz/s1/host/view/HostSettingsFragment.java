@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
@@ -19,12 +20,13 @@ import butterknife.Unbinder;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 
 /**
- * Author: LiuJia on 2017/5/2 0002 20:14.
- * Email: liujia95me@126.com
+ * Created by leguang on 2017/6/22 0022.
+ * Email：langmanleguang@qq.com
  */
 
 public class HostSettingsFragment extends BaseFragment {
     public static final String TAG = HostSettingsFragment.class.getSimpleName();
+    public static final int UPDATE_HOST_NAME = 1234;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -41,6 +43,8 @@ public class HostSettingsFragment extends BaseFragment {
     TextView tvVolume;
     @BindView(R.id.tv_accredit_host_setting_fragment)
     TextView tvAccredit;
+    @BindView(R.id.ll_host_name_host_setting_fragment)
+    LinearLayout llHostName;
     private Unbinder unbinder;
     private GatewaysBean.DataBean hostBean;
 
@@ -77,7 +81,10 @@ public class HostSettingsFragment extends BaseFragment {
     }
 
     private void initData() {
-        tvHostName.setText("主机名称：" + hostBean.getName());
+        tvHostName.setText(hostBean.getName());
+        if (hostBean.getIsManager() != 1) {
+            tvAccredit.setVisibility(View.GONE);
+        }
     }
 
     private void initToolbar() {
@@ -93,7 +100,7 @@ public class HostSettingsFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_host_name_host_setting_fragment,
+    @OnClick({R.id.ll_host_name_host_setting_fragment,
             R.id.tv_location_host_setting_fragment,
             R.id.tv_alert_sms_host_setting_fragment,
             R.id.tv_push_host_setting_fragment,
@@ -101,8 +108,8 @@ public class HostSettingsFragment extends BaseFragment {
             R.id.tv_accredit_host_setting_fragment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tv_host_name_host_setting_fragment:
-                start(EditHostFragment.newInstance(hostBean));
+            case R.id.ll_host_name_host_setting_fragment:
+                startForResult(EditHostFragment.newInstance(hostBean), UPDATE_HOST_NAME);
                 break;
             case R.id.tv_location_host_setting_fragment:
                 start(AddHostFragment.newInstance("", hostBean));
@@ -119,6 +126,14 @@ public class HostSettingsFragment extends BaseFragment {
             case R.id.tv_accredit_host_setting_fragment:
                 start(AuthorizationFragment.newInstance(hostBean));
                 break;
+        }
+    }
+
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        if (data != null) {
+            tvHostName.setText(data.getString(Constants.KEY_HOST_NAME));
         }
     }
 }

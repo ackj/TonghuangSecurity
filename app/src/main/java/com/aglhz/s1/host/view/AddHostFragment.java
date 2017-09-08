@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.LbsManager;
@@ -30,14 +29,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.KeyBoardUtils;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
- * Author: LiuJia on 2017/5/2 0002 20:46.
- * Email: liujia95me@126.com
+ * Created by leguang on 2017/6/22 0022.
+ * Email：langmanleguang@qq.com
  */
 
 public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> implements AddHostContract.View {
@@ -107,17 +105,15 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
         initLocation();
     }
 
-    private void initLocation() {
-        LbsManager.getInstance().startLocation(aMapLocation -> {
-            if (aMapLocation != null
-                    && aMapLocation.getErrorCode() == 0) {
-                LbsManager.getInstance().stopLocation();
-                tvLocation.setText(aMapLocation.getAddress());
-                params.lng = aMapLocation.getLongitude() + "";
-                params.lat = aMapLocation.getLatitude() + "";
-
-            }
-        });
+    private void initToolbar() {
+        initStateBar(toolbar);
+        if (hostBean != null) {
+            toolbarTitle.setText("地理位置");
+        } else {
+            toolbarTitle.setText("添加主机");
+        }
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
+        toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
 
     private void initData() {
@@ -125,14 +121,24 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
         if (hostBean != null) {
             llDeviceCode.setVisibility(View.GONE);
             llName.setVisibility(View.GONE);
+            tvLocation.setText(hostBean.getResidence().getAddr());
+            params.lng = hostBean.getResidence().getLng();
+            params.lat = hostBean.getResidence().getLat();
         }
     }
 
-    private void initToolbar() {
-        initStateBar(toolbar);
-        toolbarTitle.setText("添加主机");
-        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
-        toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
+    private void initLocation() {
+        LbsManager.getInstance().startLocation(aMapLocation -> {
+            if (aMapLocation != null
+                    && aMapLocation.getErrorCode() == 0) {
+                LbsManager.getInstance().stopLocation();
+                if (hostBean == null) {
+                    tvLocation.setText(aMapLocation.getAddress());
+                    params.lng = aMapLocation.getLongitude() + "";
+                    params.lat = aMapLocation.getLatitude() + "";
+                }
+            }
+        });
     }
 
     @Override
@@ -165,28 +171,27 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
 
                 if (hostBean == null) {
                     if (TextUtils.isEmpty(etDeviceCode.getText().toString())) {
-                        DialogHelper.errorSnackbar(getView(), "主机编码不能为空！");
+                        DialogHelper.warningSnackbar(getView(), "主机编码不能为空！");
                         return;
                     }
                     if (TextUtils.isEmpty(etName.getText().toString())) {
-                        DialogHelper.errorSnackbar(getView(), "主机名称不能为空！");
+                        DialogHelper.warningSnackbar(getView(), "主机名称不能为空！");
                         return;
                     }
                 }
 
                 if (TextUtils.isEmpty(tvLocation.getText().toString())) {
-                    DialogHelper.errorSnackbar(getView(), "所在地区不能为空！");
+                    DialogHelper.warningSnackbar(getView(), "所在地区不能为空！");
                     return;
                 }
                 if (TextUtils.isEmpty(etAddress.getText().toString())) {
-                    DialogHelper.errorSnackbar(getView(), "详细地址不能为空！");
+                    DialogHelper.warningSnackbar(getView(), "详细地址不能为空！");
                     return;
                 }
                 params.no = etDeviceCode.getText().toString().trim();
                 params.name = etName.getText().toString();
 
-                params.addr = tvLocation.getText().toString();
-                ALog.e(" params.addr -->" + params.addr);
+                params.addr = tvLocation.getText().toString() + etAddress.getText().toString().trim();
 
                 if (hostBean == null) {
                     mPresenter.requestAddHost(params);

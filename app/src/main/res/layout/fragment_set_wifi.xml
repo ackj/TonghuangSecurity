@@ -20,8 +20,66 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:text="@string/set_wifi_step"
+                android:padding="15dp"
+                android:text="@string/set_wifi_step_1"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/base_line" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/set_wifi_step_2"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/base_line" />
+
+            <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
+                android:id="@+id/ll_current_wifi"
+                android:layout_width="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="15dp"
+                    android:text="当前网络"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_current_wifi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="3dp"
+                    android:drawableRight="@drawable/ic_arrow_right_30px"
+                    android:paddingRight="15dp"
+                    android:text=""
+                    android:textColor="@color/base_color" />
+            </LinearLayout
+                >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/base_line" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/set_wifi_step_3"
                 android:textSize="15sp" />
 
             <EditText
@@ -31,7 +89,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/shape_stroke_base_color"
-                android:gravity="center" />
+                android:gravity="center"
+                android:hint="请选择WIFI"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/et_wifi_password_set_net_fragment"
@@ -42,7 +102,8 @@
                 android:background="@drawable/shape_stroke_base_color"
                 android:gravity="center"
                 android:hint="@string/input_wifi_password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/bt_submit_set_net_fragment"

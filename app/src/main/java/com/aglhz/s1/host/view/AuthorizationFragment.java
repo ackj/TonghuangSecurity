@@ -40,8 +40,8 @@ import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateManager;
 
 /**
- * Author: LiuJia on 2017/8/30 0030 10:22.
- * Email: liujia95me@126.com
+ * Created by leguang on 2017/6/22 0022.
+ * Email：langmanleguang@qq.com
  */
 
 public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Presenter> implements AuthorizationContract.View {
@@ -109,6 +109,7 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
     }
 
     private void initData() {
+        params.gateway = hostBean.getFid();
         adapter = new AuthorizationRVAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter.setEnableLoadMore(true);
@@ -156,7 +157,6 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
                                 .setText(R.id.bt_empty_state, "点击添加"))
                 .build();
     }
-
 
     @Override
     public void onDestroyView() {

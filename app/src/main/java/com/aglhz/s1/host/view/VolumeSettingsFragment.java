@@ -31,8 +31,8 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 
 /**
- * Author: LiuJia on 2017/5/2 0002 20:14.
- * Email: liujia95me@126.com
+ * Created by leguang on 2017/6/22 0022.
+ * Email：langmanleguang@qq.com
  */
 
 public class VolumeSettingsFragment extends BaseFragment<HostSettingsContract.Presenter> implements HostSettingsContract.View {
@@ -95,7 +95,6 @@ public class VolumeSettingsFragment extends BaseFragment<HostSettingsContract.Pr
         params.gateway = hostBean.getFid();
         params.type = Constants.VOLUME;
         mPresenter.requestHostSettings(params);
-
         volumes.add("静音");
         volumes.add("小声");
         volumes.add("大声");

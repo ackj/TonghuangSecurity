@@ -7,7 +7,10 @@ import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
-
+/**
+ * Created by leguang on 2017/6/22 0022.
+ * Email：langmanleguang@qq.com
+ */
 public class HostListRVAdapter extends BaseRecyclerViewAdapter<GatewaysBean.DataBean, BaseViewHolder> {
 
     public HostListRVAdapter() {

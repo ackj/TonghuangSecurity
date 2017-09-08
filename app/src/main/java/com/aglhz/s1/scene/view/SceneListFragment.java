@@ -15,6 +15,7 @@ import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.SceneBean;
 import com.aglhz.s1.event.EventRefreshSceneList;
+import com.aglhz.s1.event.EventSwitchHost;
 import com.aglhz.s1.scene.contract.SceneListContract;
 import com.aglhz.s1.scene.presenter.SceneListPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
@@ -184,5 +185,10 @@ public class SceneListFragment extends BaseFragment<SceneListContract.Presenter>
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAddScene(EventRefreshSceneList event) {
         ptrFrameLayout.autoRefresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSwitchHost(EventSwitchHost event) {
+        onRefresh();
     }
 }

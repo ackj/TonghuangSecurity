@@ -28,8 +28,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Author: LiuJia on 2017/5/2 0002 20:14.
- * Email: liujia95me@126.com
+ * Created by leguang on 2017/6/22 0022.
+ * Email：langmanleguang@qq.com
  */
 
 public class EditHostFragment extends BaseFragment {
@@ -102,7 +102,7 @@ public class EditHostFragment extends BaseFragment {
     @OnClick(R.id.toolbar_menu)
     public void onViewClicked() {
         if (TextUtils.isEmpty(etName.getText().toString())) {
-            DialogHelper.errorSnackbar(getView(), "主机名称不能为空！");
+            DialogHelper.warningSnackbar(getView(), "主机名称不能为空！");
             return;
         }
 
@@ -117,6 +117,9 @@ public class EditHostFragment extends BaseFragment {
                 .subscribe(baseBean -> {
                     if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
                         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
+                        Bundle bundle = new Bundle();
+                        bundle.putString(Constants.KEY_HOST_NAME, params.name);
+                        setFragmentResult(HostSettingsFragment.UPDATE_HOST_NAME, bundle);
                     } else {
                         error(baseBean.getOther().getMessage());
                     }

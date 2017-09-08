@@ -25,6 +25,7 @@ import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.event.EventRefreshSecurity;
+import com.aglhz.s1.event.EventSwitchHost;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
@@ -81,6 +82,16 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     private List<SecurityBean.DataBean.SubDevicesBean> subDevices;
     private RecordButton mRecord;
 
+    public static SecurityFragment newInstance() {
+        return new SecurityFragment();
+    }
+
+    @NonNull
+    @Override
+    protected SecurityContract.Presenter createPresenter() {
+        return new SecurityPresenter(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -105,16 +116,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
         unbinder.unbind();
-    }
-
-    public static SecurityFragment newInstance() {
-        return new SecurityFragment();
-    }
-
-    @NonNull
-    @Override
-    protected SecurityContract.Presenter createPresenter() {
-        return new SecurityPresenter(this);
     }
 
     private void initToolbar() {
@@ -225,7 +226,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     public void responseGateways(GatewaysBean gateways) {
         if (gateways == null || gateways.getData() == null
                 || gateways.getData().isEmpty()) {
-            DialogHelper.errorSnackbar(getView(), "您尚未配置网关！");
+            DialogHelper.warningSnackbar(getView(), "您尚未配置网关！");
             return;
         }
         new SelectorDialogFragment()
@@ -255,6 +256,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     public void responseSwichGateway(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
         ptrFrameLayout.autoRefresh();
+        EventBus.getDefault().post(new EventSwitchHost());
     }
 
     @Override

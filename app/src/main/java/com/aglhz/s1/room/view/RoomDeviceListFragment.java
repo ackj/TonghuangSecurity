@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.aglhz.s1.entity.bean.RoomsBean;
 import com.aglhz.s1.event.EventAddDevice;
 import com.aglhz.s1.event.EventDeviceChanged;
 import com.aglhz.s1.event.EventSelectedDeviceType;
+import com.aglhz.s1.event.EventSwitchHost;
 import com.aglhz.s1.room.contract.RoomDeviceListContract;
 import com.aglhz.s1.room.presenter.RoomDeviceListPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
@@ -48,7 +50,7 @@ import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import cn.itsite.abase.utils.ToastUtils;
-import cn.itsite.multiselector.MultiSelectorDialog;
+import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateManager;
 
 /**
@@ -64,14 +66,15 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
+
     Unbinder unbinder;
+
     private BaseRecyclerViewAdapter<String, BaseViewHolder> selectorAdapter;
     private List<String> roomList = new ArrayList<>();
     private ImageView ivRoom;
+    private ImageView ivHeader;
     private Params params = Params.getInstance();
     private RoomDeviceList2RVAdapter adapter;
-    private MultiSelectorDialog switchRoomDialog;
-    private List<RoomsBean.DataBean.RoomListBean> roomListBean;
     private RoomsBean.DataBean.RoomListBean selectRoom;
     private boolean isFirst = true;//是否是第一次进来
     private StateManager mStateManager;
@@ -108,6 +111,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Override
     public void onRefresh() {
+        params.page = 1;
         params.category = Constants.DEVICE_CTRL;
         mPresenter.requestDeviceList(params);
     }
@@ -140,7 +144,6 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                         ToastUtils.showToast(_mActivity, "请选择房间");
                         return true;
                     }
-//                    mPresenter.requestAddDevice(params);
                     _mActivity.start(DeviceTypeFragment.newInstance(selectRoom.getFid()));
                     break;
                 case R.id.change_room:
@@ -152,15 +155,6 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     }
 
     private void initData() {
-        switchRoomDialog = MultiSelectorDialog.builder(_mActivity)
-                .setTitle("切换房间")
-                .setTabVisible(false)
-                .setOnItemClickListener((pagerPosition, optionPosition, option) -> {
-                    selectRoom(roomListBean.get(optionPosition));
-                    switchRoomDialog.hide();
-                })
-                .build();
-
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter = new RoomDeviceList2RVAdapter();
 
@@ -168,20 +162,14 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
         ivRoom = (ImageView) viewHeader.findViewById(R.id.iv_room);
         ivCamera = (ImageView) viewHeader.findViewById(R.id.iv_camera);
+        ivHeader = new ImageView(_mActivity);
+        ivHeader.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(_mActivity)
                 .load(R.drawable.room_cesuo_1242px_745px)
                 .into(ivRoom);
         adapter.setHeaderView(viewHeader);
         recyclerView.setAdapter(adapter);
-
         mPresenter.requestHouseList(params);
-
-        selectorAdapter = new BaseRecyclerViewAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1) {
-            @Override
-            protected void convert(BaseViewHolder helper, String item) {
-                helper.setText(android.R.id.text1, item);
-            }
-        };
     }
 
     private void initStateManager() {
@@ -249,6 +237,14 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         onRefresh();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSwitchHost(EventSwitchHost event) {
+        params.page = 1;
+        params.roomFid = "0";
+        params.category = Constants.DEVICE_CTRL;
+        mPresenter.requestDeviceList(params);
+    }
+
     private void initListener() {
         adapter.setOnItemChildClickListener((adapter1, view, position) -> {
             DeviceListBean.DataBean.SubDevicesBean bean = adapter.getItem(position);
@@ -308,19 +304,11 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Override
     public void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data) {
-        ALog.e(TAG, "responseHouseList:" + data.size());
         if (isFirst) {
             selectRoom(data.get(0));//
             isFirst = false;
         } else {
-            switchRoomDialog.show();
-            dismissLoading();
-            roomListBean = data;
-            List<String> strList = new ArrayList<>();
-            for (RoomsBean.DataBean.RoomListBean bean : data) {
-                strList.add(bean.getName());
-            }
-            getView().post(() -> switchRoomDialog.notifyDataSetChanged(strList));
+            showRoomSelecotr(data);
         }
     }
 
@@ -339,5 +327,21 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     public void responseNewDeviceConfirm(BaseBean bean) {
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
         onRefresh();
+    }
+
+    private void showRoomSelecotr(List<RoomsBean.DataBean.RoomListBean> data) {
+        new SelectorDialogFragment()
+                .setTitle("切换房间")
+                .setItemLayoutId(R.layout.item_rv_simple_selector)
+                .setData(data)
+                .setOnItemConvertListener((holder, which, dialog) ->
+                        holder.setText(R.id.tv_item_rv_simple_selector, data.get(which).getName()))
+                .setOnItemClickListener((view, baseViewHolder, which, dialog) -> {
+                    dialog.dismiss();
+                    selectRoom(data.get(which));
+                })
+                .setAnimStyle(R.style.SlideAnimation)
+                .setGravity(Gravity.BOTTOM)
+                .show(getChildFragmentManager());
     }
 }

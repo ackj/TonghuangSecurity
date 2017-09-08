@@ -7,8 +7,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
 
 /**
- * Author: LiuJia on 2017/8/30 0030 11:18.
- * Email: liujia95me@126.com
+ * Created by leguang on 2017/6/22 0022.
+ * Email：langmanleguang@qq.com
  */
 
 public class AuthorizationRVAdapter extends BaseRecyclerViewAdapter<AuthorizationBean.DataBean,BaseViewHolder> {

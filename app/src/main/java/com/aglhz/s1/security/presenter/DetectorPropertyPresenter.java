@@ -37,15 +37,6 @@ public class DetectorPropertyPresenter extends BasePresenter<DetectorPropertyCon
     }
 
     @Override
-    public void requestDetectorProperty(Params params) {
-        mRxManager.add(mModel.requestDetectorProperty(params)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseBean -> {
-                    //todo:update
-                }, this::error));
-    }
-
-    @Override
     public void requestNotifProperty(Params params) {
         mRxManager.add(mModel.requestNotifProperty(params)
                 .observeOn(AndroidSchedulers.mainThread())

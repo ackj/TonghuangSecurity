@@ -13,10 +13,17 @@
 
     <string name="set_net">配网</string>
 
-    <string name="set_wifi_step">第一步：确认主机连上电源。
-        \n第二步：打开手机“WLAN”列表,选择报警主机的热点“IWTAC_...”进行连接,主机热点的默认密码为“123456789”。
-        \n第三步：打开手机APP点击”更多”，选择“Wifi设置”进入,App提示“扫描热点中”，然后app会出现所有扫描到的wifi热点，用户选择家庭wifi热点并输入正确的wifi密码。</string>
+    <string name="set_wifi_step_1">
+        第一步：确认主机电源已开启，蓝灯常亮。
+    </string>
 
+    <string name="set_wifi_step_2">
+        第二步：打开手机--设置“WLAN”列表,选择主机的热点“IWTAC_...”进行连接,主机热点的默认密码为“123456789”。
+    </string>
+
+    <string name="set_wifi_step_3">
+        第三步：用户选择家庭wifi并输入正确的wifi密码。
+    </string>
 
     <!--Launch模块-->
     <string name="login">登录</string>

@@ -31,7 +31,6 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
         return new RoomDeviceListModel();
     }
 
-
     @Override
     public void requestDeviceList(Params params) {
         mRxManager.add(mModel.requestDeviceList(params)
@@ -55,7 +54,7 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error));
+                }, this::error, this::complete, disposable -> start(null)));
     }
 
     @Override
@@ -68,7 +67,7 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error));
+                }, this::error, this::complete, disposable -> start(null)));
     }
 
     @Override
@@ -81,6 +80,6 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error));
+                }, this::error, this::complete, disposable -> start(null)));
     }
 }

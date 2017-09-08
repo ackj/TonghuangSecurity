@@ -6,7 +6,6 @@ import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DevicesBean;
 import com.aglhz.s1.security.contract.AddDetectorContract;
 
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;
 import io.reactivex.Observable;
@@ -32,7 +31,6 @@ public class AddDetectorModel extends BaseModel implements AddDetectorContract.M
         builder.addFormDataPart("token", params.token);
         builder.addFormDataPart("sensorType", params.sensorType);
         builder.addFormDataPart("name", params.name);
-        builder.addFormDataPart("defenseLevel", params.defenseLevel);
         return HttpHelper.getService(ApiService.class)
                 .reqeuestNewsensor(ApiService.reqeuestNewsensor,
                         builder.build())
