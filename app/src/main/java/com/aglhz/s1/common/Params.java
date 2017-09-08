@@ -9,7 +9,7 @@ import java.io.File;
  */
 
 public class Params {
-    private static final String TAG = Params.class.getSimpleName();
+    public static final String TAG = Params.class.getSimpleName();
     public static String token;//测试用
     public int page = 1;
     public int pageSize = 50;

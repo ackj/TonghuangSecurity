@@ -37,7 +37,7 @@ public class Constants extends BaseConstants {
 
     //配网模块
     public static final String WIFI_NAME = "wifi_name";
-    public static final String WIFI_PASSWORD = "WIFI_PASSWORD";
+    public static final String WIFI_PASSWORD = "wifi_password";
 
     //安全模块
     public static final String GATEWAY_STATE_CANCLE = "cancel";
