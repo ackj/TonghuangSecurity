@@ -68,7 +68,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/base_gray" />
-    <TextViewz
+
+    <TextView
         android:id="@+id/tv_check_update"
         android:layout_width="match_parent"
         android:layout_height="60dp"
