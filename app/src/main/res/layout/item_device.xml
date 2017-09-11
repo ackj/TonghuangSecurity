@@ -9,8 +9,7 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingRight="15dp">
+        android:paddingLeft="10dp">
 
         <ImageView
             android:id="@+id/iv_icon"
@@ -29,8 +28,9 @@
 
         <ImageView
             android:id="@+id/iv_setting"
-            android:layout_width="21dp"
-            android:layout_height="21dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="15dp"
             android:src="@drawable/ic_homeshezhi_90px" />
     </LinearLayout>
 
