@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.aglhz.s1.App;
 import com.aglhz.s1.R;
-import com.aglhz.s1.camera.CameraListFragment;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
@@ -32,14 +31,12 @@ import com.aglhz.s1.room.contract.RoomDeviceListContract;
 import com.aglhz.s1.room.presenter.RoomDeviceListPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
 import com.bumptech.glide.Glide;
-import com.chad.library.adapter.base.BaseViewHolder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,7 +45,6 @@ import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
-import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
 import cn.itsite.abase.utils.ToastUtils;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateManager;
@@ -66,11 +62,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
-
     Unbinder unbinder;
-
-    private BaseRecyclerViewAdapter<String, BaseViewHolder> selectorAdapter;
-    private List<String> roomList = new ArrayList<>();
     private ImageView ivRoom;
     private ImageView ivHeader;
     private Params params = Params.getInstance();
@@ -158,7 +150,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter = new RoomDeviceList2RVAdapter();
 
-        View viewHeader = LayoutInflater.from(_mActivity).inflate(R.layout.layout_room_header,null);
+        View viewHeader = LayoutInflater.from(_mActivity).inflate(R.layout.layout_room_header, null);
 
         ivRoom = (ImageView) viewHeader.findViewById(R.id.iv_room);
         ivCamera = (ImageView) viewHeader.findViewById(R.id.iv_camera);
@@ -261,7 +253,12 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                     break;
             }
         });
-        ivCamera.setOnClickListener(v -> _mActivity.start(CameraListFragment.newInstance()));
+//        ivCamera.setOnClickListener(v -> _mActivity.start(CameraListFragment.newInstance()));
+        ivCamera.setOnClickListener(v -> new AlertDialog.Builder(_mActivity)
+                .setTitle("温馨提示")
+                .setMessage("亲！为了给您更好的用户体验，工程师正在玩命优化该功能")
+                .setNegativeButton("取消", null)
+                .show());
     }
 
     private void changedRoom(String room) {
