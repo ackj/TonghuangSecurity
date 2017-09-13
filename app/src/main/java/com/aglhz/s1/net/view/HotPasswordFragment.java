@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.login.contract.LoginContract;
 
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.utils.KeyBoardUtils;
 
 /**
  * Created by leguang on 2017/5/24 0029.
@@ -75,6 +77,7 @@ public class HotPasswordFragment extends BaseFragment implements LoginContract.V
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        KeyBoardUtils.hideKeybord(etPassword, App.mContext);
         unbinder.unbind();
     }
 
