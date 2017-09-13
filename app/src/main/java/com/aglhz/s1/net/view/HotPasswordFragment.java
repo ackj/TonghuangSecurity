@@ -73,7 +73,6 @@ public class HotPasswordFragment extends BaseFragment implements LoginContract.V
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
