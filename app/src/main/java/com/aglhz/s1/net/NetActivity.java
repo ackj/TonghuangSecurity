@@ -1,6 +1,5 @@
 package com.aglhz.s1.net;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.aglhz.s1.R;
@@ -32,9 +31,4 @@ public class NetActivity extends BaseActivity {
     public boolean swipeBackPriority() {
         return false;
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
 }

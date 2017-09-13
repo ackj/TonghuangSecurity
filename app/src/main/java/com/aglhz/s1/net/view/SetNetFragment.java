@@ -57,8 +57,8 @@ public class SetNetFragment extends BaseFragment {
     private void initToolbar() {
         initStateBar(toolbar);
         toolbarTitle.setText("网络设置");
-        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
-        toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
+//        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
+//        toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
 
 
@@ -72,15 +72,11 @@ public class SetNetFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_set_net_set_net_fragment:
-
                 start(SetWifiFragment.newInstance());
-
 //                IPC_DispatchText("10.10.10.250", 215, 215, "");
-
                 break;
             case R.id.ll_update_password_set_net_fragment:
 //                IPC_DispatchText("10.10.10.250", 216, 216, "");
-
                 break;
         }
     }
@@ -93,5 +89,10 @@ public class SetNetFragment extends BaseFragment {
             }
         }).start();
         return 0;
+    }
+
+    @Override
+    public boolean onBackPressedSupport() {
+        return true;
     }
 }

@@ -147,17 +147,6 @@ public class SetWifiFragment extends BaseFragment {
         } else {
             tvCurrentWifi.setText("非主机热点");
         }
-
-        /*else {
-            new AlertDialog.Builder(_mActivity)
-                    .setTitle("提示")
-                    .setMessage("请选择名称为IWTAC_的WiFi为主机配网")
-                    .setNegativeButton("不选择", null)
-                    .setPositiveButton("选择WIFI", (dialog, which) -> {
-                        Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
-                        startActivityForResult(intent, SET_WIFI);
-                    }).show();
-        }*/
     }
 
     private void scan() {
@@ -244,7 +233,7 @@ public class SetWifiFragment extends BaseFragment {
         WeakReference<SetWifiFragment> mFragment;
 
         MyHandler(SetWifiFragment fragment) {
-            mFragment = new WeakReference<SetWifiFragment>(fragment);
+            mFragment = new WeakReference<>(fragment);
         }
 
         @Override
