@@ -155,8 +155,7 @@ public interface ApiService {
             , @Field("index") int index
             , @Field("name") String name
             , @Field("defenseLevel") String defenseLevel
-            , @Field("alarmDelay") int alarmDelay
-    );
+            , @Field("alarmDelay") int alarmDelay);
 
     @POST
     Observable<BaseBean> requestModsensor(@Url String url
