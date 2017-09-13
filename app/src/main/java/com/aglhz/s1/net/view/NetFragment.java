@@ -24,8 +24,8 @@ import static com.tsvclient.ipc.WifiIpc.TSV_C_SendXmlCommand;
  * Created by leguang on 2017/5/24 0029.
  * Email：langmanleguang@qq.com
  */
-public class SetNetFragment extends BaseFragment {
-    private static final String TAG = SetNetFragment.class.getSimpleName();
+public class NetFragment extends BaseFragment {
+    private static final String TAG = NetFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -36,8 +36,8 @@ public class SetNetFragment extends BaseFragment {
     LinearLayout llUpdatePassword;
     Unbinder unbinder;
 
-    public static SetNetFragment newInstance() {
-        return new SetNetFragment();
+    public static NetFragment newInstance() {
+        return new NetFragment();
     }
 
     @Nullable
@@ -76,6 +76,8 @@ public class SetNetFragment extends BaseFragment {
 //                IPC_DispatchText("10.10.10.250", 215, 215, "");
                 break;
             case R.id.ll_update_password_set_net_fragment:
+                start(HotPasswordFragment.newInstance());
+
 //                IPC_DispatchText("10.10.10.250", 216, 216, "");
                 break;
         }
