@@ -18,6 +18,15 @@ android {
         }
     }
 
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/notice'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license'
+        exclude 'META-INF/license.txt'
+    }
+
     signingConfigs {
         debug {
             keyAlias 'guangneng'
@@ -88,4 +97,9 @@ dependencies {
     compile files('libs/nvsdk_1.3.jar')
     //ViewPager的指示器
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
+
+
+
+//    compile 'com.p2p.core:p2p-core:0.4.3'
+    compile 'com.p2p.core:p2p-core:0.1.0'
 }

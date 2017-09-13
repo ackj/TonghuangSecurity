@@ -1,8 +1,8 @@
 package com.aglhz.s1.about.presenter;
 
 import android.support.annotation.NonNull;
-import com.aglhz.s1.about.contract.FeedbackContract;
 
+import com.aglhz.s1.about.contract.FeedbackContract;
 import com.aglhz.s1.about.model.FeedbackModel;
 import com.aglhz.s1.common.Params;
 

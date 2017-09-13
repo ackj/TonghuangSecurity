@@ -8,7 +8,8 @@ import com.aglhz.s1.history.contract.DeviceLogsContract;
 import com.aglhz.s1.history.model.DeviceLogsModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 public class DeviceLogsPresenter extends BasePresenter<DeviceLogsContract.View, DeviceLogsContract.Model> implements DeviceLogsContract.Presenter {
     private final String TAG = DeviceLogsPresenter.class.getSimpleName();
 

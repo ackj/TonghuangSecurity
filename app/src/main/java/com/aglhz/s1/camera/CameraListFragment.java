@@ -1,7 +1,6 @@
 package com.aglhz.s1.camera;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -12,26 +11,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.camera.contract.CameraPlayContract;
-import com.aglhz.s1.camera.presenter.CameraPlayPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
-import com.macrovideo.sdk.custom.DeviceInfo;
-import com.macrovideo.sdk.defines.Defines;
-import com.macrovideo.sdk.media.LoginHandle;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.statemanager.StateManager;
 
 /**
- * Author: LiuJia on 2017/9/6 0006 10:11.
+ * Author: LiuJia on 2017/9/12 0012 09:09.
  * Email: liujia95me@126.com
  */
 
-public class CameraListFragment extends BaseFragment<CameraPlayContract.Presenter> implements CameraPlayContract.View {
+public class CameraListFragment extends BaseFragment {
 
     private static final String TAG = CameraListFragment.class.getSimpleName();
 
@@ -47,19 +40,10 @@ public class CameraListFragment extends BaseFragment<CameraPlayContract.Presente
     Unbinder unbinder;
     private StateManager mStateManager;
     private String[] addSelectedArr = {"新设备配置网络", "添加已联网设备"};
-    private DeviceInfo deviceInfo = new DeviceInfo(-1, 30754848, "30754848",
-            "", 8800, "admin", "", "unkown mac addr",
-            "30754848.nvdvr.net", Defines.SERVER_SAVE_TYPE_ADD);
 
     public static CameraListFragment newInstance() {
         CameraListFragment fragment = new CameraListFragment();
         return fragment;
-    }
-
-    @NonNull
-    @Override
-    protected CameraPlayContract.Presenter createPresenter() {
-        return new CameraPlayPresenter(this);
     }
 
     @Nullable
@@ -108,7 +92,6 @@ public class CameraListFragment extends BaseFragment<CameraPlayContract.Presente
                                 .setText(R.id.bt_empty_state, "马上添加"))
                 .build();
 
-        //todo:
         mStateManager.showEmpty();
     }
 
@@ -116,12 +99,9 @@ public class CameraListFragment extends BaseFragment<CameraPlayContract.Presente
         new AlertDialog.Builder(_mActivity)
                 .setItems(addSelectedArr, (dialog, which) -> {
                     if (which == 0) {
-//                        int gc_m = SmarkLinkTool.StartSmartConnection("GC_M", "801801aglm");//test
-//                        ALog.e(TAG, "StartSmartConnection result:" + gc_m);
                         _mActivity.start(CameraWifiInputFragment.newInstance());
                     } else {
-//                        _mActivity.start(CameraWifiInputFragment.newInstance());
-                        mPresenter.requestLogin(deviceInfo);
+                        _mActivity.start(CameraAddDeviceFragment.newInstance(null));
                     }
                 })
                 .show();
@@ -134,16 +114,5 @@ public class CameraListFragment extends BaseFragment<CameraPlayContract.Presente
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @Override
-    public void error(String errorMessage) {
-        DialogHelper.errorSnackbar(getView(),errorMessage);
-    }
-
-    @Override
-    public void responseLoginSuccess(LoginHandle handle) {
-        DialogHelper.successSnackbar(getView(),"登录成功");
-        _mActivity.start(CameraPlayFragment.newInstance(handle));
     }
 }
