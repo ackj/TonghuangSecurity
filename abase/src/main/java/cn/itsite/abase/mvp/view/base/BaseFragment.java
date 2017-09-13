@@ -138,6 +138,7 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
     }
 
     public void error(Throwable throwable) {
+        dismissLoading();
         if (throwable == null) {
             DialogHelper.errorSnackbar(getView(), "数据异常");
             return;

@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.common.clip.ClipActivity;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.common.clip.ClipActivity;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.entity.bean.RoomsBean;
@@ -111,7 +111,7 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
 
     private void initToolbar() {
         initStateBar(toolbar);
-        toolbarTitle.setText("添加设备");
+        toolbarTitle.setText("设备设置");
         toolbarMenu.setText("确定");
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
@@ -121,16 +121,16 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
         cpbDelete.setVisibility(bean == null ? View.GONE : View.VISIBLE);
         if (bean == null) {
             cpbDelete.setVisibility(View.GONE);
-        }else{
+        } else {
             //把数据赋值
             etName.setText(bean.getName());
             Glide.with(_mActivity)
                     .load(bean.getIcon())
                     .into(ivIcon);
         }
-        if(selectRoom == null){
+        if (selectRoom == null) {
             tvRoomName.setText("");
-        }else{
+        } else {
             params.roomFid = selectRoom.getFid();
             tvRoomName.setText(selectRoom.getName());
         }
@@ -176,6 +176,7 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
                 break;
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -188,7 +189,7 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
                 intent.putExtra("path", file.getPath());
                 startActivityForResult(intent, RESULT_IMAGE_COMPLETE);
             }
-        }else if(resultCode == RESULT_OK && requestCode == RESULT_IMAGE_COMPLETE){
+        } else if (resultCode == RESULT_OK && requestCode == RESULT_IMAGE_COMPLETE) {
             String path = data.getStringExtra("path");
             ALog.e(TAG, "path------>" + path);
             params.file = new File(path);

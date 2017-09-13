@@ -24,10 +24,6 @@ public class AddDevicePresenter extends BasePresenter<AddDeviceContract.View, Ad
     }
 
     @Override
-    public void start(Object request) {
-    }
-
-    @Override
     public void requestnewDevice(Params params) {
         mRxManager.add(mModel.requestnewDevice(params)
                 .observeOn(AndroidSchedulers.mainThread())

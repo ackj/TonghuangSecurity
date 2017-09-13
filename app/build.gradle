@@ -13,7 +13,7 @@ android {
         versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        ndk{
+        ndk {
             abiFilters("armeabi", "armeabi-v7a", "x86", "mips")
         }
     }
@@ -37,7 +37,7 @@ android {
         release {
             keyAlias 'guangneng'
             keyPassword 'guangneng'
-            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
+            storeFile file('F:/gaocheng/guangnenganfang.jks')
             storePassword 'guangneng'
         }
     }
@@ -94,7 +94,6 @@ dependencies {
     compile 'com.bilibili:boxing-impl:0.7.0'
     //谷歌权限申请框架
     compile 'pub.devrel:easypermissions:1.0.0'
-    compile files('libs/nvsdk_1.3.jar')
     //ViewPager的指示器
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
 

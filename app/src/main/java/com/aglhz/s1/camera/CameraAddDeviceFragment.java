@@ -115,33 +115,33 @@ public class CameraAddDeviceFragment extends BaseFragment {
             ToastUtils.showToast(_mActivity,"请输入设备号和密码");
             return;
         }
-        String pwd = P2PHandler.getInstance().EntryPassword(CallPwd);//经过转换后的设备密码
-        P2PHandler.getInstance().call(null, pwd, true, 1, callID, "", "", 2, callID);
+//        String pwd = P2PHandler.getInstance().EntryPassword(CallPwd);//经过转换后的设备密码
+//        P2PHandler.getInstance().call(null, pwd, true, 1, callID, "", "", 2, callID);
     }
 
 
-    public BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(P2P_ACCEPT)) {
-                int[] type = intent.getIntArrayExtra("type");
-                P2PView.type = type[0];
-                P2PView.scale = type[1];
-                tvReceive.append("\n 监控数据接收");
-                Log.e("dxsTest", "监控数据接收:" + callID);
-                P2PHandler.getInstance().openAudioAndStartPlaying(1);//打开音频并准备播放，calllType与call时type一致
-            } else if (intent.getAction().equals(P2P_READY)) {
-                tvReceive.append("\n 监控准备,开始监控");
-                Log.e("dxsTest", "监控准备,开始监控" + callID);
-//                pView.sendStartBrod();
-            } else if (intent.getAction().equals(P2P_REJECT)) {
-                int reason_code = intent.getIntExtra("reason_code", -1);
-                int code1 = intent.getIntExtra("exCode1", -1);
-                int code2 = intent.getIntExtra("exCode2", -1);
-                String reject = String.format("\n 监控挂断(reson:%d,code1:%d,code2:%d)", reason_code, code1, code2);
-                tvReceive.append(reject);
-            }
-        }
-    };
+//    public BroadcastReceiver mReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if (intent.getAction().equals(P2P_ACCEPT)) {
+//                int[] type = intent.getIntArrayExtra("type");
+//                P2PView.type = type[0];
+//                P2PView.scale = type[1];
+//                tvReceive.append("\n 监控数据接收");
+//                Log.e("dxsTest", "监控数据接收:" + callID);
+//                P2PHandler.getInstance().openAudioAndStartPlaying(1);//打开音频并准备播放，calllType与call时type一致
+//            } else if (intent.getAction().equals(P2P_READY)) {
+//                tvReceive.append("\n 监控准备,开始监控");
+//                Log.e("dxsTest", "监控准备,开始监控" + callID);
+////                pView.sendStartBrod();
+//            } else if (intent.getAction().equals(P2P_REJECT)) {
+//                int reason_code = intent.getIntExtra("reason_code", -1);
+//                int code1 = intent.getIntExtra("exCode1", -1);
+//                int code2 = intent.getIntExtra("exCode2", -1);
+//                String reject = String.format("\n 监控挂断(reson:%d,code1:%d,code2:%d)", reason_code, code1, code2);
+//                tvReceive.append(reject);
+//            }
+//        }
+//    };
 
 }

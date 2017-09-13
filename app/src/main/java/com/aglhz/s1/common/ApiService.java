@@ -155,8 +155,7 @@ public interface ApiService {
             , @Field("index") int index
             , @Field("name") String name
             , @Field("defenseLevel") String defenseLevel
-            , @Field("alarmDelay") int alarmDelay
-    );
+            , @Field("alarmDelay") int alarmDelay);
 
     @POST
     Observable<BaseBean> requestModsensor(@Url String url
@@ -387,8 +386,7 @@ public interface ApiService {
                                                          @Field("token") String token,
                                                          @Field("gateway") String gateway,
                                                          @Field("page") int page,
-                                                         @Field("pageSize") int pageSize
-    );
+                                                         @Field("pageSize") int pageSize);
 
     //解除主机授权
     String requestGatewayUnAuth = BASE_URL + "/client/gatewayUnAuth";
@@ -408,8 +406,16 @@ public interface ApiService {
     Observable<BaseBean> requestGatewayAuth(@Url String url
             , @Field("token") String token
             , @Field("gateway") String gateway
-            , @Field("mobile") String mobile
-    );
+            , @Field("mobile") String mobile);
+
+    //解绑当前主机
+    String requestUnbindHost = BASE_URL + "/client/delgateway";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestUnbindHost(@Url String url
+            , @Field("token") String token
+            , @Field("gateway") String gateway);
 
     //----------------------------- 关于 ---------------------------------
     String requestFeedback = BASE_URL + "/client/feedback";
