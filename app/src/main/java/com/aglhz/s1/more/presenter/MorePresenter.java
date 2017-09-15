@@ -8,7 +8,7 @@ import com.aglhz.s1.more.contract.MoreContract;
 import com.aglhz.s1.more.model.MoreModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 
 /**

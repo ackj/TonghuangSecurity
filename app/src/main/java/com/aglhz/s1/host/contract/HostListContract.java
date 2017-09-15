@@ -1,12 +1,12 @@
 package com.aglhz.s1.host.contract;
 
-import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.GatewaysBean;
 
 import java.util.List;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
-import io.reactivex.Observable;
+import rx.Observable;
 
 public interface HostListContract {
 

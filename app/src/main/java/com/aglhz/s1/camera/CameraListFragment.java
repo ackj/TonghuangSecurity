@@ -1,5 +1,6 @@
 package com.aglhz.s1.camera;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -12,10 +13,12 @@ import android.widget.TextView;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
+import com.p2p.core.P2PHandler;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.statemanager.StateManager;
 
@@ -101,7 +104,13 @@ public class CameraListFragment extends BaseFragment {
                     if (which == 0) {
                         _mActivity.start(CameraWifiInputFragment.newInstance());
                     } else {
-                        _mActivity.start(CameraAddDeviceFragment.newInstance(null));
+                        //todo:
+                        P2PHandler.getInstance().p2pInit(_mActivity, new P2PListener(), new SettingListener());
+
+                        boolean connect = P2PHandler.getInstance().p2pConnect("011596016", 1682878398, 1951350739, 1437948591, 2059468656);
+                        ALog.e(TAG, "connect:" + connect);
+//                        _mActivity.start(CameraAddDeviceFragment.newInstance(null));
+                        _mActivity.startActivity(new Intent(_mActivity,CameraPlayActivity.class));
                     }
                 })
                 .show();

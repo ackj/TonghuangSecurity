@@ -7,8 +7,9 @@ import com.aglhz.s1.entity.bean.RoomsBean;
 import java.util.List;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
-import io.reactivex.Observable;
-public interface AddDeviceContract { 
+import rx.Observable;
+
+public interface AddDeviceContract {
 
     interface View extends BaseContract.View {
         void responseSuccess(BaseBean bean);

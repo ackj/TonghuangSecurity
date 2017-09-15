@@ -7,10 +7,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.p2p.core.P2PView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,8 +28,8 @@ public class CameraPlayFragment extends BaseFragment {
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.fl_video_play_container)
-    FrameLayout flVideoPlayContainer;
+    @BindView(R.id.p2pview)
+    P2PView p2pview;
 
     private int nScreenOrientation = Configuration.ORIENTATION_PORTRAIT;
 
@@ -69,6 +69,7 @@ public class CameraPlayFragment extends BaseFragment {
     }
 
     private void initData() {
+        p2pview.sendStartBrod();
     }
 
     private void initListener() {

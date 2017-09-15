@@ -8,7 +8,7 @@ import com.aglhz.s1.room.contract.AddDeviceContract;
 import com.aglhz.s1.room.model.AddDeviceModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class AddDevicePresenter extends BasePresenter<AddDeviceContract.View, AddDeviceContract.Model> implements AddDeviceContract.Presenter {
     private final String TAG = AddDevicePresenter.class.getSimpleName();

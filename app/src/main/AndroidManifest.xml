@@ -112,6 +112,9 @@
             android:name=".about.AboutActivity"
             android:theme="@style/AppTheme.Transparent" />
 
+        <activity android:name=".camera.CameraPlayActivity"
+            android:theme="@style/AppTheme.Transparent" />
+
     </application>
 
 </manifest>

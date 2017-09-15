@@ -3,8 +3,6 @@ package cn.itsite.abase.mvp.presenter.base;
 import android.support.annotation.NonNull;
 import android.support.annotation.UiThread;
 
-import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
-
 import org.json.JSONException;
 
 import java.lang.ref.Reference;
@@ -15,6 +13,8 @@ import java.net.SocketTimeoutException;
 import cn.itsite.abase.common.RxManager;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.contract.base.BaseContract;
+import retrofit2.adapter.rxjava.HttpException;
+import rx.Subscriber;
 
 /**
  * Author：leguang on 2016/10/9 0009 10:31
@@ -126,4 +126,35 @@ public class BasePresenter<V extends BaseContract.View, M extends BaseContract.M
             getView().complete("");
         }
     }
+
+    public abstract class RxSubscriber<T> extends Subscriber<T> {
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            start("");
+        }
+
+        @Override
+        public void onNext(T t) {
+            _onNext(t);
+        }
+
+
+        @Override
+        public void onCompleted() {
+            complete();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            e.printStackTrace();
+            error(e);
+        }
+
+        public abstract void _onNext(T t);
+
+    }
+
+
 }

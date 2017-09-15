@@ -10,8 +10,6 @@ import android.webkit.WebView;
 import android.widget.AbsListView;
 import android.widget.ScrollView;
 
-import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
-
 import org.json.JSONException;
 
 import java.net.ConnectException;
@@ -31,6 +29,7 @@ import in.srain.cube.views.ptr.header.MaterialHeader;
 import me.yokeyword.fragmentation.anim.DefaultNoAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
+import retrofit2.adapter.rxjava.HttpException;
 
 /**
  * Author：leguang on 2016/10/9 0009 15:49

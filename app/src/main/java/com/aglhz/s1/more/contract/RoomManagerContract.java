@@ -1,14 +1,14 @@
 package com.aglhz.s1.more.contract;
 
+import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.RoomTypesBean;
 import com.aglhz.s1.entity.bean.RoomsBean;
-import com.aglhz.s1.common.Params;
 
 import java.util.List;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
-import io.reactivex.Observable;
+import rx.Observable;
 
 public interface RoomManagerContract {
 

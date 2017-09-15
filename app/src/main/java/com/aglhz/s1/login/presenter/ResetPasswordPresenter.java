@@ -7,7 +7,7 @@ import com.aglhz.s1.login.contract.ResetPasswordContract;
 import com.aglhz.s1.login.model.ResetPasswordModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23

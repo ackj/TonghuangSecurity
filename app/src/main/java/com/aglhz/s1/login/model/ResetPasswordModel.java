@@ -1,15 +1,15 @@
 package com.aglhz.s1.login.model;
 
 
-import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.login.contract.ResetPasswordContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23

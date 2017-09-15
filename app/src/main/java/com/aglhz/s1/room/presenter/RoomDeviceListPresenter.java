@@ -8,7 +8,7 @@ import com.aglhz.s1.room.contract.RoomDeviceListContract;
 import com.aglhz.s1.room.model.RoomDeviceListModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Author: LiuJia on 2017/8/20 0020 18:26.
@@ -54,7 +54,7 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null)));
+                }, this::error/*, this::complete, disposable -> start(null)*/));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null)));
+                }, this::error/*, this::complete, disposable -> start(null)*/));
     }
 
     @Override
@@ -80,6 +80,6 @@ public class RoomDeviceListPresenter extends BasePresenter<RoomDeviceListContrac
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null)));
+                }, this::error/*, this::complete, disposable -> start(null)*/));
     }
 }

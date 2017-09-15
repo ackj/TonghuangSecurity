@@ -8,7 +8,7 @@ import com.aglhz.s1.security.contract.DetectorPropertyContract;
 import com.aglhz.s1.security.model.DetectorPropertyModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Author: LiuJia on 2017/7/4 0004 15:12.

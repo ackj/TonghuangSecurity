@@ -7,8 +7,9 @@ import com.aglhz.s1.entity.bean.BaseBean;
 import java.util.List;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
-import io.reactivex.Observable;
-public interface AuthorizationContract { 
+import rx.Observable;
+
+public interface AuthorizationContract {
 
     interface View extends BaseContract.View {
         void responsegatewayAuthList(List<AuthorizationBean.DataBean> bean);

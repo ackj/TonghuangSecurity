@@ -1,12 +1,12 @@
 package com.aglhz.s1.security.contract;
 
+import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
-import com.aglhz.s1.common.Params;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
-import io.reactivex.Observable;
+import rx.Observable;
 
 /**
  * Author: LiuJia on 2017/7/4 0004 09:17.

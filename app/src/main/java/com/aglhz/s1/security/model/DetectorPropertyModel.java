@@ -8,11 +8,11 @@ import com.aglhz.s1.security.contract.DetectorPropertyContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Author: LiuJia on 2017/7/4 0004 15:04.

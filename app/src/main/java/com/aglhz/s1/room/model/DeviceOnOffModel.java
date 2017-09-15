@@ -7,8 +7,8 @@ import com.aglhz.s1.room.contract.DeviceOnOffContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Author: LiuJia on 2017/8/30 0030 10:10.
