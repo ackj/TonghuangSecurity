@@ -24,10 +24,6 @@ public class HostListPresenter extends BasePresenter<HostListContract.View, Host
     }
 
     @Override
-    public void start(Object request) {
-    }
-
-    @Override
     public void requestGateways(Params params) {
         mRxManager.add(mModel.requestGateways(params)
                 .observeOn(AndroidSchedulers.mainThread())
