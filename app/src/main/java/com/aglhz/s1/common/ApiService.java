@@ -144,6 +144,12 @@ public interface ApiService {
             , @Body MultipartBody file
     );
 
+    //取消传感器的学习。
+    String reqeuestCancellationOfSensorLearning = BASE_URL + "/client/sensorLearnCancle";
+
+    @POST
+    Observable<BaseBean> reqeuestCancellationOfSensorLearning(@Url String url, @Query("token") String token);
+
     // 修改探测器
     String requestModsensor = BASE_URL + "/client/modsensor";
 

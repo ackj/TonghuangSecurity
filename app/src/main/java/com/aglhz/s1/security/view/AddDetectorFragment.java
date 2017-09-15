@@ -3,6 +3,7 @@ package com.aglhz.s1.security.view;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,9 +16,14 @@ import com.aglhz.s1.R;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DevicesBean;
+import com.aglhz.s1.event.EventLearnSensor;
 import com.aglhz.s1.security.contract.AddDetectorContract;
 import com.aglhz.s1.security.presenter.AddDetectorPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -49,6 +55,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     private AddDetectorRVAdapter adapter;
     private Params params = Params.getInstance();
     private StateManager mStateManager;
+    private AlertDialog dialog;
 
     public static AddDetectorFragment newInstance() {
         return new AddDetectorFragment();
@@ -65,6 +72,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         return attachToSwipeBack(view);
     }
 
@@ -119,12 +127,12 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     public void error(String errorMessage) {
         super.error(errorMessage);
         ptrFrameLayout.refreshComplete();
-        mStateManager.showError();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         unbinder.unbind();
     }
 
@@ -138,8 +146,25 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     }
 
     @Override
-    public void responseAddDetector(BaseBean bean) {
-        DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
+    public void responseAddDetector(BaseBean baseBean) {
+        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
+        dialog = new AlertDialog.Builder(_mActivity)
+                .setTitle("温馨提醒")
+                .setMessage("正在学习中，请稍后…")
+                .setNegativeButton("取消", (dialog, which) ->
+                        mPresenter.reqeuestCancellationOfSensorLearning(params))
+                .setCancelable(false)
+                .show();
+    }
+
+    @Override
+    public void responseCancellationOfSensorLearning(BaseBean baseBean) {
+        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLearnSensor(EventLearnSensor event) {
+        dialog.dismiss();
         pop();
     }
 }

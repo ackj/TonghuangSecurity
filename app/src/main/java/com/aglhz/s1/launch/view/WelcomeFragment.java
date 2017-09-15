@@ -69,7 +69,6 @@ public class WelcomeFragment extends BaseFragment {
     }
 
     private void initData() {
-        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
