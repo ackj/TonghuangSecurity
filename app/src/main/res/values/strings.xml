@@ -7,8 +7,8 @@
     <string name="hisotry">历史</string>
     <string name="more">更多</string>
 
-    <string name="set_net_4_host">为主机配网</string>
-    <string name="update_host_password">修改热点密码</string>
+    <string name="set_net_4_host">为主机配置WIFI，主机可以进行联网控制</string>
+    <string name="update_host_password">修改当前主机密码，设置您的专属密码</string>
     <string name="input_wifi_password">请输入WIFI密码</string>
 
     <string name="set_net">配网</string>
@@ -457,12 +457,12 @@
     <string name="goon">继续</string>
     <string name="confirm">确认</string>
 
-    <string name="lockpattern_recording_incorrect_too_short" >至少连接4个点，请重试</string>
-    <string name="lockpattern_error" >手势密码不对</string>
-    <string name="SoftwareUpdate" >检测更新</string>
-    <string name="SoftwareNewVersion" >有新版本更新</string>
-    <string name="SoftwareAPNotUpdate" >AP模式下不支持更新</string>
-    <string name="NotNewVersion" >无版本更新</string>
+    <string name="lockpattern_recording_incorrect_too_short">至少连接4个点，请重试</string>
+    <string name="lockpattern_error">手势密码不对</string>
+    <string name="SoftwareUpdate">检测更新</string>
+    <string name="SoftwareNewVersion">有新版本更新</string>
+    <string name="SoftwareAPNotUpdate">AP模式下不支持更新</string>
+    <string name="NotNewVersion">无版本更新</string>
     <string name="SoftwareeVersionNew">已经更新到最新版本</string>
     <string name="SoftwareversionUpdate">版本更新</string>
     <string name="NewVersionUpdateOnOrOff">有版本更新,是否进行版本更新?</string>

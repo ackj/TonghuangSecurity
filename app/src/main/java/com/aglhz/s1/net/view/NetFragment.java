@@ -1,5 +1,8 @@
 package com.aglhz.s1.net.view;
 
+import android.content.Context;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 
 import butterknife.BindView;
@@ -35,6 +39,8 @@ public class NetFragment extends BaseFragment {
     @BindView(R.id.ll_update_password_set_net_fragment)
     LinearLayout llUpdatePassword;
     Unbinder unbinder;
+    @BindView(R.id.tv_ssid_set_net_fragment)
+    TextView tvSsid;
 
     public static NetFragment newInstance() {
         return new NetFragment();
@@ -52,15 +58,19 @@ public class NetFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
+        initData();
+    }
+
+    private void initData() {
+        WifiManager wifiManager = (WifiManager) App.mContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        tvSsid.setText(wifiInfo.getSSID());
     }
 
     private void initToolbar() {
         initStateBar(toolbar);
-        toolbarTitle.setText("网络设置");
-//        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
-//        toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
+        toolbarTitle.setText("主机热点设置");
     }
-
 
     @Override
     public void onDestroyView() {
