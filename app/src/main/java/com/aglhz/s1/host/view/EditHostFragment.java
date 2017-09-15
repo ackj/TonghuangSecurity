@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Constants;
@@ -24,6 +25,7 @@ import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.common.RxManager;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.network.http.HttpHelper;
+import cn.itsite.abase.utils.KeyBoardUtils;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -95,6 +97,7 @@ public class EditHostFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        KeyBoardUtils.hideKeybord(etName, App.mContext);
         unbinder.unbind();
         rxManager.clear();
     }
@@ -120,7 +123,7 @@ public class EditHostFragment extends BaseFragment {
                         hostBean.setName(params.name);
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(Constants.KEY_HOST, hostBean);
-                        setFragmentResult(HostSettingsFragment.UPDATE_HOST_BEAN, bundle);
+                        setFragmentResult(HostSettingsFragment.RESULT_HOST_SETTINGS, bundle);
                     } else {
                         error(baseBean.getOther().getMessage());
                     }

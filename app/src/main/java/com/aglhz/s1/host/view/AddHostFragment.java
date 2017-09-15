@@ -122,6 +122,7 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
             llDeviceCode.setVisibility(View.GONE);
             llName.setVisibility(View.GONE);
             tvLocation.setText(hostBean.getResidence().getAddr());
+            etAddress.setText(hostBean.getResidence().getAddrDet());
             params.lng = hostBean.getResidence().getLng();
             params.lat = hostBean.getResidence().getLat();
         }
@@ -158,6 +159,11 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
     @Override
     public void responseEditHostLocation(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
+        hostBean.getResidence().setAddr(params.addr);
+        hostBean.getResidence().setAddrDet(params.addrDet);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.KEY_HOST, hostBean);
+        setFragmentResult(HostSettingsFragment.RESULT_HOST_SETTINGS, bundle);
         pop();
     }
 
