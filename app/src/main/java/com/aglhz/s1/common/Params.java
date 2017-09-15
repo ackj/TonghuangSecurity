@@ -35,6 +35,7 @@ public class Params {
     public String dstatus = "";
     public String no = "";
     public String addr = "";
+    public String addrDet = "";
     public String lng = "";
     public String lat = "";
     public String name = "";

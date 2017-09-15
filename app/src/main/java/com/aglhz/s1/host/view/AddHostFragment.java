@@ -190,7 +190,8 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
                 }
                 params.no = etDeviceCode.getText().toString().trim();
                 params.name = etName.getText().toString();
-                params.addr = tvLocation.getText().toString() + etAddress.getText().toString().trim();
+                params.addr = tvLocation.getText().toString();
+                params.addrDet = etAddress.getText().toString().trim();
                 if (hostBean == null) {
                     mPresenter.requestAddHost(params);
                 } else {
