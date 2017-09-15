@@ -53,7 +53,7 @@ public class AddDetectorPresenter extends BasePresenter<AddDetectorContract.View
 
     @Override
     public void reqeuestCancellationOfSensorLearning(Params params) {
-        mRxManager.add(mModel.requestAddDetector(params)
+        mRxManager.add(mModel.reqeuestCancellationOfSensorLearning(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
                     if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
