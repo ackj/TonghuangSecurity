@@ -8,7 +8,7 @@ import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.model.SecurityModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Author: LiuJia on 2017/7/4 0004 09:36.
@@ -51,7 +51,7 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
                     } else {
                         getView().error(gatewaysBean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null)));
+                }, this::error/*, this::complete, disposable -> start(null)*/));
     }
 
     @Override
@@ -64,7 +64,7 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
                     } else {
                         getView().error(baseBean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null))
+                }, this::error/*, this::complete, disposable -> start(null)*/)
         );
     }
 
@@ -78,7 +78,7 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
                     } else {
                         getView().error(baseBean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null))
+                }, this::error/*, this::complete, disposable -> start(null)*/)
         );
     }
 
@@ -92,7 +92,7 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
                     } else {
                         getView().error(baseBean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null))
+                }, this::error/*, this::complete, disposable -> start(null)*/)
         );
     }
 }

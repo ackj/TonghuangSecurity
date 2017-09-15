@@ -8,7 +8,7 @@ import com.aglhz.s1.scene.contract.AddSceneContract;
 import com.aglhz.s1.scene.model.AddSceneModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class AddScenePresenter extends BasePresenter<AddSceneContract.View, AddSceneContract.Model> implements AddSceneContract.Presenter {
     private final String TAG = AddScenePresenter.class.getSimpleName();
@@ -33,7 +33,7 @@ public class AddScenePresenter extends BasePresenter<AddSceneContract.View, AddS
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null))
+                }, this::error/*, this::complete, disposable -> start(null)*/)
         );
     }
 }

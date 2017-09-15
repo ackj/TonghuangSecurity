@@ -8,7 +8,7 @@ import com.aglhz.s1.entity.bean.SceneBean;
 import java.util.List;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
-import io.reactivex.Observable;
+import rx.Observable;
 
 /**
  * Author: LiuJia on 2017/8/28 0028 10:28.

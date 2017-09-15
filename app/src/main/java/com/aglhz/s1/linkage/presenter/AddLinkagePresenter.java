@@ -8,7 +8,7 @@ import com.aglhz.s1.linkage.contract.AddLinkageContract;
 import com.aglhz.s1.linkage.model.AddLinkageModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Author: LiuJia on 2017/8/28 0028 10:49.
@@ -43,7 +43,7 @@ public class AddLinkagePresenter extends BasePresenter<AddLinkageContract.View,A
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null))
+                }, this::error/*, this::complete, disposable -> start(null)*/)
         );
     }
 
@@ -57,7 +57,7 @@ public class AddLinkagePresenter extends BasePresenter<AddLinkageContract.View,A
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null))
+                }, this::error/*, this::complete, disposable -> start(null)*/)
         );
     }
 
@@ -71,7 +71,7 @@ public class AddLinkagePresenter extends BasePresenter<AddLinkageContract.View,A
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null))
+                }, this::error/*, this::complete, disposable -> start(null)*/)
         );
     }
 }

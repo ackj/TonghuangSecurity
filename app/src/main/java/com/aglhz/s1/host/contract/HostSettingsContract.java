@@ -6,7 +6,7 @@ import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.HostSettingsBean;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
-import io.reactivex.Observable;
+import rx.Observable;
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23

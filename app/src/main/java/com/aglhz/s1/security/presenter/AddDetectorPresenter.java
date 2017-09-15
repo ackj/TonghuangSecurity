@@ -8,7 +8,7 @@ import com.aglhz.s1.security.contract.AddDetectorContract;
 import com.aglhz.s1.security.model.AddDetectorModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class AddDetectorPresenter extends BasePresenter<AddDetectorContract.View, AddDetectorContract.Model>
         implements AddDetectorContract.Presenter {
@@ -47,7 +47,7 @@ public class AddDetectorPresenter extends BasePresenter<AddDetectorContract.View
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null))
+                }, this::error/*, this::complete, disposable -> start(null)*/)
         );
     }
 

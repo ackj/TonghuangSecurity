@@ -1,11 +1,12 @@
 package com.aglhz.s1.room.contract;
 
-import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
-import io.reactivex.Observable;
-public interface RoomContract { 
+import rx.Observable;
+
+public interface RoomContract {
 
     interface View extends BaseContract.View {
         void responseRoomInfo(BaseBean bean);

@@ -1,13 +1,14 @@
 package com.aglhz.s1.about.presenter;
 
 import android.support.annotation.NonNull;
-import com.aglhz.s1.about.contract.FeedbackContract;
 
+import com.aglhz.s1.about.contract.FeedbackContract;
 import com.aglhz.s1.about.model.FeedbackModel;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 
 /**
@@ -34,13 +35,15 @@ public class FeedbackPresenter extends BasePresenter<FeedbackContract.View, Feed
     public void start(Object request) {
         mRxManager.add(mModel.requestSubmitFeedback((Params) request)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == 200) {
-                        getView().start(baseBean.getOther().getMessage());
-                    } else {
-                        getView().error(baseBean.getOther().getMessage());
+                .subscribe(new RxSubscriber<BaseBean>() {
+                    @Override
+                    public void _onNext(BaseBean baseBean) {
+                        if (baseBean.getOther().getCode() == 200) {
+                            getView().start(baseBean.getOther().getMessage());
+                        } else {
+                            getView().error(baseBean.getOther().getMessage());
+                        }
                     }
-                }, this::error)
-        );
+                }));
     }
 }

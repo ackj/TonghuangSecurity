@@ -8,7 +8,7 @@ import com.aglhz.s1.room.contract.DeviceOnOffContract;
 import com.aglhz.s1.room.model.DeviceOnOffModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Author: LiuJia on 2017/8/30 0030 10:11.

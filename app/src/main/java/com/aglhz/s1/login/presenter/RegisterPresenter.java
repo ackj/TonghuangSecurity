@@ -2,13 +2,12 @@ package com.aglhz.s1.login.presenter;
 
 import android.support.annotation.NonNull;
 
-
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.login.contract.RegisterContract;
 import com.aglhz.s1.login.model.RegisterModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Author：leguang on 2017/4/12 0009 14:23

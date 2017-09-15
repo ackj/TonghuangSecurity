@@ -8,7 +8,7 @@ import com.aglhz.s1.host.contract.HostSettingsContract;
 import com.aglhz.s1.host.model.HostSettingsModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 
 /**
@@ -41,7 +41,7 @@ public class HostSettingsPresenter extends BasePresenter<HostSettingsContract.Vi
                     } else {
                         getView().error(baseBean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null)));
+                }, this::error/*, this::complete, disposable -> start(null)*/));
     }
 
     @Override
@@ -54,6 +54,6 @@ public class HostSettingsPresenter extends BasePresenter<HostSettingsContract.Vi
                     } else {
                         getView().error(baseBean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null)));
+                }, this::error/*, this::complete, disposable -> start(null)*/));
     }
 }

@@ -9,8 +9,8 @@ import com.aglhz.s1.linkage.contract.LinkageListContract;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 public class LinkageListModel extends BaseModel implements LinkageListContract.Model {
 

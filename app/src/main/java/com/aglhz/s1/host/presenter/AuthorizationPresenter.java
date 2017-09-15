@@ -8,7 +8,8 @@ import com.aglhz.s1.host.contract.AuthorizationContract;
 import com.aglhz.s1.host.model.AuthorizationModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 public class AuthorizationPresenter extends BasePresenter<AuthorizationContract.View, AuthorizationContract.Model> implements AuthorizationContract.Presenter {
     private final String TAG = AuthorizationPresenter.class.getSimpleName();
 

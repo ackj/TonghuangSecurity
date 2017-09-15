@@ -4,11 +4,12 @@ import android.support.annotation.NonNull;
 
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.host.contract.AddHostContract;
 import com.aglhz.s1.host.model.AddHostModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 
 /**
@@ -35,27 +36,31 @@ public class AddHostPresenter extends BasePresenter<AddHostContract.View, AddHos
     public void requestAddHost(Params params) {
         mRxManager.add(mModel.requestAddHost(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseAddHost(baseBean);
-                    } else {
-                        getView().error(baseBean.getOther().getMessage());
+                .subscribe(new RxSubscriber<BaseBean>() {
+                    @Override
+                    public void _onNext(BaseBean bean) {
+                        if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                            getView().responseAddHost(bean);
+                        } else {
+                            getView().error(bean.getOther().getMessage());
+                        }
                     }
-                }, this::error, this::complete, disposable -> start(null))
-        );
+                }));
     }
 
     @Override
     public void requestEditHostLocation(Params params) {
         mRxManager.add(mModel.requestEditHostLocation(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseEditHostLocation(baseBean);
-                    } else {
-                        getView().error(baseBean.getOther().getMessage());
+                .subscribe(new RxSubscriber<BaseBean>() {
+                    @Override
+                    public void _onNext(BaseBean bean) {
+                        if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                            getView().responseEditHostLocation(bean);
+                        } else {
+                            getView().error(bean.getOther().getMessage());
+                        }
                     }
-                }, this::error, this::complete, disposable -> start(null))
-        );
+                }));
     }
 }

@@ -12,12 +12,12 @@ import com.aglhz.s1.common.BoxingGlideLoader;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.entity.bean.NotificationBean;
-import com.aglhz.s1.event.EventDeviceChanged;
 import com.aglhz.s1.event.EventLearnSensor;
 import com.aglhz.s1.event.EventRefreshSecurity;
 import com.bilibili.boxing.BoxingMediaLoader;
 import com.bilibili.boxing.loader.IBoxingMediaLoader;
 import com.google.gson.Gson;
+import com.p2p.core.P2PSpecial.P2PSpecial;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.MsgConstant;
 import com.umeng.message.PushAgent;
@@ -31,8 +31,8 @@ import org.greenrobot.eventbus.EventBus;
 import cn.itsite.abase.BaseApplication;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.network.http.HttpHelper;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by leguang on 2017/6/22 0022.
@@ -41,6 +41,12 @@ import io.reactivex.schedulers.Schedulers;
 public class App extends BaseApplication implements Application.ActivityLifecycleCallbacks {
     private static final String TAG = App.class.getSimpleName();
     public Gson gson = new Gson();
+//    public final static String APPID="1e9a2c3ead108413e8218a639c540e44";
+        public final static String APPID = "831c12862fe220d2b840623bf8187981";
+//    public final static String APPToken="7db7b2bff80a025a3dad546a4d5a6c3ee545568d4e0ce9609c0585c71c287d08";
+        public final static String APPToken = "b5a886e7faa04150afa872291cc5cda211c603c302bd8edaea6ca2953422354d";
+    //前两位是客户APP唯一编号(00.00 由技威分配),后两位是APP版本号(客户自定义),此参数不可省略
+    public final static String APPVersion = "1.0.2";
 
     @Override
     public void onCreate() {
@@ -48,6 +54,7 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
         initDate();
         initPush();//初始化友盟推送。
         initBoxing();
+        initP2P(this);
     }
 
     private void initDate() {
@@ -57,6 +64,10 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
     private void initBoxing() {
         IBoxingMediaLoader loader = new BoxingGlideLoader();
         BoxingMediaLoader.getInstance().init(loader);
+    }
+
+    private void initP2P(App app) {
+        P2PSpecial.getInstance().init(app, APPID, APPToken, APPVersion);
     }
 
     //初始化友盟推送

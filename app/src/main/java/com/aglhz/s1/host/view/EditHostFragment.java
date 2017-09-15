@@ -24,8 +24,8 @@ import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.common.RxManager;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.network.http.HttpHelper;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by leguang on 2017/6/22 0022.
@@ -124,6 +124,6 @@ public class EditHostFragment extends BaseFragment {
                     } else {
                         error(baseBean.getOther().getMessage());
                     }
-                }, this::error, () -> complete(null), disposable -> start("")));
+                }, this::error/*, () -> complete(null), disposable -> start("")*/));
     }
 }

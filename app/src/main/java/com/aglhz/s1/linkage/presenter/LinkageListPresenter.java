@@ -8,7 +8,7 @@ import com.aglhz.s1.linkage.contract.LinkageListContract;
 import com.aglhz.s1.linkage.model.LinkageListModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class LinkageListPresenter extends BasePresenter<LinkageListContract.View, LinkageListContract.Model> implements LinkageListContract.Presenter {
 

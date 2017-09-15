@@ -8,9 +8,9 @@ import com.aglhz.s1.security.contract.AddDetectorContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.MultipartBody;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 public class AddDetectorModel extends BaseModel implements AddDetectorContract.Model {
     private static final String TAG = AddDetectorModel.class.getSimpleName();

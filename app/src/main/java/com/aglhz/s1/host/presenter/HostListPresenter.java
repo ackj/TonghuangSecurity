@@ -8,7 +8,7 @@ import com.aglhz.s1.host.contract.HostListContract;
 import com.aglhz.s1.host.model.HostListModel;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class HostListPresenter extends BasePresenter<HostListContract.View, HostListContract.Model> implements HostListContract.Presenter {
     private final String TAG = HostListPresenter.class.getSimpleName();

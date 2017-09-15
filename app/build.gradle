@@ -14,21 +14,31 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
-            abiFilters("armeabi", "armeabi-v7a", "x86", "mips")
+//            abiFilters("armeabi", "armeabi-v7a", "x86", "mips")
+            abiFilters "armeabi"
         }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/notice'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license'
+        exclude 'META-INF/license.txt'
     }
 
     signingConfigs {
         debug {
             keyAlias 'guangneng'
             keyPassword 'guangneng'
-            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
+            storeFile file('F:/gaocheng/guangnenganfang.jks')
             storePassword 'guangneng'
         }
         release {
             keyAlias 'guangneng'
             keyPassword 'guangneng'
-            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
+            storeFile file('F:/gaocheng/guangnenganfang.jks')
             storePassword 'guangneng'
         }
     }
@@ -87,4 +97,7 @@ dependencies {
     compile 'pub.devrel:easypermissions:1.0.0'
     //ViewPager的指示器
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
+
+    compile 'com.p2p.core:p2p-core:0.4.3'
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
 }

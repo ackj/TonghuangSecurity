@@ -26,9 +26,9 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.mvp.view.base.Decoration;
 import cn.itsite.abase.network.http.HttpHelper;
 import cn.itsite.statemanager.StateManager;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import me.yokeyword.fragmentation.SupportFragment;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static cn.itsite.abase.mvp.view.base.Decoration.VERTICAL_LIST;
 

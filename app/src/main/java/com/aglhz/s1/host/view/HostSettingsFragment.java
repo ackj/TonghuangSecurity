@@ -24,8 +24,8 @@ import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.common.RxManager;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.network.http.HttpHelper;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by leguang on 2017/6/22 0022.
@@ -151,7 +151,7 @@ public class HostSettingsFragment extends BaseFragment {
                                             } else {
                                                 error(bean.getOther().getMessage());
                                             }
-                                        }, this::error, () -> complete(""), disposable -> start(""))))
+                                        }, this::error/*, () -> complete(""), disposable -> start("")*/)))
                         .setNegativeButton("取消", null)
                         .show();
                 break;
