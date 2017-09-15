@@ -7,7 +7,7 @@ import com.aglhz.s1.entity.bean.DevicesBean;
 import java.util.List;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
-import io.reactivex.Observable;
+import rx.Observable;
 
 public interface AddDetectorContract {
 

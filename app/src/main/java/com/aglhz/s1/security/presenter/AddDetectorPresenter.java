@@ -61,7 +61,7 @@ public class AddDetectorPresenter extends BasePresenter<AddDetectorContract.View
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }
-                }, this::error, this::complete, disposable -> start(null))
+                }, this::error/*, this::complete, disposable -> start(null)*/)
         );
     }
 }
