@@ -2,6 +2,7 @@ package com.aglhz.s1.common;
 
 import com.aglhz.s1.entity.bean.AuthorizationBean;
 import com.aglhz.s1.entity.bean.BaseBean;
+import com.aglhz.s1.entity.bean.CameraBean;
 import com.aglhz.s1.entity.bean.CheckTokenBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.entity.bean.DeviceLogBean;
@@ -309,7 +310,6 @@ public interface ApiService {
             , @Field("fid") String fid
     );
 
-
     //----------------------------- 联动相关 ---------------------------------
     //添加联动
     String requestNewlinkage = BASE_URL + "/client/newlinkage";
@@ -567,4 +567,51 @@ public interface ApiService {
     String requestAppUpdatae = BASE_URL + "/client/info/checkVersion";
 
     //********************以上为更新App接口*******************************
+
+
+    //----------------------------- 摄像头相关 ----------------------------------
+
+    //获取摄像头列表
+    String requestCameraList = BASE_URL + "/client/info/cameraList";
+
+    @FormUrlEncoded
+    @POST
+    Observable<CameraBean> requestCameraList(@Url String url,
+                                             @Field("token") String token,
+                                             @Field("page") int page,
+                                             @Field("pageSize") int pageSize);
+
+    //删除摄像头
+    String requestDelcamera = BASE_URL + "/client/delcamera";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestDelcamera(@Url String url,
+                                          @Field("token") String token,
+                                          @Field("camera") String camera);
+
+    //修改摄像头信息
+    String requestModCamera = BASE_URL + "/client/modcamera";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestModCamera(@Url String url,
+                                          @Field("token") String token,
+                                          @Field("camera") String camera,
+                                          @Field("type") String type,
+                                          @Field("name") String name,
+                                          @Field("password") String password);
+
+    //添加摄像头
+    String requestNewcamera = BASE_URL + "/client/newcamera";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestNewcamera(@Url String url,
+                                          @Field("token") String token,
+                                          @Field("deviceId") String deviceId,
+                                          @Field("deviceName") String deviceName,
+                                          @Field("devicePassword") String devicePassword);
+
+
 }

@@ -45,7 +45,7 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
 //    public final static String APPToken="7db7b2bff80a025a3dad546a4d5a6c3ee545568d4e0ce9609c0585c71c287d08";
         public final static String APPToken = "b5a886e7faa04150afa872291cc5cda211c603c302bd8edaea6ca2953422354d";
     //前两位是客户APP唯一编号(00.00 由技威分配),后两位是APP版本号(客户自定义),此参数不可省略
-    public final static String APPVersion = "1.0.2";
+    public final static String APPVersion = "05.32.00.00";
 
     @Override
     public void onCreate() {

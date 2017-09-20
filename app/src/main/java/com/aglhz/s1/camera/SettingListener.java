@@ -3,12 +3,18 @@ package com.aglhz.s1.camera;
 import android.content.Intent;
 import android.util.Log;
 
+import com.aglhz.s1.App;
+import com.aglhz.s1.event.EventCameraPwdChanged;
 import com.p2p.core.P2PHandler;
 import com.p2p.core.P2PInterface.ISetting;
 import com.p2p.core.global.P2PConstants;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import cn.itsite.abase.log.ALog;
 
 /**
  * Created by dansesshou on 16/11/30.
@@ -19,6 +25,7 @@ import java.util.Arrays;
 
 public class SettingListener implements ISetting {
 
+    private static final String TAG = SettingListener.class.getSimpleName();
 
     @Override
     public void ACK_vRetSetDeviceTime(int msgId, int result) {
@@ -733,7 +740,8 @@ public class SettingListener implements ISetting {
 
     @Override
     public void vRetSetDevicePasswordResult(int result) {
-
+        ALog.e(TAG,"vRetSetDevicePasswordResult："+result);
+        EventBus.getDefault().post(new EventCameraPwdChanged(result));
     }
 
     @Override
@@ -757,11 +765,11 @@ public class SettingListener implements ISetting {
     @Override
     public void vRetGetRecordFiles(String[] names, byte option0, byte option1) {
         Intent i = new Intent();
-//        i.setAction(RecordFilesActivity.RECORDFILES);
-//        i.putExtra("recordList", names);
-//        i.putExtra("option0", option0);
-//        i.putExtra("option1", option1);
-//        MyApp.app.sendBroadcast(i);
+        i.setAction(CameraFileRecordFragment.RECORDFILES);
+        i.putExtra("recordList", names);
+        i.putExtra("option0", option0);
+        i.putExtra("option1", option1);
+        App.mContext.sendBroadcast(i);
     }
 
     @Override

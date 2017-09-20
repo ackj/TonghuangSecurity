@@ -36,7 +36,7 @@ public class P2PListener implements IP2P {
     public void vReject(String deviceId, int reason_code, int exCode1, int exCode2) {
         ALog.e(TAG,"vReject");
         Intent intent = new Intent();
-        intent.setAction(CameraAddDeviceFragment.P2P_REJECT);
+        intent.setAction(CameraPlayActivity.P2P_REJECT);
         intent.putExtra("reason_code", reason_code);
         intent.putExtra("exCode1", exCode1);
         intent.putExtra("exCode2", exCode2);
@@ -52,7 +52,7 @@ public class P2PListener implements IP2P {
     public void vAccept(int type, int state) {
         ALog.e(TAG,"vAccept");
         Intent accept = new Intent();
-        accept.setAction(CameraAddDeviceFragment.P2P_ACCEPT);
+        accept.setAction(CameraPlayActivity.P2P_ACCEPT);
         accept.putExtra("type", new int[]{type, state});
         App.mContext.sendBroadcast(accept);
     }
@@ -64,7 +64,7 @@ public class P2PListener implements IP2P {
     public void vConnectReady() {
         ALog.e(TAG,"vConnectReady");
         Intent intent = new Intent();
-        intent.setAction(CameraAddDeviceFragment.P2P_READY);
+        intent.setAction(CameraPlayActivity.P2P_READY);
         App.mContext.sendBroadcast(intent);
     }
 

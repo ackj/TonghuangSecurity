@@ -140,7 +140,8 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
 
     @Override
     public void onRefresh() {
-        mPresenter.requestSecurity(params);
+        if (mPresenter != null)
+            mPresenter.requestSecurity(params);
     }
 
     private View initHeaderView() {
@@ -148,7 +149,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         headerView.setBackgroundResource(R.drawable.bg_security_header);
         //初始化撤防、布防等View。
         tvDes = (TextView) headerView.findViewById(R.id.tv_des_security_header);
-
         tvCancel = (TextView) headerView.findViewById(R.id.tv_cancel_item_security_header);
         tvHome = (TextView) headerView.findViewById(R.id.tv_home_item_security_header);
         tvFaraway = (TextView) headerView.findViewById(R.id.tv_faraway_item_security_header);
@@ -168,15 +168,12 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
             params.dstatus = Constants.GATEWAY_STATE_FARAWAY;
             mPresenter.requestSwichState(params);
         });
-
         mRecord.setSavePath(Constants.PATH_DATA + File.separator + "leavemassage.amr");
-
         mRecord.setOnFinishedRecordListener(audioPath -> {
             ALog.e("audioPath-->" + audioPath);
             params.file = new File(audioPath);
             mPresenter.requestLeaveMassge(params);
         });
-
         return headerView;
     }
 
@@ -211,9 +208,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         if (tv != null) {//由于第一次安装，后台不知道主机的状态，所以defenseStatus这个字段为空，所以找不到这样的TextView。
             tv.setSelected(true);
         }
-
         tvDes.setText(securityBean.getData().getGateway().getDefenseStatusDes());
-
         if (securityBean.getData() != null
                 || securityBean.getData().getSubDevices() != null) {
             adapter.setNewData(securityBean.getData().getSubDevices());

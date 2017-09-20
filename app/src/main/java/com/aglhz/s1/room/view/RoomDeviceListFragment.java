@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aglhz.s1.App;
-import com.aglhz.s1.BuildConfig;
 import com.aglhz.s1.R;
 import com.aglhz.s1.camera.CameraListFragment;
 import com.aglhz.s1.camera.P2PListener;
@@ -296,6 +295,20 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                         //所以可以将code1与code2保存起来,只需在下次登录时刷新即可
                         saveAuthor(loginResult);
                         P2PHandler.getInstance().p2pInit(_mActivity, new P2PListener(), new SettingListener());
+                        ALog.e(TAG,"haha1111111");
+                        ALog.e(TAG,"session:"+loginResult.getSessionID()+" -- session2:"+loginResult.getSessionID2()
+                        +"--code:"+loginResult.getP2PVerifyCode1()+" -- code2:"+loginResult.getP2PVerifyCode2());
+
+                        int sessionid1=(int)Long.parseLong(loginResult.getSessionID());
+                        int sessionid2=(int)Long.parseLong(loginResult.getSessionID2());
+
+                        P2PHandler.getInstance().p2pConnect(
+                                loginResult.getUserID(),
+                                sessionid1,
+                                sessionid2,
+                                Integer.parseInt(loginResult.getP2PVerifyCode1()),
+                                Integer.parseInt(loginResult.getP2PVerifyCode2()));
+
                         _mActivity.start(CameraListFragment.newInstance());
                         break;
                     case HttpErrorCode.ERROR_10902011:
@@ -306,7 +319,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                         break;
                     default:
                         //其它错误码需要用户自己实现
-                        ToastUtils.showToast(_mActivity, "登录失败:"+loginResult.getError_code());
+                        ToastUtils.showToast(_mActivity, "登录失败:" + loginResult.getError_code());
                         break;
                 }
             }
@@ -314,12 +327,15 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
             @Override
             public void onError(String error_code, Throwable throwable) {
                 dismissLoading();
-                ToastUtils.showToast(_mActivity, "登录失败 error:" + error_code);
+                ToastUtils.showToast(_mActivity, "登录失败 error：" + error_code);
+                ALog.e(TAG,"onError:"+throwable.getMessage());
             }
         };
 
+//        _mActivity.start(CameraListFragment.newInstance());
         try {
-            HttpSend.getInstance().ThirdLogin("1", BuildConfig.APPLICATION_ID, "fdsafd", "fdasfd", "0", "3", subscriberListener);
+            HttpSend.getInstance().SpecialEmailLogin("565493619@qq.com", subscriberListener);
+//            HttpSend.getInstance().ThirdLogin("1", BuildConfig.APPLICATION_ID, "565493619@qq.com", "", "0", "2", subscriberListener);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {

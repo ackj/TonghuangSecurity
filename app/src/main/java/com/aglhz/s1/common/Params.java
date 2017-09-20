@@ -65,6 +65,9 @@ public class Params {
     public String mobile;
     public String fid;
     public File file;
+    public String deviceId;
+    public String deviceName;
+    public String devicePassword;
 
     public static Params getInstance() {
         Params params = new Params();

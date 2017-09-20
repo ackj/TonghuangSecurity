@@ -57,12 +57,6 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/btn_call"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="点我" />w
-
             <!--<RelativeLayout
                 android:id="@+id/rl_else"
                 android:layout_width="match_parent"
@@ -157,6 +151,7 @@
                         android:src="@drawable/ic_mai_150px" />
 
                     <TextView
+                        android:id="@+id/tv_talk"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="15dp"
