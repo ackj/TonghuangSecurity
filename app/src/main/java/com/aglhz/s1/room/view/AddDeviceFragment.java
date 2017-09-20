@@ -1,6 +1,5 @@
 package com.aglhz.s1.room.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -51,7 +50,7 @@ import cn.itsite.abase.utils.ToastUtils;
  * Email： liujia95me@126.com
  */
 public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter> implements AddDeviceContract.View {
-
+    public static final String TAG = AddDeviceFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar_menu)
@@ -66,11 +65,9 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
     TextView tvRoomName;
     @BindView(R.id.iv_icon)
     ImageView ivIcon;
-
     private final static int RESULT_LOAD_IMAGE = 0x100;
     private final static int RESULT_IMAGE_COMPLETE = 0x101;
     Unbinder unbinder;
-
     private DeviceListBean.DataBean.SubDevicesBean bean;
     private RoomsBean.DataBean.RoomListBean selectRoom;
     private Params params = Params.getInstance();
@@ -258,19 +255,18 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
 
     @Override
     public void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data) {
-        ALog.e(TAG, "responseHouseList:" + data.size());
         String[] rooms = new String[data.size()];
         for (int i = 0; i < data.size(); i++) {
             rooms[i] = data.get(i).getName();
         }
         new AlertDialog.Builder(_mActivity)
-                .setItems(rooms, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        tvRoomName.setText(data.get(which).getName());
-                        params.roomFid = data.get(which).getFid();
-                        params.roomId = data.get(which).getIndex();
-                    }
-                }).show();
+                .setTitle("房间列表：")
+                .setItems(rooms, (dialog, which) -> {
+                    tvRoomName.setText(data.get(which).getName());
+                    params.roomFid = data.get(which).getFid();
+                    params.roomId = data.get(which).getIndex();
+                })
+                .setNegativeButton("取消", null)
+                .show();
     }
 }

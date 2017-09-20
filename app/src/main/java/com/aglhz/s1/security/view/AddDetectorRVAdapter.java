@@ -26,7 +26,6 @@ public class AddDetectorRVAdapter extends BaseRecyclerViewAdapter<DevicesBean.Da
 
     @Override
     protected void convert(BaseViewHolder helper, DevicesBean.DataBean.DeviceTypeListBean item) {
-        ALog.e(TAG,"AddDetectorRVAdapter:"+item.getIcon());
         helper.setText(R.id.tv_name_item_security, item.getName())
                 .setVisible(R.id.iv_state, false);
 

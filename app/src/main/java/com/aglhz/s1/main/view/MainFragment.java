@@ -1,7 +1,10 @@
 package com.aglhz.s1.main.view;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,6 +19,8 @@ import com.aglhz.s1.common.appupdate.UpdateAppHttpUtils;
 import com.aglhz.s1.entity.bean.AppUpdateBean;
 import com.aglhz.s1.history.view.DeviceLogsFragment;
 import com.aglhz.s1.more.view.MoreFragment;
+import com.aglhz.s1.net.NetActivity;
+import com.aglhz.s1.net.view.SetWifiFragment;
 import com.aglhz.s1.room.view.RoomDeviceListFragment;
 import com.aglhz.s1.scene.view.SceneFragment;
 import com.aglhz.s1.security.view.SecurityFragment;
@@ -31,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.itsite.abase.common.ActivityManager;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.AppUtils;
@@ -224,5 +230,18 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
                 .setTitle("必需权限")
                 .build()
                 .show();
+    }
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        WifiManager wifiManager = (WifiManager) App.mContext.getApplicationContext()
+                .getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        if (wifiInfo.getSSID().contains(SetWifiFragment.WIFI_NAME)) {
+            startActivity(new Intent(_mActivity, NetActivity.class));
+        } else {
+            ActivityManager.getInstance().finishActivity(NetActivity.class);
+        }
     }
 }

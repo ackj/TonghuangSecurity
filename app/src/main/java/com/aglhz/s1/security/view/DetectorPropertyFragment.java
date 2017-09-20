@@ -1,6 +1,5 @@
 package com.aglhz.s1.security.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -153,51 +152,16 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
         }
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        ALog.e(TAG, "onActivityResult:" + (resultCode != RESULT_OK) + " --" + (RESULT_LOAD_IMAGE == requestCode) + "--" + data);
-//        if (resultCode != RESULT_OK) {
-//            return;
-//        }
-//        switch (requestCode) {
-//            case RESULT_LOAD_IMAGE:
-//                if (data == null) {
-//                    return;
-//                }
-//                Uri selectedImage = data.getData();
-//                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-//                Cursor cursor = _mActivity.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-//                cursor.moveToFirst();
-//
-//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//                String picturePath = cursor.getString(columnIndex);
-//                cursor.close();
-//
-//                //拿到从系统选择好的图片后跳转到图片裁剪界面
-//                Intent intent = new Intent(_mActivity, ClipActivity.class);
-//                intent.putExtra("path", picturePath);
-//                startActivityForResult(intent, RESULT_IMAGE_COMPLETE);
-//                break;
-//            case RESULT_IMAGE_COMPLETE:
-//                //裁剪好的本地图片
-//                String path = data.getStringExtra("path");
-//                ALog.e(TAG, "path------>" + path);
-//                params.file = new File(path);
-//                Glide.with(_mActivity)
-//                        .load(params.file)
-//                        .into(ivIcon);
-//                break;
-//        }
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
 
-    @OnClick({R.id.cpb_delete_fragment_detector_property, R.id.toolbar_menu, R.id.ll_defenseLevel, R.id.ll_change_icon})
+    @OnClick({R.id.cpb_delete_fragment_detector_property,
+            R.id.toolbar_menu,
+            R.id.ll_defenseLevel,
+            R.id.ll_change_icon})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_change_icon:
@@ -228,22 +192,19 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
                 break;
             case R.id.ll_defenseLevel:
                 new AlertDialog.Builder(_mActivity)
-                        .setItems(lineOfDefenseArr, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        defenseLevel = DefenseLineLevel.DLL_FIRST;
-                                        break;
-                                    case 1:
-                                        defenseLevel = DefenseLineLevel.DLL_SECOND;
-                                        break;
-                                    case 2:
-                                        defenseLevel = DefenseLineLevel.DLL_24HOUR;
-                                        break;
-                                }
-                                tvLineOfDefense.setText(getLineOfDefenseStr(defenseLevel));
+                        .setItems(lineOfDefenseArr, (dialog, which) -> {
+                            switch (which) {
+                                case 0:
+                                    defenseLevel = DefenseLineLevel.DLL_FIRST;
+                                    break;
+                                case 1:
+                                    defenseLevel = DefenseLineLevel.DLL_SECOND;
+                                    break;
+                                case 2:
+                                    defenseLevel = DefenseLineLevel.DLL_24HOUR;
+                                    break;
                             }
+                            tvLineOfDefense.setText(getLineOfDefenseStr(defenseLevel));
                         }).show();
                 break;
         }

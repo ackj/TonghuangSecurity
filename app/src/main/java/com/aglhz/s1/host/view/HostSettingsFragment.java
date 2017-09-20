@@ -22,6 +22,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.common.RxManager;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.network.http.HttpHelper;
 import rx.android.schedulers.AndroidSchedulers;
@@ -34,7 +35,7 @@ import rx.schedulers.Schedulers;
 
 public class HostSettingsFragment extends BaseFragment {
     public static final String TAG = HostSettingsFragment.class.getSimpleName();
-    public static final int UPDATE_HOST_NAME = 1234;
+    public static final int RESULT_HOST_SETTINGS = 1234;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -122,10 +123,10 @@ public class HostSettingsFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_host_name_host_setting_fragment:
-                startForResult(EditHostFragment.newInstance(hostBean), UPDATE_HOST_NAME);
+                startForResult(EditHostFragment.newInstance(hostBean), RESULT_HOST_SETTINGS);
                 break;
             case R.id.tv_location_host_setting_fragment:
-                start(AddHostFragment.newInstance("", hostBean));
+                startForResult(AddHostFragment.newInstance("", hostBean),RESULT_HOST_SETTINGS);
                 break;
             case R.id.tv_alert_sms_host_setting_fragment:
                 start(AlertSmsFragment.newInstance(hostBean));
@@ -164,8 +165,14 @@ public class HostSettingsFragment extends BaseFragment {
     @Override
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
+        ALog.e("requestCode-->" + requestCode);
+        ALog.e("resultCode-->" + resultCode);
         if (data != null) {
-            tvHostName.setText(data.getString(Constants.KEY_HOST_NAME));
+            hostBean = data.getParcelable(Constants.KEY_HOST);
+            tvHostName.setText(hostBean.getName());
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(Constants.KEY_HOST, hostBean);
+            setFragmentResult(HostSettingsFragment.RESULT_HOST_SETTINGS, bundle);
         }
     }
 }

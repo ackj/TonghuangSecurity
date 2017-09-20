@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.host.contract.HostListContract;
@@ -26,11 +27,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.mvp.view.base.Decoration;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateLayout;
 import cn.itsite.statemanager.StateManager;
+
 /**
  * Created by leguang on 2017/6/22 0022.
  * Email：langmanleguang@qq.com
@@ -52,6 +55,7 @@ public class HostListFragment extends BaseFragment<HostListContract.Presenter> i
     private Params params = Params.getInstance();
     private StateManager mStateManager;
     private List<String> addHostTypes;
+    private GatewaysBean.DataBean hostBean;
 
     public static HostListFragment newInstance() {
         return new HostListFragment();
@@ -115,7 +119,10 @@ public class HostListFragment extends BaseFragment<HostListContract.Presenter> i
 
     private void initListener() {
         adapter.setOnItemClickListener((adapter1, view, position)
-                -> start(HostSettingsFragment.newInstance(adapter.getData().get(position))));
+                -> {
+            hostBean = adapter.getData().get(position);
+            startForResult(HostSettingsFragment.newInstance(hostBean), HostSettingsFragment.RESULT_HOST_SETTINGS);
+        });
     }
 
     private void showAddHostSelecotr() {
@@ -189,6 +196,18 @@ public class HostListFragment extends BaseFragment<HostListContract.Presenter> i
             adapter.addData(data);
             adapter.setEnableLoadMore(true);
             adapter.loadMoreComplete();
+        }
+    }
+
+
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        ALog.e("requestCode-->" + requestCode);
+        ALog.e("resultCode-->" + resultCode);
+
+        if (data != null) {
+            hostBean = data.getParcelable(Constants.KEY_HOST);
         }
     }
 }

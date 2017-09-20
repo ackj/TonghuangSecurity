@@ -41,6 +41,7 @@ public class AddHostModel extends BaseModel implements AddHostContract.Model {
                 .requestEditHostLocation(ApiService.requestEditHostLocation,
                         params.token,
                         params.addr,
+                        params.addrDet,
                         params.lng,
                         params.lat,
                         params.gateway)

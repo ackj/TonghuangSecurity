@@ -12,6 +12,7 @@ import com.aglhz.s1.common.BoxingGlideLoader;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.entity.bean.NotificationBean;
+import com.aglhz.s1.event.EventLearnSensor;
 import com.aglhz.s1.event.EventRefreshSecurity;
 import com.bilibili.boxing.BoxingMediaLoader;
 import com.bilibili.boxing.loader.IBoxingMediaLoader;
@@ -190,6 +191,7 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
         NotificationBean notification = gson.fromJson(msg, NotificationBean.class);
         switch (notification.getExtra().getCtype()) {
             case Constants.SENSOR_LEARN:
+                EventBus.getDefault().post(new EventLearnSensor());
             case Constants.GW_NOTIFIY_DEFENSE_ST:
                 EventBus.getDefault().post(new EventRefreshSecurity());
                 break;

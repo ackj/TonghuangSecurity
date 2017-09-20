@@ -1,10 +1,9 @@
 package com.aglhz.s1.net;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.net.view.SetNetFragment;
+import com.aglhz.s1.net.view.NetFragment;
 
 import cn.itsite.abase.mvp.view.base.BaseActivity;
 
@@ -24,7 +23,7 @@ public class NetActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            loadRootFragment(R.id.fl_main_activity, SetNetFragment.newInstance());
+            loadRootFragment(R.id.fl_main_activity, NetFragment.newInstance());
         }
     }
 
@@ -32,9 +31,4 @@ public class NetActivity extends BaseActivity {
     public boolean swipeBackPriority() {
         return false;
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
 }

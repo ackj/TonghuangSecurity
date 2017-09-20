@@ -5,7 +5,8 @@ import com.aglhz.s1.BuildConfig;
 import cn.itsite.abase.common.BaseConstants;
 
 /**
- * Created by Administrator on 2017/5/2 0002.
+ * Author：leguang on 2017/4/12 0009 14:23
+ * Email：langmanleguang@qq.com
  */
 public class Constants extends BaseConstants {
     public static final String TAG = Constants.class.getSimpleName();
@@ -18,8 +19,8 @@ public class Constants extends BaseConstants {
     static {
         if (BuildConfig.DEBUG) {
             //调试可以改这里的地址。
-            BASE_USER = "http://120.77.83.45:8076/gasMember/";//用户系统
 //            BASE_URL = "http://119.23.129.133:8096/gas";
+            BASE_USER = "http://120.77.83.45:8076/gasMember/";//用户系统
             BASE_URL = "http://120.77.83.45:8096/gas";
         } else {
             //这里的是正式版的基础地址，永远不要动。

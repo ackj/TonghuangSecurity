@@ -36,4 +36,12 @@ public class AddDetectorModel extends BaseModel implements AddDetectorContract.M
                         builder.build())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseBean> reqeuestCancellationOfSensorLearning(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .reqeuestCancellationOfSensorLearning(ApiService.reqeuestCancellationOfSensorLearning,
+                        params.token)
+                .subscribeOn(Schedulers.io());
+    }
 }

@@ -142,8 +142,14 @@ public interface ApiService {
 
     @POST
     Observable<BaseBean> reqeuestNewsensor(@Url String url
-            , @Body MultipartBody file
-    );
+            , @Body MultipartBody file);
+
+    //取消传感器的学习。
+    String reqeuestCancellationOfSensorLearning = BASE_URL + "/client/sensorLearnCancle";
+
+    @POST
+    Observable<BaseBean> reqeuestCancellationOfSensorLearning(@Url String url
+            , @Query("token") String token);
 
     // 修改探测器
     String requestModsensor = BASE_URL + "/client/modsensor";
@@ -474,6 +480,7 @@ public interface ApiService {
     Observable<BaseBean> requestEditHostLocation(@Url String url,
                                                  @Field("token") String token,
                                                  @Field("addr") String addr,
+                                                 @Field("addrDet") String addrDet,
                                                  @Field("lng") String lng,
                                                  @Field("lat") String lat,
                                                  @Field("gateway") String gateway);
