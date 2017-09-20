@@ -128,11 +128,13 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
             case R.id.ll_nickname:
                 isNickname = true;
                 etInput.setText(bean.getName());
+                etInput.setSelection(bean.getName().length());
                 dialogBuilder.show();
                 break;
             case R.id.ll_pwd:
                 isNickname = false;
                 etInput.setText(bean.getPassword());
+                etInput.setSelection(bean.getPassword().length());
                 dialogBuilder.show();
                 break;
             case R.id.ll_video:

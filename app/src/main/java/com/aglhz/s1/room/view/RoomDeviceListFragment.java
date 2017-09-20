@@ -334,7 +334,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
 //        _mActivity.start(CameraListFragment.newInstance());
         try {
-            HttpSend.getInstance().SpecialEmailLogin("565493619@qq.com", subscriberListener);
+            HttpSend.getInstance().SpecialEmailLogin("huangyk@aglhz.com", subscriberListener);
 //            HttpSend.getInstance().ThirdLogin("1", BuildConfig.APPLICATION_ID, "565493619@qq.com", "", "0", "2", subscriberListener);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.aglhz.s1.camera;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -75,8 +76,6 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     TextView tvQuality;
     @BindView(R.id.tv_video)
     TextView tvVideo;
-    @BindView(R.id.iv_sound_no_off)
-    ImageView ivSoundNoOff;
     @BindView(R.id.tv_sound_no_off)
     TextView tvSoundNoOff;
     @BindView(R.id.view_black)
@@ -89,6 +88,14 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     TextView tvTalk;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.iv_video)
+    ImageView ivVideo;
+    @BindView(R.id.iv_photograph)
+    ImageView ivPhotograph;
+    @BindView(R.id.iv_mute)
+    ImageView ivMute;
+    @BindView(R.id.iv_microphone)
+    ImageView ivMicrophone;
 
     private String[] qualityArr = {"标清", "高清", "流畅"};
     private int recordFlag = 0;
@@ -97,6 +104,7 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     private CameraBean.DataBean bean;
     private String updatePwd;
     private String userId;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +123,11 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     private void initView() {
         pView = (P2PView) findViewById(R.id.p2pview);
         initP2PView(7, P2PView.LAYOUTTYPE_TOGGEDER);//7是设备类型(技威定义的)
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("正在加载...");
+        progressDialog.setCancelable(false);
     }
 
     private void initToolbar() {
@@ -145,31 +158,32 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
                 });
     }
 
+    private boolean connect(String userId, String id, String pwd) {
+        return P2PHandler.getInstance().call(userId, pwd, true, 1, id, "", "", 2, id);
+    }
+
     private void initData() {
         bean = (CameraBean.DataBean) getIntent().getSerializableExtra("bean");
         SharedPreferences sp = getSharedPreferences("Account", MODE_PRIVATE);
         userId = sp.getString("userId", "");
-        String pwd = P2PHandler.getInstance().EntryPassword(bean.getPassword());//经过转换后的设备密码
+        //经过转换后的设备密码
+        password = P2PHandler.getInstance().EntryPassword(bean.getPassword());
         callID = bean.getNo();
-        ALog.e(TAG, "CallOnClick  id:" + callID + " -- password:" + bean.getPassword() + " -- userId:" + userId + " -- pwd:" + pwd);
-        toolbar.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                boolean call = P2PHandler.getInstance().call(userId, pwd, true, 1, callID, "", "", 2, callID);
-//                Toast.makeText(this, "call:" + call, Toast.LENGTH_SHORT).show();
-                ALog.e(TAG, "call:" + call);
-            }
-        }, 3000);
+        ALog.e(TAG, "CallOnClick  id:" + callID + " -- password:" + bean.getPassword() + " -- userId:" + userId + " -- pwd:" + password);
+        progressDialog.show();
+        connect(userId, password, callID);
     }
 
     private void initListener() {
         llTalkback.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    ivMicrophone.setSelected(true);
                     tvTalk.setText("正在对讲");
                     setMute(false);
                     return true;
                 case MotionEvent.ACTION_UP:
+                    ivMicrophone.setSelected(false);
                     tvTalk.setText("对讲");
                     setMute(true);
                     return true;
@@ -233,6 +247,8 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     public static String P2P_READY = "com.XXX.P2P_READY";
     public static String P2P_REJECT = "com.XXX.P2P_REJECT";
 
+    private ProgressDialog progressDialog;
+
     public void regFilter() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(P2P_REJECT);
@@ -255,25 +271,50 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
                 ALog.e(TAG, "监控数据接收:");
                 P2PHandler.getInstance().openAudioAndStartPlaying(1);//打开音频并准备播放，calllType与call时type一致
             } else if (intent.getAction().equals(P2P_READY)) {
+                progressDialog.dismiss();
                 ALog.e(TAG, "\n 监控准备,开始监控");
                 ALog.e(TAG, "监控准备,开始监控");
                 ToastUtils.showToast(CameraPlayActivity.this, "开始监控");
                 pView.sendStartBrod();
-                viewBlack.setVisibility(View.GONE);
+                viewBlack.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        viewBlack.setVisibility(View.GONE);
+                    }
+                },2000);
             } else if (intent.getAction().equals(P2P_REJECT)) {
+                progressDialog.dismiss();
                 int reason_code = intent.getIntExtra("reason_code", -1);
                 int code1 = intent.getIntExtra("exCode1", -1);//806363145
                 int code2 = intent.getIntExtra("exCode2", -1);
-                ToastUtils.showToast(CameraPlayActivity.this, "监控挂断");
                 String reject = String.format("\n 监控挂断(reson:%d,code1:%d,code2:%d)", reason_code, code1, code2);
                 ALog.e(TAG, reject);
-                String message = "连接超时";
                 if (reason_code == 0) {
-                    dialogBuilder.show();
-                } else {
+                    dialogPassword.show();
+                } else if (reason_code == 6) {
                     new AlertDialog.Builder(CameraPlayActivity.this)
-                            .setMessage(message)
+                            .setMessage("请先配网")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    CameraPlayActivity.this.finish();
+                                }
+                            })
+                            .show();
+                } else if (reason_code == 10 || reason_code == 3) {
+                    connect(userId, callID, password);
+                } else {
+                    progressDialog.dismiss();
+                    new AlertDialog.Builder(CameraPlayActivity.this)
+                            .setMessage("连接失败，是否重新连接？")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    progressDialog.show();
+                                    connect(userId, callID, password);
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     CameraPlayActivity.this.finish();
@@ -296,13 +337,13 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
             case R.id.ll_sound:
                 AudioManager manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                 if (manager != null) {
-                    if (ivSoundNoOff.isSelected()) {
-                        ivSoundNoOff.setSelected(false);
+                    if (ivMute.isSelected()) {
                         manager.setStreamVolume(AudioManager.STREAM_MUSIC, manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
                         tvSoundNoOff.setText("静音");
+                        ivMute.setSelected(false);
                     } else {
                         manager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-                        ivSoundNoOff.setSelected(true);
+                        ivMute.setSelected(true);
                         tvSoundNoOff.setText("取消静音");
                     }
                 }
@@ -336,11 +377,13 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
                     startMoniterRecoding();
                     recordFlag = 1;
                     tvVideo.setText("停止录像");
+                    ivVideo.setSelected(true);
                 } else {
                     //停止录像
                     stopMoniterReocding();
                     recordFlag = 0;
                     tvVideo.setText("录像");
+                    ivVideo.setSelected(false);
                 }
                 break;
         }
@@ -412,7 +455,7 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
 
     @Override
     public void error(String errorMessage) {
-        ToastUtils.showToast(this,"修改失败");
+        ToastUtils.showToast(this, "修改失败");
     }
 
     @Override
@@ -422,18 +465,18 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
 
     @Override
     public void responseSuccess(BaseBean baseBean) {
-        ToastUtils.showToast(this,"修改成功");
+        ToastUtils.showToast(this, "修改成功");
         EventBus.getDefault().post(new EventCameraListRefresh());
         finish();
     }
 
 
-    AlertDialog.Builder dialogBuilder;
+    AlertDialog.Builder dialogPassword;
 
     private void initInputDialog() {
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_one_input, null, false);
         EditText etInput = (EditText) dialogView.findViewById(R.id.et_input);
-        dialogBuilder = new AlertDialog.Builder(this)
+        dialogPassword = new AlertDialog.Builder(this)
                 .setView(dialogView)
                 .setTitle("密码错误，请输入正确密码")
                 .setCancelable(false)

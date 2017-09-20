@@ -2,6 +2,7 @@ package com.aglhz.s1.camera;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.CameraBean;
+import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.event.EventCameraListRefresh;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -39,6 +42,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateManager;
 
 /**
@@ -302,16 +306,19 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
     @OnClick(R.id.toolbar_menu)
     public void onViewClicked() {
         List<CameraBean.DataBean> data = adapter.getData();
-        String[] arr = new String[data.size() - 1];
-        for (int i = 0; i < data.size() - 1; i++) {
-            arr[i] = data.get(i).getName();
-        }
-        new AlertDialog.Builder(_mActivity)
-                .setItems(arr, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        _mActivity.start(CameraSettingFragment.newInstance(data.get(which)));
-                    }
-                }).show();
+        new SelectorDialogFragment()
+                .setTitle("请选择监控")
+                .setItemLayoutId(android.R.layout.simple_list_item_1)
+                .setData(data.subList(0,data.size()-1))
+                .setOnItemConvertListener((holder, position, dialog) -> {
+                    holder.setText(android.R.id.text1,data.get(position).getName()+"("+data.get(position).getNo()+")");
+                })
+                .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
+                    dialog.dismiss();
+                    _mActivity.start(CameraSettingFragment.newInstance(data.get(position)));
+                })
+                .setAnimStyle(R.style.SlideAnimation)
+                .setGravity(Gravity.BOTTOM)
+                .show(getChildFragmentManager());
     }
 }
