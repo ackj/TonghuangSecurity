@@ -38,4 +38,12 @@ public class CameraListModel extends BaseModel implements CameraListContract.Mod
                 .requestDelcamera(ApiService.requestDelcamera,params.token,params.fid)
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseBean> requestModCamera(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestModCamera(ApiService.requestModCamera,
+                        params.token,params.fid,params.deviceType,params.deviceName,params.devicePassword)
+                .subscribeOn(Schedulers.io());
+    }
 }

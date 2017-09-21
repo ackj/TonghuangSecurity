@@ -14,12 +14,14 @@ import rx.Observable;
  * Email: liujia95me@126.com
  */
 
-public interface CameraListContract  {
+public interface CameraListContract {
 
     interface View extends BaseContract.View {
         void responseCameraList(List<CameraBean.DataBean> data);
 
         void responseSuccess(BaseBean baseBean);
+
+        void responseModSuccess(BaseBean baseBean);
     }
 
     interface Presenter extends BaseContract.Presenter {
@@ -28,6 +30,8 @@ public interface CameraListContract  {
         void requestNewCamera(Params params);
 
         void requestDelCamera(Params params);
+
+        void requestModCamera(Params params);
     }
 
     interface Model extends BaseContract.Model {
@@ -36,6 +40,8 @@ public interface CameraListContract  {
         Observable<BaseBean> requestNewCamera(Params params);
 
         Observable<BaseBean> requestDelCamera(Params params);
+
+        Observable<BaseBean> requestModCamera(Params params);
     }
 
 }

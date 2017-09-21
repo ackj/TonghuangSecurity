@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.aglhz.s1.R;
@@ -24,6 +25,8 @@ public class PlayBackActivity extends BasePlayBackActivity {
     public static String P2P_REJECT = "com.XXX.P2P_REJECT";
     @BindView(R.id.rl_p2pview)
     RelativeLayout rlP2pview;
+    @BindView(R.id.view_black)
+    View viewBlack;
 
     private String filename;
     private int position;
@@ -77,7 +80,6 @@ public class PlayBackActivity extends BasePlayBackActivity {
     }
 
     BroadcastReceiver mReceiver = new BroadcastReceiver() {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(P2P_ACCEPT)) {
@@ -91,6 +93,12 @@ public class PlayBackActivity extends BasePlayBackActivity {
 //                txText.append("\n 监控准备,开始监控");
                 Log.e("dxsTest", "监控准备,开始监控" + deviceId);
                 pView.sendStartBrod();
+                viewBlack.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        viewBlack.setVisibility(View.GONE);
+                    }
+                },2000);
             } else if (intent.getAction().equals(P2P_REJECT)) {
 //                txText.append("\n 监控挂断");
             }

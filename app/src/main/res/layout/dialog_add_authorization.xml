@@ -4,11 +4,12 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="40dp"
     android:layout_marginRight="40dp"
-    android:background="@color/white"
+    android:background="@drawable/shape_white_round"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -44,6 +45,8 @@
             android:layout_height="45dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:textSize="15sp"
+            android:textColor="@color/base_black"
             android:text="取消" />
 
         <View
@@ -54,7 +57,9 @@
         <TextView
             android:id="@+id/tv_comfirm"
             android:layout_width="0dp"
+            android:textSize="15sp"
             android:layout_height="45dp"
+            android:textColor="@color/base_black"
             android:layout_weight="1"
             android:gravity="center"
             android:text="确定" />

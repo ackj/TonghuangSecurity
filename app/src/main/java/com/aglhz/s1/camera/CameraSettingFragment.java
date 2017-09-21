@@ -4,15 +4,18 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.camera.contract.CameraSettingContract;
 import com.aglhz.s1.camera.presenter.CameraSettingPresenter;
@@ -32,13 +35,17 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.utils.KeyBoardUtils;
+import cn.itsite.adialog.ADialogListener;
+import cn.itsite.adialog.BaseViewHolder;
+import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
 
 /**
  * Author: LiuJia on 2017/9/14 0014 17:07.
  * Email: liujia95me@126.com
  */
 
-public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Presenter> implements CameraSettingContract.View{
+public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Presenter> implements CameraSettingContract.View {
 
     private static final String TAG = CameraSettingFragment.class.getSimpleName();
 
@@ -53,8 +60,7 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
 
     Unbinder unbinder;
     private CameraBean.DataBean bean;
-    private AlertDialog.Builder dialogBuilder;
-    private EditText etInput;
+    //    private AlertDialog.Builder dialogBuilder;
     private boolean isNickname;
     private Params params = Params.getInstance();
 
@@ -87,7 +93,6 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
         initData();
-        initInputDialog();
         initListener();
     }
 
@@ -127,63 +132,61 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
         switch (view.getId()) {
             case R.id.ll_nickname:
                 isNickname = true;
-                etInput.setText(bean.getName());
-                etInput.setSelection(bean.getName().length());
-                dialogBuilder.show();
+                showInputDialog();
                 break;
             case R.id.ll_pwd:
                 isNickname = false;
-                etInput.setText(bean.getPassword());
-                etInput.setSelection(bean.getPassword().length());
-                dialogBuilder.show();
+                showInputDialog();
                 break;
             case R.id.ll_video:
-                _mActivity.start(CameraFileRecordFragment.newInstance(bean.getNo(),bean.getPassword()));
+                _mActivity.start(CameraFileRecordFragment.newInstance(bean.getNo(), bean.getPassword()));
                 break;
 
         }
     }
 
-    private void initInputDialog() {
-        View dialogView = LayoutInflater.from(_mActivity).inflate(R.layout.dialog_one_input, null, false);
-        etInput = (EditText) dialogView.findViewById(R.id.et_input);
-        dialogBuilder = new AlertDialog.Builder(_mActivity)
-                .setView(dialogView)
-                .setTitle("修改")
-                .setCancelable(false)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String result = etInput.getText().toString().trim();
-                        showLoading();
-                        if(TextUtils.isEmpty(result)){
-                            DialogHelper.warningSnackbar(getView(),"请输入内容");
-                        }else{
-                            params.fid = bean.getFid();
-                            if(isNickname){
-                                params.deviceName = result;
-                                params.deviceType = "name";
-                                params.devicePassword = "";
-                                mPresenter.requestModCamera(params);
-                            }else{
-                                updatePassword(result);
-                            }
-                        }
-                        if (dialogView.getParent() != null)
-                            ((ViewGroup) dialogView.getParent()).removeView(dialogView);
-                        dialog.dismiss();
+    private void showInputDialog() {
+         new BaseDialogFragment()
+                .setLayoutId(R.layout.dialog_add_authorization)
+                .setConvertListener((holder, dialog) -> {
+                    EditText etInput = holder.getView(R.id.et_input_phone);
+                    if (isNickname) {
+                        etInput.setText(bean.getName());
+                        etInput.setSelection(bean.getName().length());
+                    } else {
+                        etInput.setText(bean.getPassword());
+                        etInput.setSelection(bean.getPassword().length());
                     }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (dialogView.getParent() != null)
-                            ((ViewGroup) dialogView.getParent()).removeView(dialogView);
-                        dialog.dismiss();
-                    }
-                });
+
+                    holder.setText(R.id.tv_title, isNickname ? "请输入昵称" : "请输入密码")
+                            .setOnClickListener(R.id.tv_cancel, v -> dialog.dismiss())
+                            .setOnClickListener(R.id.tv_comfirm, v -> {
+                                String result = etInput.getText().toString().trim();
+                                if (TextUtils.isEmpty(result)) {
+                                    DialogHelper.warningSnackbar(getView(), "请输入内容");
+                                } else {
+                                    showLoading();
+                                    params.fid = bean.getFid();
+                                    if (isNickname) {
+                                        params.deviceName = result;
+                                        params.deviceType = "name";
+                                        params.devicePassword = "";
+                                        mPresenter.requestModCamera(params);
+                                    } else {
+                                        updatePassword(result);
+                                    }
+                                    dialog.dismiss();
+                                }
+                            });
+                })
+                .setMargin(40)
+                .setDimAmount(0.3f)
+                .setGravity(Gravity.CENTER)
+                .show(getFragmentManager());
+
     }
 
-    private void updatePassword(String pwd){
+    private void updatePassword(String pwd) {
         params.deviceType = "password";
         params.deviceName = "";
         params.devicePassword = pwd;
@@ -191,29 +194,29 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
         P2PHandler.getInstance().setDevicePassword(bean.getNo(),
                 P2PHandler.getInstance().EntryPassword(bean.getPassword()),
                 P2PHandler.getInstance().EntryPassword(pwd),
-                pwd,pwd);
+                pwd, pwd);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(EventCameraPwdChanged event){
-        if(event.result == 0){
+    public void onEvent(EventCameraPwdChanged event) {
+        if (event.result == 0) {
             mPresenter.requestModCamera(params);
-        }else{
+        } else {
             dismissLoading();
-            DialogHelper.errorSnackbar(getView(),"修改密码失败");
+            DialogHelper.errorSnackbar(getView(), "修改密码失败");
         }
     }
 
     @Override
     public void responseSuccess(BaseBean baseBean) {
         dismissLoading();
-        if(isNickname){
+        if (isNickname) {
             bean.setName(params.deviceName);
             tvNickname.setText(params.deviceName);
-        }else{
+        } else {
             bean.setPassword(params.devicePassword);
             tvPassword.setText(params.devicePassword);
         }
-        DialogHelper.successSnackbar(getView(),"修改成功");
+        DialogHelper.successSnackbar(getView(), "修改成功");
     }
 }

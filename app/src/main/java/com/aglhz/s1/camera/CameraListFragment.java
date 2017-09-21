@@ -183,7 +183,6 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
                     params.devicePassword = etPassword.getText().toString().trim();
                     if (dialogView.getParent() != null)
                         ((ViewGroup) dialogView.getParent()).removeView(dialogView);
-                    dialog.dismiss();
                     if (TextUtils.isEmpty(params.deviceId)) {
                         DialogHelper.warningSnackbar(getView(), "请输入摄像头ID");
                         return;
@@ -201,7 +200,6 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
                 .setNegativeButton("取消", (dialog, which) -> {
                     if (dialogView.getParent() != null)
                         ((ViewGroup) dialogView.getParent()).removeView(dialogView);
-                    dialog.dismiss();
                 });
     }
 
@@ -235,7 +233,10 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     params.fid = bean.getFid();
-                                    mPresenter.requestDelCamera(params);
+                                    params.deviceType = "password";
+                                    params.deviceName = "";
+                                    params.devicePassword = "123";
+                                    mPresenter.requestModCamera(params);
                                 }
                             })
                             .setNegativeButton("取消", null)
@@ -245,7 +246,6 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
             }
         });
     }
-
 
     @Override
     public void onDestroyView() {
@@ -301,6 +301,11 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
     public void responseSuccess(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
         onRefresh();
+    }
+
+    @Override
+    public void responseModSuccess(BaseBean baseBean) {
+        mPresenter.requestDelCamera(params);
     }
 
     @OnClick(R.id.toolbar_menu)

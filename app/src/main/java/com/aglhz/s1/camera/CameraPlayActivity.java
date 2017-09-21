@@ -1,6 +1,8 @@
 package com.aglhz.s1.camera;
 
 import android.Manifest;
+import android.animation.ValueAnimator;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,16 +17,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.camera.contract.CameraSettingContract;
@@ -49,8 +52,10 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.utils.ToastUtils;
+import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
 import rx.functions.Action1;
 
 /**
@@ -65,6 +70,9 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     private static final int VIDEO_MODE_SD = 0;
     private static final int VIDEO_MODE_HD = 1;
     private static final int VIDEO_MODE_LD = 2;
+    public static String P2P_ACCEPT = "com.XXX.P2P_ACCEPT";
+    public static String P2P_READY = "com.XXX.P2P_READY";
+    public static String P2P_REJECT = "com.XXX.P2P_REJECT";
 
     @BindView(R.id.rl_p2pview)
     RelativeLayout rlP2pview;
@@ -96,15 +104,88 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     ImageView ivMute;
     @BindView(R.id.iv_microphone)
     ImageView ivMicrophone;
+    @BindView(R.id.view_red_pointer)
+    View viewRECPointer;
+    @BindView(R.id.ll_rec)
+    LinearLayout llREC;
 
+    private CameraSettingPresenter presenter = new CameraSettingPresenter(this);
+    private AlertDialog.Builder pwdDialog;
+    private ProgressDialog progressDialog;
+    private Params params = Params.getInstance();
+    private CameraBean.DataBean bean;
     private String[] qualityArr = {"标清", "高清", "流畅"};
     private int recordFlag = 0;
     private String pathName = "";
     private String callID;
-    private CameraBean.DataBean bean;
-    private String updatePwd;
     private String userId;
     private String password;
+
+    public BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(P2P_ACCEPT)) {
+                int[] type = intent.getIntArrayExtra("type");
+                P2PView.type = type[0];
+                P2PView.scale = type[1];
+                ALog.e(TAG, "\n 监控数据接收 type:" + P2PView.type + " scale:" + P2PView.scale);
+                ALog.e(TAG, "监控数据接收:");
+                P2PHandler.getInstance().openAudioAndStartPlaying(1);//打开音频并准备播放，calllType与call时type一致
+            } else if (intent.getAction().equals(P2P_READY)) {
+                progressDialog.dismiss();
+                ALog.e(TAG, "\n 监控准备,开始监控");
+                ALog.e(TAG, "监控准备,开始监控");
+                ToastUtils.showToast(CameraPlayActivity.this, "开始监控");
+                pView.sendStartBrod();
+                viewBlack.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        viewBlack.setVisibility(View.GONE);
+                    }
+                }, 2000);
+            } else if (intent.getAction().equals(P2P_REJECT)) {
+                int reason_code = intent.getIntExtra("reason_code", -1);
+                int code1 = intent.getIntExtra("exCode1", -1);//806363145
+                int code2 = intent.getIntExtra("exCode2", -1);
+                String reject = String.format("\n 监控挂断(reson:%d,code1:%d,code2:%d)", reason_code, code1, code2);
+                ALog.e(TAG, reject);
+                if (reason_code == 0) {
+                    progressDialog.dismiss();
+                    showInputDialog();
+                } /*else if (reason_code == 6) {
+                    new AlertDialog.Builder(CameraPlayActivity.this)
+                            .setMessage("请先配网")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    CameraPlayActivity.this.finish();
+                                }
+                            })
+                            .show();
+                }*/ else if (reason_code == 10 || reason_code == 3 || reason_code == 6) {
+                    connect(userId, callID, password);
+                } else {
+                    progressDialog.dismiss();
+                    new AlertDialog.Builder(CameraPlayActivity.this)
+                            .setMessage("连接失败，是否重新连接？")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    progressDialog.show();
+                                    connect(userId, callID, password);
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    CameraPlayActivity.this.finish();
+                                }
+                            })
+                            .show();
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,16 +194,17 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
         ButterKnife.bind(this);
         initView();
         initToolbar();
-        checkCamerPermission();
         regFilter();
+        initAnimator();
         initData();
-        initInputDialog();
         initListener();
     }
 
     private void initView() {
         pView = (P2PView) findViewById(R.id.p2pview);
         initP2PView(7, P2PView.LAYOUTTYPE_TOGGEDER);//7是设备类型(技威定义的)
+
+        //----------------------------- 初始化loading --------------------------------
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -141,7 +223,16 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
         });
     }
 
-    private void checkCamerPermission() {
+    private void initAnimator() {
+        AlphaAnimation animation = new AlphaAnimation(0, 1);
+        animation.setDuration(500);
+        animation.setRepeatMode(ValueAnimator.INFINITE);
+        animation.setRepeatCount(-1);
+        viewRECPointer.startAnimation(animation);
+    }
+
+    //检查摄像头权限
+    private void checkCameraPermission() {
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(Manifest.permission.CAMERA)
                 .subscribe(new Action1<Boolean>() {
@@ -158,20 +249,55 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
                 });
     }
 
+    //连接
     private boolean connect(String userId, String id, String pwd) {
         return P2PHandler.getInstance().call(userId, pwd, true, 1, id, "", "", 2, id);
     }
 
     private void initData() {
+        checkCameraPermission();
+
+        //-------------------- 获取数据 --------------------
         bean = (CameraBean.DataBean) getIntent().getSerializableExtra("bean");
         SharedPreferences sp = getSharedPreferences("Account", MODE_PRIVATE);
         userId = sp.getString("userId", "");
-        //经过转换后的设备密码
         password = P2PHandler.getInstance().EntryPassword(bean.getPassword());
         callID = bean.getNo();
-        ALog.e(TAG, "CallOnClick  id:" + callID + " -- password:" + bean.getPassword() + " -- userId:" + userId + " -- pwd:" + password);
+        ALog.e(TAG, "id:" + callID + " -- password:" + bean.getPassword() + " -- userId:" + userId + " -- pwd:" + password);
+
         progressDialog.show();
         connect(userId, password, callID);
+    }
+
+    private void showInputDialog() {
+        new BaseDialogFragment()
+                .setLayoutId(R.layout.dialog_add_authorization)
+                .setConvertListener((holder, dialog) -> {
+                    EditText etInput = holder.getView(R.id.et_input_phone);
+                    holder.setText(R.id.tv_title, "密码错误，请输入正确密码")
+                            .setOnClickListener(R.id.tv_cancel, v -> {
+                                dialog.dismiss();
+                                finish();
+                            })
+                            .setOnClickListener(R.id.tv_comfirm, v -> {
+                                String result = etInput.getText().toString().trim();
+                                if (TextUtils.isEmpty(result)) {
+                                    DialogHelper.warningSnackbar(toolbar, "请输入内容");
+                                } else {
+                                    progressDialog.show();
+                                    params.fid = bean.getFid();
+                                    params.deviceName = bean.getName();
+                                    params.deviceType = "password";
+                                    params.devicePassword = result;
+                                    presenter.requestModCamera(params);
+                                    dialog.dismiss();
+                                }
+                            });
+                })
+                .setMargin(40)
+                .setDimAmount(0.3f)
+                .setGravity(Gravity.CENTER)
+                .show(getSupportFragmentManager());
     }
 
     private void initListener() {
@@ -192,11 +318,141 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
         });
     }
 
-    @Override
-    public void onDestroy() {
-        unregisterReceiver(mReceiver);
-        P2PHandler.getInstance().finish();
-        super.onDestroy();
+    @OnClick({R.id.ll_sound, R.id.tv_quality, R.id.ll_photograph, R.id.ll_video})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ll_sound:
+                clickSound();
+                break;
+            case R.id.tv_quality:
+                clickQuality();
+                break;
+            case R.id.ll_photograph:
+                clickPhotograph();
+                break;
+            case R.id.ll_video:
+                clickVideo();
+                break;
+        }
+    }
+
+    //控制静音
+    private void clickSound() {
+        AudioManager manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (manager != null) {
+            if (ivMute.isSelected()) {
+                manager.setStreamVolume(AudioManager.STREAM_MUSIC, manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+                tvSoundNoOff.setText("静音");
+                ivMute.setSelected(false);
+            } else {
+                manager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+                ivMute.setSelected(true);
+                tvSoundNoOff.setText("取消静音");
+            }
+        }
+    }
+
+    //控制画面画质
+    private void clickQuality() {
+        new AlertDialog.Builder(this)
+                .setItems(qualityArr, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case VIDEO_MODE_SD:
+                                P2PHandler.getInstance().setVideoMode(P2PValue.VideoMode.VIDEO_MODE_SD);
+                                break;
+                            case VIDEO_MODE_HD:
+                                P2PHandler.getInstance().setVideoMode(P2PValue.VideoMode.VIDEO_MODE_HD);
+                                break;
+                            case VIDEO_MODE_LD:
+                                P2PHandler.getInstance().setVideoMode(P2PValue.VideoMode.VIDEO_MODE_LD);
+                                break;
+                        }
+                        tvQuality.setText(qualityArr[which]);
+                    }
+                }).show();
+    }
+
+    //控制录像
+    private void clickVideo() {
+        if (recordFlag == 0) {
+            //开始录像
+            startMoniterRecoding();
+            recordFlag = 1;
+            tvVideo.setText("停止录像");
+            ivVideo.setSelected(true);
+            llREC.setVisibility(View.VISIBLE);
+        } else {
+            //停止录像
+            stopMoniterReocding();
+            recordFlag = 0;
+            tvVideo.setText("录像");
+            ivVideo.setSelected(false);
+            llREC.setVisibility(View.GONE);
+        }
+    }
+
+    //控制拍照
+    private void clickPhotograph() {
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean granted) {
+                        if (granted) { // 在android 6.0之前会默认返回true
+                            // 已经获取权限
+                            int d = P2PHandler.getInstance().setScreenShotpath(Environment.getExternalStorageDirectory().getPath(), "123.jpg");
+                            Log.e("dxsTest", "d:" + d);
+                            captureScreen(-1);
+                            Log.e("MonitoerActivity", "已授予STORAGE权限");
+                        } else {
+                            // 未获取权限
+                            ToastUtils.showToast(CameraPlayActivity.this, "您没有授权STORAGE权限，请在设置中打开授权");
+                        }
+                    }
+                });
+    }
+
+    //开始录像
+    public void startMoniterRecoding() {
+        try {
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ||
+                    Environment.getExternalStorageState().equals(Environment.MEDIA_SHARED)) {
+                String path = Environment.getExternalStorageDirectory().getPath() + File.separator + "gwellvideorec" + File.separator + callID;
+                File file = new File(path);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                long time = System.currentTimeMillis();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault());// 制定日期的显示格式
+                String name = "gwell" + "_" + sdf.format(new Date(time));
+                pathName = file.getPath() + File.separator + name + ".mp4";
+            } else {
+                throw new NoSuchFieldException("sd卡");
+            }
+        } catch (NoSuchFieldException | NullPointerException e) {
+            ToastUtils.showToast(CameraPlayActivity.this, " 没有内存卡");
+            e.printStackTrace();
+        }
+        Log.e("dxsTest", "pathName:" + pathName);
+        if (P2PHandler.getInstance().starRecoding(pathName)) {
+            ToastUtils.showToast(CameraPlayActivity.this, " 正在录像");
+        } else {
+            //录像初始化失败
+            ToastUtils.showToast(CameraPlayActivity.this, " 初始化录像失败");
+        }
+    }
+
+    //停止录像
+    public void stopMoniterReocding() {
+        if (P2PHandler.getInstance().stopRecoding() == 0) {
+            //录像不正常
+            ToastUtils.showToast(CameraPlayActivity.this, " 视频片段时间太短了");
+        } else {
+            //正常停止
+            ToastUtils.showToast(CameraPlayActivity.this, " 停止录像，已保存到" + pathName);
+        }
     }
 
     @Override
@@ -243,209 +499,12 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
 
     }
 
-    public static String P2P_ACCEPT = "com.XXX.P2P_ACCEPT";
-    public static String P2P_READY = "com.XXX.P2P_READY";
-    public static String P2P_REJECT = "com.XXX.P2P_REJECT";
-
-    private ProgressDialog progressDialog;
-
     public void regFilter() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(P2P_REJECT);
         filter.addAction(P2P_ACCEPT);
         filter.addAction(P2P_READY);
         registerReceiver(mReceiver, filter);
-    }
-
-    private CameraSettingPresenter presenter = new CameraSettingPresenter(this);
-    private Params params = Params.getInstance();
-
-    public BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(P2P_ACCEPT)) {
-                int[] type = intent.getIntArrayExtra("type");
-                P2PView.type = type[0];
-                P2PView.scale = type[1];
-                ALog.e(TAG, "\n 监控数据接收 type:" + P2PView.type + " scale:" + P2PView.scale);
-                ALog.e(TAG, "监控数据接收:");
-                P2PHandler.getInstance().openAudioAndStartPlaying(1);//打开音频并准备播放，calllType与call时type一致
-            } else if (intent.getAction().equals(P2P_READY)) {
-                progressDialog.dismiss();
-                ALog.e(TAG, "\n 监控准备,开始监控");
-                ALog.e(TAG, "监控准备,开始监控");
-                ToastUtils.showToast(CameraPlayActivity.this, "开始监控");
-                pView.sendStartBrod();
-                viewBlack.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        viewBlack.setVisibility(View.GONE);
-                    }
-                },2000);
-            } else if (intent.getAction().equals(P2P_REJECT)) {
-                progressDialog.dismiss();
-                int reason_code = intent.getIntExtra("reason_code", -1);
-                int code1 = intent.getIntExtra("exCode1", -1);//806363145
-                int code2 = intent.getIntExtra("exCode2", -1);
-                String reject = String.format("\n 监控挂断(reson:%d,code1:%d,code2:%d)", reason_code, code1, code2);
-                ALog.e(TAG, reject);
-                if (reason_code == 0) {
-                    dialogPassword.show();
-                } else if (reason_code == 6) {
-                    new AlertDialog.Builder(CameraPlayActivity.this)
-                            .setMessage("请先配网")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    CameraPlayActivity.this.finish();
-                                }
-                            })
-                            .show();
-                } else if (reason_code == 10 || reason_code == 3) {
-                    connect(userId, callID, password);
-                } else {
-                    progressDialog.dismiss();
-                    new AlertDialog.Builder(CameraPlayActivity.this)
-                            .setMessage("连接失败，是否重新连接？")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    progressDialog.show();
-                                    connect(userId, callID, password);
-                                }
-                            })
-                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    CameraPlayActivity.this.finish();
-                                }
-                            })
-                            .show();
-                }
-            }
-        }
-    };
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @OnClick({R.id.ll_sound, R.id.tv_quality, R.id.ll_photograph, R.id.ll_video})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.ll_sound:
-                AudioManager manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                if (manager != null) {
-                    if (ivMute.isSelected()) {
-                        manager.setStreamVolume(AudioManager.STREAM_MUSIC, manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
-                        tvSoundNoOff.setText("静音");
-                        ivMute.setSelected(false);
-                    } else {
-                        manager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-                        ivMute.setSelected(true);
-                        tvSoundNoOff.setText("取消静音");
-                    }
-                }
-                break;
-            case R.id.tv_quality:
-                new AlertDialog.Builder(this)
-                        .setItems(qualityArr, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case VIDEO_MODE_SD:
-                                        P2PHandler.getInstance().setVideoMode(P2PValue.VideoMode.VIDEO_MODE_SD);
-                                        break;
-                                    case VIDEO_MODE_HD:
-                                        P2PHandler.getInstance().setVideoMode(P2PValue.VideoMode.VIDEO_MODE_HD);
-                                        break;
-                                    case VIDEO_MODE_LD:
-                                        P2PHandler.getInstance().setVideoMode(P2PValue.VideoMode.VIDEO_MODE_LD);
-                                        break;
-                                }
-                                tvQuality.setText(qualityArr[which]);
-                            }
-                        }).show();
-                break;
-            case R.id.ll_photograph:
-                checkSDPermision();
-                break;
-            case R.id.ll_video:
-                if (recordFlag == 0) {
-                    //开始录像
-                    startMoniterRecoding();
-                    recordFlag = 1;
-                    tvVideo.setText("停止录像");
-                    ivVideo.setSelected(true);
-                } else {
-                    //停止录像
-                    stopMoniterReocding();
-                    recordFlag = 0;
-                    tvVideo.setText("录像");
-                    ivVideo.setSelected(false);
-                }
-                break;
-        }
-    }
-
-    private void checkSDPermision() {
-        RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean granted) {
-                        if (granted) { // 在android 6.0之前会默认返回true
-                            // 已经获取权限
-                            int d = P2PHandler.getInstance().setScreenShotpath(Environment.getExternalStorageDirectory().getPath(), "123.jpg");
-                            Log.e("dxsTest", "d:" + d);
-                            captureScreen(-1);
-                            Log.e("MonitoerActivity", "已授予STORAGE权限");
-                        } else {
-                            // 未获取权限
-                            ToastUtils.showToast(CameraPlayActivity.this, "您没有授权STORAGE权限，请在设置中打开授权");
-                        }
-                    }
-                });
-    }
-
-    public void startMoniterRecoding() {
-        try {
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ||
-                    Environment.getExternalStorageState().equals(Environment.MEDIA_SHARED)) {
-                String path = Environment.getExternalStorageDirectory().getPath() + File.separator + "gwellvideorec" + File.separator + callID;
-                File file = new File(path);
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
-                long time = System.currentTimeMillis();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault());// 制定日期的显示格式
-                String name = "gwell" + "_" + sdf.format(new Date(time));
-                pathName = file.getPath() + File.separator + name + ".mp4";
-            } else {
-                throw new NoSuchFieldException("sd卡");
-            }
-        } catch (NoSuchFieldException | NullPointerException e) {
-            Toast.makeText(CameraPlayActivity.this, " 没有内存卡", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-        Log.e("dxsTest", "pathName:" + pathName);
-        if (P2PHandler.getInstance().starRecoding(pathName)) {
-            ToastUtils.showToast(CameraPlayActivity.this, " 正在录像");
-        } else {
-            //录像初始化失败
-            ToastUtils.showToast(CameraPlayActivity.this, " 初始化录像失败");
-        }
-    }
-
-    public void stopMoniterReocding() {
-        if (P2PHandler.getInstance().stopRecoding() == 0) {
-            //录像不正常
-            ToastUtils.showToast(CameraPlayActivity.this, " 录像不正常");
-        } else {
-            //正常停止
-            ToastUtils.showToast(CameraPlayActivity.this, " 停止录像，已保存到" + pathName);
-        }
     }
 
     @Override
@@ -456,6 +515,7 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     @Override
     public void error(String errorMessage) {
         ToastUtils.showToast(this, "修改失败");
+        progressDialog.dismiss();
     }
 
     @Override
@@ -467,43 +527,15 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     public void responseSuccess(BaseBean baseBean) {
         ToastUtils.showToast(this, "修改成功");
         EventBus.getDefault().post(new EventCameraListRefresh());
-        finish();
+        progressDialog.dismiss();
+        connect(userId,callID,P2PHandler.getInstance().EntryPassword(params.devicePassword));
     }
 
-
-    AlertDialog.Builder dialogPassword;
-
-    private void initInputDialog() {
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_one_input, null, false);
-        EditText etInput = (EditText) dialogView.findViewById(R.id.et_input);
-        dialogPassword = new AlertDialog.Builder(this)
-                .setView(dialogView)
-                .setTitle("密码错误，请输入正确密码")
-                .setCancelable(false)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        updatePwd = etInput.getText().toString().trim();
-                        if (TextUtils.isEmpty(updatePwd)) {
-                            finish();
-                        } else {
-                            params.fid = bean.getFid();
-                            params.deviceName = bean.getName();
-                            params.deviceType = "password";
-                            params.devicePassword = updatePwd;
-                            presenter.requestModCamera(params);
-                        }
-                        if (dialogView.getParent() != null)
-                            ((ViewGroup) dialogView.getParent()).removeView(dialogView);
-                        dialog.dismiss();
-                    }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (dialogView.getParent() != null)
-                            ((ViewGroup) dialogView.getParent()).removeView(dialogView);
-                        dialog.dismiss();
-                    }
-                });
+    @Override
+    public void onDestroy() {
+        unregisterReceiver(mReceiver);
+        P2PHandler.getInstance().finish();
+        super.onDestroy();
     }
+
 }

@@ -38,7 +38,7 @@ android {
         release {
             keyAlias 'guangneng'
             keyPassword 'guangneng'
-            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
+            storeFile file('F:/gaocheng/guangnenganfang.jks')
             storePassword 'guangneng'
         }
     }

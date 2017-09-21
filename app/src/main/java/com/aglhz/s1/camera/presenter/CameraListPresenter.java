@@ -70,4 +70,17 @@ public class CameraListPresenter extends BasePresenter<CameraListContract.View,C
                     }
                 }, this::error));
     }
+
+    @Override
+    public void requestModCamera(Params params) {
+        mRxManager.add(mModel.requestModCamera(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseModSuccess(bean);
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
 }
