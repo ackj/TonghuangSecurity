@@ -1,5 +1,6 @@
 package com.aglhz.s1.camera;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class UDPHelper {
     public UDPHelper(Context mContext, int port) {
         this.port = port;
         mActivityReference = new WeakReference<>(mContext);
+        @SuppressLint("WifiManagerLeak")
         WifiManager manager = (WifiManager) mActivityReference.get().getSystemService(Context.WIFI_SERVICE);
         lock = manager.createMulticastLock(UDPHelper);
     }
