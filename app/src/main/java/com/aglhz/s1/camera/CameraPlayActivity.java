@@ -37,6 +37,8 @@ import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.CameraBean;
 import com.aglhz.s1.event.EventCameraListRefresh;
 import com.p2p.core.BaseMonitorActivity;
+import com.p2p.core.BaseP2PView;
+import com.p2p.core.GestureDetector;
 import com.p2p.core.P2PHandler;
 import com.p2p.core.P2PValue;
 import com.p2p.core.P2PView;
@@ -108,6 +110,8 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
     View viewRECPointer;
     @BindView(R.id.ll_rec)
     LinearLayout llREC;
+    @BindView(R.id.tv_av_byte_per_sec)
+    TextView tvAvBytesPerSec;
 
     private CameraSettingPresenter presenter = new CameraSettingPresenter(this);
     private AlertDialog.Builder pwdDialog;
@@ -149,22 +153,19 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
                 int code2 = intent.getIntExtra("exCode2", -1);
                 String reject = String.format("\n 监控挂断(reson:%d,code1:%d,code2:%d)", reason_code, code1, code2);
                 ALog.e(TAG, reject);
+
                 if (reason_code == 0) {
+                    //0：密码错误
                     progressDialog.dismiss();
                     showInputDialog();
-                } /*else if (reason_code == 6) {
-                    new AlertDialog.Builder(CameraPlayActivity.this)
-                            .setMessage("请先配网")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    CameraPlayActivity.this.finish();
-                                }
-                            })
-                            .show();
-                }*/ else if (reason_code == 10 || reason_code == 3 || reason_code == 6) {
+                } else if (reason_code == 9) {
+                    //9：手动挂断
+                    viewBlack.setVisibility(View.VISIBLE);
+                } else if (reason_code == 10 || reason_code == 3 || reason_code == 6) {
+                    //当reason_code为这些的时候，进行重连
                     connect(userId, callID, password);
                 } else {
+                    //未知因素，以询问方式进行重连
                     progressDialog.dismiss();
                     new AlertDialog.Builder(CameraPlayActivity.this)
                             .setMessage("连接失败，是否重新连接？")
@@ -186,6 +187,18 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
             }
         }
     };
+
+    /*else if (reason_code == 6) {
+                    new AlertDialog.Builder(CameraPlayActivity.this)
+                            .setMessage("请先配网")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    CameraPlayActivity.this.finish();
+                                }
+                            })
+                            .show();
+                }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -316,6 +329,23 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
             }
             return false;
         });
+
+        refreshAvBytesPerSec();
+
+    }
+
+    private void refreshAvBytesPerSec() {
+        toolbar.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int avBytesPerSec = P2PHandler.getInstance().getAvBytesPerSec();
+                ALog.e(TAG, "avBytesPerSec：" + avBytesPerSec);
+                if (tvAvBytesPerSec != null) {
+                    tvAvBytesPerSec.setText("码率：" + (avBytesPerSec / 1024) + "kb/s");
+                }
+                refreshAvBytesPerSec();
+            }
+        }, 1000);
     }
 
     @OnClick({R.id.ll_sound, R.id.tv_quality, R.id.ll_photograph, R.id.ll_video})
@@ -528,7 +558,25 @@ public class CameraPlayActivity extends BaseMonitorActivity implements CameraSet
         ToastUtils.showToast(this, "修改成功");
         EventBus.getDefault().post(new EventCameraListRefresh());
         progressDialog.dismiss();
-        connect(userId,callID,P2PHandler.getInstance().EntryPassword(params.devicePassword));
+        connect(userId, callID, P2PHandler.getInstance().EntryPassword(params.devicePassword));
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        progressDialog.show();
+        connect(userId, callID, password);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        P2PHandler.getInstance().finish();
     }
 
     @Override

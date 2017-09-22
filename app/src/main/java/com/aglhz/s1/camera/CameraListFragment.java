@@ -42,6 +42,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateManager;
 
@@ -72,10 +73,6 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
     private CameraListRVAdapter adapter;
     private CameraBean.DataBean addCameraBean;
     private List<CameraBean.DataBean> cameraList;
-    private EditText etDeviceId;
-    private EditText etNickname;
-    private EditText etPassword;
-    private AlertDialog.Builder dialogAddCamera;
 
     public static CameraListFragment newInstance() {
         CameraListFragment fragment = new CameraListFragment();
@@ -102,7 +99,6 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
         initData();
-        initAddCameraDialog();
         initStateManager();
         initListener();
         initPtrFrameLayout(ptrFrameLayout, recyclerView);
@@ -161,46 +157,46 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
                     if (which == 0) {
                         _mActivity.start(CameraWifiInputFragment.newInstance());
                     } else {
-                        dialogAddCamera.show();
+                        showAddCameraDialog();
                     }
                 })
                 .show();
     }
 
-    private void initAddCameraDialog() {
-        View dialogView = LayoutInflater.from(_mActivity).inflate(R.layout.fragment_input_video, null);
-        etDeviceId = (EditText) dialogView.findViewById(R.id.et_input_1);
-        etNickname = (EditText) dialogView.findViewById(R.id.et_input_2);
-        etPassword = (EditText) dialogView.findViewById(R.id.et_input_3);
-
-        dialogAddCamera = new AlertDialog.Builder(_mActivity)
-                .setView(dialogView)
-                .setCancelable(false)
-                .setTitle("添加设备")
-                .setPositiveButton("确定", (dialog, which) -> {
-                    params.deviceId = etDeviceId.getText().toString().trim();
-                    params.deviceName = etNickname.getText().toString().trim();
-                    params.devicePassword = etPassword.getText().toString().trim();
-                    if (dialogView.getParent() != null)
-                        ((ViewGroup) dialogView.getParent()).removeView(dialogView);
-                    if (TextUtils.isEmpty(params.deviceId)) {
-                        DialogHelper.warningSnackbar(getView(), "请输入摄像头ID");
-                        return;
-                    }
-                    if (TextUtils.isEmpty(params.deviceName)) {
-                        DialogHelper.warningSnackbar(getView(), "请输入摄像头昵称");
-                        return;
-                    }
-                    if (TextUtils.isEmpty(params.devicePassword)) {
-                        DialogHelper.warningSnackbar(getView(), "请输入摄像头密码");
-                        return;
-                    }
-                    mPresenter.requestNewCamera(params);
+    private void showAddCameraDialog() {
+        new BaseDialogFragment()
+                .setLayoutId(R.layout.fragment_input_video)
+                .setConvertListener((holder, dialog) -> {
+                    EditText etDeviceId = holder.getView(R.id.et_input_1);
+                    EditText etNickname = holder.getView(R.id.et_input_2);
+                    EditText etPassword = holder.getView(R.id.et_input_3);
+                    holder.setText(R.id.tv_title, "添加设备")
+                            .setOnClickListener(R.id.tv_cancel, v -> {
+                                dialog.dismiss();
+                            })
+                            .setOnClickListener(R.id.tv_comfirm, v -> {
+                                params.deviceId = etDeviceId.getText().toString().trim();
+                                params.deviceName = etNickname.getText().toString().trim();
+                                params.devicePassword = etPassword.getText().toString().trim();
+                                if (TextUtils.isEmpty(params.deviceId)) {
+                                    DialogHelper.warningSnackbar(getView(), "请输入摄像头ID");
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(params.deviceName)) {
+                                    DialogHelper.warningSnackbar(getView(), "请输入摄像头昵称");
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(params.devicePassword)) {
+                                    DialogHelper.warningSnackbar(getView(), "请输入摄像头密码");
+                                    return;
+                                }
+                                mPresenter.requestNewCamera(params);
+                            });
                 })
-                .setNegativeButton("取消", (dialog, which) -> {
-                    if (dialogView.getParent() != null)
-                        ((ViewGroup) dialogView.getParent()).removeView(dialogView);
-                });
+                .setMargin(40)
+                .setDimAmount(0.3f)
+                .setGravity(Gravity.CENTER)
+                .show(getFragmentManager());
     }
 
     private void initListener() {
