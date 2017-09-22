@@ -171,12 +171,6 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
                         UpdateAppBean updateAppBean = new UpdateAppBean();
                         AppUpdateBean mAppUpdateBean = new Gson().fromJson(json, AppUpdateBean.class);
 
-                        if (AppUtils.getVersionCode(_mActivity) < mAppUpdateBean.getData().getVersionCode()) {
-                            updateAppBean.setUpdate("Yes");
-                        } else {
-                            updateAppBean.setUpdate("No");
-                        }
-
                         updateAppBean
                                 //（必须）是否更新Yes,No
                                 .setUpdate(AppUtils.getVersionCode(_mActivity) < mAppUpdateBean.getData().getVersionCode() ? "Yes" : "No")
@@ -189,7 +183,7 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
                                 //大小，不设置不显示大小，可以不设置
                                 .setTargetSize(mAppUpdateBean.getData().getSize())
                                 //是否强制更新，可以不设置
-                                .setConstraint(false);
+                                .setConstraint(mAppUpdateBean.getData().isIsForce());
 
                         return updateAppBean;
                     }
