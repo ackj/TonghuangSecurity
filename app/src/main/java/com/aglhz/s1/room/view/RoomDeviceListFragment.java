@@ -58,7 +58,6 @@ import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ToastUtils;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
-import cn.itsite.statemanager.StateManager;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -82,7 +81,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     private RoomDeviceList2RVAdapter adapter;
     private RoomsBean.DataBean.RoomListBean selectRoom;
     private boolean isFirst = true;//是否是第一次进来
-    private StateManager mStateManager;
+    //    private StateManager mStateManager;
     private ImageView ivCamera;
 
     public static RoomDeviceListFragment newInstance() {
@@ -110,7 +109,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         initToolbar();
         initData();
         initListener();
-        initStateManager();
+//        initStateManager();
         initPtrFrameLayout(ptrFrameLayout, recyclerView);
     }
 
@@ -178,18 +177,18 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     }
 
     private void initStateManager() {
-        mStateManager = StateManager.builder(_mActivity)
-                .setContent(recyclerView)
-                .setEmptyView(R.layout.state_empty)
-                .setEmptyText("该房间暂无设备，空空如也！")
-                .setEmptyImage(R.drawable.ic_no_device_empty_state_300)
-                .setErrorOnClickListener(v -> ptrFrameLayout.autoRefresh())
-                .setEmptyOnClickListener(v -> ptrFrameLayout.autoRefresh())
-                .setConvertListener((holder, stateLayout) ->
-                        holder.setOnClickListener(R.id.bt_empty_state,
-                                v -> ptrFrameLayout.autoRefresh())
-                                .setText(R.id.bt_empty_state, "点击刷新"))
-                .build();
+//        mStateManager = StateManager.builder(_mActivity)
+//                .setContent(recyclerView)
+//                .setEmptyView(R.layout.state_empty)
+//                .setEmptyText("该房间暂无设备，空空如也！")
+//                .setEmptyImage(R.drawable.ic_no_device_empty_state_300)
+//                .setErrorOnClickListener(v -> ptrFrameLayout.autoRefresh())
+//                .setEmptyOnClickListener(v -> ptrFrameLayout.autoRefresh())
+//                .setConvertListener((holder, stateLayout) ->
+//                        holder.setOnClickListener(R.id.bt_empty_state,
+//                                v -> ptrFrameLayout.autoRefresh())
+//                                .setText(R.id.bt_empty_state, "点击刷新"))
+//                .build();
     }
 
     private void selectRoom(RoomsBean.DataBean.RoomListBean bean) {
@@ -295,12 +294,12 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                         //所以可以将code1与code2保存起来,只需在下次登录时刷新即可
                         saveAuthor(loginResult);
                         P2PHandler.getInstance().p2pInit(_mActivity, new P2PListener(), new SettingListener());
-                        ALog.e(TAG,"haha1111111");
-                        ALog.e(TAG,"session:"+loginResult.getSessionID()+" -- session2:"+loginResult.getSessionID2()
-                        +"--code:"+loginResult.getP2PVerifyCode1()+" -- code2:"+loginResult.getP2PVerifyCode2());
+                        ALog.e(TAG, "haha1111111");
+                        ALog.e(TAG, "session:" + loginResult.getSessionID() + " -- session2:" + loginResult.getSessionID2()
+                                + "--code:" + loginResult.getP2PVerifyCode1() + " -- code2:" + loginResult.getP2PVerifyCode2());
 
-                        int sessionid1=(int)Long.parseLong(loginResult.getSessionID());
-                        int sessionid2=(int)Long.parseLong(loginResult.getSessionID2());
+                        int sessionid1 = (int) Long.parseLong(loginResult.getSessionID());
+                        int sessionid2 = (int) Long.parseLong(loginResult.getSessionID2());
 
                         P2PHandler.getInstance().p2pConnect(
                                 loginResult.getUserID(),
@@ -328,7 +327,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
             public void onError(String error_code, Throwable throwable) {
                 dismissLoading();
                 ToastUtils.showToast(_mActivity, "登录失败 error：" + error_code);
-                ALog.e(TAG,"onError:"+throwable.getMessage());
+                ALog.e(TAG, "onError:" + throwable.getMessage());
             }
         };
 
@@ -390,10 +389,10 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         }
         //如果个数为0，显示空
         if (adapter.getData().size() == 0) {
-            mStateManager.showEmpty();
+//            mStateManager.showEmpty();
             adapter.loadMoreEnd();
         } else {
-            mStateManager.showContent();
+//            mStateManager.showContent();
         }
     }
 
