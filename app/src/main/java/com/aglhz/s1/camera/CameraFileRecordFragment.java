@@ -35,9 +35,7 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
  */
 
 public class CameraFileRecordFragment extends BaseFragment {
-
-    private static final String TAG = CameraFileRecordFragment.class.getSimpleName();
-
+    public static final String TAG = CameraFileRecordFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -46,7 +44,6 @@ public class CameraFileRecordFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
-
     private Unbinder unbind;
     private Params params = Params.getInstance();
     public static final String RECORDFILES = "com.yoosee.RECORDFILES";
