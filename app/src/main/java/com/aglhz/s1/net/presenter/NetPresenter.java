@@ -5,9 +5,6 @@ import android.support.annotation.NonNull;
 import com.aglhz.s1.net.contract.NetContract;
 import com.aglhz.s1.net.model.NetModel;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import rx.android.schedulers.AndroidSchedulers;
@@ -38,14 +35,7 @@ public class NetPresenter extends BasePresenter<NetContract.View, NetContract.Mo
                     @Override
                     public void _onNext(String s) {
                         ALog.e("指令返回-->" + s);
-                        JSONArray root = null;
-                        try {
-                            root = new JSONArray(s);
-                        } catch (JSONException e) {
-                            getView().error("数据解析异常！");
-                            e.printStackTrace();
-                        }
-                        getView().command(cmd, root);
+                        getView().command(cmd, s);
                     }
                 });
     }

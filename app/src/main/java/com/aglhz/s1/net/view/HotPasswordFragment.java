@@ -27,7 +27,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.KeyBoardUtils;
 
@@ -38,7 +37,7 @@ import cn.itsite.abase.utils.KeyBoardUtils;
 public class HotPasswordFragment extends BaseFragment<NetContract.Presenter> implements NetContract.View, TextWatcher {
     private static final String TAG = HotPasswordFragment.class.getSimpleName();
     public static final int CMD_REQUEST_HOST_INFO = 212;
-    public static final int CMD_SET_HOST_INFO = 213;
+    public static final int CMD_UPDATE_HOST_INFO = 213;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -99,19 +98,16 @@ public class HotPasswordFragment extends BaseFragment<NetContract.Presenter> imp
 
     @OnClick(R.id.bt_save_hot_password_fragment)
     public void onViewClicked() {
-        ALog.e("etPassword.getText().toString()-->" + etPassword.getText().toString());
-        ALog.e("etPassword.getText().toString()-->" + etConfirm.getText().toString());
-
         if (!etPassword.getText().toString().equals(etConfirm.getText().toString())) {
             DialogHelper.warningSnackbar(getView(), "两次密码必须相同！");
             return;
         }
 
         try {
-            jsonArray.put(0, CMD_SET_HOST_INFO);
+            jsonArray.put(0, CMD_UPDATE_HOST_INFO);
             jsonArray.optJSONArray(1).put(1, etPassword.getText().toString());
-            ALog.e(" jsonArray.toString()-->" + jsonArray.toString());
-            mPresenter.command(CMD_SET_HOST_INFO, jsonArray.toString());
+            jsonArray.optJSONArray(1).remove(8);
+            mPresenter.command(CMD_UPDATE_HOST_INFO, jsonArray.toString());
         } catch (JSONException e) {
             DialogHelper.warningSnackbar(getView(), "设置异常！");
             e.printStackTrace();
@@ -136,8 +132,24 @@ public class HotPasswordFragment extends BaseFragment<NetContract.Presenter> imp
     }
 
     @Override
-    public void command(int cmd, JSONArray jsonArray) {
-//        ALog.e(jsonArray.toString());
-        this.jsonArray = jsonArray;
+    public void command(int cmd, String response) {
+        switch (cmd) {
+            case CMD_REQUEST_HOST_INFO:
+                try {
+                    jsonArray = new JSONArray(response);
+                } catch (JSONException e) {
+                    error("数据解析异常！");
+                    e.printStackTrace();
+                }
+
+                break;
+            case CMD_UPDATE_HOST_INFO:
+                if (response == null || response.equals("fail")) {
+                    DialogHelper.errorSnackbar(getView(), "密码设置失败！");
+                } else {
+                    DialogHelper.successSnackbar(getView(), "密码设置成功！");
+                }
+                break;
+        }
     }
 }

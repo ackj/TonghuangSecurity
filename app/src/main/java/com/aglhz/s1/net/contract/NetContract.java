@@ -1,8 +1,6 @@
 package com.aglhz.s1.net.contract;
 
 
-import org.json.JSONArray;
-
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import rx.Observable;
 
@@ -13,7 +11,7 @@ import rx.Observable;
 public interface NetContract {
 
     interface View extends BaseContract.View {
-        void command(int cmd, JSONArray jsonArray);
+        void command(int cmd, String response);
     }
 
     interface Presenter extends BaseContract.Presenter {
