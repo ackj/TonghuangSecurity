@@ -1,6 +1,7 @@
 package com.aglhz.s1.net.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -15,12 +16,18 @@ import android.widget.TextView;
 
 import com.aglhz.s1.App;
 import com.aglhz.s1.R;
-import com.aglhz.s1.login.contract.LoginContract;
+import com.aglhz.s1.net.contract.NetContract;
+import com.aglhz.s1.net.presenter.NetPresenter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.itsite.abase.common.DialogHelper;
+import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.KeyBoardUtils;
 
@@ -28,8 +35,10 @@ import cn.itsite.abase.utils.KeyBoardUtils;
  * Created by leguang on 2017/5/24 0029.
  * Email：langmanleguang@qq.com
  */
-public class HotPasswordFragment extends BaseFragment implements LoginContract.View, TextWatcher {
+public class HotPasswordFragment extends BaseFragment<NetContract.Presenter> implements NetContract.View, TextWatcher {
     private static final String TAG = HotPasswordFragment.class.getSimpleName();
+    public static final int CMD_REQUEST_HOST_INFO = 212;
+    public static final int CMD_SET_HOST_INFO = 213;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -41,9 +50,16 @@ public class HotPasswordFragment extends BaseFragment implements LoginContract.V
     @BindView(R.id.bt_save_hot_password_fragment)
     Button btSave;
     private Unbinder unbinder;
+    private JSONArray jsonArray;
 
     public static HotPasswordFragment newInstance() {
         return new HotPasswordFragment();
+    }
+
+    @NonNull
+    @Override
+    protected NetContract.Presenter createPresenter() {
+        return new NetPresenter(this);
     }
 
     @Nullable
@@ -64,6 +80,7 @@ public class HotPasswordFragment extends BaseFragment implements LoginContract.V
     private void initData() {
         etConfirm.addTextChangedListener(this);
         etPassword.addTextChangedListener(this);
+        mPresenter.command(CMD_REQUEST_HOST_INFO, "");
     }
 
     private void initToolbar() {
@@ -82,7 +99,23 @@ public class HotPasswordFragment extends BaseFragment implements LoginContract.V
 
     @OnClick(R.id.bt_save_hot_password_fragment)
     public void onViewClicked() {
+        ALog.e("etPassword.getText().toString()-->" + etPassword.getText().toString());
+        ALog.e("etPassword.getText().toString()-->" + etConfirm.getText().toString());
 
+        if (!etPassword.getText().toString().equals(etConfirm.getText().toString())) {
+            DialogHelper.warningSnackbar(getView(), "两次密码必须相同！");
+            return;
+        }
+
+        try {
+            jsonArray.put(0, CMD_SET_HOST_INFO);
+            jsonArray.optJSONArray(1).put(1, etPassword.getText().toString());
+            ALog.e(" jsonArray.toString()-->" + jsonArray.toString());
+            mPresenter.command(CMD_SET_HOST_INFO, jsonArray.toString());
+        } catch (JSONException e) {
+            DialogHelper.warningSnackbar(getView(), "设置异常！");
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -100,5 +133,11 @@ public class HotPasswordFragment extends BaseFragment implements LoginContract.V
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+    @Override
+    public void command(int cmd, JSONArray jsonArray) {
+//        ALog.e(jsonArray.toString());
+        this.jsonArray = jsonArray;
     }
 }

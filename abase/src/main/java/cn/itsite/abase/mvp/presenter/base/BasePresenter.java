@@ -155,6 +155,4 @@ public class BasePresenter<V extends BaseContract.View, M extends BaseContract.M
         public abstract void _onNext(T t);
 
     }
-
-
 }

@@ -56,19 +56,19 @@ public class SetWifiFragment extends BaseFragment {
     private static final int GET_AP_RESULT = 4;
     private static final int GET_AP_FAILED = 5;
     //状态
-    static public final int E_WIFI_BOND_CONNECTING = 1;
-    static public final int E_WIFI_BOND_SUCESS = 2;
-    static public final int E_WIFI_BOND_SSID_NEXIST = 3;
-    static public final int E_WIFI_BOND_PWD_WRONG = 4;
-    static public final int E_WIFI_BOND_CONNECT_ERR = 5;
-    static public final int E_WIFI_BOND_ERROR = 6;
+    public static final int E_WIFI_BOND_CONNECTING = 1;
+    public static final int E_WIFI_BOND_SUCESS = 2;
+    public static final int E_WIFI_BOND_SSID_NEXIST = 3;
+    public static final int E_WIFI_BOND_PWD_WRONG = 4;
+    public static final int E_WIFI_BOND_CONNECT_ERR = 5;
+    public static final int E_WIFI_BOND_ERROR = 6;
     //指令
-    static public final int E_SRV_APMODE_GET_INFO = 206;
-    static public final int E_SRV_APMODE_BONDING = 207;
-    static public final int E_SRV_GET_APLIST = 216;
-    static public final int E_SRV_START_SCAN_APLIST = 215;
-    static public final String IP = "10.10.10.250";
-    static public final int PORT = 12368;
+    public static final int E_SRV_APMODE_GET_INFO = 206;
+    public static final int E_SRV_APMODE_BONDING = 207;
+    public static final int E_SRV_GET_APLIST = 216;
+    public static final int E_SRV_START_SCAN_APLIST = 215;
+    public static final String IP = "10.10.10.250";
+    public static final int PORT = 12368;
     public static final int TIMEOUT_SCAN = 5;
 
     @BindView(R.id.toolbar_title)
@@ -362,8 +362,6 @@ public class SetWifiFragment extends BaseFragment {
 
             @Override
             public void run() {
-                ALog.e("Thread-->" + Thread.currentThread().getName());
-
                 // TODO Auto-generated method stub
                 String result = WifiIpc.TSV_C_SendXmlCommand(IP, PORT, E_SRV_APMODE_GET_INFO, E_SRV_APMODE_GET_INFO, "");
                 ALog.e("aplist", "E_SRV_APMODE_GET_INFO result=" + result);
@@ -387,56 +385,6 @@ public class SetWifiFragment extends BaseFragment {
         };
         return timertask;
     }
-
-//    private TimerTask createTimerTaskAP() {
-//        TimerTask timertask = new TimerTask() {
-//            @Override
-//            public void run() {
-//                scan_time++;
-//
-//                ALog.e(Thread.currentThread().getName());
-//
-//                String result = WifiIpc.TSV_C_SendXmlCommand(IP, PORT, E_SRV_GET_APLIST, E_SRV_GET_APLIST, "");
-//                ALog.e("aplist", "Get AP LIST result=" + result);
-//                if (result != null) {
-//                    JSONArray root;
-//                    try {
-//                        root = new JSONArray(result);
-//                        JSONArray data = root.getJSONArray(1);
-//                        int number = data.getInt(0);
-//
-//                        String[] arrayAP = new String[number];
-//                        int[] arrayVal = new int[number];
-//
-//                        for (int i = 0; i < number; i++) {
-//                            arrayAP[i] = data.getJSONArray(i + 1).getString(0);
-//                            arrayVal[i] = data.getJSONArray(i + 1).getInt(1);
-//                        }
-//                        Bundle extra = new Bundle();
-//                        extra.putStringArray("aplist", arrayAP);
-//                        extra.putIntArray("aplistval", arrayVal);
-//
-//                        Message msg = new Message();
-//                        msg.what = GET_AP_RESULT;
-//                        msg.arg1 = number;
-//                        msg.setData(extra);
-//                        handler.sendMessage(msg);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                        Message msg = new Message();
-//                        msg.what = GET_AP_FAILED;
-//                        handler.sendMessage(msg);
-//                    }
-//                } else {
-//                    Message msg = new Message();
-//                    msg.what = GET_AP_FAILED;
-//                    handler.sendMessage(msg);
-//                }
-//            }
-//
-//        };
-//        return timertask;
-//    }
 
     private TimerTask createTimerTaskAP() {
         TimerTask timertask = new TimerTask() {
