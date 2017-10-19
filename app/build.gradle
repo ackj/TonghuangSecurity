@@ -32,13 +32,13 @@ android {
         debug {
             keyAlias 'guangneng'
             keyPassword 'guangneng'
-            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
+            storeFile file('F:/gaocheng/guangnenganfang.jks')
             storePassword 'guangneng'
         }
         release {
             keyAlias 'guangneng'
             keyPassword 'guangneng'
-            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
+            storeFile file('F:/gaocheng/guangnenganfang.jks')
             storePassword 'guangneng'
         }
     }
@@ -52,6 +52,18 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+
+                            'src/main/res/layout_s1',
+                            'src/main/res/layout',
+                            'src/main/res'
+                    ]
+        }
     }
 }
 
