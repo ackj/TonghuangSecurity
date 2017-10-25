@@ -75,7 +75,6 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
         initData();
-        initListener();
         initStateManager();
         initPtrFrameLayout(ptrFrameLayout, recyclerView);
     }
@@ -102,10 +101,6 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
         params.pageSize = 10;
         params.page = 1;
         mPresenter.requestDeviceLogs(params);
-    }
-
-    private void initListener() {
-
     }
 
     private void initStateManager() {
