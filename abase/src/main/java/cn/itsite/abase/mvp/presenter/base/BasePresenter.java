@@ -140,7 +140,6 @@ public class BasePresenter<V extends BaseContract.View, M extends BaseContract.M
             _onNext(t);
         }
 
-
         @Override
         public void onCompleted() {
             complete();
