@@ -218,9 +218,7 @@ public class SetWifiFragment extends BaseFragment {
     }
 
     static class MyHandler extends Handler {
-
         WeakReference<SetWifiFragment> mFragment;
-
         MyHandler(SetWifiFragment fragment) {
             mFragment = new WeakReference<>(fragment);
         }
@@ -228,12 +226,9 @@ public class SetWifiFragment extends BaseFragment {
         @Override
         public void handleMessage(Message msg) {
             SetWifiFragment fragment = mFragment.get();
-
             switch (msg.what) {
-
                 case GET_APMODE_INFO: {
                     if (msg.arg1 == 0) {//send success
-
                         if (fragment.timerGetInfo != null) {
                             fragment.timerGetInfo.cancel();
                         }
@@ -242,7 +237,6 @@ public class SetWifiFragment extends BaseFragment {
 
                     } else {//send fail
                         Toast.makeText(App.mContext, "send password Fail", Toast.LENGTH_SHORT).show();
-
                     }
                     break;
                 }

@@ -10,6 +10,8 @@
     <!--Launch模块-->
     <color name="edit_hint">#b4b4b4</color>
     <color name="gary_edittext_bg">#F1F5F8</color>
+    <color name="s1_base_color">#2F9FE8</color>
+    <color name="red_text">#E33431</color>
     <!--—————————————————————————————————————————————————————— Material Color Palette ————————————————————————————————————————————————————————————————————————-->
     <!-- Red -->
     <color name="material_red_50">#fde0dc</color>

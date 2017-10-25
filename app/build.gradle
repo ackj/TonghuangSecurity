@@ -112,4 +112,8 @@ dependencies {
 
     compile 'com.p2p.core:p2p-core:0.4.3'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
+    //声波配网库
+    compile 'com.github.jwkj:SoundWaveSender:v2.0.2'
+    //声波配网库说依赖的udp通讯库，不可删除
+    compile 'com.jwkj:udpsender:v2.0.1'
 }
