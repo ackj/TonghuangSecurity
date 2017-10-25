@@ -140,7 +140,6 @@ public class BasePresenter<V extends BaseContract.View, M extends BaseContract.M
             _onNext(t);
         }
 
-
         @Override
         public void onCompleted() {
             complete();
@@ -148,11 +147,9 @@ public class BasePresenter<V extends BaseContract.View, M extends BaseContract.M
 
         @Override
         public void onError(Throwable e) {
-            e.printStackTrace();
             error(e);
         }
 
         public abstract void _onNext(T t);
-
     }
 }

@@ -19,8 +19,9 @@ public class DeviceLogsRVAdapter extends BaseRecyclerViewAdapter<DeviceLogBean.D
 
     @Override
     protected void convert(BaseViewHolder helper, DeviceLogBean.DataBean.LogsBean item) {
-        helper.setText(R.id.tv_title, item.getTitle())
-                .setText(R.id.tv_content, item.getDes())
-                .setText(R.id.tv_time, item.getLogtime());
+        helper.setText(R.id.tv_host_item_history, item.getGatewayName())
+                .setText(R.id.tv_title_item_history, item.getTitle())
+                .setText(R.id.tv_content_item_history, item.getDes())
+                .setText(R.id.tv_time_item_history, item.getLogtime());
     }
 }

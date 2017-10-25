@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.mvp.view.base.Decoration;
 import cn.itsite.statemanager.StateManager;
 
 /**
@@ -75,7 +76,6 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
         super.onViewCreated(view, savedInstanceState);
         initToolbar();
         initData();
-        initListener();
         initStateManager();
         initPtrFrameLayout(ptrFrameLayout, recyclerView);
     }
@@ -88,7 +88,6 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
     private void initData() {
         adapter = new DeviceLogsRVAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
-
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(() -> {
             params.page++;
@@ -102,10 +101,6 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
         params.pageSize = 10;
         params.page = 1;
         mPresenter.requestDeviceLogs(params);
-    }
-
-    private void initListener() {
-
     }
 
     private void initStateManager() {

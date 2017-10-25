@@ -10,7 +10,7 @@ import java.util.List;
 public class DeviceLogBean extends BaseBean {
 
     /**
-     * data : {"logs":[{"des":"wdj学习了一个设备 一路插\u2026","fid":"c0e34d8c-8fd4-4b0c-b9d6-8ecc1cbdf780","logtime":"2017-08-23 08:13:23","title":"设备学习消息"},{"des":"设备 一路插座一路开","fid":"bb9187c4-0234-423e-9529-cd274d871b0a","logtime":"2017-08-23 08:13:56","title":"外设状态变更消息"},{"des":"设备 一路插座一路关","fid":"1657b4c5-5852-4503-867e-cb211948ea85","logtime":"2017-08-23 08:13:59","title":"外设状态变更消息"},{"des":"设备 一路插座一路开","fid":"c33252c6-eefa-4f30-8ae3-c8ce35e93e55","logtime":"2017-08-23 08:14:01","title":"外设状态变更消息"},{"des":"设备 一路插座一路关","fid":"a4267d12-f802-4487-8bd4-77240d12d1b1","logtime":"2017-08-23 08:14:06","title":"外设状态变更消息"},{"des":"设备 一路插座一路开","fid":"1e67aa29-48fa-47dc-8d32-6af41ebbec80","logtime":"2017-08-23 08:16:50","title":"外设状态变更消息"},{"des":"设备 一路插座一路开","fid":"74bd95ad-516f-4e44-8ecf-241cd151f653","logtime":"2017-08-23 08:16:50","title":"外设状态变更消息"},{"des":"设备 一路插座一路关","fid":"5ac4307b-8def-49e0-82e5-9a24090f17c1","logtime":"2017-08-23 08:17:15","title":"外设状态变更消息"},{"des":"设备 一路插座一路开","fid":"48f62e7c-2d0e-41e1-85da-08603cbe73a3","logtime":"2017-08-23 08:17:19","title":"外设状态变更消息"},{"des":"设备 一路插座一路关","fid":"ec4aa20b-81ba-4ef0-a609-28e08521d72d","logtime":"2017-08-23 08:17:21","title":"外设状态变更消息"}]}
+     * data : {"logs":[{"des":"报警-地址：广东省惠州市惠城区惠州大道9号佳兆业中心佳兆业中心1期","fid":"a6b4a757-cd5a-4173-8e21-1c2a962bc990","gatewayName":"300-kerree","gatewayNo":"G211EU6B1000300","logtime":"2017-10-11 16:31:45","title":"燃气站SOS报警","type":"gw_alarm_sos"},{"des":"主机布防由撤防变更为撤防状态","fid":"da4d46d9-3e77-4969-9694-39e1f145f21b","gatewayName":"300-kerree","gatewayNo":"G211EU6B1000300","logtime":"2017-10-11 16:31:45","title":"主机布防状态变更通知","type":"gw_defense_satus"},{"des":"主机布防由撤防变更为撤防状态","fid":"d3886000-8673-46bf-b6cf-8058fddb03e2","gatewayName":"300-kerree","gatewayNo":"G211EU6B1000300","logtime":"2017-10-11 16:31:38","title":"主机布防状态变更通知","type":"gw_defense_satus"},{"des":"报警-地址：广东省惠州市惠城区惠州大道9号佳兆业中心佳兆业中心1期","fid":"2fa77c7a-446b-452c-8912-c1e6fa224c13","gatewayName":"300-kerree","gatewayNo":"G211EU6B1000300","logtime":"2017-10-11 16:31:37","title":"燃气站SOS报警","type":"gw_alarm_sos"},{"des":"主机布防由撤防变更为撤防状态","fid":"191a3f92-d0cc-473b-b9d5-4c3f86e76e15","gatewayName":"300-kerree","gatewayNo":"G211EU6B1000300","logtime":"2017-10-11 16:31:33","title":"主机布防状态变更通知","type":"gw_defense_satus"},{"des":"报警-地址：广东省惠州市惠城区惠州大道9号佳兆业中心佳兆业中心1期","fid":"13e249cc-e986-4c0e-beed-87ae6eb82505","gatewayName":"300-kerree","gatewayNo":"G211EU6B1000300","logtime":"2017-10-11 16:31:32","title":"燃气站SOS报警","type":"gw_alarm_sos"},{"des":"主机布防由撤防变更为撤防状态","fid":"ab6e074a-2509-4bdf-8b5e-c3c7be703a4e","gatewayName":"300-kerree","gatewayNo":"G211EU6B1000300","logtime":"2017-10-11 16:31:22","title":"主机布防状态变更通知","type":"gw_defense_satus"},{"des":"报警-地址：广东省惠州市惠城区惠州大道9号佳兆业中心佳兆业中心1期","fid":"d7980771-e9bd-4b29-af68-2d97526cd1e1","gatewayName":"300-kerree","gatewayNo":"G211EU6B1000300","logtime":"2017-10-11 16:31:21","title":"燃气站SOS报警","type":"gw_alarm_sos"},{"des":"主机布防由撤防变更为撤防状态","fid":"49a29151-1005-4521-b100-91d8e7178da9","gatewayName":"300-kerree","gatewayNo":"G211EU6B1000300","logtime":"2017-10-11 16:31:10","title":"主机布防状态变更通知","type":"gw_defense_satus"},{"des":"报警-地址：广东省惠州市惠城区惠州大道9号佳兆业中心佳兆业中心1期","fid":"09532afe-e152-4659-b270-6eb5eccea33f","gatewayName":"300-kerree","gatewayNo":"G211EU6B1000300","logtime":"2017-10-11 16:31:09","title":"燃气站SOS报警","type":"gw_alarm_sos"}]}
      */
 
     private DataBean data;
@@ -36,16 +36,22 @@ public class DeviceLogBean extends BaseBean {
 
         public static class LogsBean {
             /**
-             * des : wdj学习了一个设备 一路插…
-             * fid : c0e34d8c-8fd4-4b0c-b9d6-8ecc1cbdf780
-             * logtime : 2017-08-23 08:13:23
-             * title : 设备学习消息
+             * des : 报警-地址：广东省惠州市惠城区惠州大道9号佳兆业中心佳兆业中心1期
+             * fid : a6b4a757-cd5a-4173-8e21-1c2a962bc990
+             * gatewayName : 300-kerree
+             * gatewayNo : G211EU6B1000300
+             * logtime : 2017-10-11 16:31:45
+             * title : 燃气站SOS报警
+             * type : gw_alarm_sos
              */
 
             private String des;
             private String fid;
+            private String gatewayName;
+            private String gatewayNo;
             private String logtime;
             private String title;
+            private String type;
 
             public String getDes() {
                 return des;
@@ -63,6 +69,22 @@ public class DeviceLogBean extends BaseBean {
                 this.fid = fid;
             }
 
+            public String getGatewayName() {
+                return gatewayName;
+            }
+
+            public void setGatewayName(String gatewayName) {
+                this.gatewayName = gatewayName;
+            }
+
+            public String getGatewayNo() {
+                return gatewayNo;
+            }
+
+            public void setGatewayNo(String gatewayNo) {
+                this.gatewayNo = gatewayNo;
+            }
+
             public String getLogtime() {
                 return logtime;
             }
@@ -77,6 +99,14 @@ public class DeviceLogBean extends BaseBean {
 
             public void setTitle(String title) {
                 this.title = title;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
             }
         }
     }
