@@ -19,7 +19,6 @@ public class Constants extends BaseConstants {
     static {
         if (BuildConfig.DEBUG) {
             //调试可以改这里的地址。
-//            BASE_URL = "http://119.23.129.133:8096/gas";
             BASE_USER = "http://120.77.83.45:8076/gasMember/";//用户系统
             BASE_URL = "http://120.77.83.45:8096/gas";
         } else {

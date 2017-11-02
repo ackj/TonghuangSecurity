@@ -44,8 +44,8 @@ import cn.itsite.statemanager.StateManager;
  * Email：langmanleguang@qq.com
  */
 
-public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Presenter> implements AuthorizationContract.View {
-    public static final String TAG = AuthorizationFragment.class.getSimpleName();
+public class AuthorizeFragment extends BaseFragment<AuthorizationContract.Presenter> implements AuthorizationContract.View {
+    public static final String TAG = AuthorizeFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -57,14 +57,14 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
     private Unbinder unbinder;
-    private AuthorizationRVAdapter adapter;
+    private AuthorizeAdapter adapter;
     private Params params = Params.getInstance();
     private GatewaysBean.DataBean hostBean;
     private StateManager mStateManager;
     private List<String> addHostTypes;
 
-    public static AuthorizationFragment newInstance(GatewaysBean.DataBean hostBean) {
-        AuthorizationFragment fragment = new AuthorizationFragment();
+    public static AuthorizeFragment newInstance(GatewaysBean.DataBean hostBean) {
+        AuthorizeFragment fragment = new AuthorizeFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable("bean", hostBean);
         fragment.setArguments(bundle);
@@ -110,7 +110,7 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
 
     private void initData() {
         params.gateway = hostBean.getFid();
-        adapter = new AuthorizationRVAdapter();
+        adapter = new AuthorizeAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter.setEnableLoadMore(true);
         adapter.setOnLoadMoreListener(() -> {
@@ -118,7 +118,6 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
             mPresenter.requestgatewayAuthList(params);
         }, recyclerView);
         recyclerView.setAdapter(adapter);
-        mPresenter.requestgatewayAuthList(params);
     }
 
     @Override
@@ -141,6 +140,7 @@ public class AuthorizationFragment extends BaseFragment<AuthorizationContract.Pr
                                 mPresenter.requestGatewayUnAuth(params);
                             }).show();
                     break;
+                default:
             }
         });
     }

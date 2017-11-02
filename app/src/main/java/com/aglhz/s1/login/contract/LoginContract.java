@@ -23,6 +23,6 @@ public interface LoginContract {
 
         Observable<UserBean> requestLogin(Params params);
 
-        void requestRegisterUMeng(String alias);
+        void registerPush();
     }
 }

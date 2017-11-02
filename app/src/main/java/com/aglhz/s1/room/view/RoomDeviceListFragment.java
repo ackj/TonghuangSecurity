@@ -153,6 +153,8 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 case R.id.change_room:
                     mPresenter.requestHouseList(params);
                     break;
+                default:
+                    break;
             }
             return true;
         });

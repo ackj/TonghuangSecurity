@@ -42,7 +42,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
                         UserHelper.setUserInfo(userBean.getData().getMemberInfo());
                         Params.token = UserHelper.token;//必须赋值一次。
                         //注册友盟
-                        mModel.requestRegisterUMeng(params.user);
+                        mModel.registerPush();
                         getView().start(null);
                     } else {
                         getView().error(userBean.getOther().getMessage());

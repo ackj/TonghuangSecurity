@@ -18,13 +18,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aglhz.s1.App;
 import com.aglhz.s1.R;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
-import com.aglhz.s1.event.EventRefreshSecurity;
+import cn.itsite.apush.EventRefreshSecurity;
 import com.aglhz.s1.event.EventSwitchHost;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
@@ -47,8 +48,6 @@ import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.statemanager.StateLayout;
-
-import static anet.channel.util.Utils.context;
 
 
 /**
@@ -310,7 +309,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
             if ((grantResults[0] == PackageManager.PERMISSION_GRANTED) && (grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
 
             } else {
-                Toast.makeText(context, "已拒绝权限！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(App.mContext, "已拒绝权限！", Toast.LENGTH_SHORT).show();
             }
         }
     }

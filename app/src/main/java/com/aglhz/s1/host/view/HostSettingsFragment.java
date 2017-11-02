@@ -157,8 +157,9 @@ public class HostSettingsFragment extends BaseFragment {
                         .show();
                 break;
             case R.id.tv_accredit_host_setting_fragment:
-                start(AuthorizationFragment.newInstance(hostBean));
+                start(AuthorizeFragment.newInstance(hostBean));
                 break;
+            default:
         }
     }
 

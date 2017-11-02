@@ -16,7 +16,7 @@ import com.aglhz.s1.R;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DevicesBean;
-import com.aglhz.s1.event.EventLearnSensor;
+import cn.itsite.apush.EventLearnSensor;
 import com.aglhz.s1.security.contract.AddDetectorContract;
 import com.aglhz.s1.security.presenter.AddDetectorPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;

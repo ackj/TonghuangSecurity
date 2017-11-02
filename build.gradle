@@ -19,6 +19,10 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" }
         maven { url "http://maven.bughd.com/public"}
+        mavenCentral()
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/repositories/releases/'
+        }
     }
 }
 
