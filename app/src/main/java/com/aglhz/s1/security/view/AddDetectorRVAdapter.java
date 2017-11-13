@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import cn.itsite.abase.BaseApplication;
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
 
 /**
@@ -33,7 +32,7 @@ public class AddDetectorRVAdapter extends BaseRecyclerViewAdapter<DevicesBean.Da
 
         Glide.with(BaseApplication.mContext)
                 .load("add_icon".equals(item.getIcon()) ? R.drawable.ic_add_security_140px : item.getIcon())
-                .error(R.mipmap.ic_logo)
+                .error(R.mipmap.ic_launcher)
                 .into(ivSecurity);
     }
 }

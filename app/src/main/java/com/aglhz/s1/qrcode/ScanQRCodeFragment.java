@@ -74,7 +74,7 @@ public class ScanQRCodeFragment extends BaseFragment implements QRCodeView.Deleg
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pop();
+                _mActivity.onBackPressedSupport();
             }
         });
         iv_photo.setOnClickListener(new View.OnClickListener() {

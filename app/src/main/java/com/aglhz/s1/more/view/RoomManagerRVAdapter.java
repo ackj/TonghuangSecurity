@@ -44,7 +44,7 @@ public class RoomManagerRVAdapter extends BaseRecyclerViewAdapter<RoomsBean.Data
         }
         Glide.with(BaseApplication.mContext)
                 .load(ivRes)
-                .error(R.mipmap.ic_logo)
+                .error(R.mipmap.ic_launcher)
                 .into(ivIcon);
     }
 }

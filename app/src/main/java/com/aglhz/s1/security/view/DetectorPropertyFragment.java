@@ -242,7 +242,7 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
         etName.setText(bean.getData().getName());
         Glide.with(_mActivity)
                 .load(bean.getData().getIcon())
-                .error(R.mipmap.ic_logo)
+                .error(R.mipmap.ic_launcher)
                 .into(ivIcon);
         sbAlarmDelay.setChecked(bean.getData().getAlarmDelay() == 1);
         params.alarmDelay = bean.getData().getAlarmDelay();
