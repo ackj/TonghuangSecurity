@@ -123,6 +123,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
 
+        <activity android:name=".camera.CameraPlay2Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
+
         <activity android:name=".camera.PlayBackActivity"/>
     </application>
 

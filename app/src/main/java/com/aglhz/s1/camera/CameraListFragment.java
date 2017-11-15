@@ -2,7 +2,6 @@ package com.aglhz.s1.camera;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,7 +24,6 @@ import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.CameraBean;
-import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.event.EventCameraListRefresh;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -155,7 +153,7 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
         new AlertDialog.Builder(_mActivity)
                 .setItems(addSelectedArr, (dialog, which) -> {
                     if (which == 0) {
-                        _mActivity.start(CameraWifiInputFragment.newInstance());
+                        _mActivity.start(CameraWifiInput2Fragment.newInstance());
                     } else {
                         showAddCameraDialog();
                     }
@@ -210,7 +208,7 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
                     if (cameraList == null || cameraList.size() == 0) {
                         return;
                     }
-                    Intent intent = new Intent(_mActivity, CameraPlayActivity.class);
+                    Intent intent = new Intent(_mActivity, CameraPlay2Activity.class);
                     intent.putExtra("bean",bean);
                     _mActivity.startActivity(intent);
                 }

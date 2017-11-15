@@ -16,9 +16,17 @@ public class DeviceOnOffRVAdapter extends BaseRecyclerViewAdapter<Integer, BaseV
         super(R.layout.item_device_on_off_2);
     }
 
+    private boolean isCurtains = false;
+
+    public void setIsCurtains(boolean isCurtains) {
+        this.isCurtains = isCurtains;
+    }
+
     @Override
     protected void convert(BaseViewHolder helper, Integer item) {
         helper.setText(R.id.tv_way_no, "第 " + item + " 路")
+                .setVisible(R.id.ll_stop, isCurtains)
+                .addOnClickListener(R.id.ll_stop)
                 .addOnClickListener(R.id.ll_open)
                 .addOnClickListener(R.id.ll_close);
 

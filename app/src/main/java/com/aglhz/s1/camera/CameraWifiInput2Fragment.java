@@ -43,13 +43,13 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ToastUtils;
 
 /**
- * Author: LiuJia on 2017/9/6 0006 10:12.
+ * Author: LiuJia on 2017/11/9 0009 15:56.
  * Email: liujia95me@126.com
  */
 
-public class CameraWifiInputFragment extends BaseFragment {
+public class CameraWifiInput2Fragment extends BaseFragment {
 
-    private static final String TAG = CameraWifiInputFragment.class.getSimpleName() + "123";
+    private static final String TAG = CameraWifiInput2Fragment.class.getSimpleName() + "123";
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -61,9 +61,9 @@ public class CameraWifiInputFragment extends BaseFragment {
     EditText etPassword;
 
     Unbinder unbinder;
+    boolean isLinking = false;
     ElianNative elain;
     UDPHelper mHelper;
-    boolean isLinking;
 
     //wifi相关
     String wifiName;
@@ -74,8 +74,8 @@ public class CameraWifiInputFragment extends BaseFragment {
 
     private CameraCountDownDialog countDownDialog;
 
-    public static CameraWifiInputFragment newInstance() {
-        return new CameraWifiInputFragment();
+    public static CameraWifiInput2Fragment newInstance() {
+        return new CameraWifiInput2Fragment();
     }
 
     static {
@@ -406,11 +406,11 @@ public class CameraWifiInputFragment extends BaseFragment {
         isLinking = false;
         stopSoundWave();
         stopSmartLink();
-        if (countDownDialog != null && countDownDialog.isShowing()) {
+        if (countDownDialog != null &&countDownDialog.isShowing()){
             countDownDialog.dismiss();
         }
         if (isSuccess) {
-            ToastUtils.showToast(_mActivity, "配网成功");
+            ToastUtils.showToast(_mActivity,"配网成功");
             pop();
         }
     }

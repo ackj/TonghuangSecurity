@@ -72,10 +72,11 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     SwitchButton sbDetectionDoorWindow;
     @BindView(R.id.sb_alarm_delay)
     SwitchButton sbAlarmDelay;
-    private String[] lineOfDefenseArr = {"第一防线", "第二防线", "24小时防线"};
+
+    private String[] lineOfDefenseArr = {"可撤防线", "离家布防", "强制布防"};
     private String defenseLevel = DefenseLineLevel.DLL_FIRST;
-    Params params = Params.getInstance();
-    Unbinder unbinder;
+    private Params params = Params.getInstance();
+    private Unbinder unbinder;
     private SecurityBean.DataBean.SubDevicesBean deviceBean;
 
     public static DetectorPropertyFragment newInstance(SecurityBean.DataBean.SubDevicesBean bean) {
