@@ -29,7 +29,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -138,6 +137,7 @@ public class LoginFragment extends BaseFragment<LoginContract.Presenter> impleme
             case R.id.bt_register:
                 startForResult(RegisterFragment.newInstance(), LOGIN_REQUEST);
                 break;
+            default:
         }
     }
 

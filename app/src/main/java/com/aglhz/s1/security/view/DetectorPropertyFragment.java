@@ -21,7 +21,6 @@ import com.aglhz.s1.common.clip.ClipActivity;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.entity.bean.SubDeviceDetBean;
-import com.aglhz.s1.event.EventRefreshSecurity;
 import com.aglhz.s1.security.contract.DetectorPropertyContract;
 import com.aglhz.s1.security.presenter.DetectorPropertyPresenter;
 import com.bilibili.boxing.Boxing;
@@ -44,6 +43,7 @@ import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.apush.EventRefreshSecurity;
 
 
 /**
@@ -73,7 +73,7 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     @BindView(R.id.sb_alarm_delay)
     SwitchButton sbAlarmDelay;
 
-    private String[] lineOfDefenseArr = {"可撤防线", "离家布防", "强制布防"};
+    private String[] lineOfDefenseArr = {"在家开启", "离家开启", "24小时开启"};
     private String defenseLevel = DefenseLineLevel.DLL_FIRST;
     private Params params = Params.getInstance();
     private Unbinder unbinder;
@@ -118,7 +118,7 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     private void initToolbar() {
         initStateBar(toolbar);
         toolbarTitle.setText("探测器属性");
-        toolbarMenu.setText("确定");
+        toolbarMenu.setText("删除");
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
@@ -172,16 +172,6 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
                 Boxing.of(config).withIntent(_mActivity, BoxingActivity.class).start(this, RESULT_LOAD_IMAGE);
                 break;
             case R.id.cpb_delete_fragment_detector_property:
-                cpbDelete.setIndeterminateProgressMode(true);
-                if (deviceBean == null) {
-                    DialogHelper.warningSnackbar(getView(), "删除失败");
-                    return;
-                }
-                params.index = deviceBean.getIndex();
-                cpbDelete.setProgress(50);
-                mPresenter.requestDelsensor(params);
-                break;
-            case R.id.toolbar_menu:
                 params.index = deviceBean.getIndex();
                 params.name = etName.getText().toString().trim();
                 if (TextUtils.isEmpty(params.name)) {
@@ -190,6 +180,16 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
                 }
                 params.defenseLevel = defenseLevel;
                 mPresenter.requestModsensor(params);
+                break;
+            case R.id.toolbar_menu:
+                cpbDelete.setIndeterminateProgressMode(true);
+                if (deviceBean == null) {
+                    DialogHelper.warningSnackbar(getView(), "删除失败");
+                    return;
+                }
+                params.index = deviceBean.getIndex();
+                cpbDelete.setProgress(50);
+                mPresenter.requestDelsensor(params);
                 break;
             case R.id.ll_defenseLevel:
                 new AlertDialog.Builder(_mActivity)
@@ -208,6 +208,7 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
                             tvLineOfDefense.setText(getLineOfDefenseStr(defenseLevel));
                         }).show();
                 break;
+            default:
         }
 
     }
@@ -243,7 +244,7 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
         etName.setText(bean.getData().getName());
         Glide.with(_mActivity)
                 .load(bean.getData().getIcon())
-                .error(R.mipmap.ic_logo)
+                .error(R.mipmap.ic_launcher)
                 .into(ivIcon);
         sbAlarmDelay.setChecked(bean.getData().getAlarmDelay() == 1);
         params.alarmDelay = bean.getData().getAlarmDelay();
@@ -259,11 +260,11 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     private String getLineOfDefenseStr(String english) {
         switch (english) {
             case DefenseLineLevel.DLL_SECOND:
-                return "第二防线";
+                return "在家开启";
             case DefenseLineLevel.DLL_FIRST:
-                return "第一防线";
+                return "离家开启";
             case DefenseLineLevel.DLL_24HOUR:
-                return "24小时防线";
+                return "24小时开启";
             default:
                 return "";
         }

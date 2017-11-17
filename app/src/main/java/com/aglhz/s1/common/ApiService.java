@@ -42,17 +42,17 @@ public interface ApiService {
     //*************以上基础路径*******************
 
     //-----------------以下为推送相关---------------------
-    //友盟用户登记接口
-    String requestRegisterUMeng = BASE_USER + "/client/logUMengParams.do";
+    //阿里云deviceID登记接口
+    String registerDevice = BASE_USER + "/client/logUMengParams.do";
 
     @POST
-    Observable<BaseBean> requestRegisterUMeng(@Url String url,
-                                              @Query("token") String token,
-                                              @Query("deviceToken") String deviceToken,
-                                              @Query("alias") String alias,
-                                              @Query("aliasType") String aliasType);
-    //-----------------以上为推送相关---------------------
+    Observable<BaseBean> registerDevice(@Url String url,
+                                        @Query("token") String token,
+                                        @Query("deviceToken") String deviceToken,
+                                        @Query("alias") String alias,
+                                        @Query("aliasType") String aliasType);
 
+    //-----------------以上为推送相关---------------------
 
     //----------以下为Launch模块--------------
     //登录
@@ -201,6 +201,15 @@ public interface ApiService {
                                           @Field("name") String name,
                                           @Field("roomFid") String roomFid);
 
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestNewCamera(@Url String url,
+                                          @Field("token") String token,
+                                          @Field("deviceType") String deviceType,
+                                          @Field("name") String name,
+                                          @Field("roomFid") String roomFid,
+                                          @Field("deviceId") String deviceId,
+                                          @Field("password") String password);
 
     //修改设备
     String requestModDevice = BASE_URL + "/client/moddevice";

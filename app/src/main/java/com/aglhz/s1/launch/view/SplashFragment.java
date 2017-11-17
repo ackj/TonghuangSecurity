@@ -13,6 +13,7 @@ import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.UserHelper;
 import com.aglhz.s1.main.MainActivity;
+import com.aglhz.s1.utils.CameraHelper;
 
 import cn.itsite.abase.cache.SPCache;
 import cn.itsite.abase.common.RxManager;
@@ -45,6 +46,7 @@ public class SplashFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         checkLogin();
+        CameraHelper.cameraLogin();
     }
 
     private void checkLogin() {
@@ -66,7 +68,7 @@ public class SplashFragment extends BaseFragment {
 
     private void go2Main() {
         boolean isFirst = (boolean) SPCache.get(_mActivity, Constants.IS_FIRST_ENTER, true);
-        if(isFirst){
+        if (isFirst) {
             _mActivity.start(WelcomeFragment.newInstance());
             return;
         }

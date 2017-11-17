@@ -27,8 +27,9 @@ import com.aglhz.s1.camera.contract.CameraSettingContract;
 import com.aglhz.s1.camera.presenter.CameraSettingPresenter;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
-import com.aglhz.s1.entity.bean.CameraBean;
+import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.event.EventCameraListRefresh;
+import com.aglhz.s1.utils.CameraHelper;
 import com.p2p.core.BaseMonitorActivity;
 import com.p2p.core.P2PHandler;
 import com.p2p.core.P2PValue;
@@ -37,6 +38,7 @@ import com.p2p.core.P2PView;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -89,8 +91,10 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     ImageView ivPhotograph;
     @BindView(R.id.tv_quality)
     TextView tvQuality;
+    @BindView(R.id.toolbar_menu)
+    TextView toolbarMenu;
 
-    private CameraBean.DataBean cameraBean;
+    private DeviceListBean.DataBean.SubDevicesBean cameraBean;
     private String cameraUserId;
     private String cameraPassword;
     private String cameraCallId;
@@ -128,7 +132,6 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
                     setMute(true);
                     return true;
                 default:
-                    break;
             }
             return false;
         });
@@ -136,6 +139,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
 
     private void initToolbar() {
         toolbarTitle.setText("智能监控");
+        toolbarMenu.setText("设置");
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,11 +159,11 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
         registerReceiver(mReceiver, filter);
 
         //获取数据
-        cameraBean = (CameraBean.DataBean) getIntent().getSerializableExtra("bean");
+        cameraBean = (DeviceListBean.DataBean.SubDevicesBean) getIntent().getSerializableExtra("bean");
         SharedPreferences sp = getSharedPreferences("Account", MODE_PRIVATE);
         cameraUserId = sp.getString("userId", "");
         cameraPassword = P2PHandler.getInstance().EntryPassword(cameraBean.getPassword());
-        cameraCallId = cameraBean.getNo();
+        cameraCallId = cameraBean.getDeviceId();
 
         ALog.e(TAG, "id:" + cameraCallId + " -- password:" + cameraBean.getPassword() + " -- userId:" + cameraUserId + " -- pwd:" + cameraPassword);
         //首次连接
@@ -208,12 +212,16 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     }
 
     private void connectDevice() {
+        ALog.e(TAG, "cameraUserId:" + cameraUserId + " cameraPassword:" + cameraPassword);
         boolean call = P2PHandler.getInstance().call(cameraUserId, cameraPassword, true, 1, cameraCallId, "", "", 2, cameraCallId);
+        if (!call) {
+            CameraHelper.cameraLogin();
+        }
         ALog.e(TAG, "正在连接:" + call);
         loadingShow();
     }
 
-    @OnClick({R.id.ll_loading, R.id.iv_mute, R.id.iv_video, R.id.iv_photograph, R.id.tv_quality})
+    @OnClick({R.id.ll_loading, R.id.iv_mute, R.id.iv_video, R.id.iv_photograph, R.id.tv_quality, R.id.toolbar_menu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_loading://重新加载
@@ -232,6 +240,11 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
                 break;
             case R.id.tv_quality:
                 clickQuality();
+                break;
+            case R.id.toolbar_menu:
+                Intent intent = new Intent(this, CameraSettingActivity.class);
+                intent.putExtra("bean", (Serializable) cameraBean);
+                startActivity(intent);
                 break;
             default:
                 break;
@@ -252,6 +265,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
                         case VIDEO_MODE_LD:
                             P2PHandler.getInstance().setVideoMode(P2PValue.VideoMode.VIDEO_MODE_LD);
                             break;
+                        default:
                     }
                     tvQuality.setText(qualityArr[which]);
                 }).show();
@@ -305,9 +319,9 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
                                 if (TextUtils.isEmpty(result)) {
                                     DialogHelper.warningSnackbar(toolbar, "请输入内容");
                                 } else {
-                                    params.fid = cameraBean.getFid();
-                                    params.deviceName = cameraBean.getName();
-                                    params.deviceType = "password";
+//                                    params.fid = cameraBean.getFid();
+//                                    params.deviceName = cameraBean.getName();
+                                    params.deviceType = cameraBean.getDeviceType();
                                     params.devicePassword = result;
                                     presenter.requestModCamera(params);
                                     dialog.dismiss();

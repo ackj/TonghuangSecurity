@@ -18,11 +18,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.aglhz.s1.camera.CameraPlay2Activity.P2P_ACCEPT;
+import static com.aglhz.s1.camera.CameraPlay2Activity.P2P_READY;
+import static com.aglhz.s1.camera.CameraPlay2Activity.P2P_REJECT;
+
 public class PlayBackActivity extends BasePlayBackActivity {
 
-    public static String P2P_ACCEPT = "com.XXX.P2P_ACCEPT";
-    public static String P2P_READY = "com.XXX.P2P_READY";
-    public static String P2P_REJECT = "com.XXX.P2P_REJECT";
     @BindView(R.id.rl_p2pview)
     RelativeLayout rlP2pview;
     @BindView(R.id.view_black)

@@ -49,7 +49,7 @@ public class NetworkConnectReceiver extends BroadcastReceiver {
                 case WifiManager.WIFI_STATE_UNKNOWN:
                     ALog.e("WIFI状态", "wifiState:WIFI_STATE_UNKNOWN");
                     break;
-                //
+                default:
             }
         }
         // 这个监听wifi的连接状态即是否连上了一个有效无线路由，当上边广播的状态是WifiManager.WIFI_STATE_DISABLING，和WIFI_STATE_DISABLED的时候，根本不会接到这个广播。

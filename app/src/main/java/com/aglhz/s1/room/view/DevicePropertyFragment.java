@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
@@ -77,8 +76,6 @@ public class DevicePropertyFragment extends BaseFragment {
                 cpbDelete.setProgress(0);
             }
         }, 1000);
-
-
     }
 
 

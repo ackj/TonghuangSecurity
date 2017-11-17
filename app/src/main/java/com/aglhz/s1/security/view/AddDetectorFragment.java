@@ -16,7 +16,6 @@ import com.aglhz.s1.R;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DevicesBean;
-import com.aglhz.s1.event.EventLearnSensor;
 import com.aglhz.s1.security.contract.AddDetectorContract;
 import com.aglhz.s1.security.presenter.AddDetectorPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
@@ -32,6 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.apush.EventLearnSensor;
 import cn.itsite.statemanager.StateLayout;
 import cn.itsite.statemanager.StateManager;
 

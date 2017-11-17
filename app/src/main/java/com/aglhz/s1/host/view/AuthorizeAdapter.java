@@ -11,9 +11,9 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Email：langmanleguang@qq.com
  */
 
-public class AuthorizationRVAdapter extends BaseRecyclerViewAdapter<AuthorizationBean.DataBean,BaseViewHolder> {
+public class AuthorizeAdapter extends BaseRecyclerViewAdapter<AuthorizationBean.DataBean,BaseViewHolder> {
 
-    public AuthorizationRVAdapter() {
+    public AuthorizeAdapter() {
         super(R.layout.item_authorization);
     }
 

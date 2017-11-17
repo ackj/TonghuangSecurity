@@ -23,6 +23,7 @@ public interface RoomDeviceListContract{
         void responseHouseList(List<RoomsBean.DataBean.RoomListBean> data);
         void responseDevicectrl(BaseBean bean);
         void responseNewDeviceConfirm(BaseBean bean);
+        void responseDelSuccess(BaseBean bean);
     }
 
     interface Presenter extends BaseContract.Presenter {
@@ -30,6 +31,7 @@ public interface RoomDeviceListContract{
         void requestHouseList(Params params);
         void requestDevicectrl(Params params);
         void requestNewDeviceConfirm(Params params);
+        void requestDelDevice(Params params);
     }
 
     interface Model extends BaseContract.Model {
@@ -37,5 +39,7 @@ public interface RoomDeviceListContract{
         Observable<RoomsBean> requestHouseList(Params params);
         Observable<BaseBean> requestDevicectrl(Params params);
         Observable<BaseBean> requestNewDeviceConfirm(Params params);
+        Observable<BaseBean> requestDelDevice(Params params);
+
     }
 }

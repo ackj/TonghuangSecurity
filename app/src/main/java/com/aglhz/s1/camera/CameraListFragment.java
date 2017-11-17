@@ -61,16 +61,17 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
-
-    Unbinder unbinder;
     @BindView(R.id.toolbar_menu)
     TextView toolbarMenu;
+
     private StateManager mStateManager;
     private String[] addSelectedArr = {"新设备配置网络", "添加已联网设备"};
     private Params params = Params.getInstance();
     private CameraListRVAdapter adapter;
     private CameraBean.DataBean addCameraBean;
     private List<CameraBean.DataBean> cameraList;
+
+    Unbinder unbinder;
 
     public static CameraListFragment newInstance() {
         CameraListFragment fragment = new CameraListFragment();
@@ -314,7 +315,7 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
                 })
                 .setOnItemClickListener((view, baseViewHolder, position, dialog) -> {
                     dialog.dismiss();
-                    _mActivity.start(CameraSettingFragment.newInstance(data.get(position)));
+//                    _mActivity.start(CameraSettingFragment.newInstance(data.get(position)));
                 })
                 .setAnimStyle(R.style.SlideAnimation)
                 .setGravity(Gravity.BOTTOM)

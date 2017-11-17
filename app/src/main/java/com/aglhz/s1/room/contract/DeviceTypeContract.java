@@ -18,19 +18,24 @@ public interface DeviceTypeContract {
 
     interface View extends BaseContract.View {
         void responseDeviceType(List<DevicesBean.DataBean.DeviceTypeListBean> bean);
+
         void responseAddDevice(BaseBean bean);
     }
 
     interface Presenter extends BaseContract.Presenter {
         void requestDeviceType(Params params);
+
         void requestAddDevice(Params params);
 
+        void requestAddCamera(Params params);
     }
 
     interface Model extends BaseContract.Model {
         Observable<DevicesBean> requestDeviceType(Params params);
+
         Observable<BaseBean> requestAddDevice(Params params);
 
+        Observable<BaseBean> requestAddCamera(Params params);
     }
 
 }

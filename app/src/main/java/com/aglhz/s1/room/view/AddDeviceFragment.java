@@ -50,7 +50,9 @@ import cn.itsite.abase.utils.ToastUtils;
  * Email： liujia95me@126.com
  */
 public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter> implements AddDeviceContract.View {
+
     public static final String TAG = AddDeviceFragment.class.getSimpleName();
+
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar_menu)
@@ -65,8 +67,10 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
     TextView tvRoomName;
     @BindView(R.id.iv_icon)
     ImageView ivIcon;
+
     private final static int RESULT_LOAD_IMAGE = 0x100;
     private final static int RESULT_IMAGE_COMPLETE = 0x101;
+
     Unbinder unbinder;
     private DeviceListBean.DataBean.SubDevicesBean bean;
     private RoomsBean.DataBean.RoomListBean selectRoom;
@@ -93,7 +97,6 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
         View view = inflater.inflate(R.layout.fragment_add_device, container, false);
         bean = (DeviceListBean.DataBean.SubDevicesBean) getArguments().getSerializable("bean");
         selectRoom = (RoomsBean.DataBean.RoomListBean) getArguments().getSerializable("room");
-//        params.roomFid = getArguments().getString("roomFid");
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }
@@ -129,6 +132,7 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
             tvRoomName.setText("");
         } else {
             params.roomFid = selectRoom.getFid();
+            ALog.e(TAG, "roomFid:" + params.roomFid);
             tvRoomName.setText(selectRoom.getName());
         }
     }
@@ -158,6 +162,10 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
                         ToastUtils.showToast(_mActivity, "名字不能为空");
                         return;
                     }
+                    if (TextUtils.isEmpty(params.roomFid)) {
+
+                    }
+                    params.deviceType = bean.getDeviceType();
                     params.index = bean.getIndex();
                     mPresenter.requestModDevice(params);
                 }
@@ -171,6 +179,7 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
                         .withMediaPlaceHolderRes(R.drawable.ic_boxing_default_image); // 设置默认图片占位图，默认无
                 Boxing.of(config).withIntent(_mActivity, BoxingActivity.class).start(this, RESULT_LOAD_IMAGE);
                 break;
+            default:
         }
     }
 
@@ -250,6 +259,7 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
         EventBus.getDefault().post(new EventDeviceChanged());
         cpbDelete.setProgress(100);
+        setFragmentResult(RESULT_OK, null);
         pop();
     }
 

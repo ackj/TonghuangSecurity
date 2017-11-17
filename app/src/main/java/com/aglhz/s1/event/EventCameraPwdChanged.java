@@ -6,10 +6,9 @@ package com.aglhz.s1.event;
  */
 
 public class EventCameraPwdChanged {
-
     public int result;
 
-    public EventCameraPwdChanged(int result){
+    public EventCameraPwdChanged(int result) {
         this.result = result;
     }
 
