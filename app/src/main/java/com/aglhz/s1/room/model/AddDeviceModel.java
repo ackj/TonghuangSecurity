@@ -30,8 +30,6 @@ public class AddDeviceModel extends BaseModel implements AddDeviceContract.Model
                 .subscribeOn(Schedulers.io());
     }
 
-
-
     @Override
     public Observable<BaseBean> requestModDevice(Params params) {
         MultipartBody.Builder builder = new MultipartBody.Builder();

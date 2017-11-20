@@ -182,6 +182,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 resId = R.drawable.room_room_1242px_745px;
                 break;
             case "厕所":
+            case "浴室":
                 resId = R.drawable.room_cesuo_1242px_745px;
                 break;
             default:
@@ -237,7 +238,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 intent.putExtra("bean", (Serializable) bean);
                 _mActivity.startActivity(intent);
             } else {
-                _mActivity.start(DeviceOnOffFragment.newInstance(bean,selectRoom));
+                _mActivity.start(DeviceOnOffFragment.newInstance(bean, selectRoom));
             }
         });
 
@@ -401,7 +402,6 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 //            mStateManager.showContent();
         }
     }
-
 
 
     @Override

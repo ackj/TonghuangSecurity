@@ -1,5 +1,6 @@
 package com.aglhz.s1.security.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -187,9 +188,20 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
                     DialogHelper.warningSnackbar(getView(), "删除失败");
                     return;
                 }
-                params.index = deviceBean.getIndex();
-                cpbDelete.setProgress(50);
-                mPresenter.requestDelsensor(params);
+                new AlertDialog.Builder(_mActivity)
+                        .setTitle("提示")
+                        .setMessage("你确定要删除吗？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                params.index = deviceBean.getIndex();
+                                cpbDelete.setProgress(50);
+                                mPresenter.requestDelsensor(params);
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+
                 break;
             case R.id.ll_defenseLevel:
                 new AlertDialog.Builder(_mActivity)

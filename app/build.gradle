@@ -32,13 +32,13 @@ android {
         debug {
             keyAlias 'guangneng'
             keyPassword 'guangneng'
-            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
+            storeFile file('F:/gaocheng/guangnenganfang.jks')
             storePassword 'guangneng'
         }
         release {
             keyAlias 'guangneng'
             keyPassword 'guangneng'
-            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
+            storeFile file('F:/gaocheng/guangnenganfang.jks')
             storePassword 'guangneng'
         }
     }
@@ -72,10 +72,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //基础依赖Module
-//    debugCompile project(path: ':abase', configuration: 'debug')
-//    releaseCompile project(path: ':abase', configuration: 'release')
+    //    debugCompile project(path: ':abase', configuration: 'debug')
+    //    releaseCompile project(path: ':abase', configuration: 'release')
     //友盟推送
-//    compile project(':PushSDK')
+    //    compile project(':PushSDK')
     //阿里云推送
     debugCompile project(path: ':apush', configuration: 'debug')
     releaseCompile project(path: ':apush', configuration: 'release')
@@ -111,7 +111,6 @@ dependencies {
     compile 'pub.devrel:easypermissions:1.0.0'
     //ViewPager的指示器
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
-
     compile 'com.p2p.core:p2p-core:0.4.3'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
     //声波配网库
