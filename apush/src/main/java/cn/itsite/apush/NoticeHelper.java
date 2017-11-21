@@ -51,7 +51,7 @@ public class NoticeHelper {
     public static final String SENSOR_LEARN = "sensor_learn";// 传感器学习
     public static final String DEVICE_LEARN = "device_learn";//设备学习
     public static final String GW_ALARM_GAS = "gw_alarm_gas";// 燃气报警
-    public static final String GW_NOTIFIY_DEFENSE_ST = "gw_defense_status";// 主机布防状态变更
+    public static final String GW_DEFENSE_STATUS = "gw_defense_status";// 主机布防状态变更
     public static final String GW_ALARM_SOS = "gw_alarm_sos";// sos报警
     public static final String ALARM_RED = "alarm_red";// 红外报警
     public static final String ALARM_DOOR = "alarm_door";// 门磁报警
@@ -119,7 +119,7 @@ public class NoticeHelper {
         switch (type) {
             case NoticeHelper.SENSOR_LEARN:
                 EventBus.getDefault().post(new EventLearnSensor());
-            case NoticeHelper.GW_NOTIFIY_DEFENSE_ST:
+            case NoticeHelper.GW_DEFENSE_STATUS:
                 EventBus.getDefault().post(new EventRefreshSecurity());
                 break;
             case NoticeHelper.DEVICE_LEARN:
