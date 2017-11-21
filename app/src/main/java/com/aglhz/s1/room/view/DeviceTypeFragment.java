@@ -24,6 +24,7 @@ import com.aglhz.s1.event.EventSelectedDeviceType;
 import com.aglhz.s1.room.contract.DeviceTypeContract;
 import com.aglhz.s1.room.presenter.DeviceTypePresenter;
 import com.aglhz.s1.security.view.AddDetectorRVAdapter;
+import com.aglhz.s1.widget.PtrHTFrameLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -49,8 +50,11 @@ public class DeviceTypeFragment extends BaseFragment<DeviceTypeContract.Presente
     Toolbar toolbar;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.ptrFrameLayout)
+    PtrHTFrameLayout ptrFrameLayout;
 
     Unbinder unbinder;
+
     private AddDetectorRVAdapter adapter;
     private Params params = Params.getInstance();
     private BaseDialogFragment dialogAddCamera;
@@ -84,6 +88,14 @@ public class DeviceTypeFragment extends BaseFragment<DeviceTypeContract.Presente
         initToolbar();
         initData();
         initListener();
+        initPtrFrameLayout(ptrFrameLayout, recyclerView);
+    }
+
+    @Override
+    public void onRefresh() {
+        super.onRefresh();
+        params.page = 1;
+        mPresenter.requestDeviceType(params);
     }
 
     private void initToolbar() {
@@ -123,11 +135,13 @@ public class DeviceTypeFragment extends BaseFragment<DeviceTypeContract.Presente
 
     @Override
     public void responseDeviceType(List<DevicesBean.DataBean.DeviceTypeListBean> data) {
+        ptrFrameLayout.refreshComplete();
         adapter.setNewData(data);
     }
 
     @Override
     public void responseAddDevice(BaseBean bean) {
+        ptrFrameLayout.refreshComplete();
         DialogHelper.successSnackbar(getView(), bean.getOther().getMessage());
         EventBus.getDefault().post(new EventSelectedDeviceType());
         dialogAddCamera.dismiss();

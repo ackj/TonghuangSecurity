@@ -96,7 +96,7 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
     }
 
     private void initStateManager() {
-               mStateManager = StateManager.builder(_mActivity)
+        mStateManager = StateManager.builder(_mActivity)
                 .setContent(recyclerView)
                 .setEmptyView(R.layout.state_empty)
                 .setEmptyText("暂无联动，请点击添加！")
@@ -141,7 +141,7 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
                     mPresenter.requestDeleteLinkage(params);
                     break;
                 case R.id.ll_item_intelligence_linkage:
-//                    _mActivity.start(LinkageEditFragment.newInstance());
+                    _mActivity.start(LinkageEditFragment.newInstance(bean));
                     break;
                 case R.id.switch_button:
                     sbSelected = (SwitchButton) view;
@@ -164,6 +164,7 @@ public class LinkageListFragment extends BaseFragment<LinkageListContract.Presen
                     params.status = sbSelected.isChecked() ? 1 : 0;
                     mPresenter.requestModLinkage(params);
                     break;
+                default:
             }
         });
     }

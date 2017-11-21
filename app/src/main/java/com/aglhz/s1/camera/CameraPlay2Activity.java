@@ -151,13 +151,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
 
 
     private void initData() {
-        //注册广播
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(P2P_REJECT);
-        filter.addAction(P2P_ACCEPT);
-        filter.addAction(P2P_READY);
-        registerReceiver(mReceiver, filter);
-
+        registerCameraReceiver();
         //获取数据
         cameraBean = (DeviceListBean.DataBean.SubDevicesBean) getIntent().getSerializableExtra("bean");
         SharedPreferences sp = getSharedPreferences("Account", MODE_PRIVATE);
@@ -169,6 +163,16 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
         //首次连接
         connectDevice();
         loadingShow();
+    }
+
+    private void registerCameraReceiver() {
+        ALog.e(TAG,"注册广播");
+        //注册广播
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(P2P_REJECT);
+        filter.addAction(P2P_ACCEPT);
+        filter.addAction(P2P_READY);
+        registerReceiver(mReceiver, filter);
     }
 
     private void initAnimator() {
@@ -319,7 +323,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
                                 if (TextUtils.isEmpty(result)) {
                                     DialogHelper.warningSnackbar(toolbar, "请输入内容");
                                 } else {
-//                                    params.fid = cameraBean.getFid();
+                                    params.index = cameraBean.getIndex();
 //                                    params.deviceName = cameraBean.getName();
                                     params.deviceType = cameraBean.getDeviceType();
                                     params.devicePassword = result;
@@ -380,18 +384,20 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     protected void onRestart() {
         super.onRestart();
         connectDevice();
+        registerCameraReceiver();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        ALog.e(TAG,"解除广播");
         P2PHandler.getInstance().finish();
+        unregisterReceiver(mReceiver);
     }
 
     @Override
     public void onDestroy() {
-        unregisterReceiver(mReceiver);
-        P2PHandler.getInstance().finish();
+//        P2PHandler.getInstance().finish();
         super.onDestroy();
     }
 
@@ -481,6 +487,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     public void responseSuccess(BaseBean baseBean) {
         ToastUtils.showToast(this, "修改密码成功");
         EventBus.getDefault().post(new EventCameraListRefresh());
+        P2PHandler.getInstance().EntryPassword(params.devicePassword);
         connectDevice();
     }
 
