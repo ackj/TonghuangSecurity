@@ -209,6 +209,17 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
             tv.setSelected(true);
         }
         tvDes.setText(securityBean.getData().getGateway().getDefenseStatusDes());
+
+        //设置toolbar
+        StringBuilder title = new StringBuilder();
+        if (securityBean.getData().getGateway().getIsOnline() == 0) {
+            title.append("（离线）");
+        } else {
+            title.append("（在线）");
+        }
+        title.append(securityBean.getData().getGateway().getName());
+        toolbarTitle.setText(title);
+
         if (securityBean.getData() != null
                 || securityBean.getData().getSubDevices() != null) {
             adapter.setHostState(securityBean.getData().getGateway().getDefenseStatus());

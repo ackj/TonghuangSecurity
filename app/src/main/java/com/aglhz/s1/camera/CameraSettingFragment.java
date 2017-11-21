@@ -181,7 +181,6 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
 
     private void updatePassword(String pwd) {
         params.devicePassword = pwd;
-
         P2PHandler.getInstance().setDevicePassword(bean.getDeviceId(),
                 P2PHandler.getInstance().EntryPassword(bean.getPassword()),
                 P2PHandler.getInstance().EntryPassword(pwd),

@@ -200,14 +200,14 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSelectedDeviceType(EventSelectedDeviceType event) {
-//        new AlertDialog.Builder(_mActivity)
-//                .setTitle("学习中...")
-//                .setMessage("设备是否收到了正确的反馈？")
-//                .setNegativeButton("否", null)
-//                .setPositiveButton("是", (dialog, which) -> {
-//                    params.status = 1;
-//                    mPresenter.requestNewDeviceConfirm(params);
-//                }).show();
+        new AlertDialog.Builder(_mActivity)
+                .setTitle("学习中...")
+                .setMessage("设备是否收到了正确的反馈？")
+                .setNegativeButton("否", null)
+                .setPositiveButton("是", (dialog, which) -> {
+                    params.status = 1;
+                    mPresenter.requestNewDeviceConfirm(params);
+                }).show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

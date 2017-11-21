@@ -173,9 +173,9 @@ public class DeviceListFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
+        mRxManager.clear();
         super.onDestroyView();
         unbinder.unbind();
-        mRxManager.clear();
     }
 
     @OnClick(R.id.toolbar_menu)

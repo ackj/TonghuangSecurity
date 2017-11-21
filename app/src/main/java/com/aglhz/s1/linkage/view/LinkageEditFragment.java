@@ -148,15 +148,13 @@ public class LinkageEditFragment extends BaseFragment<AddLinkageContract.Present
         if (bean != null) {
             isMod = true;
             etName.setText(bean.getName());
-            if(bean.getTriggerType().equals("sensor")){
+            if (bean.getTriggerType().equals("sensor")) {
                 tvTriggerType.setText(triggerTypeArr[0]);
-//                tvSensor.setText();
-            }else{
-                tvTriggerType.setText(triggerTypeArr[0]);
+//                tvSensor.setText(bean.getName());
+            } else {
+                tvTriggerType.setText(triggerTypeArr[1]);
             }
         }
-        //todo:触发类型为时间有问题，所以先设置死(2017/9/1 16:21
-        tvTriggerType.setText(triggerTypeArr[0]);
     }
 
     private void initListener() {
@@ -223,12 +221,12 @@ public class LinkageEditFragment extends BaseFragment<AddLinkageContract.Present
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_trigger_type:
-//                new AlertDialog.Builder(_mActivity)
-//                        .setItems(triggerTypeArr, (dialog, which) -> {
-//                            llDateContainer.setVisibility(which == 0 ? View.GONE : View.VISIBLE);
-//                            llSensorContainer.setVisibility(which == 0 ? View.VISIBLE : View.GONE);
-//                            tvTriggerType.setText(triggerTypeArr[which]);
-//                        }).show();
+                new AlertDialog.Builder(_mActivity)
+                        .setItems(triggerTypeArr, (dialog, which) -> {
+                            llDateContainer.setVisibility(which == 0 ? View.GONE : View.VISIBLE);
+                            llSensorContainer.setVisibility(which == 0 ? View.VISIBLE : View.GONE);
+                            tvTriggerType.setText(triggerTypeArr[which]);
+                        }).show();
                 break;
 
             case R.id.tv_linkage_type:
@@ -432,6 +430,7 @@ public class LinkageEditFragment extends BaseFragment<AddLinkageContract.Present
                             tvDeviceNode.setText(nodeArr[which]);
                         }).show();
                 break;
+            default:
         }
     }
 }
