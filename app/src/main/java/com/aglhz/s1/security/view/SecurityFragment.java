@@ -174,7 +174,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         });
         mRecord.setSavePath(Constants.PATH_DATA + File.separator + "leavemassage.amr");
         mRecord.setOnFinishedRecordListener(audioPath -> {
-            ALog.e("audioPath-->" + audioPath);
             params.file = new File(audioPath);
             mPresenter.requestLeaveMassge(params);
         });

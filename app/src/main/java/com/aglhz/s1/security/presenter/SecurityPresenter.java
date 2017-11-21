@@ -45,16 +45,6 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
 
     @Override
     public void requestGateways(Params params) {
-//        mRxManager.add(mModel.requestGateways(params)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(gatewaysBean -> {
-//                    if (gatewaysBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-//                        getView().responseGateways(gatewaysBean);
-//                    } else {
-//                        getView().error(gatewaysBean.getOther().getMessage());
-//                    }
-//                }, this::error/*, this::complete, disposable -> start(null)*/));
-
         mRxManager.add(mModel.requestGateways(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<GatewaysBean>() {
@@ -71,16 +61,6 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
 
     @Override
     public void requestSwichGateway(Params params) {
-//        mRxManager.add(mModel.requestSwichGateway(params)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(baseBean -> {
-//                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-//                        getView().responseSwichGateway(baseBean);
-//                    } else {
-//                        getView().error(baseBean.getOther().getMessage());
-//                    }
-//                }, this::error/*, this::complete, disposable -> start(null)*/));
-
         mRxManager.add(mModel.requestSwichGateway(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<BaseBean>() {
@@ -97,16 +77,6 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
 
     @Override
     public void requestSwichState(Params params) {
-//        mRxManager.add(mModel.requestSwichState(params)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(baseBean -> {
-//                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-//                        getView().responseSwichState(baseBean);
-//                    } else {
-//                        getView().error(baseBean.getOther().getMessage());
-//                    }
-//                }, this::error/*, this::complete, disposable -> start(null)*/));
-
         mRxManager.add(mModel.requestSwichState(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<BaseBean>() {
@@ -123,16 +93,6 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
 
     @Override
     public void requestLeaveMassge(Params params) {
-//        mRxManager.add(mModel.requestLeaveMassge(params)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(baseBean -> {
-//                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-//                        getView().responseSwichState(baseBean);
-//                    } else {
-//                        getView().error(baseBean.getOther().getMessage());
-//                    }
-//                }, this::error/*, this::complete, disposable -> start(null)*/));
-
         mRxManager.add(mModel.requestLeaveMassge(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<BaseBean>() {

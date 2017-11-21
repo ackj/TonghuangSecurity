@@ -49,21 +49,6 @@ public class Constants extends BaseConstants {
     public static final String KEY_HOST = "key_host";
     public static final String KEY_HOST_NAME = "key_host_name";
 
-
-//    public static final int TYPE_ADD_HOST = 0;//0是添加。
-//    public static final int TYPE_EDIT_HOST = 1;//1是编辑。
-
-
-    //友盟推送extra字段类型。
-    public static final String SENSOR_LEARN = "sensor_learn";//传感器学习
-    public static final String DEVICE_LEARN = "device_learn";//设备学习
-    public static final String GW_ALARM_GAS = "gw_alarm_gas";//燃气报警
-    public static final String GW_NOTIFIY_DEFENSE_ST = "gw_defense_satus";//主机布防状态变更
-    public static final String GW_ALARM_SOS = "gw_alarm_sos";//sos报警
-    public static final String ALARM_RED = "alarm_red";//红外报警
-    public static final String ALARM_DOOR = "alarm_door";//门磁报警
-
-
     public static final int PAGE_SIZE = 20;
 
     //设备分类：sensor/device_ctrl 控制类或者探测器类。默认控制类

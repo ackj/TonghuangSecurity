@@ -48,7 +48,7 @@
             android:focusable="true"
             android:gravity="center"
             android:tag="home"
-            android:text="在家布防"
+            android:text="在家"
             android:textColor="@color/selector_textcolor_gray_red" />
 
         <TextView
@@ -61,7 +61,7 @@
             android:drawableTop="@drawable/selector_awaydisarmed"
             android:gravity="center"
             android:tag="faraway"
-            android:text="离家布防"
+            android:text="离家"
             android:textColor="@color/selector_textcolor_gray_red" />
 
         <com.aglhz.s1.widget.RecordButton
