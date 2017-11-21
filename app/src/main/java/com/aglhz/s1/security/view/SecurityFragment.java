@@ -11,6 +11,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +48,7 @@ import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.utils.DensityUtils;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
 import cn.itsite.apush.EventRefreshSecurity;
 import cn.itsite.statemanager.StateLayout;
@@ -191,6 +195,19 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         });
     }
 
+    private String getStringByStatus(String status) {
+        switch (status) {
+            case Constants.GATEWAY_STATE_CANCLE:
+                return "撤防";
+            case Constants.GATEWAY_STATE_HOME:
+                return "在家";
+            case Constants.GATEWAY_STATE_FARAWAY:
+                return "离家";
+            default:
+                return "";
+        }
+    }
+
     @Override
     public void error(String errorMessage) {
         super.error(errorMessage);
@@ -201,15 +218,21 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     public void responseSecurity(SecurityBean securityBean) {
         ptrFrameLayout.refreshComplete();
         subDevices = securityBean.getData().getSubDevices();
+        SecurityBean.DataBean.GatewayBean gatewayBean = securityBean.getData().getGateway();
         TextView tv = (TextView) adapter.getHeaderLayout()
-                .findViewWithTag(securityBean.getData().getGateway().getDefenseStatus());
+                .findViewWithTag(gatewayBean.getDefenseStatus());
         tvCancel.setSelected(false);
         tvHome.setSelected(false);
         tvFaraway.setSelected(false);
         if (tv != null) {//由于第一次安装，后台不知道主机的状态，所以defenseStatus这个字段为空，所以找不到这样的TextView。
             tv.setSelected(true);
         }
-        tvDes.setText(securityBean.getData().getGateway().getDefenseStatusDes());
+
+
+        String des = getStringByStatus(gatewayBean.getDefenseStatus()) + "：" + gatewayBean.getDefenseStatusDes();
+        Spannable WordtoSpan = new SpannableString(des);
+        WordtoSpan.setSpan(new AbsoluteSizeSpan(DensityUtils.sp2px(getContext(), 18)), 0, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tvDes.setText(WordtoSpan);
 
         //设置toolbar
         StringBuilder title = new StringBuilder();
