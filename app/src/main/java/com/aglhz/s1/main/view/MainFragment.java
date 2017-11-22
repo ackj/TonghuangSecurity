@@ -58,8 +58,8 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
     private long TOUCH_TIME = 0;
     private AHBottomNavigation ahbn;
     private SupportFragment[] fragments = new SupportFragment[5];
-    private int bottomNavigationPreposition;
-    private static final String KEY_CURR_POSITION = "bottomNavigationPreposition";
+    private int prePosition;
+    private static final String KEY_CURR_POSITION = "prePosition";
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -89,7 +89,7 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
             fragments[2] = findChildFragment(SceneFragment.class);
             fragments[3] = findChildFragment(DeviceLogsFragment.class);
             fragments[4] = findChildFragment(MoreFragment.class);
-            bottomNavigationPreposition = savedInstanceState.getInt(KEY_CURR_POSITION);
+            prePosition = savedInstanceState.getInt(KEY_CURR_POSITION);
         }
         initData();
         requiresPermissions();
@@ -119,17 +119,17 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
         ahbn.setInactiveColor(getResources().getColor(R.color.black));
         ahbn.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         ahbn.setOnTabSelectedListener((position, wasSelected) -> {
-            showHideFragment(fragments[position], fragments[bottomNavigationPreposition]);
-            bottomNavigationPreposition = position;
+            showHideFragment(fragments[position], fragments[prePosition]);
+            prePosition = position;
             return true;
         });
-        ahbn.setCurrentItem(bottomNavigationPreposition);
+        ahbn.setCurrentItem(prePosition);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(KEY_CURR_POSITION, bottomNavigationPreposition);
+        outState.putInt(KEY_CURR_POSITION, prePosition);
     }
 
     @Override

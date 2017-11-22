@@ -68,7 +68,6 @@ import static android.content.Context.MODE_PRIVATE;
  * Email： liujia95me@126.com
  */
 public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.Presenter> implements RoomDeviceListContract.View {
-
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -234,9 +233,12 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 }
                 _mActivity.start(DeviceTypeFragment.newInstance(selectRoom.getFid()));
             } else if ("camera01".equals(bean.getDeviceType())) {
+
+                ALog.e("点击进入Adapter^^^^^^^^^^^^^^^^");
                 Intent intent = new Intent(_mActivity, CameraPlay2Activity.class);
                 intent.putExtra("bean", (Serializable) bean);
-                _mActivity.startActivity(intent);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             } else {
                 _mActivity.start(DeviceOnOffFragment.newInstance(bean, selectRoom));
             }
@@ -452,11 +454,4 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 .setGravity(Gravity.BOTTOM)
                 .show(getChildFragmentManager());
     }
-
-    @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-        onRefresh();
-    }
-
 }

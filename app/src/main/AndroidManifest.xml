@@ -127,12 +127,13 @@
             android:theme="@style/AppTheme.Transparent" />
 
         <activity
-            android:name=".camera.CameraPlay2Activity"/>
+            android:name=".camera.CameraPlay2Activity"
+            android:launchMode="singleInstance"
+            android:process=":remote" />
 
         <activity android:name=".camera.PlayBackActivity" />
 
-        <activity
-            android:name=".camera.CameraSettingActivity" />
+        <activity android:name=".camera.CameraSettingActivity" />
 
     </application>
 
