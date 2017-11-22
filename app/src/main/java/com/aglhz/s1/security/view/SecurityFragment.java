@@ -29,6 +29,7 @@ import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.event.EventSwitchHost;
+import com.aglhz.s1.event.NoMultiClickListener;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
@@ -46,7 +47,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.DensityUtils;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
@@ -158,20 +158,28 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         tvFaraway = (TextView) headerView.findViewById(R.id.tv_faraway_item_security_header);
         mRecord = (RecordButton) headerView.findViewById(R.id.tv_message_item_security_header);
         //设置状态。
-        tvCancel.setOnClickListener(v -> {
-            params.dstatus = Constants.GATEWAY_STATE_CANCLE;
-            mPresenter.requestSwichState(params);
+        tvCancel.setOnClickListener(new NoMultiClickListener() {
+            @Override
+            public void onNoMultiClick(View view) {
+                params.dstatus = Constants.GATEWAY_STATE_CANCLE;
+                mPresenter.requestSwichState(params);
+            }
+        });
+        tvHome.setOnClickListener(new NoMultiClickListener() {
+            @Override
+            public void onNoMultiClick(View view) {
+                params.dstatus = Constants.GATEWAY_STATE_HOME;
+                mPresenter.requestSwichState(params);
+            }
+        });
+        tvFaraway.setOnClickListener(new NoMultiClickListener() {
+            @Override
+            public void onNoMultiClick(View view) {
+                params.dstatus = Constants.GATEWAY_STATE_FARAWAY;
+                mPresenter.requestSwichState(params);
+            }
         });
 
-        tvHome.setOnClickListener(v -> {
-            params.dstatus = Constants.GATEWAY_STATE_HOME;
-            mPresenter.requestSwichState(params);
-        });
-
-        tvFaraway.setOnClickListener(v -> {
-            params.dstatus = Constants.GATEWAY_STATE_FARAWAY;
-            mPresenter.requestSwichState(params);
-        });
         mRecord.setSavePath(Constants.PATH_DATA + File.separator + "leavemassage.amr");
         mRecord.setOnFinishedRecordListener(audioPath -> {
             params.file = new File(audioPath);

@@ -133,6 +133,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+        mPresenter.reqeuestCancellationOfSensorLearning(params);
         unbinder.unbind();
     }
 
