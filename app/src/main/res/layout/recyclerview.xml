@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.aglhz.s1.widget.PtrHTFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.meilun.security.smart.widget.PtrHTFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ptrFrameLayout"
@@ -27,4 +27,4 @@
             android:descendantFocusability="blocksDescendants" />
     </cn.itsite.statemanager.StateLayout>
 
-</com.aglhz.s1.widget.PtrHTFrameLayout>
+</com.meilun.security.smart.widget.PtrHTFrameLayout>
