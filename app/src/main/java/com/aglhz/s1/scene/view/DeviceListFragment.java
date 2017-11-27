@@ -111,13 +111,25 @@ public class DeviceListFragment extends BaseFragment {
     }
 
     private void requestDeviceList() {
+//        mRxManager.add(HttpHelper.getService(ApiService.class)
+//                .requestSubDeviceList(ApiService.requestSubDeviceList,
+//                        params.token,
+//                        params.page,
+//                        params.pageSize,
+//                        params.roomId,
+//                        params.category)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(bean -> {
+//                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+//                        responseDeviceList(bean);
+//                    } else {
+//                        error(bean.getOther().getMessage());
+//                    }
+//                }, this::error));
         mRxManager.add(HttpHelper.getService(ApiService.class)
-                .requestSubDeviceList(ApiService.requestSubDeviceList,
-                        params.token,
-                        params.page,
-                        params.pageSize,
-                        params.roomId,
-                        params.category)
+                .requestDeviceNotAlone(ApiService.requestDeviceNotAlone,
+                        params.token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {

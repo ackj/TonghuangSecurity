@@ -32,6 +32,9 @@ public class Constants extends BaseConstants {
     public static final int RESPONSE_CODE_SUCCESS = 200;
 
     public static final String PRESS_AGAIN = "再按一次退出";
+    public static final String KEY_ID = "id";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_LINK = "link";
 
     public static final String IS_FIRST_ENTER = "is_first_enter";
 

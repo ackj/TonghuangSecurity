@@ -70,6 +70,11 @@ public class Params {
     public String deviceName;
     public String devicePassword;
 
+    public String keywords;
+    public int appType;//android 2就好
+    public String id;
+    public String secondCategoryId;//二级菜单的id
+
     public static Params getInstance() {
         Params params = new Params();
         params.token = UserHelper.token;

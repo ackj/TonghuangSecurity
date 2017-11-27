@@ -126,14 +126,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
 
-        <activity
-            android:name=".camera.CameraPlay2Activity"/>
+        <activity android:name=".camera.CameraPlay2Activity" />
 
         <activity android:name=".camera.PlayBackActivity" />
 
+        <activity android:name=".camera.CameraSettingActivity" />
         <activity
-            android:name=".camera.CameraSettingActivity" />
-
+            android:name=".web.WebActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

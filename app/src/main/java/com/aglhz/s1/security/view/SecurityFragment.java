@@ -46,7 +46,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
-import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.DensityUtils;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
@@ -226,7 +225,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         if (tv != null) {//由于第一次安装，后台不知道主机的状态，所以defenseStatus这个字段为空，所以找不到这样的TextView。
             tv.setSelected(true);
         }
-
 
         String des = getStringByStatus(gatewayBean.getDefenseStatus()) + "：" + gatewayBean.getDefenseStatusDes();
         Spannable WordtoSpan = new SpannableString(des);

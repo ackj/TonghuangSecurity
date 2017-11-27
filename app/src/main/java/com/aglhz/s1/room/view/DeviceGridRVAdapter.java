@@ -15,7 +15,7 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Email: liujia95me@126.com
  */
 
-public class DeviceGridRVAdapter extends BaseRecyclerViewAdapter<DeviceListBean.DataBean.SubDevicesBean,BaseViewHolder> {
+public class DeviceGridRVAdapter extends BaseRecyclerViewAdapter<DeviceListBean.DataBean.SubDevicesBean, BaseViewHolder> {
 
     public DeviceGridRVAdapter() {
         super(R.layout.item_security);
@@ -23,8 +23,8 @@ public class DeviceGridRVAdapter extends BaseRecyclerViewAdapter<DeviceListBean.
 
     @Override
     protected void convert(BaseViewHolder helper, DeviceListBean.DataBean.SubDevicesBean item) {
-        helper.setVisible(R.id.iv_state,false)
-                .setText(R.id.tv_name_item_security,item.getName());
+        helper.setVisible(R.id.iv_state, false)
+                .setText(R.id.tv_name_item_security, item.getName());
 
         ImageView ivIcon = helper.getView(R.id.iv_icon_item_security);
         Glide.with(BaseApplication.mContext)

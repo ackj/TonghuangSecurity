@@ -7,13 +7,18 @@ import com.aglhz.s1.entity.bean.CheckTokenBean;
 import com.aglhz.s1.entity.bean.DeviceListBean;
 import com.aglhz.s1.entity.bean.DeviceLogBean;
 import com.aglhz.s1.entity.bean.DevicesBean;
+import com.aglhz.s1.entity.bean.DiscoverBean;
+import com.aglhz.s1.entity.bean.FirstLevelBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
+import com.aglhz.s1.entity.bean.GoodsBean;
 import com.aglhz.s1.entity.bean.HostSettingsBean;
 import com.aglhz.s1.entity.bean.LinkageBean;
+import com.aglhz.s1.entity.bean.NewsBean;
 import com.aglhz.s1.entity.bean.RoomTypesBean;
 import com.aglhz.s1.entity.bean.RoomsBean;
 import com.aglhz.s1.entity.bean.SceneBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
+import com.aglhz.s1.entity.bean.SubCategoryBean;
 import com.aglhz.s1.entity.bean.SubDeviceDetBean;
 import com.aglhz.s1.entity.bean.UserBean;
 
@@ -23,6 +28,7 @@ import okhttp3.MultipartBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -630,4 +636,51 @@ public interface ApiService {
                                           @Field("devicePassword") String devicePassword);
 
 
+    //************************* 智能商城模块 **************************
+    //一级列表同时是判断是否是跳转一级列表还是二级列表的入口
+    String requestFirstLevel = "http://www.aglhz.com/mall/member/goodscategory/firstLevelList.do";
+
+    @POST
+    Observable<FirstLevelBean> requestFirstLevel(@Url String url, @Query("keywords") String keywords);
+
+    //二级列表
+    String requestSubCategoryLevel = "http://www.aglhz.com/mall/member/goodscategory/subCategoryLevelList.do";
+
+    @POST
+    Observable<SubCategoryBean> requestSubCategoryLevel(@Url String url, @Query("token") String token, @Query("appType") int appType, @Query("id") String id);
+
+    //三级列表
+    String requestGoodsList = "http://www.aglhz.com/mall/member/goodscategory/findGoodsListByCategoryId.do";
+
+    @POST
+    Observable<GoodsBean> requestGoodsList(@Url String url, @Query("token") String token, @Query("appType") int appType, @Query("secondCategoryId") String id);
+
+    //todo(高亮)--------------------- 发现模块新增or修改 ----------------------
+
+    String requestDiscoverPage = BASE_URL + "/discovery/homepage";
+
+    @GET
+    Observable<DiscoverBean> requestDiscoverPage(
+            @Url String url
+            , @Query("token") String token
+            , @Query("page") int page
+            , @Query("pageSize") int pageSize);
+
+    String requestNewsList = BASE_URL + "/discovery/homepage/news";
+
+    @GET
+    Observable<NewsBean> requestNewsList(
+            @Url String url
+            , @Query("token") String token
+            , @Query("page") int page
+            , @Query("pageSize") int pageSize);
+
+    String requestDeviceNotAlone = BASE_URL + "/client/info/subDevicesNotAlone";
+
+    @FormUrlEncoded
+    @POST
+    Observable<DeviceListBean> requestDeviceNotAlone(
+            @Url String url
+            , @Field("token") String token
+    );
 }

@@ -16,8 +16,8 @@ import com.aglhz.s1.R;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.appupdate.UpdateAppHttpUtils;
+import com.aglhz.s1.discover.view.DiscoverFragment;
 import com.aglhz.s1.entity.bean.AppUpdateBean;
-import com.aglhz.s1.history.view.DeviceLogsFragment;
 import com.aglhz.s1.more.view.MoreFragment;
 import com.aglhz.s1.net.NetActivity;
 import com.aglhz.s1.net.view.SetWifiFragment;
@@ -80,14 +80,14 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
             fragments[0] = SecurityFragment.newInstance();
             fragments[1] = RoomDeviceListFragment.newInstance();
             fragments[2] = SceneFragment.newInstance();
-            fragments[3] = DeviceLogsFragment.newInstance();
+            fragments[3] = DiscoverFragment.newInstance();
             fragments[4] = MoreFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_container_main_fragment, 0, fragments[0], fragments[1], fragments[2], fragments[3], fragments[4]);
         } else {
             fragments[0] = findChildFragment(SecurityFragment.class);
             fragments[1] = findChildFragment(RoomDeviceListFragment.class);
             fragments[2] = findChildFragment(SceneFragment.class);
-            fragments[3] = findChildFragment(DeviceLogsFragment.class);
+            fragments[3] = findChildFragment(DiscoverFragment.class);
             fragments[4] = findChildFragment(MoreFragment.class);
             bottomNavigationPreposition = savedInstanceState.getInt(KEY_CURR_POSITION);
         }
@@ -102,7 +102,7 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.security, R.drawable.ic_navigationsecurity_black_78px, R.color.white);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.room, R.drawable.ic_navigationroom_black_78px, R.color.white);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.scene, R.drawable.ic_navigationscenes_black_78px, R.color.white);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.hisotry, R.drawable.ic_navigationhistory_black_78px, R.color.white);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.discover, R.drawable.ic_find_black_78px, R.color.white);
         AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.more, R.drawable.ic_navigationmore_black_78px, R.color.white);
         List<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
         bottomNavigationItems.add(item1);
@@ -199,7 +199,6 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
     private void requiresPermissions() {
         String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION};
         if (EasyPermissions.hasPermissions(_mActivity, perms)) {
-
         } else {
             EasyPermissions.requestPermissions(this, "需要定位权限", CAMERA_LOCATION, perms);
         }

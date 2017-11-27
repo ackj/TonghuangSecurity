@@ -32,13 +32,13 @@ android {
         debug {
             keyAlias 'guangneng'
             keyPassword 'guangneng'
-            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
+            storeFile file('F:/gaocheng/guangnenganfang.jks')
             storePassword 'guangneng'
         }
         release {
             keyAlias 'guangneng'
             keyPassword 'guangneng'
-            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
+            storeFile file('F:/gaocheng/guangnenganfang.jks')
             storePassword 'guangneng'
         }
     }
@@ -117,4 +117,13 @@ dependencies {
     compile 'com.github.jwkj:SoundWaveSender:v2.0.2'
     //声波配网库说依赖的udp通讯库，不可删除
     compile 'com.jwkj:udpsender:v2.0.1'
+    compile 'com.youth.banner:banner:1.4.9'
+    compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    //微信SDK
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:1.1.6'
+    compile files('libs/alipaySdk-20170922.jar')
+    compile files('libs/org.apache.http.legacy.jar')
+    //
+    compile 'com.gongwen:marqueelibrary:1.1.2'
 }
