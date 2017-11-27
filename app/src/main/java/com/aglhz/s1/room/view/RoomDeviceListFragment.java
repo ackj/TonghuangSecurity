@@ -54,7 +54,6 @@ import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
  * Email： liujia95me@126.com
  */
 public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.Presenter> implements RoomDeviceListContract.View {
-
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
@@ -65,15 +64,12 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     PtrHTFrameLayout ptrFrameLayout;
     @BindView(R.id.toolbar_menu)
     TextView toolbarMenu;
-
     Unbinder unbinder;
-
     private ImageView ivRoom;
     private ImageView ivHeader;
     private Params params = Params.getInstance();
     private RoomsBean.DataBean.RoomListBean selectRoom;
     private boolean isFirst = true;//是否是第一次进来
-    //    private StateManager mStateManager;
     private ImageView ivCamera;
     private DeviceGridRVAdapter adapter;
     private DeviceListBean.DataBean.SubDevicesBean addIconDevice;
@@ -118,20 +114,13 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
         initStateBar(toolbar);
         toolbarTitle.setText("大厅");
         toolbarMenu.setText("切换");
-        toolbarMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.requestHouseList(params);
-            }
-        });
+        toolbarMenu.setOnClickListener(v -> mPresenter.requestHouseList(params));
     }
 
     private void initData() {
         recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 4));
         adapter = new DeviceGridRVAdapter();
-
         View viewHeader = LayoutInflater.from(_mActivity).inflate(R.layout.layout_room_header, null);
-
         ivRoom = (ImageView) viewHeader.findViewById(R.id.iv_room);
         ivCamera = (ImageView) viewHeader.findViewById(R.id.iv_camera);
         ivHeader = new ImageView(_mActivity);
@@ -222,7 +211,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
             } else if ("camera01".equals(bean.getDeviceType())) {
                 Intent intent = new Intent(_mActivity, CameraPlay2Activity.class);
                 intent.putExtra("bean", (Serializable) bean);
-                _mActivity.startActivity(intent);
+                startActivity(intent);
             } else {
                 _mActivity.start(DeviceOnOffFragment.newInstance(bean, selectRoom));
             }
@@ -352,11 +341,4 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 .setGravity(Gravity.BOTTOM)
                 .show(getChildFragmentManager());
     }
-
-    @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-        onRefresh();
-    }
-
 }

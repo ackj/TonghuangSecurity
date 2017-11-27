@@ -126,7 +126,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
 
-        <activity android:name=".camera.CameraPlay2Activity" />
+        <activity
+            android:name=".camera.CameraPlay2Activity"
+            android:launchMode="singleInstance" />
 
         <activity android:name=".camera.PlayBackActivity" />
 
