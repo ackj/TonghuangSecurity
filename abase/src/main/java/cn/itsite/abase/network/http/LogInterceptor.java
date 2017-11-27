@@ -45,15 +45,14 @@ public class LogInterceptor implements Interceptor {
         source.request(Long.MAX_VALUE);
         buffer = source.buffer().clone();
         try {
-            ALog.e(TAG,"buffer.readUtf8():"+buffer.readUtf8());
-            if(buffer.readUtf8()==null||"".equals(buffer.readUtf8())){
-                return response;
-            }
             JSONObject jsonObject = new JSONObject(buffer.readUtf8());
             JSONObject jsonOther = jsonObject.optJSONObject("other");
             ALog.e(String.format("Received response for %s%nin %.1fms%n%sResponse Json: %s",
                     response.request().url(), (t2 - t1) / 1e6d, response.headers(),
                     jsonObject.toString()));
+
+            ALog.json(jsonObject.toString());
+
             int code = jsonOther.optInt("code");
             if (code == 123) {
                 ALog.e("code-->" + code);

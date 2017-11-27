@@ -32,7 +32,7 @@ android {
         debug {
             keyAlias 'guangneng'
             keyPassword 'guangneng'
-            storeFile file('F:/gaocheng/guangnenganfang.jks')
+            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
             storePassword 'guangneng'
         }
         release {

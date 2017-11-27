@@ -45,18 +45,14 @@ import cn.itsite.statemanager.StateManager;
  * 发现页
  */
 public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> implements DiscoverContract.View {
-
     public static final String TAG = DiscoverFragment.class.getSimpleName();
-
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
-
     private Params params = Params.getInstance();
     private StateManager mStateManager;
     private DiscoverRVAdapter adapter;
-
     Unbinder unbinder;
 
     public static DiscoverFragment newInstance() {
@@ -223,6 +219,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
     @Override
     public void responseDiscoverPage(DiscoverBean bean) {
         ptrFrameLayout.refreshComplete();
+        mStateManager.showContent();
         ALog.e(TAG, "responseDiscoverPage");
         adapter.getData().get(0).bannerss = bean.getData().getAdvs();
         adapter.getData().get(3).news = bean.getData().getNews();
