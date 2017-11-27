@@ -100,7 +100,7 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
         updateApp();//检测App的更新。
 
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.security, R.drawable.ic_navigationsecurity_black_78px, R.color.white);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.room, R.drawable.ic_navigationroom_black_78px, R.color.white);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.control, R.drawable.ic_navigationroom_black_78px, R.color.white);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.scene, R.drawable.ic_navigationscenes_black_78px, R.color.white);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.discover, R.drawable.ic_find_black_78px, R.color.white);
         AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.more, R.drawable.ic_navigationmore_black_78px, R.color.white);

@@ -30,6 +30,7 @@ import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
 import com.aglhz.s1.event.EventHostChanged;
 import com.aglhz.s1.event.EventSwitchHost;
+import com.aglhz.s1.event.NoMultiClickListener;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
@@ -158,20 +159,28 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         tvFaraway = (TextView) headerView.findViewById(R.id.tv_faraway_item_security_header);
         mRecord = (RecordButton) headerView.findViewById(R.id.tv_message_item_security_header);
         //设置状态。
-        tvCancel.setOnClickListener(v -> {
-            params.dstatus = Constants.GATEWAY_STATE_CANCLE;
-            mPresenter.requestSwichState(params);
+        tvCancel.setOnClickListener(new NoMultiClickListener() {
+            @Override
+            public void onNoMultiClick(View view) {
+                params.dstatus = Constants.GATEWAY_STATE_CANCLE;
+                mPresenter.requestSwichState(params);
+            }
+        });
+        tvHome.setOnClickListener(new NoMultiClickListener() {
+            @Override
+            public void onNoMultiClick(View view) {
+                params.dstatus = Constants.GATEWAY_STATE_HOME;
+                mPresenter.requestSwichState(params);
+            }
+        });
+        tvFaraway.setOnClickListener(new NoMultiClickListener() {
+            @Override
+            public void onNoMultiClick(View view) {
+                params.dstatus = Constants.GATEWAY_STATE_FARAWAY;
+                mPresenter.requestSwichState(params);
+            }
         });
 
-        tvHome.setOnClickListener(v -> {
-            params.dstatus = Constants.GATEWAY_STATE_HOME;
-            mPresenter.requestSwichState(params);
-        });
-
-        tvFaraway.setOnClickListener(v -> {
-            params.dstatus = Constants.GATEWAY_STATE_FARAWAY;
-            mPresenter.requestSwichState(params);
-        });
         mRecord.setSavePath(Constants.PATH_DATA + File.separator + "leavemassage.amr");
         mRecord.setOnFinishedRecordListener(audioPath -> {
             params.file = new File(audioPath);

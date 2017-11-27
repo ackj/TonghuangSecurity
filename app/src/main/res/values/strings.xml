@@ -2,7 +2,7 @@
     <string name="app_name">光能安防</string>
 
     <string name="security">安防</string>
-    <string name="room">房间</string>
+    <string name="control">控制</string>
     <string name="scene">场景</string>
     <string name="hisotry">历史</string>
     <string name="discover">发现</string>

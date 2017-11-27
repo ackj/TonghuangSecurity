@@ -50,6 +50,9 @@ public class LogInterceptor implements Interceptor {
             ALog.e(String.format("Received response for %s%nin %.1fms%n%sResponse Json: %s",
                     response.request().url(), (t2 - t1) / 1e6d, response.headers(),
                     jsonObject.toString()));
+
+            ALog.json(jsonObject.toString());
+
             int code = jsonOther.optInt("code");
             if (code == 123) {
                 ALog.e("code-->" + code);

@@ -9,8 +9,8 @@ android {
         applicationId "com.aglhz.s1"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 105
-        versionName "1.0.5"
+        versionCode 106
+        versionName "1.0.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
@@ -32,7 +32,7 @@ android {
         debug {
             keyAlias 'guangneng'
             keyPassword 'guangneng'
-            storeFile file('F:/gaocheng/guangnenganfang.jks')
+            storeFile file('H:/agl-client_gas_android-master/client_gas_android/guangnenganfang.jks')
             storePassword 'guangneng'
         }
         release {
