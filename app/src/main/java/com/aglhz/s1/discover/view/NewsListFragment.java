@@ -1,5 +1,6 @@
 package com.aglhz.s1.discover.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,11 +13,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.discover.contract.NewsContract;
 import com.aglhz.s1.discover.presenter.NewsPresenter;
 import com.aglhz.s1.entity.bean.NewsBean;
+import com.aglhz.s1.web.WebActivity;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.List;
 
@@ -56,7 +60,6 @@ public class NewsListFragment extends BaseFragment<NewsContract.Presenter> imple
         return new NewsListFragment();
     }
 
-
     @NonNull
     @Override
     protected NewsContract.Presenter createPresenter() {
@@ -95,6 +98,13 @@ public class NewsListFragment extends BaseFragment<NewsContract.Presenter> imple
     }
 
     private void initListener() {
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
+                NewsBean.DataBean bean = adapter.getItem(position);
+                gotoWeb(bean.getTitle(), bean.getContent());
+            }
+        });
     }
 
     @Override
@@ -102,6 +112,13 @@ public class NewsListFragment extends BaseFragment<NewsContract.Presenter> imple
         params.pageSize = 10;
         params.page = 1;
         mPresenter.requestNewsList(params);
+    }
+
+    private void gotoWeb(String title, String link) {
+        Intent intent = new Intent(_mActivity, WebActivity.class);
+        intent.putExtra(Constants.KEY_TITLE, title);
+        intent.putExtra(Constants.KEY_LINK, link);
+        _mActivity.startActivity(intent);//点击一个商品跳WEB
     }
 
     private void initStateManager() {

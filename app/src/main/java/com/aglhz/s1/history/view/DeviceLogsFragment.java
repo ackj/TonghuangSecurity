@@ -67,7 +67,7 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
-        return view;
+        return attachToSwipeBack(view);
     }
 
     @Override
@@ -82,6 +82,8 @@ public class DeviceLogsFragment extends BaseFragment<DeviceLogsContract.Presente
     private void initToolbar() {
         initStateBar(toolbar);
         toolbarTitle.setText("历史记录");
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
+        toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
 
     private void initData() {

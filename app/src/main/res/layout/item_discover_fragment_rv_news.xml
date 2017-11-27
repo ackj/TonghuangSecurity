@@ -42,6 +42,7 @@
         android:paddingLeft="5dp" />
 
     <TextView
+        android:background="?android:attr/selectableItemBackground"
         android:id="@+id/tv_more"
         android:layout_width="match_parent"
         android:layout_height="30dp"

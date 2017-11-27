@@ -11,14 +11,17 @@ import android.view.ViewGroup;
 
 import com.aglhz.s1.R;
 import com.aglhz.s1.camera.CameraListFragment;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.discover.contract.DiscoverContract;
 import com.aglhz.s1.discover.presenter.DiscoverPresenter;
+import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceLogBean;
 import com.aglhz.s1.entity.bean.DiscoverBean;
 import com.aglhz.s1.entity.bean.DiscoverHomeBean;
 import com.aglhz.s1.entity.bean.FirstLevelBean;
 import com.aglhz.s1.entity.bean.SubCategoryBean;
+import com.aglhz.s1.event.EventHostChanged;
 import com.aglhz.s1.event.EventSwitchHost;
 import com.aglhz.s1.history.view.DeviceLogsFragment;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
@@ -37,7 +40,6 @@ import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
-import cn.itsite.statemanager.StateManager;
 
 /**
  * Author: LiuJia on 2017/11/21 0021 17:23.
@@ -51,7 +53,6 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
     @BindView(R.id.ptrFrameLayout)
     PtrHTFrameLayout ptrFrameLayout;
     private Params params = Params.getInstance();
-    private StateManager mStateManager;
     private DiscoverRVAdapter adapter;
     Unbinder unbinder;
 
@@ -79,7 +80,6 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
         super.onViewCreated(view, savedInstanceState);
         initData();
         initListener();
-        initStateManager();
         initPtrFrameLayout(ptrFrameLayout, recyclerView);
     }
 
@@ -129,8 +129,11 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
                         break;
                     case DiscoverHomeBean.TYPE_BUTTONS:
                         switch (view.getId()) {
-                            case R.id.llayout_camera_list:
+                            case R.id.ll_camera:
                                 _mActivity.start(CameraListFragment.newInstance());
+                                break;
+                            case R.id.ll_switch_gateway:
+                                mPresenter.requestSwichState(params);
                                 break;
                             default:
                         }
@@ -146,23 +149,10 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
         params.pageSize = 10;
         params.page = 1;
         mPresenter.requestFirstLevel(params);
-//        mPresenter.requestDeviceLogs(params);
         mPresenter.requestDiscoverPage(params);
     }
 
-    private void initStateManager() {
-        mStateManager = StateManager.builder(_mActivity)
-                .setContent(recyclerView)
-                .setEmptyView(R.layout.state_empty)
-                .setEmptyText("暂无内容！")
-                .setErrorOnClickListener(v -> ptrFrameLayout.autoRefresh())
-                .setEmptyOnClickListener(v -> ptrFrameLayout.autoRefresh())
-                .setConvertListener((holder, stateLayout) ->
-                        holder.setOnClickListener(R.id.bt_empty_state,
-                                v -> ptrFrameLayout.autoRefresh())
-                                .setText(R.id.bt_empty_state, "点击刷新"))
-                .build();
-    }
+
 
     @Override
     public void onDestroyView() {
@@ -178,7 +168,6 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
         DialogHelper.warningSnackbar(getView(), errorMessage);
         if (params.page == 1) {
             //为后面的pageState做准备
-            mStateManager.showError();
         } else if (params.page > 1) {
 //            adapter.loadMoreFail();
             params.page--;
@@ -189,6 +178,18 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSwitchHost(EventSwitchHost event) {
         onRefresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onChangedSecurity(EventHostChanged event) {
+        ALog.e(TAG,"onChangedSecurity:"+event.status);
+        if (event.status.equals(Constants.GATEWAY_STATE_HOME)) {
+            adapter.switchGatewayIsHome(true);
+            params.dstatus = Constants.GATEWAY_STATE_FARAWAY;
+        } else {
+            adapter.switchGatewayIsHome(false);
+            params.dstatus = Constants.GATEWAY_STATE_HOME;
+        }
     }
 
     @Override
@@ -212,7 +213,6 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
     public void responseDeviceLogs(List<DeviceLogBean.DataBean.LogsBean> data) {
         if (data.size() > 0) {
             ptrFrameLayout.refreshComplete();
-
         }
     }
 
@@ -234,12 +234,10 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
         }
         adapter.getData().get(1).notices = list;
         adapter.notifyDataSetChanged();
-//        List<DiscoverBean> datas = new ArrayList<>();
-//        datas.add(bean);
-//        datas.add(bean);
-//        datas.add(bean);
-//        datas.add(bean);
-//        datas.add(bean);
-//        adapter.setNewData(datas);
+    }
+
+    @Override
+    public void responseSwichState(BaseBean baseBean) {
+        DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
     }
 }
