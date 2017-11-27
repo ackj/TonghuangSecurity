@@ -51,3 +51,6 @@ captures/
 *.jks
 >>>>>>> b03b903fe2d5d51cf0f2185b61ddd4cb95738c47
 /.idea
+app/src/main/java/com/aglhz/s1/common/multimedia/
+apush/libs/
+apush/src/main/res/drawable/
