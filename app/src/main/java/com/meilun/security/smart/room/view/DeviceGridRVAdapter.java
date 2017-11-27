@@ -29,7 +29,7 @@ public class DeviceGridRVAdapter extends BaseRecyclerViewAdapter<DeviceListBean.
         ImageView ivIcon = helper.getView(R.id.iv_icon_item_security);
         Glide.with(BaseApplication.mContext)
                 .load("add_icon".equals(item.getIcon()) ? R.drawable.ic_add_security_140px : item.getIcon())
-                .error(R.mipmap.ic_logo)
+                .error(R.mipmap.ic_launcher)
                 .into(ivIcon);
     }
 }

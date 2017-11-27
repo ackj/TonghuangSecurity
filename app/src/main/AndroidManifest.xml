@@ -85,7 +85,7 @@
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme.Transparent">
             <intent-filter>
-                <action android:name="com.aglhz.s1.login.LoginActivity" />
+                <action android:name="com.meilun.security.smart.login.LoginActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
