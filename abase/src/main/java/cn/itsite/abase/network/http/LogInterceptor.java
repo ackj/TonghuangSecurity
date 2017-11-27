@@ -30,8 +30,9 @@ public class LogInterceptor implements Interceptor {
         long t1 = System.nanoTime();
 
         Buffer buffer = new Buffer();
-        if (request.body() != null)
+        if (request.body() != null){
             request.body().writeTo(buffer);
+        }
 
         ALog.e(String.format("Sending request %s on %s%n%sRequest Params: %s",
                 request.url(), chain.connection(), request.headers(), buffer.clone().readUtf8()));
@@ -43,8 +44,11 @@ public class LogInterceptor implements Interceptor {
         BufferedSource source = response.body().source();
         source.request(Long.MAX_VALUE);
         buffer = source.buffer().clone();
-
         try {
+            ALog.e(TAG,"buffer.readUtf8():"+buffer.readUtf8());
+            if(buffer.readUtf8()==null||"".equals(buffer.readUtf8())){
+                return response;
+            }
             JSONObject jsonObject = new JSONObject(buffer.readUtf8());
             JSONObject jsonOther = jsonObject.optJSONObject("other");
             ALog.e(String.format("Received response for %s%nin %.1fms%n%sResponse Json: %s",
@@ -59,7 +63,6 @@ public class LogInterceptor implements Interceptor {
                 BaseApplication.mContext.startActivity(intent);
                 EventBus.getDefault().post(new LogInterceptor());
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

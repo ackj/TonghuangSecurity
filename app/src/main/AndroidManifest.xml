@@ -133,7 +133,9 @@
         <activity android:name=".camera.PlayBackActivity" />
 
         <activity android:name=".camera.CameraSettingActivity" />
-
+        <activity
+            android:name=".web.WebActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

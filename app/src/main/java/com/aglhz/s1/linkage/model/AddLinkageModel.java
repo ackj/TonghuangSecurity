@@ -53,8 +53,11 @@ public class AddLinkageModel extends BaseModel implements AddLinkageContract.Mod
 
     @Override
     public Observable<DeviceListBean> requestDeviceList(Params params) {
-        return HttpHelper.getService(ApiService.class).requestSubDeviceList(ApiService.requestSubDeviceList
-                , params.token,params.page,params.pageSize,params.category)
+//        return HttpHelper.getService(ApiService.class).requestSubDeviceList(ApiService.requestSubDeviceList
+//                , params.token,params.page,params.pageSize,params.category)
+//                .subscribeOn(Schedulers.io());
+        return HttpHelper.getService(ApiService.class).requestDeviceNotAlone(ApiService.requestSubDeviceList
+                , params.token)
                 .subscribeOn(Schedulers.io());
     }
 }

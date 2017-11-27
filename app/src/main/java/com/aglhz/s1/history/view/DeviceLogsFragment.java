@@ -30,7 +30,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
-import cn.itsite.abase.mvp.view.base.Decoration;
 import cn.itsite.statemanager.StateManager;
 
 /**

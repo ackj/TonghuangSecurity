@@ -235,7 +235,6 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
             tv.setSelected(true);
         }
 
-
         String des = getStringByStatus(gatewayBean.getDefenseStatus()) + "：" + gatewayBean.getDefenseStatusDes();
         Spannable WordtoSpan = new SpannableString(des);
         WordtoSpan.setSpan(new AbsoluteSizeSpan(DensityUtils.sp2px(getContext(), 18)), 0, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

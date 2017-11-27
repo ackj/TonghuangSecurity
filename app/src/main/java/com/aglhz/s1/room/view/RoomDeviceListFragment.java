@@ -2,7 +2,6 @@ package com.aglhz.s1.room.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,11 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aglhz.s1.R;
-import com.aglhz.s1.camera.CameraListFragment;
 import com.aglhz.s1.camera.CameraPlay2Activity;
 import com.aglhz.s1.camera.CameraSettingFragment;
-import com.aglhz.s1.camera.P2PListener;
-import com.aglhz.s1.camera.SettingListener;
 import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
@@ -37,19 +33,12 @@ import com.aglhz.s1.room.presenter.RoomDeviceListPresenter;
 import com.aglhz.s1.widget.PtrHTFrameLayout;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.libhttp.entity.LoginResult;
-import com.libhttp.subscribers.SubscriberListener;
-import com.p2p.core.P2PHandler;
-import com.p2p.core.P2PSpecial.HttpErrorCode;
-import com.p2p.core.P2PSpecial.HttpSend;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -58,10 +47,7 @@ import butterknife.Unbinder;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.log.ALog;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
-import cn.itsite.abase.utils.ToastUtils;
 import cn.itsite.adialog.dialogfragment.SelectorDialogFragment;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Author： Administrator on 2017/8/18 0018.
@@ -252,7 +238,6 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 return false;
             }
         });
-        ivCamera.setOnClickListener(v -> login());
     }
 
     private void showDeleteCameraDialog(DeviceListBean.DataBean.SubDevicesBean bean) {
@@ -266,91 +251,6 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                         mPresenter.requestDelDevice(params);
                     }
                 }).setNegativeButton("取消", null).show();
-    }
-
-    private void login() {
-        SubscriberListener<LoginResult> subscriberListener = new SubscriberListener<LoginResult>() {
-
-            @Override
-            public void onStart() {
-                showLoading();
-            }
-
-            @Override
-            public void onNext(LoginResult loginResult) {
-                dismissLoading();
-                //error code 全部改为了新版,如果没有老版对应 的反馈码则可忽略此错误
-                //如果不可以忽略,则反馈给技术支持即可
-                switch (loginResult.getError_code()) {
-                    case HttpErrorCode.ERROR_0:
-                        //成功的逻辑不需要改成下面这样,以下仅演示过程
-                        //原有的这部分代码可以不修改
-                        //code1与code2是p2p连接的鉴权码,只有在帐号异地登录或者服务器强制刷新(一般不会干这件事)时才会改变
-                        //所以可以将code1与code2保存起来,只需在下次登录时刷新即可
-                        saveAuthor(loginResult);
-                        P2PHandler.getInstance().p2pInit(_mActivity, new P2PListener(), new SettingListener());
-                        ALog.e(TAG, "haha1111111");
-                        ALog.e(TAG, "session:" + loginResult.getSessionID() + " -- session2:" + loginResult.getSessionID2()
-                                + "--code:" + loginResult.getP2PVerifyCode1() + " -- code2:" + loginResult.getP2PVerifyCode2());
-
-                        int sessionid1 = (int) Long.parseLong(loginResult.getSessionID());
-                        int sessionid2 = (int) Long.parseLong(loginResult.getSessionID2());
-
-                        P2PHandler.getInstance().p2pConnect(
-                                loginResult.getUserID(),
-                                sessionid1,
-                                sessionid2,
-                                Integer.parseInt(loginResult.getP2PVerifyCode1()),
-                                Integer.parseInt(loginResult.getP2PVerifyCode2()));
-
-                        _mActivity.start(CameraListFragment.newInstance());
-                        break;
-                    case HttpErrorCode.ERROR_10902011:
-                        ToastUtils.showToast(_mActivity, "用户不存在");
-                        break;
-                    case HttpErrorCode.ERROR_10902003:
-                        ToastUtils.showToast(_mActivity, "密码错误");
-                        break;
-                    default:
-                        //其它错误码需要用户自己实现
-                        ToastUtils.showToast(_mActivity, "登录失败:" + loginResult.getError_code());
-                        break;
-                }
-            }
-
-            @Override
-            public void onError(String error_code, Throwable throwable) {
-                dismissLoading();
-                ToastUtils.showToast(_mActivity, "登录失败 error：" + error_code);
-                ALog.e(TAG, "onError:" + throwable.getMessage());
-            }
-        };
-
-//        _mActivity.start(CameraListFragment.newInstance());
-        try {
-            HttpSend.getInstance().SpecialEmailLogin("huangyk@aglhz.com", subscriberListener);
-//            HttpSend.getInstance().ThirdLogin("1", BuildConfig.APPLICATION_ID, "565493619@qq.com", "", "0", "2", subscriberListener);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveAuthor(LoginResult loginResult) {
-        int code1 = Integer.parseInt(loginResult.getP2PVerifyCode1());
-        int code2 = Integer.parseInt(loginResult.getP2PVerifyCode2());
-        String sessionId = loginResult.getSessionID();
-        String sessionId2 = loginResult.getSessionID2();
-        String userId = loginResult.getUserID();
-        SharedPreferences sp = _mActivity.getSharedPreferences("Account", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putInt("code1", code1);
-        editor.putInt("code2", code2);
-        editor.putString("sessionId", sessionId);
-        editor.putString("sessionId2", sessionId2);
-        editor.putString("userId", userId);
-        editor.apply();
     }
 
     private void changedRoom(String room) {

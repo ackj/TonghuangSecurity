@@ -5,6 +5,7 @@
     <string name="control">控制</string>
     <string name="scene">场景</string>
     <string name="hisotry">历史</string>
+    <string name="discover">发现</string>
     <string name="more">更多</string>
 
     <string name="set_net_4_host">为主机配置WIFI，主机可以进行联网控制</string>
