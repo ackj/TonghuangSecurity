@@ -6,6 +6,7 @@ import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.discover.contract.DiscoverContract;
 import com.aglhz.s1.discover.model.DiscoverModel;
+import com.aglhz.s1.entity.bean.BaseBean;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import rx.android.schedulers.AndroidSchedulers;
@@ -80,6 +81,22 @@ public class DiscoverPresenter extends BasePresenter<DiscoverContract.View, Disc
                         getView().responseDiscoverPage(bean);
                     } else {
                         getView().error(bean.getOther().getMessage());
+                    }
+                }));
+    }
+
+    @Override
+    public void requestSwichState(Params params) {
+        mRxManager.add(mModel.requestSwichState(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<BaseBean>() {
+                    @Override
+                    public void _onNext(BaseBean baseBean) {
+                        if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                            getView().responseSwichState(baseBean);
+                        } else {
+                            getView().error(baseBean.getOther().getMessage());
+                        }
                     }
                 }));
     }

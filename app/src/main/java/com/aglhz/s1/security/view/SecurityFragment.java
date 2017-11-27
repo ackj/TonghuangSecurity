@@ -28,6 +28,7 @@ import com.aglhz.s1.common.Params;
 import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.GatewaysBean;
 import com.aglhz.s1.entity.bean.SecurityBean;
+import com.aglhz.s1.event.EventHostChanged;
 import com.aglhz.s1.event.EventSwitchHost;
 import com.aglhz.s1.security.contract.SecurityContract;
 import com.aglhz.s1.security.presenter.SecurityPresenter;
@@ -222,6 +223,7 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
         tvCancel.setSelected(false);
         tvHome.setSelected(false);
         tvFaraway.setSelected(false);
+        EventBus.getDefault().post(new EventHostChanged(gatewayBean.getDefenseStatus()));
         if (tv != null) {//由于第一次安装，后台不知道主机的状态，所以defenseStatus这个字段为空，所以找不到这样的TextView。
             tv.setSelected(true);
         }

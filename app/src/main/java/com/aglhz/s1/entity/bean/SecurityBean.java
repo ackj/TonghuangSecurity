@@ -198,6 +198,15 @@ public class SecurityBean extends BaseBean{
             private int index;
             private int isOline;
             private String name;
+            private String workStatus;
+
+            public String getWorkStatus() {
+                return workStatus;
+            }
+
+            public void setWorkStatus(String workStatus) {
+                this.workStatus = workStatus;
+            }
 
             public String getCategory() {
                 return category;

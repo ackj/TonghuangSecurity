@@ -406,11 +406,11 @@ public class CameraWifiInput2Fragment extends BaseFragment {
         isLinking = false;
         stopSoundWave();
         stopSmartLink();
-        if (countDownDialog != null &&countDownDialog.isShowing()){
+        if (countDownDialog != null && countDownDialog.isShowing()) {
             countDownDialog.dismiss();
         }
         if (isSuccess) {
-            ToastUtils.showToast(_mActivity,"配网成功");
+            ToastUtils.showToast(_mActivity, "配网成功");
             pop();
         }
     }

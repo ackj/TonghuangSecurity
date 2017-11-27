@@ -16,17 +16,27 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_s1_message_245px_60px" />
 
-    <com.gongwen.marqueen.SimpleMarqueeView
-        android:id="@+id/smv_notice"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:clickable="true"
-        android:flipInterval="2500"
-        android:inAnimation="@anim/in_top"
-        android:outAnimation="@anim/out_bottom"
-        app:marqueeAnimDuration="800"
-        app:smvTextColor="@color/base_black"
-        app:smvTextGravity="center_vertical"
-        app:smvTextSize="15sp" />
+        android:layout_height="match_parent">
+
+        <com.gongwen.marqueen.SimpleMarqueeView
+            android:id="@+id/smv_notice"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:flipInterval="2500"
+            android:inAnimation="@anim/in_top"
+            android:outAnimation="@anim/out_bottom"
+            app:marqueeAnimDuration="800"
+            app:smvTextColor="@color/base_black"
+            app:smvTextGravity="center_vertical"
+            app:smvTextSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:id="@+id/view_click"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
 
 </LinearLayout>

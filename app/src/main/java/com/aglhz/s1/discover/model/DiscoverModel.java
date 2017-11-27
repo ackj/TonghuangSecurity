@@ -3,6 +3,7 @@ package com.aglhz.s1.discover.model;
 import com.aglhz.s1.common.ApiService;
 import com.aglhz.s1.common.Params;
 import com.aglhz.s1.discover.contract.DiscoverContract;
+import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceLogBean;
 import com.aglhz.s1.entity.bean.DiscoverBean;
 import com.aglhz.s1.entity.bean.FirstLevelBean;
@@ -43,6 +44,15 @@ public class DiscoverModel extends BaseModel implements DiscoverContract.Model {
     public Observable<DiscoverBean> requestDiscoverPage(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestDiscoverPage(ApiService.requestDiscoverPage,params.token,params.page,params.pageSize)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseBean> requestSwichState(Params params) {
+        return HttpHelper.getService(ApiService.class)
+                .requestSwichState(ApiService.requestSwichState,
+                        params.token,
+                        params.dstatus)
                 .subscribeOn(Schedulers.io());
     }
 }

@@ -1,6 +1,7 @@
 package com.aglhz.s1.discover.contract;
 
 import com.aglhz.s1.common.Params;
+import com.aglhz.s1.entity.bean.BaseBean;
 import com.aglhz.s1.entity.bean.DeviceLogBean;
 import com.aglhz.s1.entity.bean.DiscoverBean;
 import com.aglhz.s1.entity.bean.FirstLevelBean;
@@ -28,6 +29,9 @@ public interface DiscoverContract {
         void responseDeviceLogs(List<DeviceLogBean.DataBean.LogsBean> data);
 
         void responseDiscoverPage(DiscoverBean bean);
+
+        void responseSwichState(BaseBean baseBean);
+
     }
 
     interface Presenter extends BaseContract.Presenter {
@@ -41,6 +45,9 @@ public interface DiscoverContract {
         void requestDeviceLogs(Params params);
 
         void requestDiscoverPage(Params params);
+
+        void requestSwichState(Params params);
+
     }
 
     interface Model extends BaseContract.Model {
@@ -54,5 +61,7 @@ public interface DiscoverContract {
         Observable<DeviceLogBean> requestDeviceLogs(Params params);
 
         Observable<DiscoverBean> requestDiscoverPage(Params params);
+
+        Observable<BaseBean> requestSwichState(Params params);
     }
 }

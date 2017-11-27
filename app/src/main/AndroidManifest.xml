@@ -135,6 +135,7 @@
         <activity android:name=".camera.CameraSettingActivity" />
         <activity
             android:name=".web.WebActivity"
+            android:theme="@style/AppTheme.Transparent"
             android:launchMode="singleTop" />
     </application>
 

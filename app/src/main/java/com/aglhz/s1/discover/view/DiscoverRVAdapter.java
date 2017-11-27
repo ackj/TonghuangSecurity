@@ -1,21 +1,27 @@
 package com.aglhz.s1.discover.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.aglhz.s1.App;
 import com.aglhz.s1.R;
+import com.aglhz.s1.common.Constants;
 import com.aglhz.s1.entity.bean.DiscoverBean;
 import com.aglhz.s1.entity.bean.DiscoverHomeBean;
 import com.aglhz.s1.smarthome.view.SmartHomeMallFragment;
+import com.aglhz.s1.web.WebActivity;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gongwen.marqueen.SimpleMF;
 import com.gongwen.marqueen.SimpleMarqueeView;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
@@ -51,6 +57,13 @@ public class DiscoverRVAdapter extends BaseMultiItemQuickAdapter<DiscoverHomeBea
         this.fragment = fragment;
     }
 
+    private boolean isHome;
+
+    public void switchGatewayIsHome(boolean isHome) {
+        this.isHome = isHome;
+        notifyItemChanged(2);
+    }
+
     @Override
     protected void convert(BaseViewHolder helper, DiscoverHomeBean item) {
         switch (helper.getLayoutPosition()) {
@@ -69,6 +82,14 @@ public class DiscoverRVAdapter extends BaseMultiItemQuickAdapter<DiscoverHomeBea
                                     .into(imageView);
                         }
                     }).start();
+
+                    banner.setOnBannerListener(new OnBannerListener() {
+                        @Override
+                        public void OnBannerClick(int position) {
+                            DiscoverBean.DataBean.AdvsBean bean = banners.get(position);
+                            gotoWeb(bean.getTitle(), bean.getLink());
+                        }
+                    });
                 } else {
                     List<Integer> normal = new ArrayList<>();
                     normal.add(R.drawable.bg_normal_banner_1200px_800px);
@@ -84,7 +105,7 @@ public class DiscoverRVAdapter extends BaseMultiItemQuickAdapter<DiscoverHomeBea
                 break;
             case DiscoverHomeBean.TYPE_NOTICE:
                 helper.addOnClickListener(R.id.ll_item_notice)
-                        .addOnClickListener(R.id.smv_notice);
+                        .addOnClickListener(R.id.view_click);
 
                 SimpleMarqueeView smvNotice = helper.getView(R.id.smv_notice);
                 SimpleMF<String> marqueeFactory = new SimpleMF(App.mContext);
@@ -93,16 +114,26 @@ public class DiscoverRVAdapter extends BaseMultiItemQuickAdapter<DiscoverHomeBea
                 smvNotice.startFlipping();
                 break;
             case DiscoverHomeBean.TYPE_BUTTONS:
-                helper.addOnClickListener(R.id.ll_quick_open_door)
-                        .addOnClickListener(R.id.ll_property_payment)
-                        .addOnClickListener(R.id.ll_temporary_parking)
-                        .addOnClickListener(R.id.llayout_camera_list);
+                helper.setText(R.id.tv_status, isHome ? "在家布防" : "离家布防")
+                        .setImageResource(R.id.iv_status, isHome ? R.drawable.ic_zjbf_150px : R.drawable.ic_ljbf_150px);
+                helper.addOnClickListener(R.id.ll_company)
+                        .addOnClickListener(R.id.ll_switch_gateway)
+                        .addOnClickListener(R.id.ll_camera)
+                        .addOnClickListener(R.id.ll_store);
                 break;
             case DiscoverHomeBean.TYPE_NEWS:
                 helper.addOnClickListener(R.id.tv_more);
                 RecyclerView recyclerView = helper.getView(R.id.recyclerView);
                 recyclerView.setLayoutManager(new LinearLayoutManager(App.mContext));
-                recyclerView.setAdapter(new NewsRVAdapter(item.news));
+                NewsRVAdapter newsRVAdapter = new NewsRVAdapter(item.news);
+                recyclerView.setAdapter(newsRVAdapter);
+                newsRVAdapter.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
+                        DiscoverBean.DataBean.NewsBean bean = item.news.get(position);
+                        gotoWeb(bean.getTitle(), bean.getContent());
+                    }
+                });
                 break;
             case DiscoverHomeBean.TYPE_STORE:
                 helper.setText(R.id.tv_title, "安防商城");
@@ -120,5 +151,12 @@ public class DiscoverRVAdapter extends BaseMultiItemQuickAdapter<DiscoverHomeBea
                 break;
             default:
         }
+    }
+
+    private void gotoWeb(String title, String link) {
+        Intent intent = new Intent(fragment.getActivity(), WebActivity.class);
+        intent.putExtra(Constants.KEY_TITLE, title);
+        intent.putExtra(Constants.KEY_LINK, link);
+        fragment.getActivity().startActivity(intent);//点击一个商品跳WEB
     }
 }

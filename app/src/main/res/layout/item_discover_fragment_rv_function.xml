@@ -16,7 +16,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/ll_quick_open_door"
+            android:id="@+id/ll_company"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -26,7 +26,7 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/selector_discover_awaydisarmed" />
+                android:src="@drawable/ic_gsje_150px" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_temporary_parking"
+            android:id="@+id/ll_switch_gateway"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -46,11 +46,13 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/iv_status"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/selector_discover_homedisarmed" />
+                android:src="@drawable/ic_ljbf_150px" />
 
             <TextView
+                android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -60,7 +62,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/llayout_camera_list"
+            android:id="@+id/ll_camera"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -70,7 +72,7 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/selector_discover_leavemessage" />
+                android:src="@drawable/ic_lfld_150px" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,7 +84,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_property_payment"
+            android:id="@+id/ll_store"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -92,7 +94,7 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/selector_discover_disarmed" />
+                android:src="@drawable/ic_afshc_150px" />
 
             <TextView
                 android:layout_width="wrap_content"
