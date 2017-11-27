@@ -30,7 +30,7 @@ public class LogInterceptor implements Interceptor {
         long t1 = System.nanoTime();
 
         Buffer buffer = new Buffer();
-        if (request.body() != null){
+        if (request.body() != null) {
             request.body().writeTo(buffer);
         }
 
