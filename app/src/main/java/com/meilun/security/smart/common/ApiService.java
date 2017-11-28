@@ -603,6 +603,12 @@ public interface ApiService {
                                              @Field("page") int page,
                                              @Field("pageSize") int pageSize);
 
+    @FormUrlEncoded
+    @POST
+    Observable<CameraBean> requestCameraList(@Url String url,
+                                             @Field("token") String token,
+                                             @Field("gateway") String gateway);
+
     //删除摄像头
     String requestDelcamera = BASE_URL + "/client/delcamera";
 

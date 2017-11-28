@@ -121,10 +121,7 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".camera.CameraPlayActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Transparent" />
+
 
         <activity
             android:name=".camera.CameraPlay2Activity"

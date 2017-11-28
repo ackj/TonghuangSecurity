@@ -38,7 +38,7 @@ public class CameraListPresenter extends BasePresenter<CameraListContract.View,C
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(bean -> {
                     if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseCameraList(bean.getData());
+                        getView().responseCameraList(bean.getData().getSubDevices());
                     } else {
                         getView().error(bean.getOther().getMessage());
                     }

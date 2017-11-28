@@ -4,7 +4,7 @@ import com.meilun.security.smart.camera.contract.CameraListContract;
 import com.meilun.security.smart.common.ApiService;
 import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.entity.bean.BaseBean;
-import com.meilun.security.smart.entity.bean.CameraBean;
+import com.meilun.security.smart.entity.bean.DeviceListBean;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;
@@ -19,9 +19,14 @@ import rx.schedulers.Schedulers;
 public class CameraListModel extends BaseModel implements CameraListContract.Model {
 
     @Override
-    public Observable<CameraBean> requestCameraList(Params params) {
+    public Observable<DeviceListBean> requestCameraList(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestCameraList(ApiService.requestCameraList,params.token,params.page,params.pageSize)
+                .requestSubDeviceList(ApiService.requestSubDeviceList,
+                        params.token,
+                        params.page,
+                        params.pageSize,
+                        params.roomId,
+                        params.category)
                 .subscribeOn(Schedulers.io());
     }
 

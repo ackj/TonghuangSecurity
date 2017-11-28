@@ -1,7 +1,8 @@
 package com.meilun.security.smart.camera;
 
-import com.meilun.security.smart.R;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.meilun.security.smart.R;
+import com.meilun.security.smart.entity.bean.DeviceListBean;
 
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
 
@@ -10,14 +11,14 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Email: liujia95me@126.com
  */
 
-public class CameraListRVAdapter extends BaseRecyclerViewAdapter<String, BaseViewHolder> {
+public class CameraListRVAdapter extends BaseRecyclerViewAdapter<DeviceListBean.DataBean.SubDevicesBean, BaseViewHolder> {
 
     public CameraListRVAdapter() {
         super(R.layout.item_camera);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
-
+    protected void convert(BaseViewHolder helper,DeviceListBean.DataBean.SubDevicesBean item) {
+        helper.setText(R.id.tv_name, item.getName());
     }
 }

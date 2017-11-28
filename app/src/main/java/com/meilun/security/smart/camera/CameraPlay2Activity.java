@@ -149,7 +149,6 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
         });
     }
 
-
     private void initData() {
         registerCameraReceiver();
         //获取数据

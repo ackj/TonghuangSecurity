@@ -2,7 +2,7 @@ package com.meilun.security.smart.camera.contract;
 
 import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.entity.bean.BaseBean;
-import com.meilun.security.smart.entity.bean.CameraBean;
+import com.meilun.security.smart.entity.bean.DeviceListBean;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import rx.Observable;
 public interface CameraListContract {
 
     interface View extends BaseContract.View {
-        void responseCameraList(List<CameraBean.DataBean> data);
+        void responseCameraList(List<DeviceListBean.DataBean.SubDevicesBean> data);
 
         void responseSuccess(BaseBean baseBean);
 
@@ -35,7 +35,7 @@ public interface CameraListContract {
     }
 
     interface Model extends BaseContract.Model {
-        Observable<CameraBean> requestCameraList(Params params);
+        Observable<DeviceListBean> requestCameraList(Params params);
 
         Observable<BaseBean> requestNewCamera(Params params);
 

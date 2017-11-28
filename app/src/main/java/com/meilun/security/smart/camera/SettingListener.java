@@ -34,7 +34,7 @@ public class SettingListener implements ISetting {
 
     @Override
     public void ACK_vRetGetDeviceTime(int msgId, int result) {
-        Log.e("dxsTest","msgId:"+msgId+"--result:"+result);
+        Log.e("dxsTest", "msgId:" + msgId + "--result:" + result);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class SettingListener implements ISetting {
 
     @Override
     public void ACK_vRetCheckDevicePassword(int msgId, int result, String deviceId) {
-        Log.e("dxsTest","msgId:"+msgId+"result:"+result+"deviceId:"+deviceId);
+        Log.e("dxsTest", "msgId:" + msgId + "result:" + result + "deviceId:" + deviceId);
     }
 
     @Override
@@ -163,7 +163,7 @@ public class SettingListener implements ISetting {
 
     @Override
     public void ACK_vRetCustomCmd(int msgId, int result) {
-        Log.e("dxsTest","ACK_vRetCustomCmd:"+msgId+"result:"+result);
+        Log.e("dxsTest", "ACK_vRetCustomCmd:" + msgId + "result:" + result);
     }
 
     @Override
@@ -656,7 +656,7 @@ public class SettingListener implements ISetting {
 
     @Override
     public void vRetGetDeviceTimeResult(String time) {
-        Log.e("dxsTest","vRetGetDeviceTimeResult:"+time);
+        Log.e("dxsTest", "vRetGetDeviceTimeResult:" + time);
     }
 
     @Override
@@ -680,8 +680,8 @@ public class SettingListener implements ISetting {
      */
     @Override
     public void vRetAlarmEmailResultWithSMTP(int result, String email, int smtpport, byte Entry, String[] SmptMessage, byte reserve) {
-        Log.d("zxy", "vRetAlarmEmailResultWithSMTP: "+result+","+
-                email+","+ smtpport+","+SmptMessage+","+(int) Entry+","+(int) reserve);
+        Log.d("zxy", "vRetAlarmEmailResultWithSMTP: " + result + "," +
+                email + "," + smtpport + "," + SmptMessage + "," + (int) Entry + "," + (int) reserve);
 //        RxBus.get().post(RxBUSAction.EVENT_RET_SET_ALARM_EMAIL,new Integer(result));
     }
 
@@ -740,7 +740,7 @@ public class SettingListener implements ISetting {
 
     @Override
     public void vRetSetDevicePasswordResult(int result) {
-        ALog.e(TAG,"vRetSetDevicePasswordResult："+result);
+        ALog.e(TAG, "vRetSetDevicePasswordResult：" + result);
         EventBus.getDefault().post(new EventCameraPwdChanged(result));
     }
 
@@ -751,16 +751,16 @@ public class SettingListener implements ISetting {
 
     /**
      * 获取设备中存储卡的录像列表
-     * @param names 录像文件名：如：disc1/2017-03-15_02:42:14_A.av(25S)
-     *              第0-第5位：表示录像文件在设备存储卡里的路径
-     *              第6为-第24位：表示该文件录制开始的时间（指设备的时间）。格式：yyyy-MM-dd_HH:mm:ss
-     *              第25位-第26位：_A:表示报警录像 _M:表示手动录像 _S:表示定时录像
-     *              第27位-第29位：视频格式
-     *              第30位-最后一位：表示录像的时间长度
-     *              （下标从0开始）
-     * @param option0 标识符 1：获取成功
-     * @param option1  获取状态 0：获取成功  82：存储卡不存在
      *
+     * @param names   录像文件名：如：disc1/2017-03-15_02:42:14_A.av(25S)
+     *                第0-第5位：表示录像文件在设备存储卡里的路径
+     *                第6为-第24位：表示该文件录制开始的时间（指设备的时间）。格式：yyyy-MM-dd_HH:mm:ss
+     *                第25位-第26位：_A:表示报警录像 _M:表示手动录像 _S:表示定时录像
+     *                第27位-第29位：视频格式
+     *                第30位-最后一位：表示录像的时间长度
+     *                （下标从0开始）
+     * @param option0 标识符 1：获取成功
+     * @param option1 获取状态 0：获取成功  82：存储卡不存在
      */
     @Override
     public void vRetGetRecordFiles(String[] names, byte option0, byte option1) {
@@ -784,7 +784,7 @@ public class SettingListener implements ISetting {
 
     @Override
     public void vRetCustomCmd(int contactId, int len, byte[] cmd) {
-        Log.e("dxsTest","ACK_vRetCustomCmd:"+contactId+"cmd:"+ Arrays.toString(cmd));
+        Log.e("dxsTest", "ACK_vRetCustomCmd:" + contactId + "cmd:" + Arrays.toString(cmd));
         String info = Arrays.toString(cmd);
 //        RxBus.get().post(RxBUSAction.EVENT_RET_CUSTOM_CMD,info);
     }
@@ -1185,7 +1185,9 @@ public class SettingListener implements ISetting {
      */
     @Override
     public void vRetGetIndexFriendStatus(int count, String[] contactIds, int[] IdProtery, int[] status, int[] DevTypes, int[] SubType, int[] DefenceState, byte bRequestResult, long[] defenceFlag) {
-
+        for (int i = 0; i < contactIds.length; i++) {
+            ALog.e(TAG, "vRetGetIndexFriendStatus  contact:" + contactIds[i] + " status:" + status[i]);
+        }
     }
 
 
