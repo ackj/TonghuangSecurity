@@ -94,4 +94,16 @@ public class Constants extends BaseConstants {
     public static final String PS_SMS_TOPHONE = "p_sms_tophone";///** 网关开启指定手机短信的推送 */
     public static final String PS_WIFI_CONNECT = "p_wifi_connect";///** 网关开启WiFi连接的推送 */
     public static final String PS_WIFI_DISCONNECT = "p_wifi_disconnect";///** 网关开启WiFi断开的推送 */
+
+    /**
+     * 探测器类型，现在只有8种。
+     */
+    public static final String TYPE_GAS_DETECTOR = "gas_detector";//煤气探测器。
+    public static final String TYPE_SMOKE_DETECTOR = "smoke_detector";//烟雾探测器。
+    public static final String TYPE_EMERGENCY_BUTTON = "emergency_button";//紧急按钮。
+    public static final String TYPE_REMOTE_CONTROL = "remote_control";//遥控器。
+    public static final String TYPE_DOOR_BELL = "door_bell";//门铃。
+    public static final String TYPE_DOOR_MAGNET = "door_magnet";//门磁。
+    public static final String TYPE_INFRARED_08_SENSOR = "infrared_08_sensor";//人体红外08。
+    public static final String TYPE_WINDOWRED_SENSOR = "windowred_sensor";//幕帘红外。
 }
