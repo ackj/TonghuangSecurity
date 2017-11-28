@@ -12,11 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.meilun.security.smart.entity.bean.BaseBean;
-import com.meilun.security.smart.security.contract.AddDetectorContract;
 import com.meilun.security.smart.R;
+import com.meilun.security.smart.common.Constants;
 import com.meilun.security.smart.common.Params;
+import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.entity.bean.DevicesBean;
+import com.meilun.security.smart.security.contract.AddDetectorContract;
 import com.meilun.security.smart.security.presenter.AddDetectorPresenter;
 import com.meilun.security.smart.widget.PtrHTFrameLayout;
 
@@ -24,6 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -56,6 +58,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     private Params params = Params.getInstance();
     private StateManager mStateManager;
     private AlertDialog dialog;
+    private HashMap<String, String> tipMap = new HashMap<>();
 
     public static AddDetectorFragment newInstance() {
         return new AddDetectorFragment();
@@ -101,6 +104,15 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     }
 
     private void initData() {
+        tipMap.put(Constants.TYPE_GAS_DETECTOR, "请按燃气探测器侧面按键触发学习");
+        tipMap.put(Constants.TYPE_SMOKE_DETECTOR, "请按烟雾探测器正面按键触发学习");
+        tipMap.put(Constants.TYPE_EMERGENCY_BUTTON, "请按紧急按钮触发学习");
+        tipMap.put(Constants.TYPE_REMOTE_CONTROL, "请按遥控任意键触发学习");
+        tipMap.put(Constants.TYPE_DOOR_BELL, "请按门铃按键触发学习");
+        tipMap.put(Constants.TYPE_DOOR_MAGNET, "请把门磁做分开合并动作触发学习");
+        tipMap.put(Constants.TYPE_INFRARED_08_SENSOR, "请晃动红外探测器触发学习");
+        tipMap.put(Constants.TYPE_WINDOWRED_SENSOR, "请晃动幕帘红外探测器触发学习");
+
         adapter = new AddDetectorRVAdapter();
         recyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 4));
         recyclerView.setAdapter(adapter);
@@ -149,13 +161,7 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     @Override
     public void responseAddDetector(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
-        dialog = new AlertDialog.Builder(_mActivity)
-                .setTitle("温馨提醒")
-                .setMessage("正在学习中，请稍后…")
-                .setNegativeButton("取消", (dialog, which) ->
-                        mPresenter.reqeuestCancellationOfSensorLearning(params))
-                .setCancelable(false)
-                .show();
+        showTips();
     }
 
     @Override
@@ -167,5 +173,15 @@ public class AddDetectorFragment extends BaseFragment<AddDetectorContract.Presen
     public void onLearnSensor(EventLearnSensor event) {
         dialog.dismiss();
         pop();
+    }
+
+    public void showTips() {
+        dialog = new AlertDialog.Builder(_mActivity)
+                .setTitle("温馨提醒")
+                .setMessage("正在学习中，请稍后…\n" + tipMap.get(params.sensorType))
+                .setNegativeButton("取消", (dialog, which) ->
+                        mPresenter.reqeuestCancellationOfSensorLearning(params))
+                .setCancelable(false)
+                .show();
     }
 }
