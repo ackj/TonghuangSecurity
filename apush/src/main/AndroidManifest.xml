@@ -10,10 +10,10 @@
         <!-- 以下阿里云推送 -->
         <meta-data
             android:name="com.alibaba.app.appkey"
-            android:value="24668956" /> <!-- 请填写你自己的- appKey -->
+            android:value="24714524" /> <!-- 请填写你自己的- appKey -->
         <meta-data
             android:name="com.alibaba.app.appsecret"
-            android:value="e184253cebfbc0b750b5ca7386400e6f" /> <!-- 请填写你自己的appSecret -->
+            android:value="21300cdad9a922fbb5afdcff392eae5c" /> <!-- 请填写你自己的appSecret -->
         <!-- 以上阿里云推送 -->
 
         <activity

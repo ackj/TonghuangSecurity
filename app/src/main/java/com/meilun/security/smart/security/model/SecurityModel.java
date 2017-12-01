@@ -32,7 +32,7 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
     public Observable<SecurityBean> requestSecurity(Params params) {
         return HttpHelper.getService(ApiService.class)
                 .requestSecurity(ApiService.requestSecurity,
-                        params.token,"FSmartMeilun")
+                        params.token)
                 .subscribeOn(Schedulers.io());
     }
 

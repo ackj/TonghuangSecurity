@@ -30,16 +30,16 @@ android {
 
     signingConfigs {
         debug {
-            keyAlias 'guangneng'
-            keyPassword 'guangneng'
-            storeFile file('F:/gaocheng/guangnenganfang.jks')
-            storePassword 'guangneng'
+            keyAlias 'agl'
+            keyPassword 'aglandroid'
+            storeFile file('F:/gaocheng/agl.keystore')
+            storePassword 'aglandroid'
         }
         release {
-            keyAlias 'guangneng'
-            keyPassword 'guangneng'
-            storeFile file('F:/gaocheng/guangnenganfang.jks')
-            storePassword 'guangneng'
+            keyAlias 'agl'
+            keyPassword 'aglandroid'
+            storeFile file('F:/gaocheng/agl.keystore')
+            storePassword 'aglandroid'
         }
     }
     buildTypes {

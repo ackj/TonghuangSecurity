@@ -1,15 +1,13 @@
 package com.meilun.security.smart.common;
 
-import com.meilun.security.smart.entity.bean.BaseBean;
-import com.meilun.security.smart.entity.bean.CheckTokenBean;
-import com.meilun.security.smart.entity.bean.DiscoverBean;
-import com.meilun.security.smart.entity.bean.RoomsBean;
-import com.meilun.security.smart.entity.bean.SceneBean;
 import com.meilun.security.smart.entity.bean.AuthorizationBean;
+import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.entity.bean.CameraBean;
+import com.meilun.security.smart.entity.bean.CheckTokenBean;
 import com.meilun.security.smart.entity.bean.DeviceListBean;
 import com.meilun.security.smart.entity.bean.DeviceLogBean;
 import com.meilun.security.smart.entity.bean.DevicesBean;
+import com.meilun.security.smart.entity.bean.DiscoverBean;
 import com.meilun.security.smart.entity.bean.FirstLevelBean;
 import com.meilun.security.smart.entity.bean.GatewaysBean;
 import com.meilun.security.smart.entity.bean.GoodsBean;
@@ -17,6 +15,8 @@ import com.meilun.security.smart.entity.bean.HostSettingsBean;
 import com.meilun.security.smart.entity.bean.LinkageBean;
 import com.meilun.security.smart.entity.bean.NewsBean;
 import com.meilun.security.smart.entity.bean.RoomTypesBean;
+import com.meilun.security.smart.entity.bean.RoomsBean;
+import com.meilun.security.smart.entity.bean.SceneBean;
 import com.meilun.security.smart.entity.bean.SecurityBean;
 import com.meilun.security.smart.entity.bean.SubCategoryBean;
 import com.meilun.security.smart.entity.bean.SubDeviceDetBean;
@@ -51,12 +51,13 @@ public interface ApiService {
     //阿里云deviceID登记接口
     String registerDevice = BASE_USER + "/client/logUMengParams.do";
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> registerDevice(@Url String url,
-                                        @Query("token") String token,
-                                        @Query("deviceToken") String deviceToken,
-                                        @Query("alias") String alias,
-                                        @Query("aliasType") String aliasType);
+                                        @Field("token") String token,
+                                        @Field("deviceToken") String deviceToken,
+                                        @Field("alias") String alias,
+                                        @Field("aliasType") String aliasType);
 
     //-----------------以上为推送相关---------------------
 
@@ -64,56 +65,62 @@ public interface ApiService {
     //登录
     String requestLogin = BASE_USER + "/client/login.do";
 
+    @FormUrlEncoded
     @POST
     Observable<UserBean> requestLogin(@Url String url,
-                                      @Query("sc") String sc,
-                                      @Query("user") String user,
-                                      @Query("pwd") String pwd);
+                                      @Field("sc") String sc,
+                                      @Field("user") String user,
+                                      @Field("pwd") String pwd);
 
     //注册
     String requestRegister = BASE_USER + "/client/register.do";
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> requestRegister(@Url String url,
-                                         @Query("sc") String sc,
-                                         @Query("account") String account,
-                                         @Query("code") String code,
-                                         @Query("Password1") String password1,
-                                         @Query("Password2") String password2);
+                                         @Field("sc") String sc,
+                                         @Field("account") String account,
+                                         @Field("code") String code,
+                                         @Field("Password1") String password1,
+                                         @Field("Password2") String password2);
 
     //获取验证码
     String requestVerifyCode = BASE_USER + "/client/validCode.do";
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> requestVerifyCode(@Url String url,
-                                           @Query("sc") String sc,
-                                           @Query("phone") String phone,
-                                           @Query("type") String type);
+                                           @Field("sc") String sc,
+                                           @Field("phone") String phone,
+                                           @Field("type") String type);
 
     //重置密码
     String requestResetPassword = BASE_USER + "/client/renewMemberPwd.do";
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> requestResetPassword(@Url String url,
-                                              @Query("sc") String sc,
-                                              @Query("account") String account,
-                                              @Query("code") String code,
-                                              @Query("pwd1") String password1,
-                                              @Query("pwd2") String password2);
+                                              @Field("sc") String sc,
+                                              @Field("account") String account,
+                                              @Field("code") String code,
+                                              @Field("pwd1") String password1,
+                                              @Field("pwd2") String password2);
 
     //登录验证
     String requestCheckToken = BASE_USER + "/client/checkIfTokenInvalid.do";
 
+    @FormUrlEncoded
     @POST
     Observable<CheckTokenBean> requestCheckToken(@Url String url,
-                                                 @Query("token") String token);
+                                                 @Field("token") String token);
 
     //登出
     String requestLogout = BASE_USER + "/client/logout.do";
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> requestLogout(@Url String url,
-                                       @Query("token") String token);
+                                       @Field("token") String token);
 
     //----------以上为Launch模块--------------
 
@@ -153,9 +160,10 @@ public interface ApiService {
     //取消传感器的学习。
     String reqeuestCancellationOfSensorLearning = BASE_URL + "/client/sensorLearnCancle";
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> reqeuestCancellationOfSensorLearning(@Url String url
-            , @Query("token") String token);
+            , @Field("token") String token);
 
     // 修改探测器
     String requestModsensor = BASE_URL + "/client/modsensor";
@@ -170,9 +178,10 @@ public interface ApiService {
             , @Field("defenseLevel") String defenseLevel
             , @Field("alarmDelay") int alarmDelay);
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> requestModsensor(@Url String url
-            , @Query("token") String token
+            , @Field("token") String token
             , @Body MultipartBody file
     );
 
@@ -220,9 +229,10 @@ public interface ApiService {
     //修改设备
     String requestModDevice = BASE_URL + "/client/moddevice";
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> requestModDevice(@Url String url
-            , @Query("token") String token
+            , @Field("token") String token
             , @Body MultipartBody file);
 
     //删除设备
@@ -280,6 +290,7 @@ public interface ApiService {
     //设备类型
     String requestCtrlSDeviceTypeList = BASE_URL + "/client/info/ctrlSDeviceTypeList";
 
+    @FormUrlEncoded
     @POST
     Observable<DevicesBean> requestCtrlSDeviceTypeList(@Url String url);
 
@@ -318,6 +329,7 @@ public interface ApiService {
     //房间类型列表
     String requestRoomTypeList = BASE_URL + "/client/info/roomTypeList";
 
+    @FormUrlEncoded
     @POST
     Observable<RoomTypesBean> requestRoomTypeList(@Url String url);
 
@@ -453,28 +465,28 @@ public interface ApiService {
     //切换主机
     String requestSwichGateway = BASE_URL + "/client/gatewaySW";
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> requestSwichGateway(@Url String url,
-                                             @Query("token") String token,
-                                             @Query("gateway") String gateway);
+                                             @Field("token") String token,
+                                             @Field("gateway") String gateway);
 
     //切换主机状态
     String requestSwichState = BASE_URL + "/client/gatewayDSS";
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> requestSwichState(@Url String url,
-                                           @Query("token") String token,
-                                           @Query("dstatus") String dstatus);
+                                           @Field("token") String token,
+                                           @Field("dstatus") String dstatus);
 
     //主页显示内容
     String requestSecurity = BASE_URL + "/client/info/homePage ";
 
+    @FormUrlEncoded
     @POST
     Observable<SecurityBean> requestSecurity(@Url String url,
-                                             @Query("token") String token,
-                                             @Query("fc")String fc);
-
-
+                                             @Field("token") String token);
 
     //添加主机
     String requestAddHost = BASE_URL + "/client/newgateway3";
@@ -538,9 +550,10 @@ public interface ApiService {
     //主机留言。
     String requestLeaveMassge = BASE_URL + "/client/gatewayMsgLeave";
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> requestLeaveMassge(@Url String url,
-                                            @Query("token") String token,
+                                            @Field("token") String token,
                                             @Body MultipartBody file);
 
     //----------------------------- 以上为主机操作相关 ---------------------------------
@@ -560,18 +573,20 @@ public interface ApiService {
     //启动场景
     String requestStartScene = BASE_URL + "/client/scenectrl";
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> requestStartScene(@Url String url,
-                                           @Query("token") String token,
-                                           @Query("index") int index);
+                                           @Field("token") String token,
+                                           @Field("index") int index);
 
     //删除场景
     String requestDeleteScene = BASE_URL + "/client/delscene";
 
+    @FormUrlEncoded
     @POST
     Observable<BaseBean> requestDeleteScene(@Url String url,
-                                            @Query("token") String token,
-                                            @Query("index") int index);
+                                            @Field("token") String token,
+                                            @Field("index") int index);
 
 
     // 添加场景
@@ -648,47 +663,55 @@ public interface ApiService {
     //一级列表同时是判断是否是跳转一级列表还是二级列表的入口
     String requestFirstLevel = "http://www.aglhz.com/mall/member/goodscategory/firstLevelList.do";
 
+    @FormUrlEncoded
     @POST
-    Observable<FirstLevelBean> requestFirstLevel(@Url String url, @Query("keywords") String keywords);
+    Observable<FirstLevelBean> requestFirstLevel(@Url String url,
+                                                 @Field("keywords") String keywords);
 
     //二级列表
     String requestSubCategoryLevel = "http://www.aglhz.com/mall/member/goodscategory/subCategoryLevelList.do";
 
+    @FormUrlEncoded
     @POST
-    Observable<SubCategoryBean> requestSubCategoryLevel(@Url String url, @Query("token") String token, @Query("appType") int appType, @Query("id") String id);
+    Observable<SubCategoryBean> requestSubCategoryLevel(@Url String url,
+                                                        @Field("token") String token,
+                                                        @Field("appType") int appType,
+                                                        @Field("id") String id);
 
     //三级列表
     String requestGoodsList = "http://www.aglhz.com/mall/member/goodscategory/findGoodsListByCategoryId.do";
 
+    @FormUrlEncoded
     @POST
-    Observable<GoodsBean> requestGoodsList(@Url String url, @Query("token") String token, @Query("appType") int appType, @Query("secondCategoryId") String id);
-
-    //todo(高亮)--------------------- 发现模块新增or修改 ----------------------
-
-    String requestDiscoverPage = BASE_URL + "/discovery/homepage";
-
-    @GET
-    Observable<DiscoverBean> requestDiscoverPage(
-            @Url String url
-            , @Query("token") String token
-            , @Query("page") int page
-            , @Query("pageSize") int pageSize);
-
-    String requestNewsList = BASE_URL + "/discovery/homepage/news";
-
-    @GET
-    Observable<NewsBean> requestNewsList(
-            @Url String url
-            , @Query("token") String token
-            , @Query("page") int page
-            , @Query("pageSize") int pageSize);
+    Observable<GoodsBean> requestGoodsList(@Url String url,
+                                           @Field("token") String token,
+                                           @Field("appType") int appType,
+                                           @Field("secondCategoryId") String id);
 
     String requestDeviceNotAlone = BASE_URL + "/client/info/subDevicesNotAlone";
 
     @FormUrlEncoded
     @POST
-    Observable<DeviceListBean> requestDeviceNotAlone(
-            @Url String url
-            , @Field("token") String token
-    );
+    Observable<DeviceListBean> requestDeviceNotAlone(@Url String url,
+                                                     @Field("token") String token);
+
+    //todo(高亮)--------------------- 发现模块新增or修改 ----------------------
+
+    //    String requestDiscoverPage = BASE_URL + "/discovery/homepage";
+    String requestDiscoverPage = "http://120.77.83.45:8096/gas" + "/discovery/homepage";
+
+    @GET
+    Observable<DiscoverBean> requestDiscoverPage(@Url String url,
+                                                 @Query("token") String token,
+                                                 @Query("page") int page,
+                                                 @Query("pageSize") int pageSize);
+
+    String requestNewsList = "http://120.77.83.45:8096/gas" + "/discovery/homepage/news";
+
+    @GET
+    Observable<NewsBean> requestNewsList(@Url String url,
+                                         @Query("token") String token,
+                                         @Query("page") int page,
+                                         @Query("pageSize") int pageSize);
+
 }
