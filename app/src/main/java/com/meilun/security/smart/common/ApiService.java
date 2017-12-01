@@ -471,7 +471,9 @@ public interface ApiService {
 
     @POST
     Observable<SecurityBean> requestSecurity(@Url String url,
-                                             @Query("token") String token);
+                                             @Query("token") String token,
+                                             @Query("fc")String fc);
+
 
 
     //添加主机
