@@ -150,7 +150,7 @@ public interface ApiService {
     );
 
     //添加探测器
-    String reqeuestNewsensor = BASE_URL + "/client/newsensor";
+    String reqeuestNewsensor = BASE_URL + "/ctrl/client/newsensor";
 
 
     @POST
@@ -158,7 +158,7 @@ public interface ApiService {
             , @Body MultipartBody file);
 
     //取消传感器的学习。
-    String reqeuestCancellationOfSensorLearning = BASE_URL + "/client/sensorLearnCancle";
+    String reqeuestCancellationOfSensorLearning = BASE_URL + "/ctrl/client/sensorLearnCancle";
 
     @FormUrlEncoded
     @POST
@@ -166,7 +166,7 @@ public interface ApiService {
             , @Field("token") String token);
 
     // 修改探测器
-    String requestModsensor = BASE_URL + "/client/modsensor";
+    String requestModsensor = BASE_URL + "/ctrl/client/modsensor";
 
     @FormUrlEncoded
     @POST
@@ -186,7 +186,7 @@ public interface ApiService {
     );
 
     // 删除探测器
-    String requestDelsensor = BASE_URL + "/client/delsensor";
+    String requestDelsensor = BASE_URL + "/ctrl/client/delsensor";
 
     @FormUrlEncoded
     @POST
@@ -206,7 +206,7 @@ public interface ApiService {
 
     //----------------------------- 设备相关 ---------------------------------
     //添加设备
-    String requestNewDevice = BASE_URL + "/client/newdevice";
+    String requestNewDevice = BASE_URL + "/ctrl/client/newdevice";
 
     @FormUrlEncoded
     @POST
@@ -227,7 +227,7 @@ public interface ApiService {
                                           @Field("password") String password);
 
     //修改设备
-    String requestModDevice = BASE_URL + "/client/moddevice";
+    String requestModDevice = BASE_URL + "/ctrl/client/moddevice";
 
     @FormUrlEncoded
     @POST
@@ -236,7 +236,7 @@ public interface ApiService {
             , @Body MultipartBody file);
 
     //删除设备
-    String requestDelDevice = BASE_URL + "/client/deldevice";
+    String requestDelDevice = BASE_URL + "/ctrl/client/deldevice";
 
     @FormUrlEncoded
     @POST
@@ -266,7 +266,7 @@ public interface ApiService {
             , @Field("category") String category);
 
     //设备控制
-    String requestDevicectrl = BASE_URL + "/client/devicectrl";
+    String requestDevicectrl = BASE_URL + "/ctrl/client/devicectrl";
 
     @FormUrlEncoded
     @POST
@@ -294,7 +294,7 @@ public interface ApiService {
     @POST
     Observable<DevicesBean> requestCtrlSDeviceTypeList(@Url String url);
 
-    String requestNewDeviceConfirm = BASE_URL + "/client/newDeviceConfirm";
+    String requestNewDeviceConfirm = BASE_URL + "/ctrl/client/newDeviceConfirm";
 
     @FormUrlEncoded
     @POST
@@ -316,7 +316,7 @@ public interface ApiService {
     );
 
     //添加房间
-    String requestNewroom = BASE_URL + "/client/newroom";
+    String requestNewroom = BASE_URL + "/ctrl/client/newroom";
 
     @FormUrlEncoded
     @POST
@@ -334,18 +334,18 @@ public interface ApiService {
     Observable<RoomTypesBean> requestRoomTypeList(@Url String url);
 
     //删除房间
-    String requestDelroom = BASE_URL + "/client/delroom";
+    String requestDelroom = BASE_URL + "/ctrl/client/delroom";
 
     @FormUrlEncoded
     @POST
-    Observable<BaseBean> requestDelroom(@Url String url
-            , @Field("token") String token
-            , @Field("fid") String fid
+    Observable<BaseBean> requestDelroom(@Url String url,
+                                        @Field("token") String token,
+                                        @Field("fid") String fid
     );
 
     //----------------------------- 联动相关 ---------------------------------
     //添加联动
-    String requestNewlinkage = BASE_URL + "/client/newlinkage";
+    String requestNewlinkage = BASE_URL + "/ctrl/client/newlinkage";
 
     @FormUrlEncoded
     @POST
@@ -366,7 +366,7 @@ public interface ApiService {
     );
 
     //修改联动
-    String requestModLinkage = BASE_URL + "/client/modlinkage";
+    String requestModLinkage = BASE_URL + "/ctrl/client/modlinkage";
 
     @FormUrlEncoded
     @POST
@@ -400,7 +400,7 @@ public interface ApiService {
     );
 
     //删除联动
-    String requestDellinkage = BASE_URL + "/client/dellinkage";
+    String requestDellinkage = BASE_URL + "/ctrl/client/dellinkage";
 
     @FormUrlEncoded
     @POST
@@ -422,7 +422,7 @@ public interface ApiService {
                                                          @Field("pageSize") int pageSize);
 
     //解除主机授权
-    String requestGatewayUnAuth = BASE_URL + "/client/gatewayUnAuth";
+    String requestGatewayUnAuth = BASE_URL + "/ctrl/client/gatewayUnAuth";
 
     @FormUrlEncoded
     @POST
@@ -432,7 +432,7 @@ public interface ApiService {
                                               @Field("fid") String fid);
 
     //选择一个主机，授权给用户
-    String requestGatewayAuth = BASE_URL + "/client/gatewayAuth";
+    String requestGatewayAuth = BASE_URL + "/ctrl/client/gatewayAuth";
 
     @FormUrlEncoded
     @POST
@@ -442,7 +442,7 @@ public interface ApiService {
             , @Field("mobile") String mobile);
 
     //解绑当前主机
-    String requestUnbindHost = BASE_URL + "/client/delgateway";
+    String requestUnbindHost = BASE_URL + "/ctrl/client/delgateway";
 
     @FormUrlEncoded
     @POST
@@ -463,7 +463,7 @@ public interface ApiService {
 
     //-----------------以下为主机操作相关---------------------
     //切换主机
-    String requestSwichGateway = BASE_URL + "/client/gatewaySW";
+    String requestSwichGateway = BASE_URL + "/ctrl/client/gatewaySW";
 
     @FormUrlEncoded
     @POST
@@ -472,7 +472,7 @@ public interface ApiService {
                                              @Field("gateway") String gateway);
 
     //切换主机状态
-    String requestSwichState = BASE_URL + "/client/gatewayDSS";
+    String requestSwichState = BASE_URL + "/ctrl/client/gatewayDSS";
 
     @FormUrlEncoded
     @POST
@@ -489,7 +489,7 @@ public interface ApiService {
                                              @Field("token") String token);
 
     //添加主机
-    String requestAddHost = BASE_URL + "/client/newgateway3";
+    String requestAddHost = BASE_URL + "/ctrl/client/newgateway3";
 
     @FormUrlEncoded
     @POST
@@ -502,7 +502,7 @@ public interface ApiService {
                                         @Field("lat") String lat);
 
     //修改主机定位
-    String requestEditHostLocation = BASE_URL + "/client/gatewayAddrSet";
+    String requestEditHostLocation = BASE_URL + "/ctrl/client/gatewayAddrSet";
 
     @FormUrlEncoded
     @POST
@@ -515,7 +515,7 @@ public interface ApiService {
                                                  @Field("gateway") String gateway);
 
     //主机配置都归为这一个借口。如：音量，短信，推送等。
-    String requestHostConfig = BASE_URL + "/client/gatewayConfig";
+    String requestHostConfig = BASE_URL + "/ctrl/client/gatewayConfig";
 
     @FormUrlEncoded
     @POST
@@ -538,7 +538,7 @@ public interface ApiService {
                                                      @Field("type") String type);
 
     //主机配置都归为这一个借口。如：音量，短信，推送等。
-    String requestUpdateHostName = BASE_URL + "/client/modgateway";
+    String requestUpdateHostName = BASE_URL + "/ctrl/client/modgateway";
 
     @FormUrlEncoded
     @POST
@@ -548,7 +548,7 @@ public interface ApiService {
                                                @Field("name") String name);
 
     //主机留言。
-    String requestLeaveMassge = BASE_URL + "/client/gatewayMsgLeave";
+    String requestLeaveMassge = BASE_URL + "/ctrl/client/gatewayMsgLeave";
 
     @FormUrlEncoded
     @POST
@@ -571,7 +571,7 @@ public interface ApiService {
                                            @Field("token") String token);
 
     //启动场景
-    String requestStartScene = BASE_URL + "/client/scenectrl";
+    String requestStartScene = BASE_URL + "/ctrl/client/scenectrl";
 
     @FormUrlEncoded
     @POST
@@ -580,7 +580,7 @@ public interface ApiService {
                                            @Field("index") int index);
 
     //删除场景
-    String requestDeleteScene = BASE_URL + "/client/delscene";
+    String requestDeleteScene = BASE_URL + "/ctrl/client/delscene";
 
     @FormUrlEncoded
     @POST
@@ -590,7 +590,7 @@ public interface ApiService {
 
 
     // 添加场景
-    String requestAddScene = BASE_URL + "/client/newscene";
+    String requestAddScene = BASE_URL + "/ctrl/client/newscene";
 
     @FormUrlEncoded
     @POST
@@ -627,7 +627,7 @@ public interface ApiService {
                                              @Field("gateway") String gateway);
 
     //删除摄像头
-    String requestDelcamera = BASE_URL + "/client/delcamera";
+    String requestDelcamera = BASE_URL + "/ctrl/client/delcamera";
 
     @FormUrlEncoded
     @POST
@@ -636,7 +636,7 @@ public interface ApiService {
                                           @Field("camera") String camera);
 
     //修改摄像头信息
-    String requestModCamera = BASE_URL + "/client/modcamera";
+    String requestModCamera = BASE_URL + "/ctrl/client/modcamera";
 
     @FormUrlEncoded
     @POST
@@ -648,7 +648,7 @@ public interface ApiService {
                                           @Field("password") String password);
 
     //添加摄像头
-    String requestNewcamera = BASE_URL + "/client/newcamera";
+    String requestNewcamera = BASE_URL + "/ctrl/client/newcamera";
 
     @FormUrlEncoded
     @POST
