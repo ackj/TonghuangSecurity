@@ -19,10 +19,6 @@ import rx.schedulers.Schedulers;
  */
 
 public class SmartHomeMallModel extends BaseModel implements SmartHomeMallContract.Model {
-    @Override
-    public void start(Object request) {
-
-    }
 
     @Override
     public Observable<SubCategoryBean> requestSubCategoryList(Params params) {
