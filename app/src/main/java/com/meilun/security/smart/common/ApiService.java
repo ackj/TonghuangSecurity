@@ -698,8 +698,8 @@ public interface ApiService {
 
     //todo(高亮)--------------------- 发现模块新增or修改 ----------------------
 
-    //    String requestDiscoverPage = BASE_URL + "/discovery/homepage";
-    String requestDiscoverPage = "http://120.77.83.45:8096/gas" + "/discovery/homepage";
+    String requestDiscoverPage = BASE_URL + "/discovery/homepage";
+//    String requestDiscoverPage = "http://120.77.83.45:8096/gas" + "/discovery/homepage";
 
     @GET
     Observable<DiscoverBean> requestDiscoverPage(@Url String url,
@@ -707,7 +707,8 @@ public interface ApiService {
                                                  @Query("page") int page,
                                                  @Query("pageSize") int pageSize);
 
-    String requestNewsList = "http://120.77.83.45:8096/gas" + "/discovery/homepage/news";
+    String requestNewsList = BASE_URL + "/discovery/homepage/news";
+//    String requestNewsList = "http://120.77.83.45:8096/gas" + "/discovery/homepage/news";
 
     @GET
     Observable<NewsBean> requestNewsList(@Url String url,
