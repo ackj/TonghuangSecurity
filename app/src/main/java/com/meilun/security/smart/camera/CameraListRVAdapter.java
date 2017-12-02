@@ -18,7 +18,8 @@ public class CameraListRVAdapter extends BaseRecyclerViewAdapter<DeviceListBean.
     }
 
     @Override
-    protected void convert(BaseViewHolder helper,DeviceListBean.DataBean.SubDevicesBean item) {
-        helper.setText(R.id.tv_name, item.getName());
+    protected void convert(BaseViewHolder helper, DeviceListBean.DataBean.SubDevicesBean item) {
+        helper.setText(R.id.tv_name, item.getName())
+                .setText(R.id.tv_online, item.getStatus() == 0 ? "设备离线" : "设备在线");
     }
 }

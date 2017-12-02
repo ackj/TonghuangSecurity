@@ -37,7 +37,7 @@ public class LogInterceptor implements Interceptor {
 
 //            request.body()
 
-//            if (request.body() instanceof FormBody) {
+            if (request.body() instanceof FormBody) {
                 FormBody.Builder bodyBuilder = new FormBody.Builder();
                 FormBody formBody = (FormBody) request.body();
                 ALog.e("333333");
@@ -53,7 +53,7 @@ public class LogInterceptor implements Interceptor {
                 ALog.e("4444");
 
                 request = request.newBuilder().post(formBody).build();
-//            }
+            }
         }
 
         ALog.e("5555555");

@@ -74,9 +74,9 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     @BindView(R.id.ll_rec)
     LinearLayout llREC;
 
-    public static String P2P_ACCEPT = "com.aglhz.s1.P2P_ACCEPT";
-    public static String P2P_READY = "com.aglhz.s1.P2P_READY";
-    public static String P2P_REJECT = "com.aglhz.s1.P2P_REJECT";
+    public static String P2P_ACCEPT = "com.meilun.security.smart.P2P_ACCEPT";
+    public static String P2P_READY = "com.meilun.security.smart.P2P_READY";
+    public static String P2P_REJECT = "com.meilun.security.smart.P2P_REJECT";
     private static final int VIDEO_MODE_SD = 0;
     private static final int VIDEO_MODE_HD = 1;
     private static final int VIDEO_MODE_LD = 2;

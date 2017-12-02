@@ -20,11 +20,17 @@ import com.meilun.security.smart.common.Constants;
 import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.entity.bean.DeviceListBean;
+import com.meilun.security.smart.event.EventCameraStatus;
 import com.meilun.security.smart.widget.PtrHTFrameLayout;
 import com.p2p.core.P2PHandler;
 import com.p2p.core.global.P2PConstants;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -73,6 +79,7 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         return attachToSwipeBack(view);
     }
 
@@ -89,6 +96,7 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
     public void onRefresh() {
         params.page = 1;
         params.pageSize = Constants.PAGE_SIZE;
+
         mPresenter.requestCameraList(params);
     }
 
@@ -106,7 +114,6 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
 
         params.category = Constants.DEVICE_CTRL;
         params.roomId = -1;
-        mPresenter.requestCameraList(params);
     }
 
     private void initListener() {
@@ -119,13 +126,24 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
                 _mActivity.startActivity(intent);
             }
         });
+    }
 
+    //摄像头是否在线的回调
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCameraStatusEvent(EventCameraStatus event) {
+        for (int i = 0; i < event.contactIds.length; i++) {
+            if (adapter.getItem(i).getDeviceId().equals(event.contactIds[i])) {
+                adapter.getItem(i).setStatus(event.status[i]);
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -141,20 +159,23 @@ public class CameraListFragment extends BaseFragment<CameraListContract.Presente
     @Override
     public void responseCameraList(List<DeviceListBean.DataBean.SubDevicesBean> data) {
         ptrFrameLayout.refreshComplete();
+        List<DeviceListBean.DataBean.SubDevicesBean> newData = new ArrayList<>();
         //过滤非摄像头设备
         for (int i = 0; i < data.size(); i++) {
-            if (!"camera01".equals(data.get(i).getDeviceType())) {
-                data.remove(i);
+            if ("camera01".equals(data.get(i).getDeviceType())) {
+                newData.add(data.get(i));
             }
         }
-        adapter.setNewData(data);
 
-        //获取设备是否在线
-        String[] contactIds = new String[data.size()];
-        for (int i = 0;i<data.size();i++){
-            contactIds[i] = data.get(i).getDeviceId();
+        if (newData.size() > 0) {
+            adapter.setNewData(newData);
+            //获取设备是否在线
+            String[] contactIds = new String[newData.size()];
+            for (int i = 0; i < newData.size(); i++) {
+                contactIds[i] = newData.get(i).getDeviceId();
+            }
+            P2PHandler.getInstance().getFriendStatus(contactIds, P2PConstants.P2P_Server.SERVER_INDEX);
         }
-        P2PHandler.getInstance().getFriendStatus(contactIds, P2PConstants.P2P_Server.SERVER_INDEX);
     }
 
     @Override

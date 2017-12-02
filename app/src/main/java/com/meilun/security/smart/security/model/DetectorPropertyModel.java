@@ -67,7 +67,6 @@ public class DetectorPropertyModel extends BaseModel implements DetectorProperty
 
         return HttpHelper.getService(ApiService.class)
                 .requestModsensor(ApiService.requestModsensor,
-                        params.token,
                         builder.build())
                 .subscribeOn(Schedulers.io());
     }

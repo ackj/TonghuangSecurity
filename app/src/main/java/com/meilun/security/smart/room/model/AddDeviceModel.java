@@ -46,7 +46,7 @@ public class AddDeviceModel extends BaseModel implements AddDeviceContract.Model
         }
 
         return HttpHelper.getService(ApiService.class).requestModDevice(ApiService.requestModDevice
-                , params.token, builder.build())
+                , builder.build())
                 .subscribeOn(Schedulers.io());
     }
 
