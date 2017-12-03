@@ -114,7 +114,7 @@ public class PushSettingsFragment extends BaseFragment<HostSettingsContract.Pres
     }
 
     private void initData() {
-        params.gateway = hostBean.getFid();
+        params.gateway = hostBean.getNo();
         params.type = Constants.PUSH;
         mPresenter.requestHostSettings(params);
     }

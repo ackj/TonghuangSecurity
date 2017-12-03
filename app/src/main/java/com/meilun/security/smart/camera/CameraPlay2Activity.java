@@ -165,7 +165,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     }
 
     private void registerCameraReceiver() {
-        ALog.e(TAG,"注册广播");
+        ALog.e(TAG, "注册广播");
         //注册广播
         IntentFilter filter = new IntentFilter();
         filter.addAction(P2P_REJECT);
@@ -389,7 +389,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     @Override
     public void onStop() {
         super.onStop();
-        ALog.e(TAG,"解除广播");
+        ALog.e(TAG, "解除广播");
         P2PHandler.getInstance().finish();
         unregisterReceiver(mReceiver);
     }
@@ -486,7 +486,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     public void responseSuccess(BaseBean baseBean) {
         ToastUtils.showToast(this, "修改密码成功");
         EventBus.getDefault().post(new EventCameraListRefresh());
-        P2PHandler.getInstance().EntryPassword(params.devicePassword);
+        cameraPassword = P2PHandler.getInstance().EntryPassword(params.devicePassword);
         connectDevice();
     }
 

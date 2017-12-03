@@ -82,7 +82,7 @@ public class EditHostFragment extends BaseFragment {
     }
 
     private void initData() {
-        params.gateway = hostBean.getFid();
+        params.gateway = hostBean.getNo();
         etName.setText(hostBean.getName());
     }
 

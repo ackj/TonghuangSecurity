@@ -201,7 +201,7 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
                 if (hostBean == null) {
                     mPresenter.requestAddHost(params);
                 } else {
-                    params.gateway = hostBean.getFid();
+                    params.gateway = hostBean.getNo();
                     mPresenter.requestEditHostLocation(params);
                 }
                 break;

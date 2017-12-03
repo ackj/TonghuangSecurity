@@ -34,9 +34,6 @@ public class LogInterceptor implements Interceptor {
 
         if (request.method().equals("POST")) {
             ALog.e("2222");
-
-//            request.body()
-
             if (request.body() instanceof FormBody) {
                 FormBody.Builder bodyBuilder = new FormBody.Builder();
                 FormBody formBody = (FormBody) request.body();
