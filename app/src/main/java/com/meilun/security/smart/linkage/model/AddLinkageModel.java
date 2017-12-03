@@ -56,7 +56,7 @@ public class AddLinkageModel extends BaseModel implements AddLinkageContract.Mod
 //        return HttpHelper.getService(ApiService.class).requestSubDeviceList(ApiService.requestSubDeviceList
 //                , params.token,params.page,params.pageSize,params.category)
 //                .subscribeOn(Schedulers.io());
-        return HttpHelper.getService(ApiService.class).requestDeviceNotAlone(ApiService.requestSubDeviceList
+        return HttpHelper.getService(ApiService.class).requestDeviceNotAlone(ApiService.requestDeviceNotAlone
                 , params.token)
                 .subscribeOn(Schedulers.io());
     }

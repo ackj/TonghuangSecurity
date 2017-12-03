@@ -167,6 +167,7 @@ public class RoomManagerFragment extends BaseFragment<RoomManagerContract.Presen
 
     @Override
     public void responseRoomTypeList(List<RoomTypesBean.DataBean> data) {
+        dismissLoading();
         //拿到房间类型后要弹框提示。
         new SelectorDialogFragment()
                 .setTitle("请选房间类型")

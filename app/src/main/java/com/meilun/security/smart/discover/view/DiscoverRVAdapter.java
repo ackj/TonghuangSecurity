@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.meilun.security.smart.App;
 import com.meilun.security.smart.R;
@@ -123,6 +125,14 @@ public class DiscoverRVAdapter extends BaseMultiItemQuickAdapter<DiscoverHomeBea
                 break;
             case DiscoverHomeBean.TYPE_NEWS:
                 helper.addOnClickListener(R.id.tv_more);
+                LinearLayout llLayout = helper.getView(R.id.layout_news);
+                if (item.news == null || item.news.size() == 0) {
+                    llLayout.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+                } else {
+                    llLayout.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                }
+
+
                 RecyclerView recyclerView = helper.getView(R.id.recyclerView);
                 recyclerView.setLayoutManager(new LinearLayoutManager(App.mContext));
                 NewsRVAdapter newsRVAdapter = new NewsRVAdapter(item.news);
