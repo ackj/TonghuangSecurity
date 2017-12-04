@@ -43,7 +43,11 @@ public class DiscoverModel extends BaseModel implements DiscoverContract.Model {
     @Override
     public Observable<DiscoverBean> requestDiscoverPage(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestDiscoverPage(ApiService.requestDiscoverPage,params.token,params.page,params.pageSize)
+                .requestDiscoverPage(ApiService.requestDiscoverPage,
+                        params.token,
+                        params.fc,
+                        params.page,
+                        params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 

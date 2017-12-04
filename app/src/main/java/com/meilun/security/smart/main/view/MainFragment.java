@@ -11,22 +11,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.google.gson.Gson;
+import com.meilun.security.smart.App;
+import com.meilun.security.smart.R;
 import com.meilun.security.smart.common.ApiService;
 import com.meilun.security.smart.common.Constants;
 import com.meilun.security.smart.common.appupdate.UpdateAppHttpUtils;
 import com.meilun.security.smart.discover.view.DiscoverFragment;
+import com.meilun.security.smart.entity.bean.AppUpdateBean;
 import com.meilun.security.smart.more.view.MoreFragment;
 import com.meilun.security.smart.net.NetActivity;
 import com.meilun.security.smart.net.view.SetWifiFragment;
-import com.meilun.security.smart.scene.view.SceneFragment;
-import com.meilun.security.smart.App;
-import com.meilun.security.smart.R;
-import com.meilun.security.smart.entity.bean.AppUpdateBean;
 import com.meilun.security.smart.room.view.RoomDeviceListFragment;
+import com.meilun.security.smart.scene.view.SceneFragment;
 import com.meilun.security.smart.security.view.SecurityFragment;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.google.gson.Gson;
 import com.vector.update_app.UpdateAppBean;
 import com.vector.update_app.UpdateAppManager;
 import com.vector.update_app.UpdateCallback;
@@ -77,17 +77,17 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (savedInstanceState == null) {
-            fragments[0] = SecurityFragment.newInstance();
-            fragments[1] = RoomDeviceListFragment.newInstance();
-            fragments[2] = SceneFragment.newInstance();
-            fragments[3] = DiscoverFragment.newInstance();
+            fragments[0] = DiscoverFragment.newInstance();
+            fragments[1] = SecurityFragment.newInstance();
+            fragments[2] = RoomDeviceListFragment.newInstance();
+            fragments[3] = SceneFragment.newInstance();
             fragments[4] = MoreFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_container_main_fragment, 0, fragments[0], fragments[1], fragments[2], fragments[3], fragments[4]);
         } else {
-            fragments[0] = findChildFragment(SecurityFragment.class);
-            fragments[1] = findChildFragment(RoomDeviceListFragment.class);
-            fragments[2] = findChildFragment(SceneFragment.class);
-            fragments[3] = findChildFragment(DiscoverFragment.class);
+            fragments[0] = findChildFragment(DiscoverFragment.class);
+            fragments[1] = findChildFragment(SecurityFragment.class);
+            fragments[2] = findChildFragment(RoomDeviceListFragment.class);
+            fragments[3] = findChildFragment(SceneFragment.class);
             fragments[4] = findChildFragment(MoreFragment.class);
             prePosition = savedInstanceState.getInt(KEY_CURR_POSITION);
         }
@@ -99,17 +99,17 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
     private void initData() {
 //        updateApp();//检测App的更新。
 
+        AHBottomNavigationItem item0 = new AHBottomNavigationItem(R.string.discover, R.drawable.ic_find_black_78px, R.color.white);
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.security, R.drawable.ic_navigationsecurity_black_78px, R.color.white);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.control, R.drawable.ic_navigationroom_black_78px, R.color.white);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.scene, R.drawable.ic_navigationscenes_black_78px, R.color.white);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.discover, R.drawable.ic_find_black_78px, R.color.white);
-        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.more, R.drawable.ic_navigationmore_black_78px, R.color.white);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.more, R.drawable.ic_navigationmore_black_78px, R.color.white);
         List<AHBottomNavigationItem> bottomNavigationItems = new ArrayList<>();
+        bottomNavigationItems.add(item0);
         bottomNavigationItems.add(item1);
         bottomNavigationItems.add(item2);
         bottomNavigationItems.add(item3);
         bottomNavigationItems.add(item4);
-        bottomNavigationItems.add(item5);
         ahbn.addItems(bottomNavigationItems);
         ahbn.setDefaultBackgroundColor(getResources().getColor(R.color.white));
         ahbn.setBehaviorTranslationEnabled(false);

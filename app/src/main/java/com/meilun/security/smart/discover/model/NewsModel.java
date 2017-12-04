@@ -11,15 +11,15 @@ import rx.Observable;
 import rx.schedulers.Schedulers;
 
 public class NewsModel extends BaseModel implements NewsContract.Model {
-    @Override
-    public void start(Object request) {
-
-    }
 
     @Override
     public Observable<NewsBean> requestNewsList(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestNewsList(ApiService.requestNewsList,params.token,params.page,params.pageSize)
+                .requestNewsList(ApiService.requestNewsList,
+                        params.token,
+                        params.fc,
+                        params.page,
+                        params.pageSize)
                 .subscribeOn(Schedulers.io());
     }
 }
