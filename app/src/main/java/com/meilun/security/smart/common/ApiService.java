@@ -205,7 +205,7 @@ public interface ApiService {
 
     //----------------------------- 设备相关 ---------------------------------
     //添加设备
-    String requestNewDevice = BASE_URL + "/ctrl/client/newdevice";
+    String requestNewDevice = BASE_URL + "/ctrl/client/newdevice24";
 
     @FormUrlEncoded
     @POST

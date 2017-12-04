@@ -129,10 +129,16 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
 
     private void initData() {
         if (deviceBean != null) {
-            etName.setText(deviceBean.getName());
-            params.category = deviceBean.getCategory();
-            params.index = deviceBean.getIndex();
-            mPresenter.requestSubDeviceDet(params);
+            tvLineOfDefense.setText(getLineOfDefenseStr(deviceBean.getDefenseLevel()));
+            defenseLevel = deviceBean.getDefenseLevel();
+            if (!TextUtils.isEmpty(deviceBean.getName())){
+                etName.setText(deviceBean.getName());
+            }
+            Glide.with(_mActivity)
+                    .load(deviceBean.getIcon())
+                    .into(ivIcon);
+            sbAlarmDelay.setChecked(deviceBean.getAlarmDelay() == 1);
+            params.alarmDelay = deviceBean.getAlarmDelay();
             llDefenseLevel.setEnabled(!deviceBean.getDefenseLevel().equals(DefenseLineLevel.DLL_24HOUR));
         }
     }
