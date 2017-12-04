@@ -703,6 +703,7 @@ public interface ApiService {
     @GET
     Observable<DiscoverBean> requestDiscoverPage(@Url String url,
                                                  @Query("token") String token,
+                                                 @Query("fc") String fc,
                                                  @Query("page") int page,
                                                  @Query("pageSize") int pageSize);
 
@@ -711,6 +712,7 @@ public interface ApiService {
     @GET
     Observable<NewsBean> requestNewsList(@Url String url,
                                          @Query("token") String token,
+                                         @Query("fc") String fc,
                                          @Query("page") int page,
                                          @Query("pageSize") int pageSize);
 

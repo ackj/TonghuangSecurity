@@ -29,16 +29,10 @@ public class LogInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         long t1 = System.nanoTime();
-
-        ALog.e("1111");
-
         if (request.method().equals("POST")) {
-            ALog.e("2222");
-
             if (request.body() instanceof FormBody) {
                 FormBody.Builder bodyBuilder = new FormBody.Builder();
                 FormBody formBody = (FormBody) request.body();
-                ALog.e("333333");
 
                 //把原来的参数添加到新的构造器，（因为没找到直接添加，所以就new新的）
                 for (int i = 0; i < formBody.size(); i++) {
@@ -48,13 +42,9 @@ public class LogInterceptor implements Interceptor {
                 formBody = bodyBuilder
                         .addEncoded("fc", "FSmartMeilun")
                         .build();
-                ALog.e("4444");
-
                 request = request.newBuilder().post(formBody).build();
             }
         }
-
-        ALog.e("5555555");
 
         Buffer buffer = new Buffer();
         if (request.body() != null) {

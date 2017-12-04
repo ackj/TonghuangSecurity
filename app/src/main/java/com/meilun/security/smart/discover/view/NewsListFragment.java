@@ -20,7 +20,6 @@ import com.meilun.security.smart.discover.presenter.NewsPresenter;
 import com.meilun.security.smart.entity.bean.NewsBean;
 import com.meilun.security.smart.web.WebActivity;
 import com.meilun.security.smart.widget.PtrHTFrameLayout;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.List;
 
@@ -37,9 +36,7 @@ import cn.itsite.statemanager.StateManager;
  */
 
 public class NewsListFragment extends BaseFragment<NewsContract.Presenter> implements NewsContract.View {
-
     public static final String TAG = NewsListFragment.class.getSimpleName();
-
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.ptrFrameLayout)
@@ -48,12 +45,9 @@ public class NewsListFragment extends BaseFragment<NewsContract.Presenter> imple
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
-
     private Params params = Params.getInstance();
     private StateManager mStateManager;
     private NewsListRVAdapter adapter;
-
     Unbinder unbinder;
 
     public static NewsListFragment newInstance() {
@@ -71,7 +65,7 @@ public class NewsListFragment extends BaseFragment<NewsContract.Presenter> imple
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
-        return view;
+        return attachToSwipeBack(view);
     }
 
     @Override
@@ -98,12 +92,9 @@ public class NewsListFragment extends BaseFragment<NewsContract.Presenter> imple
     }
 
     private void initListener() {
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
-                NewsBean.DataBean bean = adapter.getItem(position);
-                gotoWeb(bean.getTitle(), bean.getContent());
-            }
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            NewsBean.DataBean bean = adapter.getItem(position);
+            gotoWeb(bean.getTitle(), bean.getContent());
         });
     }
 
@@ -125,7 +116,7 @@ public class NewsListFragment extends BaseFragment<NewsContract.Presenter> imple
         mStateManager = StateManager.builder(_mActivity)
                 .setContent(recyclerView)
                 .setEmptyView(R.layout.state_empty)
-                .setEmptyText("暂无内容！")
+                .setEmptyText("暂无新闻！")
                 .setErrorOnClickListener(v -> ptrFrameLayout.autoRefresh())
                 .setEmptyOnClickListener(v -> ptrFrameLayout.autoRefresh())
                 .setConvertListener((holder, stateLayout) ->
