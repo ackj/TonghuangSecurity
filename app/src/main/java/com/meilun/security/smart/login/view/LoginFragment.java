@@ -93,7 +93,7 @@ public class LoginFragment extends BaseFragment<LoginContract.Presenter> impleme
         }
 
         initStateBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_back_blue_60_60);
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
 

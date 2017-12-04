@@ -73,7 +73,6 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
 
         return HttpHelper.getService(ApiService.class)
                 .requestLeaveMassge(ApiService.requestLeaveMassge,
-                        params.token,
                         builder.build())
                 .subscribeOn(Schedulers.io());
     }

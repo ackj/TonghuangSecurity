@@ -143,7 +143,7 @@ public class HostSettingsFragment extends BaseFragment {
                         .setMessage("确定要解除绑定当前主机吗？")
                         .setPositiveButton("确定", (dialog, which) ->
                                 mRxManager.add(HttpHelper.getService(ApiService.class)
-                                        .requestUnbindHost(ApiService.requestUnbindHost, UserHelper.token, hostBean.getFid())
+                                        .requestUnbindHost(ApiService.requestUnbindHost, UserHelper.token, hostBean.getNo())
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(bean -> {

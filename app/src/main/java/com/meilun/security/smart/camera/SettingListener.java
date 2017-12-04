@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.meilun.security.smart.App;
 import com.meilun.security.smart.event.EventCameraPwdChanged;
+import com.meilun.security.smart.event.EventCameraStatus;
 import com.p2p.core.P2PHandler;
 import com.p2p.core.P2PInterface.ISetting;
 import com.p2p.core.global.P2PConstants;
@@ -1185,11 +1186,11 @@ public class SettingListener implements ISetting {
      */
     @Override
     public void vRetGetIndexFriendStatus(int count, String[] contactIds, int[] IdProtery, int[] status, int[] DevTypes, int[] SubType, int[] DefenceState, byte bRequestResult, long[] defenceFlag) {
+        EventBus.getDefault().post(new EventCameraStatus(contactIds,status));
         for (int i = 0; i < contactIds.length; i++) {
             ALog.e(TAG, "vRetGetIndexFriendStatus  contact:" + contactIds[i] + " status:" + status[i]);
         }
     }
-
 
     /**
      * 红外LED关闭

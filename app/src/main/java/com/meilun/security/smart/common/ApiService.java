@@ -178,10 +178,9 @@ public interface ApiService {
             , @Field("defenseLevel") String defenseLevel
             , @Field("alarmDelay") int alarmDelay);
 
-    @FormUrlEncoded
+
     @POST
     Observable<BaseBean> requestModsensor(@Url String url
-            , @Field("token") String token
             , @Body MultipartBody file
     );
 
@@ -229,10 +228,8 @@ public interface ApiService {
     //修改设备
     String requestModDevice = BASE_URL + "/ctrl/client/moddevice";
 
-    @FormUrlEncoded
     @POST
     Observable<BaseBean> requestModDevice(@Url String url
-            , @Field("token") String token
             , @Body MultipartBody file);
 
     //删除设备
@@ -292,7 +289,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST
-    Observable<DevicesBean> requestCtrlSDeviceTypeList(@Url String url);
+    Observable<DevicesBean> requestCtrlSDeviceTypeList(@Url String url,@Field("A") String a);
 
     String requestNewDeviceConfirm = BASE_URL + "/ctrl/client/newDeviceConfirm";
 
@@ -331,7 +328,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST
-    Observable<RoomTypesBean> requestRoomTypeList(@Url String url);
+    Observable<RoomTypesBean> requestRoomTypeList(@Url String url, @Field("A") String a);
 
     //删除房间
     String requestDelroom = BASE_URL + "/ctrl/client/delroom";
@@ -488,7 +485,6 @@ public interface ApiService {
     Observable<SecurityBean> requestSecurity(@Url String url,
                                              @Field("token") String token);
 
-
     //添加主机
     String requestAddHost = BASE_URL + "/ctrl/client/newgateway3";
 
@@ -551,10 +547,10 @@ public interface ApiService {
     //主机留言。
     String requestLeaveMassge = BASE_URL + "/ctrl/client/gatewayMsgLeave";
 
-    @FormUrlEncoded
+
+
     @POST
     Observable<BaseBean> requestLeaveMassge(@Url String url,
-                                            @Field("token") String token,
                                             @Body MultipartBody file);
 
     //----------------------------- 以上为主机操作相关 ---------------------------------

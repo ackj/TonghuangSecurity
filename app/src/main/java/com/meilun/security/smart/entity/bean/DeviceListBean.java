@@ -83,7 +83,7 @@ public class DeviceListBean extends BaseBean implements Parcelable {
              * name :
              * password :
              */
-
+            private int status;//摄像头独有的字段（0：离线，1：在线）
             private int alarmDelay;
             private String category;
             private String defenseLevel;
@@ -124,6 +124,14 @@ public class DeviceListBean extends BaseBean implements Parcelable {
                     return new SubDevicesBean[size];
                 }
             };
+
+            public int getStatus() {
+                return status;
+            }
+
+            public void setStatus(int status) {
+                this.status = status;
+            }
 
             public int getAlarmDelay() {
                 return alarmDelay;

@@ -1,5 +1,6 @@
 package com.meilun.security.smart.discover.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,23 +10,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.meilun.security.smart.R;
 import com.meilun.security.smart.camera.CameraListFragment;
 import com.meilun.security.smart.common.Constants;
+import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.discover.contract.DiscoverContract;
+import com.meilun.security.smart.discover.presenter.DiscoverPresenter;
 import com.meilun.security.smart.entity.bean.BaseBean;
+import com.meilun.security.smart.entity.bean.DeviceLogBean;
 import com.meilun.security.smart.entity.bean.DiscoverBean;
 import com.meilun.security.smart.entity.bean.DiscoverHomeBean;
-import com.meilun.security.smart.entity.bean.SubCategoryBean;
-import com.meilun.security.smart.event.EventSwitchHost;
-import com.meilun.security.smart.common.Params;
-import com.meilun.security.smart.discover.presenter.DiscoverPresenter;
-import com.meilun.security.smart.entity.bean.DeviceLogBean;
 import com.meilun.security.smart.entity.bean.FirstLevelBean;
+import com.meilun.security.smart.entity.bean.SubCategoryBean;
 import com.meilun.security.smart.event.EventHostChanged;
+import com.meilun.security.smart.event.EventSwitchHost;
 import com.meilun.security.smart.history.view.DeviceLogsFragment;
+import com.meilun.security.smart.smarthome.view.SmartHomeMallFragment;
+import com.meilun.security.smart.web.WebActivity;
 import com.meilun.security.smart.widget.PtrHTFrameLayout;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -135,6 +138,12 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
                             case R.id.ll_switch_gateway:
                                 mPresenter.requestSwichState(params);
                                 break;
+                            case R.id.ll_company:
+                                gotoWeb("公司简介", "http://www.aglhz.com/sub_property_ysq/m/html/company_profile.html");
+                                break;
+                            case R.id.ll_store:
+                                _mActivity.start(SmartHomeMallFragment.newInstance(null, position));
+                                break;
                             default:
                         }
                         break;
@@ -144,6 +153,13 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
         });
     }
 
+    private void gotoWeb(String title, String link) {
+        Intent intent = new Intent(_mActivity, WebActivity.class);
+        intent.putExtra(Constants.KEY_TITLE, title);
+        intent.putExtra(Constants.KEY_LINK, link);
+        _mActivity.startActivity(intent);//点击一个商品跳WEB
+    }
+
     @Override
     public void onRefresh() {
         params.pageSize = 10;
@@ -151,7 +167,6 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
         mPresenter.requestFirstLevel(params);
         mPresenter.requestDiscoverPage(params);
     }
-
 
 
     @Override
@@ -182,7 +197,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onChangedSecurity(EventHostChanged event) {
-        ALog.e(TAG,"onChangedSecurity:"+event.status);
+        ALog.e(TAG, "onChangedSecurity:" + event.status);
         if (event.status.equals(Constants.GATEWAY_STATE_HOME)) {
             adapter.switchGatewayIsHome(true);
             params.dstatus = Constants.GATEWAY_STATE_FARAWAY;

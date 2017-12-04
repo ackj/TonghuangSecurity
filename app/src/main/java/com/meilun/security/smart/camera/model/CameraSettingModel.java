@@ -30,6 +30,7 @@ public class CameraSettingModel extends BaseModel implements CameraSettingContra
         }
         builder.addFormDataPart("token", Params.token);
         builder.addFormDataPart("index", params.index + "");
+        builder.addFormDataPart("fc", "FSmartMeilun");
         if (!TextUtils.isEmpty(params.deviceName)) {
             builder.addFormDataPart("name", params.deviceName);
         }
@@ -40,7 +41,7 @@ public class CameraSettingModel extends BaseModel implements CameraSettingContra
         }
 
         return HttpHelper.getService(ApiService.class).requestModDevice(ApiService.requestModDevice
-                , Params.token, builder.build())
+                ,  builder.build())
                 .subscribeOn(Schedulers.io());
     }
 }

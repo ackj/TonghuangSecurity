@@ -86,7 +86,7 @@ public class AlertSmsFragment extends BaseFragment<HostSettingsContract.Presente
     }
 
     private void initData() {
-        params.gateway = hostBean.getFid();
+        params.gateway = hostBean.getNo();
         params.type = Constants.PHONE;
         mPresenter.requestHostSettings(params);
     }

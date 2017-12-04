@@ -1,6 +1,7 @@
 package com.meilun.security.smart.security.model;
 
 import com.meilun.security.smart.common.ApiService;
+import com.meilun.security.smart.common.Constants;
 import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.entity.bean.SubDeviceDetBean;
@@ -56,18 +57,20 @@ public class DetectorPropertyModel extends BaseModel implements DetectorProperty
     @Override
     public Observable<BaseBean> requestModsensor(Params params) {
         MultipartBody.Builder builder = new MultipartBody.Builder();
-        if(params.file!=null){
+        if (params.file != null) {
             RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"), params.file);
             builder.addFormDataPart("file", params.file.getName(), requestBody);
         }
-        builder.addFormDataPart("index", params.index+"");
+
+        builder.addFormDataPart("token", params.token);
+        builder.addFormDataPart("index", params.index + "");
         builder.addFormDataPart("name", params.name);
+        builder.addFormDataPart("fc", Constants.FC);
         builder.addFormDataPart("defenseLevel", params.defenseLevel);
-        builder.addFormDataPart("alarmDelay", params.alarmDelay+"");
+        builder.addFormDataPart("alarmDelay", params.alarmDelay + "");
 
         return HttpHelper.getService(ApiService.class)
                 .requestModsensor(ApiService.requestModsensor,
-                        params.token,
                         builder.build())
                 .subscribeOn(Schedulers.io());
     }

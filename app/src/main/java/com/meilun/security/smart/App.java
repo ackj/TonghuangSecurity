@@ -29,11 +29,11 @@ import rx.schedulers.Schedulers;
 public class App extends BaseApplication implements Application.ActivityLifecycleCallbacks {
     private static final String TAG = App.class.getSimpleName();
     //    public final static String APPID="1e9a2c3ead108413e8218a639c540e44";
-    public final static String APPID = "831c12862fe220d2b840623bf8187981";
+    public final static String APPID = "fe17b3e35717f4006a5d10a9106eb232";
     //    public final static String APPToken="7db7b2bff80a025a3dad546a4d5a6c3ee545568d4e0ce9609c0585c71c287d08";
-    public final static String APPToken = "b5a886e7faa04150afa872291cc5cda211c603c302bd8edaea6ca2953422354d";
+    public final static String APPToken = "386294f10b00850ea94450cc335cbaefad3d615b68a73260e921b9c34bf39f3b";
     //前两位是客户APP唯一编号(00.00 由技威分配),后两位是APP版本号(客户自定义),此参数不可省略
-    public final static String APPVersion = "05.32.00.00";
+    public final static String APPVersion = "05.72.00.00";
     public static String deviceID;
 
     @Override

@@ -24,7 +24,6 @@ public class Constants extends BaseConstants {
 //            BASE_URL = "http://120.77.83.45:8096/gas";
             BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";//用户系统
             BASE_URL = "http://119.23.129.133:8090/gcsmart";
-
         } else {
             //这里的是正式版的基础地址，永远不要动。
             BASE_USER = "http://www.aglhz.com:8076/memberSYS-m";//用户系统
@@ -67,6 +66,8 @@ public class Constants extends BaseConstants {
 
     public static final String KEY_SELECTOR = "key_SELECTOR";
 
+
+    public static final String FC = "FSmartMeilun";
 
     /**
      * 主机配置类型

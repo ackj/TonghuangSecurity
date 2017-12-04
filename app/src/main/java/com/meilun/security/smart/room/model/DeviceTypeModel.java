@@ -20,7 +20,8 @@ public class DeviceTypeModel extends BaseModel implements DeviceTypeContract.Mod
 
     @Override
     public Observable<DevicesBean> requestDeviceType(Params params) {
-        return HttpHelper.getService(ApiService.class).requestCtrlSDeviceTypeList(ApiService.requestCtrlSDeviceTypeList)
+        return HttpHelper.getService(ApiService.class)
+                .requestCtrlSDeviceTypeList(ApiService.requestCtrlSDeviceTypeList,"a")
                 .subscribeOn(Schedulers.io());
     }
 

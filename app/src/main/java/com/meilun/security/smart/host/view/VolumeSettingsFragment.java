@@ -92,7 +92,7 @@ public class VolumeSettingsFragment extends BaseFragment<HostSettingsContract.Pr
     }
 
     private void initData() {
-        params.gateway = hostBean.getFid();
+        params.gateway = hostBean.getNo();
         params.type = Constants.VOLUME;
         mPresenter.requestHostSettings(params);
         volumes.add("静音");

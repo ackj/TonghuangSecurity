@@ -129,6 +129,7 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
 
     private void initData() {
         if (deviceBean != null) {
+            etName.setText(deviceBean.getName());
             params.category = deviceBean.getCategory();
             params.index = deviceBean.getIndex();
             mPresenter.requestSubDeviceDet(params);
@@ -255,7 +256,9 @@ public class DetectorPropertyFragment extends BaseFragment<DetectorPropertyContr
     public void responseSubDeviceDet(SubDeviceDetBean bean) {
         tvLineOfDefense.setText(getLineOfDefenseStr(bean.getData().getDefenseLevel()));
         defenseLevel = bean.getData().getDefenseLevel();
-        etName.setText(bean.getData().getName());
+        if (!TextUtils.isEmpty(bean.getData().getName())){
+            etName.setText(bean.getData().getName());
+        }
         Glide.with(_mActivity)
                 .load(bean.getData().getIcon())
                 .error(R.mipmap.ic_launcher)

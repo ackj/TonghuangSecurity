@@ -13,6 +13,10 @@
     <color name="s1_base_color">#2F9FE8</color>
     <color name="red_text">#E33431</color>
     <color name="grey_menu_bg">#F0F0F0</color>
+
+
+
+
     <!--—————————————————————————————————————————————————————— Material Color Palette ————————————————————————————————————————————————————————————————————————-->
     <!-- Red -->
     <color name="material_red_50">#fde0dc</color>

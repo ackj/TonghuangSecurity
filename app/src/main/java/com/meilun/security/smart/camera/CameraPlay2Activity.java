@@ -74,9 +74,9 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     @BindView(R.id.ll_rec)
     LinearLayout llREC;
 
-    public static String P2P_ACCEPT = "com.aglhz.s1.P2P_ACCEPT";
-    public static String P2P_READY = "com.aglhz.s1.P2P_READY";
-    public static String P2P_REJECT = "com.aglhz.s1.P2P_REJECT";
+    public static String P2P_ACCEPT = "com.meilun.security.smart.P2P_ACCEPT";
+    public static String P2P_READY = "com.meilun.security.smart.P2P_READY";
+    public static String P2P_REJECT = "com.meilun.security.smart.P2P_REJECT";
     private static final int VIDEO_MODE_SD = 0;
     private static final int VIDEO_MODE_HD = 1;
     private static final int VIDEO_MODE_LD = 2;
@@ -165,7 +165,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     }
 
     private void registerCameraReceiver() {
-        ALog.e(TAG,"注册广播");
+        ALog.e(TAG, "注册广播");
         //注册广播
         IntentFilter filter = new IntentFilter();
         filter.addAction(P2P_REJECT);
@@ -389,7 +389,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     @Override
     public void onStop() {
         super.onStop();
-        ALog.e(TAG,"解除广播");
+        ALog.e(TAG, "解除广播");
         P2PHandler.getInstance().finish();
         unregisterReceiver(mReceiver);
     }
@@ -486,7 +486,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     public void responseSuccess(BaseBean baseBean) {
         ToastUtils.showToast(this, "修改密码成功");
         EventBus.getDefault().post(new EventCameraListRefresh());
-        P2PHandler.getInstance().EntryPassword(params.devicePassword);
+        cameraPassword = P2PHandler.getInstance().EntryPassword(params.devicePassword);
         connectDevice();
     }
 

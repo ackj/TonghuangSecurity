@@ -50,7 +50,7 @@ public class RoomManagerModel extends BaseModel implements RoomManagerContract.M
     @Override
     public Observable<RoomTypesBean> requestRoomTypeList(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestRoomTypeList(ApiService.requestRoomTypeList)
+                .requestRoomTypeList(ApiService.requestRoomTypeList,"")
                 .subscribeOn(Schedulers.io());
     }
 

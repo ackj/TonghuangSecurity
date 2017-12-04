@@ -111,7 +111,7 @@ public class ResetPasswordFragment extends BaseFragment<ResetPasswordContract.Pr
     private void initToolbar() {
         initStateBar(toolbar);
         toolbarTitle.setText("重置密码");
-        toolbar.setNavigationIcon(R.drawable.ic_back_blue_60_60);
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
     }
 
