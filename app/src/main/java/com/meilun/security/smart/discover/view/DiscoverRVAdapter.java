@@ -84,7 +84,6 @@ public class DiscoverRVAdapter extends BaseMultiItemQuickAdapter<DiscoverHomeBea
                                     .into(imageView);
                         }
                     }).start();
-
                     banner.setOnBannerListener(new OnBannerListener() {
                         @Override
                         public void OnBannerClick(int position) {
@@ -108,7 +107,6 @@ public class DiscoverRVAdapter extends BaseMultiItemQuickAdapter<DiscoverHomeBea
             case DiscoverHomeBean.TYPE_NOTICE:
                 helper.addOnClickListener(R.id.ll_item_notice)
                         .addOnClickListener(R.id.view_click);
-
                 SimpleMarqueeView smvNotice = helper.getView(R.id.smv_notice);
                 SimpleMF<String> marqueeFactory = new SimpleMF(App.mContext);
                 marqueeFactory.setData(item.notices);
@@ -131,8 +129,6 @@ public class DiscoverRVAdapter extends BaseMultiItemQuickAdapter<DiscoverHomeBea
                 } else {
                     llLayout.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 }
-
-
                 RecyclerView recyclerView = helper.getView(R.id.recyclerView);
                 recyclerView.setLayoutManager(new LinearLayoutManager(App.mContext));
                 NewsRVAdapter newsRVAdapter = new NewsRVAdapter(item.news);
