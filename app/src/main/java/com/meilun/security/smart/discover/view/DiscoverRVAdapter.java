@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -160,6 +161,9 @@ public class DiscoverRVAdapter extends BaseMultiItemQuickAdapter<DiscoverHomeBea
     }
 
     private void gotoWeb(String title, String link) {
+        if(TextUtils.isEmpty(link)){
+            return;
+        }
         Intent intent = new Intent(fragment.getActivity(), WebActivity.class);
         intent.putExtra(Constants.KEY_TITLE, title);
         intent.putExtra(Constants.KEY_LINK, link);
