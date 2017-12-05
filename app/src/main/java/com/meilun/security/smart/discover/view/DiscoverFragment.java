@@ -157,6 +157,9 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
     }
 
     private void gotoWeb(String title, String link) {
+        if(TextUtils.isEmpty(link)){
+            return;
+        }
         Intent intent = new Intent(_mActivity, WebActivity.class);
         intent.putExtra(Constants.KEY_TITLE, title);
         intent.putExtra(Constants.KEY_LINK, link);
@@ -246,7 +249,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
             list.add("消息通知");
         } else {
             for (int i = 0; i < bean.getData().getNews().size(); i++) {
-                list.add(bean.getData().getNews().get(i).getTitle());
+                list.add(bean.getData().getNotices().get(i).getTitle());
             }
         }
         adapter.getData().get(1).notices = list;
