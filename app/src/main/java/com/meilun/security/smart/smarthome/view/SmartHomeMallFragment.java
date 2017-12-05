@@ -63,7 +63,7 @@ public class SmartHomeMallFragment extends BaseFragment<SmartHomeMallContract.Pr
         SmartHomeMallFragment fragment = new SmartHomeMallFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("data", (ArrayList<? extends Parcelable>) data);
-        bundle.putInt("position",position);
+        bundle.putInt("position", position);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -133,7 +133,7 @@ public class SmartHomeMallFragment extends BaseFragment<SmartHomeMallContract.Pr
 
         if (data != null && data.size() > 0) {
             responseSubCategoryList(data);
-        }else{
+        } else {
             mPresenter.requestFirstLevel(params);
         }
     }
