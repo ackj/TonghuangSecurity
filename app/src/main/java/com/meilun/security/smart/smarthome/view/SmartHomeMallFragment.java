@@ -14,13 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.meilun.security.smart.smarthome.presenter.SmartHomeMallPresenter;
 import com.meilun.security.smart.R;
 import com.meilun.security.smart.common.Constants;
 import com.meilun.security.smart.common.Params;
+import com.meilun.security.smart.entity.bean.FirstLevelBean;
 import com.meilun.security.smart.entity.bean.GoodsBean;
 import com.meilun.security.smart.entity.bean.SubCategoryBean;
 import com.meilun.security.smart.smarthome.contract.SmartHomeMallContract;
+import com.meilun.security.smart.smarthome.presenter.SmartHomeMallPresenter;
 import com.meilun.security.smart.web.WebActivity;
 
 import java.util.ArrayList;
@@ -133,7 +134,7 @@ public class SmartHomeMallFragment extends BaseFragment<SmartHomeMallContract.Pr
         if (data != null && data.size() > 0) {
             responseSubCategoryList(data);
         }else{
-            mPresenter.requestSubCategoryList(params);
+            mPresenter.requestFirstLevel(params);
         }
     }
 
@@ -152,6 +153,14 @@ public class SmartHomeMallFragment extends BaseFragment<SmartHomeMallContract.Pr
             intent.putExtra(Constants.KEY_LINK, bean.getLink());
             _mActivity.startActivity(intent);//点击一个商品跳WEB
         });
+    }
+
+    @Override
+    public void responseFirstLevel(List<FirstLevelBean.DataBean> datas) {
+        if (datas.size() > 0) {
+            params.id = datas.get(datas.size() - 1).getId();
+            mPresenter.requestSubCategoryList(params);
+        }
     }
 
     /**

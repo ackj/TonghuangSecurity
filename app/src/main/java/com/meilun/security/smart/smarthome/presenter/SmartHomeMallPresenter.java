@@ -2,6 +2,7 @@ package com.meilun.security.smart.smarthome.presenter;
 
 import android.support.annotation.NonNull;
 
+import com.meilun.security.smart.common.Constants;
 import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.smarthome.contract.SmartHomeMallContract;
 import com.meilun.security.smart.smarthome.model.SmartHomeMallModel;
@@ -63,5 +64,17 @@ public class SmartHomeMallPresenter extends BasePresenter<SmartHomeMallContract.
                 }, this::error));
     }
 
+    @Override
+    public void requestFirstLevel(Params params) {
+        mRxManager.add(mModel.requestFirstLevel(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(firstLevelBean -> {
+                    if (firstLevelBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseFirstLevel(firstLevelBean.getData());
+                    } else {
+                        getView().error(firstLevelBean.getOther().getMessage());
+                    }
+                }, this::error));
+    }
 
 }

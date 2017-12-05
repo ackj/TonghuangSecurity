@@ -2,9 +2,10 @@ package com.meilun.security.smart.smarthome.model;
 
 
 import com.meilun.security.smart.common.ApiService;
+import com.meilun.security.smart.common.Params;
+import com.meilun.security.smart.entity.bean.FirstLevelBean;
 import com.meilun.security.smart.entity.bean.GoodsBean;
 import com.meilun.security.smart.entity.bean.SubCategoryBean;
-import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.smarthome.contract.SmartHomeMallContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
@@ -31,6 +32,12 @@ public class SmartHomeMallModel extends BaseModel implements SmartHomeMallContra
     public Observable<GoodsBean> requestGoodsList(Params params) {
         return HttpHelper.getService(ApiService.class).requestGoodsList(
                 ApiService.requestGoodsList,params.token,params.appType,params.secondCategoryId)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<FirstLevelBean> requestFirstLevel(Params params) {
+        return HttpHelper.getService(ApiService.class).requestFirstLevel(ApiService.requestFirstLevel,params.keywords)
                 .subscribeOn(Schedulers.io());
     }
 }
