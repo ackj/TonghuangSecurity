@@ -2,9 +2,9 @@ package com.meilun.security.smart.host.model;
 
 
 import com.meilun.security.smart.common.ApiService;
+import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.host.contract.AddHostContract;
-import com.meilun.security.smart.common.Params;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.HttpHelper;
@@ -27,9 +27,11 @@ public class AddHostModel extends BaseModel implements AddHostContract.Model {
         return HttpHelper.getService(ApiService.class)
                 .requestAddHost(ApiService.requestAddHost,
                         params.token,
-                        params.no,
+                        params.gateway,
                         params.name,
+                        params.roomDir,
                         params.addr,
+                        params.addrDet,
                         params.lng,
                         params.lat)
                 .subscribeOn(Schedulers.io());

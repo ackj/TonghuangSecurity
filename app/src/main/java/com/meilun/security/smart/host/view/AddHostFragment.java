@@ -13,16 +13,16 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.services.core.PoiItem;
+import com.meilun.security.smart.R;
 import com.meilun.security.smart.common.Constants;
 import com.meilun.security.smart.common.LbsManager;
+import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.entity.bean.GatewaysBean;
 import com.meilun.security.smart.host.contract.AddHostContract;
 import com.meilun.security.smart.host.presenter.AddHostPresenter;
 import com.meilun.security.smart.location.LoacationFragment;
-import com.meilun.security.smart.R;
-import com.meilun.security.smart.common.Params;
-import com.amap.api.services.core.PoiItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -194,8 +194,9 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
                     DialogHelper.warningSnackbar(getView(), "详细地址不能为空！");
                     return;
                 }
-                params.no = etDeviceCode.getText().toString().trim();
+                params.gateway = etDeviceCode.getText().toString().trim();
                 params.name = etName.getText().toString();
+                params.roomDir = "";
                 params.addr = tvLocation.getText().toString();
                 params.addrDet = etAddress.getText().toString().trim();
                 if (hostBean == null) {
@@ -204,6 +205,8 @@ public class AddHostFragment extends BaseFragment<AddHostContract.Presenter> imp
                     params.gateway = hostBean.getNo();
                     mPresenter.requestEditHostLocation(params);
                 }
+                break;
+            default:
                 break;
         }
     }

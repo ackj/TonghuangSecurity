@@ -42,6 +42,7 @@ public class Params {
     public String name = "";
     public String paramJson = "";
     public String type = "";
+    public String roomDir = "";
     public String subType = "";
     public String val = "";
     public int index;

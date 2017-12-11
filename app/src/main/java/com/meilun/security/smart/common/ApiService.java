@@ -492,12 +492,13 @@ public interface ApiService {
     @POST
     Observable<BaseBean> requestAddHost(@Url String url,
                                         @Field("token") String token,
-                                        @Field("no") String no,
+                                        @Field("gateway") String gateway,
                                         @Field("name") String name,
+                                        @Field("roomDir") String roomDir,
                                         @Field("addr") String addr,
+                                        @Field("addrDet") String addrDet,
                                         @Field("lng") String lng,
                                         @Field("lat") String lat);
-
     //修改主机定位
     String requestEditHostLocation = BASE_URL + "/ctrl/client/gatewayAddrSet";
 
