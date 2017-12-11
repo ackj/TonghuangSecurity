@@ -486,7 +486,7 @@ public interface ApiService {
                                              @Field("token") String token);
 
     //添加主机
-    String requestAddHost = BASE_URL + "/ctrl/client/newgateway3";
+    String requestAddHost = BASE_URL + "/ctrl/client/newgateway";
 
     @FormUrlEncoded
     @POST
