@@ -12,11 +12,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.R;
 import com.meilun.security.smart.camera.contract.CameraSettingContract;
 import com.meilun.security.smart.camera.presenter.CameraSettingPresenter;
 import com.meilun.security.smart.common.Params;
+import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.entity.bean.DeviceListBean;
 import com.meilun.security.smart.event.EventCameraPwdChanged;
 import com.p2p.core.P2PHandler;
@@ -50,6 +50,8 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
     TextView tvNickname;
     @BindView(R.id.tv_password)
     TextView tvPassword;
+    @BindView(R.id.tv_account)
+    TextView tvAccount;
 
     Unbinder unbinder;
     private DeviceListBean.DataBean.SubDevicesBean bean;
@@ -107,6 +109,7 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
             tvPassword.setText(bean.getPassword());
             params.deviceType = bean.getDeviceType();
             params.index = bean.getIndex();
+            tvAccount.setText(bean.getDeviceId());
         }
     }
 
@@ -138,6 +141,7 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
                 break;
             default:
         }
+
     }
 
     private void showInputDialog() {

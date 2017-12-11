@@ -397,7 +397,7 @@ public class CameraWifiInput2Fragment extends BaseFragment {
 
     private void startLink() {
         isLinking = true;
-        countDownDialog.show(getFragmentManager());
+        countDownDialog.show(getFragmentManager(),"baseDialog");
         startSmartLink();
         startSoundWave();
     }
