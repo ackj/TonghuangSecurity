@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.meilun.security.smart.common.Constants;
 import com.meilun.security.smart.common.Params;
+import com.meilun.security.smart.entity.bean.BaseBean;
+import com.meilun.security.smart.entity.bean.HostSettingsBean;
 import com.meilun.security.smart.host.contract.HostSettingsContract;
 import com.meilun.security.smart.host.model.HostSettingsModel;
 
@@ -35,25 +37,31 @@ public class HostSettingsPresenter extends BasePresenter<HostSettingsContract.Vi
     public void requestSetHost(Params params) {
         mRxManager.add(mModel.requestSetHost(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseSetHost(baseBean);
-                    } else {
-                        getView().error(baseBean.getOther().getMessage());
+                .subscribe(new RxSubscriber<BaseBean>() {
+                    @Override
+                    public void _onNext(BaseBean baseBean) {
+                        if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                            getView().responseSetHost(baseBean);
+                        } else {
+                            getView().error(baseBean.getOther().getMessage());
+                        }
                     }
-                }, this::error/*, this::complete, disposable -> start(null)*/));
+                }));
     }
 
     @Override
     public void requestHostSettings(Params params) {
         mRxManager.add(mModel.requestHostSettings(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(baseBean -> {
-                    if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                        getView().responseHostSettings(baseBean);
-                    } else {
-                        getView().error(baseBean.getOther().getMessage());
+                .subscribe(new RxSubscriber<HostSettingsBean>() {
+                    @Override
+                    public void _onNext(HostSettingsBean baseBean) {
+                        if (baseBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                            getView().responseHostSettings(baseBean);
+                        } else {
+                            getView().error(baseBean.getOther().getMessage());
+                        }
                     }
-                }, this::error/*, this::complete, disposable -> start(null)*/));
+                }));
     }
 }
