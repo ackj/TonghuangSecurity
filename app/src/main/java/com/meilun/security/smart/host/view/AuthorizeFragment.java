@@ -109,7 +109,7 @@ public class AuthorizeFragment extends BaseFragment<AuthorizationContract.Presen
     }
 
     private void initData() {
-        params.gateway = hostBean.getFid();
+        params.gateway = hostBean.getNo();
         adapter = new AuthorizeAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         adapter.setEnableLoadMore(true);
@@ -209,7 +209,7 @@ public class AuthorizeFragment extends BaseFragment<AuthorizationContract.Presen
                             DialogHelper.warningSnackbar(getView(), "请输入电话号码");
                             return;
                         }
-                        params.gateway = hostBean.getFid();
+                        params.gateway = hostBean.getNo();
                         params.mobile = etInputPhone.getText().toString();
                         mPresenter.requestGatewayAuth(params);
                         //确定
