@@ -11,5 +11,4 @@ public class EventCameraPwdChanged {
     public EventCameraPwdChanged(int result) {
         this.result = result;
     }
-
 }

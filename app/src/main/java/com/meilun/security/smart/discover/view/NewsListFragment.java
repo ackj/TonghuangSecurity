@@ -94,7 +94,8 @@ public class NewsListFragment extends BaseFragment<NewsContract.Presenter> imple
     private void initListener() {
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             NewsBean.DataBean bean = adapter.getItem(position);
-            gotoWeb(bean.getTitle(), bean.getContent());
+            String link = Constants.BASE_URL + "/m/html/news.html?fid=" + bean.getFid();
+            gotoWeb(bean.getTitle(), link);
         });
     }
 

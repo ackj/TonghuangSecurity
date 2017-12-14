@@ -139,7 +139,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
 
     private void initToolbar() {
         toolbarTitle.setText("智能监控");
-        toolbarMenu.setText("设置");
+//        toolbarMenu.setText("设置");
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

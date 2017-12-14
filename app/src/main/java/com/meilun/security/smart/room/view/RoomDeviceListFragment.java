@@ -16,23 +16,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.meilun.security.smart.R;
 import com.meilun.security.smart.camera.CameraPlay2Activity;
 import com.meilun.security.smart.camera.CameraSettingFragment;
 import com.meilun.security.smart.common.Constants;
+import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.entity.bean.DeviceListBean;
 import com.meilun.security.smart.entity.bean.RoomsBean;
 import com.meilun.security.smart.event.EventAddDevice;
+import com.meilun.security.smart.event.EventCameraListRefresh;
 import com.meilun.security.smart.event.EventDeviceChanged;
 import com.meilun.security.smart.event.EventSelectedDeviceType;
 import com.meilun.security.smart.event.EventSwitchHost;
-import com.meilun.security.smart.R;
-import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.room.contract.RoomDeviceListContract;
 import com.meilun.security.smart.room.presenter.RoomDeviceListPresenter;
 import com.meilun.security.smart.widget.PtrHTFrameLayout;
-import com.bumptech.glide.Glide;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -171,6 +172,11 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventAddDevice(EventAddDevice event) {
         _mActivity.start(AddDeviceFragment.newInstance(null, selectRoom));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventCameraListRefresh(EventCameraListRefresh event) {
+        onRefresh();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

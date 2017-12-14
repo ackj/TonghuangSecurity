@@ -138,7 +138,8 @@ public class DiscoverRVAdapter extends BaseMultiItemQuickAdapter<DiscoverHomeBea
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
                         DiscoverBean.DataBean.NewsBean bean = item.news.get(position);
-                        gotoWeb(bean.getTitle(), bean.getContent());
+                        String link = Constants.BASE_URL + "/m/html/news.html?fid=" + bean.getFid();
+                        gotoWeb(bean.getTitle(),link);
                     }
                 });
                 break;
@@ -161,7 +162,7 @@ public class DiscoverRVAdapter extends BaseMultiItemQuickAdapter<DiscoverHomeBea
     }
 
     private void gotoWeb(String title, String link) {
-        if(TextUtils.isEmpty(link)){
+        if (TextUtils.isEmpty(link)) {
             return;
         }
         Intent intent = new Intent(fragment.getActivity(), WebActivity.class);

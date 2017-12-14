@@ -18,6 +18,7 @@ import com.meilun.security.smart.camera.presenter.CameraSettingPresenter;
 import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.entity.bean.DeviceListBean;
+import com.meilun.security.smart.event.EventCameraListRefresh;
 import com.meilun.security.smart.event.EventCameraPwdChanged;
 import com.p2p.core.P2PHandler;
 
@@ -59,9 +60,11 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
     private boolean isNickname;
     private Params params = Params.getInstance();
 
+
     @NonNull
     @Override
     protected CameraSettingContract.Presenter createPresenter() {
+
         return new CameraSettingPresenter(this);
     }
 
@@ -211,6 +214,8 @@ public class CameraSettingFragment extends BaseFragment<CameraSettingContract.Pr
             bean.setPassword(params.devicePassword);
             tvPassword.setText(params.devicePassword);
         }
+        EventBus.getDefault().post(new EventCameraListRefresh());
         DialogHelper.successSnackbar(getView(), "修改成功");
+
     }
 }
