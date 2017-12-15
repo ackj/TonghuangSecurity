@@ -245,10 +245,10 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
         adapter.getData().get(3).news = bean.getData().getNews();
 
         List<String> list = new ArrayList<>();
-        if (bean.getData().getNews().size() == 0) {
+        if (bean.getData().getNotices().size() == 0) {
             list.add("消息通知");
         } else {
-            for (int i = 0; i < bean.getData().getNews().size(); i++) {
+            for (int i = 0; i < bean.getData().getNotices().size(); i++) {
                 list.add(bean.getData().getNotices().get(i).getTitle());
             }
         }
