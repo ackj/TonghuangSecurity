@@ -25,6 +25,7 @@ import com.meilun.security.smart.entity.bean.DiscoverHomeBean;
 import com.meilun.security.smart.entity.bean.FirstLevelBean;
 import com.meilun.security.smart.entity.bean.SubCategoryBean;
 import com.meilun.security.smart.event.EventHostChanged;
+import com.meilun.security.smart.event.EventLogin;
 import com.meilun.security.smart.event.EventSwitchHost;
 import com.meilun.security.smart.history.view.DeviceLogsFragment;
 import com.meilun.security.smart.smarthome.view.SmartHomeMallFragment;
@@ -157,7 +158,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
     }
 
     private void gotoWeb(String title, String link) {
-        if(TextUtils.isEmpty(link)){
+        if (TextUtils.isEmpty(link)) {
             return;
         }
         Intent intent = new Intent(_mActivity, WebActivity.class);
@@ -202,6 +203,11 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSwitchHost(EventLogin event) {
+        onRefresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onChangedSecurity(EventHostChanged event) {
         ALog.e(TAG, "onChangedSecurity:" + event.status);
         if (event.status.equals(Constants.GATEWAY_STATE_HOME)) {
@@ -241,18 +247,25 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
     public void responseDiscoverPage(DiscoverBean bean) {
         ptrFrameLayout.refreshComplete();
         ALog.e(TAG, "responseDiscoverPage");
+
+        if (bean == null || bean.getData() == null) {
+            return;
+        }
+
         adapter.getData().get(0).bannerss = bean.getData().getAdvs();
         adapter.getData().get(3).news = bean.getData().getNews();
 
-        List<String> list = new ArrayList<>();
-        if (bean.getData().getNotices().size() == 0) {
-            list.add("消息通知");
+
+        List<String> notices = new ArrayList<>();
+        if (bean.getData().getNotices() == null
+                || bean.getData().getNotices().isEmpty()) {
+            notices.add("消息通知");
         } else {
-            for (int i = 0; i < bean.getData().getNotices().size(); i++) {
-                list.add(bean.getData().getNotices().get(i).getTitle());
+            for (DiscoverBean.DataBean.NoticesBean noticesBean : bean.getData().getNotices()) {
+                notices.add(noticesBean.getTitle());
             }
         }
-        adapter.getData().get(1).notices = list;
+        adapter.getData().get(1).notices = notices;
         adapter.notifyDataSetChanged();
     }
 
