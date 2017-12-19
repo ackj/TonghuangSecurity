@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
-import com.meilun.security.smart.common.ApiService;
-import com.meilun.security.smart.common.BoxingGlideLoader;
-import com.meilun.security.smart.common.UserHelper;
+import com.Player.Core.PlayerClient;
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
@@ -14,6 +12,10 @@ import com.alibaba.sdk.android.push.register.HuaWeiRegister;
 import com.alibaba.sdk.android.push.register.MiPushRegister;
 import com.bilibili.boxing.BoxingMediaLoader;
 import com.bilibili.boxing.loader.IBoxingMediaLoader;
+import com.meilun.security.smart.common.ApiService;
+import com.meilun.security.smart.common.BoxingGlideLoader;
+import com.meilun.security.smart.common.UserHelper;
+import com.meilun.security.smart.common.sdk.WriteLogThread;
 import com.p2p.core.P2PSpecial.P2PSpecial;
 
 import cn.itsite.abase.BaseApplication;
@@ -35,11 +37,13 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
     //前两位是客户APP唯一编号(00.00 由技威分配),后两位是APP版本号(客户自定义),此参数不可省略
     public final static String APPVersion = "05.72.00.00";
     public static String deviceID;
+    public static PlayerClient mPlayerClient;
 
     @Override
     public void onCreate() {
         super.onCreate();
         initDate();
+        initCatEye();
         initPush();//初始化推送。
         initBoxing();
         initP2P(this);
@@ -47,6 +51,12 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
 
     private void initDate() {
         UserHelper.init();
+    }
+
+    private void initCatEye() {
+        mPlayerClient = new PlayerClient();
+        WriteLogThread writeLogThread = new WriteLogThread(mPlayerClient);
+        writeLogThread.start();
     }
 
     private void initBoxing() {

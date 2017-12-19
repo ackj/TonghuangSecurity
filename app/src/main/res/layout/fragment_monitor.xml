@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_bg"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/iv_video_monitoring_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#e0000000"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/tv_rec_monitoring_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:text=".REC"
+            android:textColor="#FF0000"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/ll_state_monitoring_fragment"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_round_solid_stroke"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/pb_loading_monitoring_fragment"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/tv_state_monitoring_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:lineSpacingExtra="3dp"
+                android:text="玩命加载中…"
+                android:textColor="#FFFFFFFF"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_voice_animation_monitoring_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:src="@drawable/frame_animation_voice"
+            android:visibility="gone" />
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/tv_play_monitoring_fragment"
+            style="@style/MonitoringTextViewStyle"
+            android:drawableTop="@drawable/ic_play_black_150px"
+            android:text="播放" />
+
+        <TextView
+            android:id="@+id/tv_picture_monitoring_fragment"
+            style="@style/MonitoringTextViewStyle"
+            android:drawableTop="@drawable/ic_pictures_black_150px"
+            android:text="拍照" />
+
+        <TextView
+            android:id="@+id/tv_video_monitoring_fragment"
+            style="@style/MonitoringTextViewStyle"
+            android:drawableTop="@drawable/ic_video_black_150px"
+            android:text="录像" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/tv_sound_monitoring_fragment"
+            style="@style/MonitoringTextViewStyle"
+            android:drawableTop="@drawable/ic_sound_black_150px"
+            android:text="声音" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_police_monitoring_fragment"
+            style="@style/MonitoringTextViewStyle"
+            android:drawableTop="@drawable/ic_police_black_150px"
+            android:text="报警" />
+
+        <TextView
+            android:id="@+id/tv_openkey_monitoring_fragment"
+            style="@style/MonitoringTextViewStyle"
+            android:drawableTop="@drawable/ic_openkey_black_150px"
+            android:text="开锁" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_talk_monitoring_fragment"
+        style="@style/ButtonBaseColorBackStyle"
+        android:layout_margin="10dp"
+        android:text="按住说话" />
+
+</LinearLayout>

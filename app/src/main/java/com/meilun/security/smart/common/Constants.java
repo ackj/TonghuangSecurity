@@ -30,7 +30,18 @@ public class Constants extends BaseConstants {
             BASE_URL = "http://119.23.129.133:8090/gcsmart";
         }
     }
-    //-------------------以上是区分debug版和非debug版的baseurl-----------------
+
+    //-------------------猫眼相关-----------------
+
+    public static String SERVER = "v0.api.zhongjiaan.com";//
+    public static String CUSTOM_NAME = "";
+    public static String CATEYE_PASSWORD = "GCAGLF2";
+    public static String EMAIL = "yunshan_support@sina.com";
+    public static String UserImageDir = "/storage/emulated/0/snapshot";
+    public static String UserVideoDir = "/storage/emulated/0/videorecord";
+
+    //-------------------------------------------
+
 
     public static final int RESPONSE_CODE_SUCCESS = 200;
 

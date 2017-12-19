@@ -255,7 +255,6 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
         adapter.getData().get(0).bannerss = bean.getData().getAdvs();
         adapter.getData().get(3).news = bean.getData().getNews();
 
-
         List<String> notices = new ArrayList<>();
         if (bean.getData().getNotices() == null
                 || bean.getData().getNotices().isEmpty()) {
