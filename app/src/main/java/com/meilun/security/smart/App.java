@@ -5,6 +5,7 @@ import android.app.Application;
 import android.os.Bundle;
 
 import com.Player.Core.PlayerClient;
+import com.Player.web.response.DevItemInfo;
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
@@ -17,6 +18,9 @@ import com.meilun.security.smart.common.BoxingGlideLoader;
 import com.meilun.security.smart.common.UserHelper;
 import com.meilun.security.smart.common.sdk.WriteLogThread;
 import com.p2p.core.P2PSpecial.P2PSpecial;
+
+import java.util.Collections;
+import java.util.List;
 
 import cn.itsite.abase.BaseApplication;
 import cn.itsite.abase.log.ALog;
@@ -38,6 +42,8 @@ public class App extends BaseApplication implements Application.ActivityLifecycl
     public final static String APPVersion = "05.72.00.00";
     public static String deviceID;
     public static PlayerClient mPlayerClient;
+
+    public static List<DevItemInfo> devices = Collections.emptyList();
 
     @Override
     public void onCreate() {

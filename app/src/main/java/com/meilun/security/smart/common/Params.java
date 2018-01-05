@@ -72,6 +72,9 @@ public class Params {
     public String deviceName;
     public String devicePassword;
 
+    public String serialNumber;
+    public String password;
+
     public String keywords;
     public int appType;//android 2就好
     public String id;

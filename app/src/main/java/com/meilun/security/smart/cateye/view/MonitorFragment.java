@@ -1,9 +1,11 @@
 package com.meilun.security.smart.cateye.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -26,13 +28,16 @@ import com.Player.Core.PlayerCore;
 import com.Player.Source.LogOut;
 import com.Player.Source.SDKError;
 import com.Player.Source.TAlarmFrame;
-import com.Player.web.response.DevItemInfo;
 import com.alibaba.fastjson.JSON;
 import com.meilun.security.smart.App;
 import com.meilun.security.smart.R;
+import com.meilun.security.smart.cateye.presenter.MonitorPresenter;
 import com.meilun.security.smart.common.Constants;
-import com.meilun.security.smart.entity.bean.EyeCatBean;
+import com.meilun.security.smart.entity.bean.MainDeviceBean;
 import com.meilun.security.smart.entity.bean.ResultBean;
+import com.meilun.security.smart.event.EventRefreshDeviceList;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.concurrent.TimeUnit;
 
@@ -55,7 +60,7 @@ import static cn.itsite.abase.BaseApplication.mContext;
  * Email: liujia95me@126.com
  */
 
-public class MonitorFragment extends BaseFragment {
+public class MonitorFragment extends BaseFragment<MonitorPresenter> {
     public static final String TAG = MonitorFragment.class.getSimpleName();
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -92,13 +97,18 @@ public class MonitorFragment extends BaseFragment {
     private PlayerCore mPlayerCore;
     Unbinder unbinder;
     private RxManager mRxManager = new RxManager();
-    private EyeCatBean device = new EyeCatBean();
-    private String[] params;
-    private String devUserName;
-    private String devUserPwd;
-    private String devId;
+//    private EyeCatBean device = new EyeCatBean();
+    MainDeviceBean device;
 
-    public static MonitorFragment newInstance(DevItemInfo device) {
+    private String[] selectDialog = {"记录查询","开锁密码设置","设备连接密码","设置WiFi","删除设备"};
+
+    @NonNull
+    @Override
+    protected MonitorPresenter createPresenter() {
+        return new MonitorPresenter(this);
+    }
+
+    public static MonitorFragment newInstance(MainDeviceBean device) {
         Bundle args = new Bundle();
         args.putSerializable(Constants.DEVICE, device);
         MonitorFragment fragment = new MonitorFragment();
@@ -115,7 +125,7 @@ public class MonitorFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         if (args != null) {
-//            device = (DevItemInfo) args.getSerializable(Constants.DEVICE);
+            device = (MainDeviceBean) args.getSerializable(Constants.DEVICE);
         }
     }
 
@@ -130,7 +140,6 @@ public class MonitorFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        parseParams();
         initToolbar();
         initPlayCore();
         initData();
@@ -139,16 +148,68 @@ public class MonitorFragment extends BaseFragment {
 
     private void initToolbar() {
         initStateBar(toolbar);
-        toolbarTitle.setText(device.node_name);
+        toolbarTitle.setText(device.name);
         toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_24dp);
         toolbar.setNavigationOnClickListener(v -> _mActivity.onBackPressedSupport());
-        toolbarMenu.setText("修改密码");
+        toolbarMenu.setText("更多");
         toolbarMenu.setOnClickListener(v -> {
 //            if (mPlayerCore.PlayCoreGetCameraPlayerState() == 2) {
-            //说明正在播放中，表明当前密码是正确的，即可以让他重新设置连接密码。
-//            start(UpdatePasswordFragment.newInstance(device));
+////            说明正在播放中，表明当前密码是正确的，即可以让他重新设置连接密码。
+//                start(UpdatePasswordFragment.newInstance(device.cateyeBean));
 //            }
+            new AlertDialog.Builder(_mActivity)
+                    .setItems(selectDialog, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case 0://记录查询
+                                    _mActivity.start(QueryFragment.newInstance());
+                                    break;
+                                case 1://开锁密码设置
+                                    unLock();
+                                    break;
+                                case 2://设备连接密码
+                                    _mActivity.start(UpdatePasswordFragment.newInstance(device.cateyeBean));
+                                    break;
+                                case 3://设置WIFI
+                                    _mActivity.start(GenerateWifiFragment.newInstance());
+                                    break;
+                                case 4://删除设备
+                                    showDeleteDeviceDialog();
+                                    break;
+                                default:
+                            }
+                        }
+                    })
+                    .show();
         });
+    }
+
+    private void showDeleteDeviceDialog() {
+        new AlertDialog.Builder(_mActivity)
+                .setTitle("警告")
+                .setMessage("确定要删除该设备吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showLoading();
+                        mPresenter.requestDeleteCatEye(device);
+                    }
+                }).setNegativeButton("取消",null)
+                .show();
+    }
+
+    public void responseDeleteSuccess(){
+        dismissLoading();
+        DialogHelper.successSnackbar(getView(), "删除成功！");
+        EventBus.getDefault().post(new EventRefreshDeviceList());
+        pop();
+    }
+
+    @Override
+    public void error(String errorMessage) {
+        dismissLoading();
+        DialogHelper.successSnackbar(getView(), "删除失败！");
     }
 
     public void initPlayCore() {
@@ -317,7 +378,7 @@ public class MonitorFragment extends BaseFragment {
         tvPlay.setText("暂停");
 
         updateState();
-        mPlayerCore.PlayP2P(devId, devUserName, devUserPwd, 0, 1);
+        mPlayerCore.PlayP2P(device.deviceId, device.userName, device.userPwd, 0, 1);
     }
 
     public void vibrate() {
@@ -456,13 +517,13 @@ public class MonitorFragment extends BaseFragment {
     }
 
     private void showHint() {
-//        new AlertDialog.Builder(_mActivity)
-//                .setTitle("温馨提示")
-//                .setMessage("您当前连接密码错误，是否修改？")
-//                .setPositiveButton("是", (dialog, which) ->
-//                        start(UpdateParamsFragment.newInstance(device)))
-//                .setNegativeButton("否", null)
-//                .show();
+        new AlertDialog.Builder(_mActivity)
+                .setTitle("温馨提示")
+                .setMessage("您当前连接密码错误，是否修改？")
+                .setPositiveButton("是", (dialog, which) ->
+                        start(UpdateParamsFragment.newInstance(device.cateyeBean)))
+                .setNegativeButton("否", null)
+                .show();
     }
 
     /**
@@ -474,41 +535,6 @@ public class MonitorFragment extends BaseFragment {
         return mPlayerCore.PlayCoreGetCameraPlayerState() == 2;
     }
 
-    //解析设备参数，如果已经解析过，再次点击播放的时候就不需要解析。
-    private void parseParams() {
-        if (device == null) {
-            DialogHelper.errorSnackbar(getView(), "找不到设备信息！");
-            return;
-        }
-
-        if (params != null) {
-            return;
-        }
-        ALog.e("device.conn_params-->" + device.conn_params);
-        //解析参数
-        params = device.conn_params.split(",");
-        devUserName = "";
-        devId = "";
-        devUserPwd = "";
-        for (int i = 0; i < params.length; i++) {
-            if (params[i].contains("UserName")) {
-                devUserName = params[i].split("=")[1];
-                continue;
-            }
-            if (params[i].contains("UserPwd")) {
-                devUserPwd = params[i].split("=")[1];
-                continue;
-            }
-            if (params[i].contains("DevId")) {
-                devId = params[i].split("=")[1];
-            }
-        }
-        ALog.e(devUserName);
-        ALog.e(devId);
-        ALog.e(devUserPwd);
-    }
-
-
     /**
      * “ztca”开头umid的设备 解锁
      *
@@ -516,7 +542,6 @@ public class MonitorFragment extends BaseFragment {
      */
     public void openLock1(final String password) {
         new Thread() {
-
             @Override
             public void run() {
                 /**
@@ -553,7 +578,7 @@ public class MonitorFragment extends BaseFragment {
                         + passwordBase64 + "\"}}";
                 byte[] request = requestStr.getBytes();
                 ALog.e("openLock-->" + requestStr);
-                byte[] result = App.mPlayerClient.CallCustomFunc(devId, "admin", "admin", 66052, request);
+                byte[] result = App.mPlayerClient.CallCustomFunc(device.deviceId, "admin", "admin", 66052, request);
                 dismissLoading();
                 if (null != result) {
                     String sResult = new String(result);
@@ -593,7 +618,7 @@ public class MonitorFragment extends BaseFragment {
                         DialogHelper.warningSnackbar(getView(), "密码不能为空！");
                         return;
                     }
-                    if (devId.toLowerCase().startsWith("ztca")) {
+                    if (device.deviceId.toLowerCase().startsWith("ztca")) {
                         if (isPlaying()) {
                             openLock1(inputText);
                         } else {

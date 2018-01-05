@@ -24,9 +24,9 @@ import com.meilun.security.smart.entity.bean.AppUpdateBean;
 import com.meilun.security.smart.more.view.MoreFragment;
 import com.meilun.security.smart.net.NetActivity;
 import com.meilun.security.smart.net.view.SetWifiFragment;
-import com.meilun.security.smart.room.view.RoomDeviceListFragment;
+import com.meilun.security.smart.room.view.DeviceListFragment;
 import com.meilun.security.smart.scene.view.SceneFragment;
-import com.meilun.security.smart.security.view.SecurityFragment;
+import com.meilun.security.smart.security.view.Security2Fragment;
 import com.vector.update_app.UpdateAppBean;
 import com.vector.update_app.UpdateAppManager;
 import com.vector.update_app.UpdateCallback;
@@ -78,15 +78,15 @@ public class MainFragment extends BaseFragment implements EasyPermissions.Permis
         super.onViewCreated(view, savedInstanceState);
         if (savedInstanceState == null) {
             fragments[0] = DiscoverFragment.newInstance();
-            fragments[1] = SecurityFragment.newInstance();
-            fragments[2] = RoomDeviceListFragment.newInstance();
+            fragments[1] = Security2Fragment.newInstance();
+            fragments[2] = DeviceListFragment.newInstance();
             fragments[3] = SceneFragment.newInstance();
             fragments[4] = MoreFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_container_main_fragment, 0, fragments[0], fragments[1], fragments[2], fragments[3], fragments[4]);
         } else {
             fragments[0] = findChildFragment(DiscoverFragment.class);
-            fragments[1] = findChildFragment(SecurityFragment.class);
-            fragments[2] = findChildFragment(RoomDeviceListFragment.class);
+            fragments[1] = findChildFragment(Security2Fragment.class);
+            fragments[2] = findChildFragment(DeviceListFragment.class);
             fragments[3] = findChildFragment(SceneFragment.class);
             fragments[4] = findChildFragment(MoreFragment.class);
             prePosition = savedInstanceState.getInt(KEY_CURR_POSITION);

@@ -74,4 +74,18 @@ public class AddLinkagePresenter extends BasePresenter<AddLinkageContract.View,A
                 }, this::error/*, this::complete, disposable -> start(null)*/)
         );
     }
+
+    @Override
+    public void requestSecurityList(Params params) {
+        mRxManager.add(mModel.requestSecurityList(params)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(bean -> {
+                    if (bean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                        getView().responseSecurityList(bean.getData().getSubDevices());
+                    } else {
+                        getView().error(bean.getOther().getMessage());
+                    }
+                }, this::error/*, this::complete, disposable -> start(null)*/)
+        );
+    }
 }

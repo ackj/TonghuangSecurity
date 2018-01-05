@@ -16,16 +16,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.meilun.security.smart.entity.bean.BaseBean;
-import com.meilun.security.smart.entity.bean.SceneBean;
-import com.meilun.security.smart.linkage.contract.AddLinkageContract;
-import com.meilun.security.smart.linkage.presenter.AddLinkagePresenter;
 import com.meilun.security.smart.R;
 import com.meilun.security.smart.common.Constants;
 import com.meilun.security.smart.common.Params;
+import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.entity.bean.DeviceListBean;
 import com.meilun.security.smart.entity.bean.LinkageBean;
+import com.meilun.security.smart.entity.bean.SceneBean;
+import com.meilun.security.smart.entity.bean.SecurityBean;
 import com.meilun.security.smart.event.EventLinkageChanged;
+import com.meilun.security.smart.linkage.contract.AddLinkageContract;
+import com.meilun.security.smart.linkage.presenter.AddLinkagePresenter;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -83,8 +84,6 @@ public class LinkageEditFragment extends BaseFragment<AddLinkageContract.Present
     TextView tvDeviceAction2;
     @BindView(R.id.et_minute)
     EditText etMinute;
-
-
     private Unbinder unbinder;
     private Params params = Params.getInstance();
     String[] triggerTypeArr = {"传感器", "时间"};
@@ -93,10 +92,10 @@ public class LinkageEditFragment extends BaseFragment<AddLinkageContract.Present
     boolean[] weekBoolArr = {false, false, false, false, false, false, false};
     private boolean isSensor = false;
     private DeviceListBean.DataBean.SubDevicesBean selectedDevice;//选中的设备
-    private DeviceListBean.DataBean.SubDevicesBean selectedSensor;//选中的探测器
+    private SecurityBean.DataBean.SubDevicesBean selectedSensor;//选中的探测器
     private DeviceListBean.DataBean.SubDevicesBean.ActionsBean selectedDeviceAct;
     private DeviceListBean.DataBean.SubDevicesBean.ActionsBean selectedDeviceAct2;
-    private DeviceListBean.DataBean.SubDevicesBean.ActionsBean selectedSensorAct;
+    private SecurityBean.DataBean.SubDevicesBean.ActionsBean selectedSensorAct;
     private SceneBean.DataBean selectedScene;//选中的场景
     private LinkageBean.DataBean bean;
     private boolean isMod = false;
@@ -198,17 +197,26 @@ public class LinkageEditFragment extends BaseFragment<AddLinkageContract.Present
         ALog.e(TAG, "responseDeviceList:" + data.size());
         new AlertDialog.Builder(_mActivity)
                 .setItems(arr, (dialog, which) -> {
-                    if (isSensor) {
-                        selectedSensor = data.get(which);
-                        tvSensor.setText(arr[which]);
-                        tvSensorAction.setText("请选择");
-                    } else {
-                        selectedDevice = data.get(which);
-                        tvDeviceSence.setText(arr[which]);
-                        tvDeviceAction.setText("请选择");
-                        tvDeviceAction2.setText("请选择");
-                        tvDeviceNode.setText("请选择");
-                    }
+                    selectedDevice = data.get(which);
+                    tvDeviceSence.setText(arr[which]);
+                    tvDeviceAction.setText("请选择");
+                    tvDeviceAction2.setText("请选择");
+                    tvDeviceNode.setText("请选择");
+                }).show();
+    }
+
+    @Override
+    public void responseSecurityList(List<SecurityBean.DataBean.SubDevicesBean> data) {
+        String[] arr = new String[data.size()];
+        for (int i = 0; i < data.size(); i++) {
+            arr[i] = data.get(i).getName();
+        }
+        ALog.e(TAG, "responseDeviceList:" + data.size());
+        new AlertDialog.Builder(_mActivity)
+                .setItems(arr, (dialog, which) -> {
+                    selectedSensor = data.get(which);
+                    tvSensor.setText(arr[which]);
+                    tvSensorAction.setText("请选择");
                 }).show();
     }
 
@@ -289,7 +297,7 @@ public class LinkageEditFragment extends BaseFragment<AddLinkageContract.Present
             case R.id.tv_sensor:
                 params.category = Constants.SENSOR;
                 isSensor = true;
-                mPresenter.requestDeviceList(params);
+                mPresenter.requestSecurityList(params);
                 break;
             case R.id.tv_device_sence:
                 //

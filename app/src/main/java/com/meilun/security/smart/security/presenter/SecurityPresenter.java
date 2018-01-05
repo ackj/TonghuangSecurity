@@ -3,11 +3,11 @@ package com.meilun.security.smart.security.presenter;
 import android.support.annotation.NonNull;
 
 import com.meilun.security.smart.common.Constants;
+import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.entity.bean.BaseBean;
-import com.meilun.security.smart.entity.bean.GatewaysBean;
+import com.meilun.security.smart.entity.bean.MainDeviceListBean;
 import com.meilun.security.smart.security.contract.SecurityContract;
 import com.meilun.security.smart.security.model.SecurityModel;
-import com.meilun.security.smart.common.Params;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import rx.android.schedulers.AndroidSchedulers;
@@ -47,13 +47,13 @@ public class SecurityPresenter extends BasePresenter<SecurityContract.View, Secu
     public void requestGateways(Params params) {
         mRxManager.add(mModel.requestGateways(params)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<GatewaysBean>() {
+                .subscribe(new RxSubscriber<MainDeviceListBean>() {
                     @Override
-                    public void _onNext(GatewaysBean gatewaysBean) {
-                        if (gatewaysBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
-                            getView().responseGateways(gatewaysBean);
+                    public void _onNext(MainDeviceListBean listBean) {
+                        if (listBean.getOther().getCode() == Constants.RESPONSE_CODE_SUCCESS) {
+                            getView().responseGateways(listBean);
                         } else {
-                            getView().error(gatewaysBean.getOther().getMessage());
+                            getView().error(listBean.getOther().getMessage());
                         }
                     }
                 }));

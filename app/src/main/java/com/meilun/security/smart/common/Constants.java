@@ -39,9 +39,13 @@ public class Constants extends BaseConstants {
     public static String EMAIL = "yunshan_support@sina.com";
     public static String UserImageDir = "/storage/emulated/0/snapshot";
     public static String UserVideoDir = "/storage/emulated/0/videorecord";
-
+    public static String SERIAL_NUMBER = "Serial_Number";
     //-------------------------------------------
-
+    //smart_gateway/smart_gateway_gsw3/smart_camera/smart_cateye
+    public static String SMART_GATEWAY = "smart_gateway";//S1网关
+    public static String SMART_GATEWAY_GSW3 = "smart_gateway_gsw3";//安全小卫士
+    public static String SMART_CAMERA = "smart_camera";//摄像头
+    public static String SMART_CATEYE = "smart_cateye";//猫眼
 
     public static final int RESPONSE_CODE_SUCCESS = 200;
 
@@ -76,7 +80,6 @@ public class Constants extends BaseConstants {
     public static final String DEVICE = "device";
 
     public static final String KEY_SELECTOR = "key_SELECTOR";
-
 
     public static final String FC = "FSmartMeilun";
 
