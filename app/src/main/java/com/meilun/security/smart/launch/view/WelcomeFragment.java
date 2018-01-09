@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.meilun.security.smart.R;
 import com.meilun.security.smart.common.Constants;
 import com.meilun.security.smart.main.MainActivity;
-import com.meilun.security.smart.R;
-import com.bumptech.glide.Glide;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
