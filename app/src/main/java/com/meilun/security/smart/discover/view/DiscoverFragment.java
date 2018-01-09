@@ -143,7 +143,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
                                 mPresenter.requestSwichState(params);
                                 break;
                             case R.id.ll_company:
-                                gotoWeb("公司简介", "http://www.aglhz.com/sub_property_ysq/m/html/company_profile.html");
+                                gotoWeb("公司简介", "http://www.aglhz.com/sub_property_ysq/m/html/tongmen/tongmen/index.html");
                                 break;
                             case R.id.ll_store:
                                 _mActivity.start(SmartHomeMallFragment.newInstance(null, 0));
