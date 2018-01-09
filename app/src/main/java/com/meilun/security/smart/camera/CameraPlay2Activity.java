@@ -22,12 +22,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.R;
 import com.meilun.security.smart.camera.contract.CameraSettingContract;
 import com.meilun.security.smart.camera.presenter.CameraSettingPresenter;
 import com.meilun.security.smart.common.Params;
-import com.meilun.security.smart.entity.bean.DeviceListBean;
+import com.meilun.security.smart.entity.bean.BaseBean;
+import com.meilun.security.smart.entity.bean.MainDeviceBean;
 import com.meilun.security.smart.event.EventCameraListRefresh;
 import com.meilun.security.smart.utils.CameraHelper;
 import com.p2p.core.BaseMonitorActivity;
@@ -94,7 +94,7 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     @BindView(R.id.toolbar_menu)
     TextView toolbarMenu;
 
-    private DeviceListBean.DataBean.SubDevicesBean cameraBean;
+    private MainDeviceBean cameraBean;
     private String cameraUserId;
     private String cameraPassword;
     private String cameraCallId;
@@ -152,13 +152,13 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
     private void initData() {
         registerCameraReceiver();
         //获取数据
-        cameraBean = (DeviceListBean.DataBean.SubDevicesBean) getIntent().getSerializableExtra("bean");
+        cameraBean = (MainDeviceBean) getIntent().getSerializableExtra("bean");
         SharedPreferences sp = getSharedPreferences("Account", MODE_PRIVATE);
         cameraUserId = sp.getString("userId", "");
-        cameraPassword = P2PHandler.getInstance().EntryPassword(cameraBean.getPassword());
-        cameraCallId = cameraBean.getDeviceId();
+        cameraPassword = P2PHandler.getInstance().EntryPassword(cameraBean.userPwd);
+        cameraCallId = cameraBean.deviceId;
 
-        ALog.e(TAG, "id:" + cameraCallId + " -- password:" + cameraBean.getPassword() + " -- userId:" + cameraUserId + " -- pwd:" + cameraPassword);
+        ALog.e(TAG, "id:" + cameraCallId + " -- password:" + cameraBean.userPwd + " -- userId:" + cameraUserId + " -- pwd:" + cameraPassword);
         //首次连接
         connectDevice();
         loadingShow();
@@ -322,9 +322,9 @@ public class CameraPlay2Activity extends BaseMonitorActivity implements CameraSe
                                 if (TextUtils.isEmpty(result)) {
                                     DialogHelper.warningSnackbar(toolbar, "请输入内容");
                                 } else {
-                                    params.index = cameraBean.getIndex();
+//                                    params.index = cameraBean.getIndex();
 //                                    params.deviceName = cameraBean.getName();
-                                    params.deviceType = cameraBean.getDeviceType();
+//                                    params.deviceType = cameraBean.getDeviceType();
                                     params.devicePassword = result;
                                     presenter.requestModCamera(params);
                                     dialog.dismiss();

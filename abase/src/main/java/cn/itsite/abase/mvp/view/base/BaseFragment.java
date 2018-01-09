@@ -181,6 +181,10 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
             }
         }, 100);
 
+        setTopView(ptrFrameLayout,view);
+    }
+
+    public void setTopView(final PtrFrameLayout ptrFrameLayout, final View view){
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {

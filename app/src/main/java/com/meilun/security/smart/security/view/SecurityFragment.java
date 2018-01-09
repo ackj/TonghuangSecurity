@@ -25,6 +25,7 @@ import com.meilun.security.smart.App;
 import com.meilun.security.smart.common.Constants;
 import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.entity.bean.GatewaysBean;
+import com.meilun.security.smart.entity.bean.MainDeviceListBean;
 import com.meilun.security.smart.entity.bean.SecurityBean;
 import com.meilun.security.smart.event.EventSwitchHost;
 import com.meilun.security.smart.security.contract.SecurityContract;
@@ -261,6 +262,10 @@ public class SecurityFragment extends BaseFragment<SecurityContract.Presenter> i
     }
 
     @Override
+    public void responseGateways(MainDeviceListBean bean) {
+
+    }
+
     public void responseGateways(GatewaysBean gateways) {
         if (gateways == null || gateways.getData() == null
                 || gateways.getData().isEmpty()) {

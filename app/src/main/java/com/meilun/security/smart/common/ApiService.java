@@ -13,6 +13,7 @@ import com.meilun.security.smart.entity.bean.GatewaysBean;
 import com.meilun.security.smart.entity.bean.GoodsBean;
 import com.meilun.security.smart.entity.bean.HostSettingsBean;
 import com.meilun.security.smart.entity.bean.LinkageBean;
+import com.meilun.security.smart.entity.bean.MainDeviceListBean;
 import com.meilun.security.smart.entity.bean.NewsBean;
 import com.meilun.security.smart.entity.bean.RoomTypesBean;
 import com.meilun.security.smart.entity.bean.RoomsBean;
@@ -289,7 +290,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST
-    Observable<DevicesBean> requestCtrlSDeviceTypeList(@Url String url,@Field("A") String a);
+    Observable<DevicesBean> requestCtrlSDeviceTypeList(@Url String url, @Field("A") String a);
 
     String requestNewDeviceConfirm = BASE_URL + "/ctrl/client/newDeviceConfirm";
 
@@ -499,6 +500,7 @@ public interface ApiService {
                                         @Field("addrDet") String addrDet,
                                         @Field("lng") String lng,
                                         @Field("lat") String lat);
+
     //修改主机定位
     String requestEditHostLocation = BASE_URL + "/ctrl/client/gatewayAddrSet";
 
@@ -547,7 +549,6 @@ public interface ApiService {
 
     //主机留言。
     String requestLeaveMassge = BASE_URL + "/ctrl/client/gatewayMsgLeave";
-
 
 
     @POST
@@ -712,5 +713,53 @@ public interface ApiService {
                                          @Query("fc") String fc,
                                          @Query("page") int page,
                                          @Query("pageSize") int pageSize);
+
+    //(todo)--------------------- 2018.1.3新增（单独获取摄像头）----------------------
+    String requestMainDeviceList = BASE_URL + "/client/info/mainDeviceList";
+
+    @FormUrlEncoded
+    @POST
+    Observable<MainDeviceListBean> requestMainDeviceList(@Url String url,
+                                                         @Field("token") String token,
+                                                         @Field("type") String type,
+                                                         @Field("page") int page,
+                                                         @Field("pageSize") int pageSize);
+
+    String requestNewMainDevice = BASE_URL + "/ctrl/client/newMainDevice";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestNewMainDevice(@Url String url,
+                                              @Field("token") String token,
+                                              @Field("type") String type,
+                                              @Field("serialNO") String serialNO,
+                                              @Field("name") String name,
+                                              @Field("password") String password);
+
+    String requestDelMainDevice = BASE_URL + "/ctrl/client/delMainDevice";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestDelMainDevice(@Url String url,
+                                              @Field("token") String token,
+                                              @Field("type") String type,
+                                              @Field("serialNO") String serialNO);
+
+    String requestCatEyeUpdate = BASE_URL + "/cateye/device/from-client/device-update";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestCatEyeUpdate(@Url String url,
+                                             @Field("account") String account,
+                                             @Field("token") String token,
+                                             @Field("catEyeSerialNo") String serialNO);
+
+    String requestCatEyeDelete = BASE_URL+"/cateye/device/from-client/device-delete";
+
+    @FormUrlEncoded
+    @POST
+    Observable<BaseBean> requestCatEyeDelete(@Url String url,
+                                             @Field("token") String token,
+                                             @Field("catEyeSerialNo") String catEyeSerialNo);
 
 }

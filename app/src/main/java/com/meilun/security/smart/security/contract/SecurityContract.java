@@ -1,8 +1,8 @@
 package com.meilun.security.smart.security.contract;
 
-import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.common.Params;
-import com.meilun.security.smart.entity.bean.GatewaysBean;
+import com.meilun.security.smart.entity.bean.BaseBean;
+import com.meilun.security.smart.entity.bean.MainDeviceListBean;
 import com.meilun.security.smart.entity.bean.SecurityBean;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
@@ -19,7 +19,7 @@ public interface SecurityContract {
 
         void responseSecurity(SecurityBean securityBean);
 
-        void responseGateways(GatewaysBean gatewaysBean);
+        void responseGateways(MainDeviceListBean bean);
 
         void responseSwichGateway(BaseBean baseBean);
 
@@ -46,7 +46,7 @@ public interface SecurityContract {
 
         Observable<SecurityBean> requestSecurity(Params params);
 
-        Observable<GatewaysBean> requestGateways(Params params);
+        Observable<MainDeviceListBean> requestGateways(Params params);
 
         Observable<BaseBean> requestSwichGateway(Params params);
 

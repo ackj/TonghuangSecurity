@@ -1,10 +1,11 @@
 package com.meilun.security.smart.linkage.model;
 
-import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.common.ApiService;
 import com.meilun.security.smart.common.Params;
+import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.entity.bean.DeviceListBean;
 import com.meilun.security.smart.entity.bean.SceneBean;
+import com.meilun.security.smart.entity.bean.SecurityBean;
 import com.meilun.security.smart.linkage.contract.AddLinkageContract;
 
 import cn.itsite.abase.mvp.model.base.BaseModel;
@@ -53,10 +54,14 @@ public class AddLinkageModel extends BaseModel implements AddLinkageContract.Mod
 
     @Override
     public Observable<DeviceListBean> requestDeviceList(Params params) {
-//        return HttpHelper.getService(ApiService.class).requestSubDeviceList(ApiService.requestSubDeviceList
-//                , params.token,params.page,params.pageSize,params.category)
-//                .subscribeOn(Schedulers.io());
         return HttpHelper.getService(ApiService.class).requestDeviceNotAlone(ApiService.requestDeviceNotAlone
+                , params.token)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<SecurityBean> requestSecurityList(Params params) {
+        return HttpHelper.getService(ApiService.class).requestSecurity(ApiService.requestSecurity
                 , params.token)
                 .subscribeOn(Schedulers.io());
     }

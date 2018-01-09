@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/grey_bg" />
+
+    <LinearLayout
+        android:id="@+id/ll_start_date"
+        style="@style/ItemLayoutFeekbackStyle">
+
+        <TextView
+            style="@style/ItemLeftBlackTextStyle"
+            android:text="起始时间" />
+
+        <TextView
+            android:id="@+id/tv_start_date"
+            style="@style/ItemRightBackTextStyle"
+            android:drawableRight="@drawable/ic_view_more_60px"
+            android:text="2016-07-08" />
+    </LinearLayout>
+
+    <View style="@style/LineStyle" />
+
+    <LinearLayout
+        android:id="@+id/ll_end_date"
+        style="@style/ItemLayoutFeekbackStyle">
+
+        <TextView
+            style="@style/ItemLeftBlackTextStyle"
+            android:text="结束时间" />
+
+        <TextView
+            android:id="@+id/tv_end_date"
+            style="@style/ItemRightBackTextStyle"
+            android:drawableRight="@drawable/ic_view_more_60px"
+            android:text="2016-07-08" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/grey_bg" />
+
+    <LinearLayout
+        android:id="@+id/ll_data_sources"
+        style="@style/ItemLayoutFeekbackStyle">
+
+        <TextView
+            style="@style/ItemLeftBlackTextStyle"
+            android:text="数据来源" />
+
+        <TextView
+            android:id="@+id/tv_data_sources"
+            style="@style/ItemRightBackTextStyle"
+            android:drawableRight="@drawable/ic_view_more_60px"
+            android:text="本地" />
+    </LinearLayout>
+
+    <View style="@style/LineStyle" />
+
+    <LinearLayout
+        android:id="@+id/ll_file_type"
+        style="@style/ItemLayoutFeekbackStyle">
+
+        <TextView
+            style="@style/ItemLeftBlackTextStyle"
+            android:text="文件类型" />
+
+        <TextView
+            android:id="@+id/tv_file_type"
+            style="@style/ItemRightBackTextStyle"
+            android:drawableRight="@drawable/ic_view_more_60px"
+            android:text="图片" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/grey_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="选择猫眼列表"
+        android:textColor="@color/base_black" />
+</LinearLayout>

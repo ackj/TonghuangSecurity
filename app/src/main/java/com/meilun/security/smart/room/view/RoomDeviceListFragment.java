@@ -171,7 +171,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventAddDevice(EventAddDevice event) {
-        _mActivity.start(AddDeviceFragment.newInstance(null, selectRoom));
+        _mActivity.start(AddDeviceFragment.newInstance(null/*, selectRoom*/));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -219,7 +219,7 @@ public class RoomDeviceListFragment extends BaseFragment<RoomDeviceListContract.
                 intent.putExtra("bean", (Serializable) bean);
                 startActivity(intent);
             } else {
-                _mActivity.start(DeviceOnOffFragment.newInstance(bean, selectRoom));
+                _mActivity.start(DeviceOnOffFragment.newInstance(bean/*, selectRoom*/));
             }
         });
 

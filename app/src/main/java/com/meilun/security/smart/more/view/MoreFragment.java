@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.meilun.security.smart.cateye.view.MonitorFragment;
 import com.meilun.security.smart.more.presenter.MorePresenter;
 import com.meilun.security.smart.net.view.SetWifiFragment;
 import com.meilun.security.smart.R;
@@ -117,7 +118,8 @@ public class MoreFragment extends BaseFragment<MoreContract.Presenter> implement
                 }
                 break;
             case R.id.ll_room_manager:
-                _mActivity.start(RoomManagerFragment.newInstance());
+//                _mActivity.start(RoomManagerFragment.newInstance());
+                _mActivity.start(MonitorFragment.newInstance());
                 break;
             case R.id.ll_host_manager:
                 _mActivity.start(HostListFragment.newInstance());

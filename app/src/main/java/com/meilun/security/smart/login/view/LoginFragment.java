@@ -21,6 +21,7 @@ import com.meilun.security.smart.common.UserHelper;
 import com.meilun.security.smart.event.EventLogin;
 import com.meilun.security.smart.login.contract.LoginContract;
 import com.meilun.security.smart.login.presenter.LoginPresenter;
+import com.meilun.security.smart.utils.EyeCatHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -102,7 +103,20 @@ public class LoginFragment extends BaseFragment<LoginContract.Presenter> impleme
         dismissLoading();
         UserHelper.setRemember(cbRemember.isChecked());
         EventBus.getDefault().post(new EventLogin());
-        _mActivity.finish();
+        //登录猫眼
+        EyeCatHelper.login(params.user, new EyeCatHelper.OnLoginListener() {
+            @Override
+            public void loginSuccess() {
+                _mActivity.finish();
+
+            }
+
+            @Override
+            public void loginFaild() {
+                DialogHelper.errorSnackbar(getView(), "登录失败！");
+            }
+        });
+
     }
 
     @Override

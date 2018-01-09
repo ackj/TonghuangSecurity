@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.meilun.security.smart.R;
 import com.meilun.security.smart.common.ApiService;
 import com.meilun.security.smart.common.Constants;
 import com.meilun.security.smart.common.UserHelper;
-import com.meilun.security.smart.utils.CameraHelper;
-import com.meilun.security.smart.R;
+import com.meilun.security.smart.login.LoginActivity;
 import com.meilun.security.smart.main.MainActivity;
+import com.meilun.security.smart.utils.CameraHelper;
+import com.meilun.security.smart.utils.EyeCatHelper;
 
 import cn.itsite.abase.cache.SPCache;
 import cn.itsite.abase.common.RxManager;
@@ -51,18 +53,28 @@ public class SplashFragment extends BaseFragment {
 
     private void checkLogin() {
         mRxManager.add(HttpHelper.getService(ApiService.class)
-                .requestCheckToken(ApiService.requestCheckToken, UserHelper.token)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(bean -> {
-                    if (bean.getData().getStatus() == 1) {
-                        UserHelper.clear();
-                    }
-                    go2Main();
-                }, throwable -> {
-                    ALog.e(throwable);
-                    go2Main();
-                })
+                        .requestCheckToken(ApiService.requestCheckToken, UserHelper.token)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(bean -> {
+                            if (bean.getData().getStatus() == 1) {
+                                UserHelper.clear();
+                            }
+                            EyeCatHelper.login(UserHelper.account, new EyeCatHelper.OnLoginListener() {
+                                @Override
+                                public void loginSuccess() {
+                                    go2Main();
+                                }
+
+                                @Override
+                                public void loginFaild() {
+                                    go2Login();
+                                }
+                            });
+                        }, throwable -> {
+                            ALog.e(throwable);
+                            go2Main();
+                        })
         );
     }
 
@@ -76,6 +88,15 @@ public class SplashFragment extends BaseFragment {
         _mActivity.overridePendingTransition(0, 0);
         //此处之所以延迟退出是因为立即退出在小米手机上会有一个退出跳转动画，而我不想要这个垂直退出的跳转动画。
         new Handler().postDelayed(() -> _mActivity.finish(), 1000);
+    }
+
+    public void go2Login() {
+        startActivity(new Intent(_mActivity, LoginActivity.class));
+        _mActivity.overridePendingTransition(0, 0);
+        //此处之所以延迟退出是因为立即退出在小米手机上会有一个退出跳转动画，而我不想要这个垂直退出的跳转动画。
+        if (getView() != null) {
+            getView().postDelayed(() -> _mActivity.finish(), 1000);
+        }
     }
 
     @Override

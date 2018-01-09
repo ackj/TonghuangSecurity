@@ -1,9 +1,10 @@
 package com.meilun.security.smart.linkage.contract;
 
-import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.common.Params;
+import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.entity.bean.DeviceListBean;
 import com.meilun.security.smart.entity.bean.SceneBean;
+import com.meilun.security.smart.entity.bean.SecurityBean;
 
 import java.util.List;
 
@@ -21,17 +22,21 @@ public interface AddLinkageContract  {
         void responseAddSuccess(BaseBean bean);
         void responseSceneList(SceneBean bean);
         void responseDeviceList(List<DeviceListBean.DataBean.SubDevicesBean> data);
+        void responseSecurityList(List<SecurityBean.DataBean.SubDevicesBean> data);
     }
 
     interface Presenter extends BaseContract.Presenter {
         void requestNewLinkage(Params params);
         void requestSceneList(Params params);
         void requestDeviceList(Params params);
+        void requestSecurityList(Params params);
     }
 
     interface Model extends BaseContract.Model {
         Observable<BaseBean> requestNewLinkage(Params param);
         Observable<SceneBean> requestSceneList(Params params);
         Observable<DeviceListBean> requestDeviceList(Params params);
+        Observable<SecurityBean> requestSecurityList(Params params);
+
     }
 }

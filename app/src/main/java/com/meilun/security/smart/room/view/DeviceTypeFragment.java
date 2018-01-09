@@ -59,6 +59,11 @@ public class DeviceTypeFragment extends BaseFragment<DeviceTypeContract.Presente
     private Params params = Params.getInstance();
     private BaseDialogFragment dialogAddCamera;
 
+    public static DeviceTypeFragment newInstance() {
+        DeviceTypeFragment fragment = new DeviceTypeFragment();
+        return fragment;
+    }
+
     public static DeviceTypeFragment newInstance(String roomFid) {
         DeviceTypeFragment fragment = new DeviceTypeFragment();
         Bundle bundle = new Bundle();

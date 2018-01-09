@@ -2,7 +2,7 @@ package com.meilun.security.smart.security.model;
 
 import com.meilun.security.smart.common.ApiService;
 import com.meilun.security.smart.entity.bean.BaseBean;
-import com.meilun.security.smart.entity.bean.GatewaysBean;
+import com.meilun.security.smart.entity.bean.MainDeviceListBean;
 import com.meilun.security.smart.security.contract.SecurityContract;
 import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.entity.bean.SecurityBean;
@@ -37,10 +37,11 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
     }
 
     @Override
-    public Observable<GatewaysBean> requestGateways(Params params) {
+    public Observable<MainDeviceListBean> requestGateways(Params params) {
         return HttpHelper.getService(ApiService.class)
-                .requestGateways(ApiService.requestGateways,
+                .requestMainDeviceList(ApiService.requestMainDeviceList,
                         params.token,
+                        params.type,
                         params.page,
                         params.pageSize)
                 .subscribeOn(Schedulers.io());
@@ -70,6 +71,7 @@ public class SecurityModel extends BaseModel implements SecurityContract.Model {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         RequestBody requestBody = RequestBody.create(MediaType.parse("audio/amr"), params.file);
         builder.addFormDataPart("file", params.file.getName(), requestBody);
+        builder.addFormDataPart("token", Params.token);
 
         return HttpHelper.getService(ApiService.class)
                 .requestLeaveMassge(ApiService.requestLeaveMassge,

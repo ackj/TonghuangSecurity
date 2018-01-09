@@ -18,13 +18,14 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.meilun.security.smart.R;
 import com.meilun.security.smart.common.Params;
 import com.meilun.security.smart.common.SmsHelper;
 import com.meilun.security.smart.common.UserHelper;
 import com.meilun.security.smart.entity.bean.BaseBean;
 import com.meilun.security.smart.login.contract.RegisterContract;
 import com.meilun.security.smart.login.presenter.RegisterPresenter;
-import com.meilun.security.smart.R;
+import com.meilun.security.smart.utils.EyeCatHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -231,8 +232,20 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
         bundle.putString(UserHelper.ACCOUNT, params.account);
         bundle.putString(UserHelper.PASSWORD, params.password1);
         setFragmentResult(SupportFragment.RESULT_OK, bundle);
-        pop();
+        EyeCatHelper.register(params.account, new EyeCatHelper.OnRegisterListener() {
+            @Override
+            public void registerSuccess() {
+                DialogHelper.successSnackbar(getView(), "恭喜您注册成功！");
+                pop();
+            }
+
+            @Override
+            public void registerFaild() {
+                DialogHelper.errorSnackbar(getView(), "很抱歉，注册失败，请重试！");
+            }
+        });
     }
+
 
     @Override
     public void getVerfyCodeSuccess(BaseBean baseBean) {

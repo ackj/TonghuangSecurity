@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="名　称："
+            android:textColor="@color/base_black" />
+
+        <EditText
+            android:id="@+id/et_device_name_update_params_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null" />
+    </LinearLayout>
+
+    <View style="@style/LineStyle" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="序列号："
+            android:textColor="@color/base_black" />
+
+        <EditText
+            android:id="@+id/et_serial_number_update_params_fragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_qr_black_45px" />
+    </LinearLayout>
+
+    <View style="@style/LineStyle" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="密　码："
+            android:textColor="@color/base_black" />
+
+        <EditText
+            android:id="@+id/et_password_update_params_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+    <View style="@style/LineStyle" />
+
+    <Button
+        android:id="@+id/bt_save_update_params_fragment"
+        style="@style/ButtonBaseColorBackStyle"
+        android:layout_margin="20dp"
+        android:enabled="false"
+        android:text="保存" />
+
+</LinearLayout>

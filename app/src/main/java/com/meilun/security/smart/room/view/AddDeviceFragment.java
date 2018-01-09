@@ -74,14 +74,14 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
 
     Unbinder unbinder;
     private DeviceListBean.DataBean.SubDevicesBean bean;
-    private RoomsBean.DataBean.RoomListBean selectRoom;
+//    private RoomsBean.DataBean.RoomListBean selectRoom;
     private Params params = Params.getInstance();
 
-    public static AddDeviceFragment newInstance(DeviceListBean.DataBean.SubDevicesBean bean, RoomsBean.DataBean.RoomListBean room) {
+    public static AddDeviceFragment newInstance(DeviceListBean.DataBean.SubDevicesBean bean/*, RoomsBean.DataBean.RoomListBean room*/) {
         AddDeviceFragment fragment = new AddDeviceFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("bean", bean);
-        bundle.putSerializable("room", room);
+//        bundle.putSerializable("room", room);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -97,7 +97,7 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_device, container, false);
         bean = (DeviceListBean.DataBean.SubDevicesBean) getArguments().getSerializable("bean");
-        selectRoom = (RoomsBean.DataBean.RoomListBean) getArguments().getSerializable("room");
+//        selectRoom = (RoomsBean.DataBean.RoomListBean) getArguments().getSerializable("room");
         unbinder = ButterKnife.bind(this, view);
         return attachToSwipeBack(view);
     }
@@ -129,13 +129,13 @@ public class AddDeviceFragment extends BaseFragment<AddDeviceContract.Presenter>
                     .load(bean.getIcon())
                     .into(ivIcon);
         }
-        if (selectRoom == null) {
-            tvRoomName.setText("");
-        } else {
-            params.roomFid = selectRoom.getFid();
-            ALog.e(TAG, "roomFid:" + params.roomFid);
-            tvRoomName.setText(selectRoom.getName());
-        }
+//        if (selectRoom == null) {
+//            tvRoomName.setText("");
+//        } else {
+//            params.roomFid = selectRoom.getFid();
+//            ALog.e(TAG, "roomFid:" + params.roomFid);
+//            tvRoomName.setText(selectRoom.getName());
+//        }
     }
 
     private void initListener() {

@@ -260,10 +260,6 @@ public class DiscoverFragment extends BaseFragment<DiscoverContract.Presenter> i
                 || bean.getData().getNotices().isEmpty()) {
             notices.add("消息通知");
         } else {
-//            for (int i = 0; i < bean.getData().getNotices().size(); i++) {
-//                list.add(bean.getData().getNotices().get(i).getTitle());
-//            }
-
             for (DiscoverBean.DataBean.NoticesBean noticesBean : bean.getData().getNotices()) {
                 notices.add(noticesBean.getTitle());
             }
