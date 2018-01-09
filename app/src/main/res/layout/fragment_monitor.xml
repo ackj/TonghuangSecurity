@@ -89,13 +89,13 @@
         <TextView
             android:id="@+id/tv_picture_monitoring_fragment"
             style="@style/MonitoringTextViewStyle"
-            android:drawableTop="@drawable/ic_pictures_black_150px"
+            android:drawableTop="@drawable/ic_photographquan_blue_180px"
             android:text="拍照" />
 
         <TextView
             android:id="@+id/tv_video_monitoring_fragment"
             style="@style/MonitoringTextViewStyle"
-            android:drawableTop="@drawable/ic_video_black_150px"
+            android:drawableTop="@drawable/ic_videoquan_180px"
             android:text="录像" />
     </LinearLayout>
 
@@ -108,7 +108,7 @@
         <TextView
             android:id="@+id/tv_sound_monitoring_fragment"
             style="@style/MonitoringTextViewStyle"
-            android:drawableTop="@drawable/ic_sound_black_150px"
+            android:drawableTop="@drawable/ic_shengyinquan_blue_180px"
             android:text="声音" />
 
         <TextView

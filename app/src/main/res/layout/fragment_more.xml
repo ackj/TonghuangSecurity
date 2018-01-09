@@ -107,6 +107,7 @@
             <View style="@style/MoreItem_LineStyle" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/ll_room_manager"
                 style="@style/MoreItem_LinearLayoutStyle">
 

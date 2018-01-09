@@ -20,6 +20,7 @@ import com.meilun.security.smart.entity.bean.RoomsBean;
 import com.meilun.security.smart.room.contract.RoomDeviceListContract;
 import com.meilun.security.smart.room.presenter.RoomDeviceListPresenter;
 import com.meilun.security.smart.room.view.DeviceGridRVAdapter;
+import com.meilun.security.smart.room.view.DeviceOnOffFragment;
 import com.meilun.security.smart.room.view.DeviceTypeFragment;
 
 import java.io.Serializable;
@@ -98,7 +99,7 @@ public class SecurityControlFragment extends BaseFragment<RoomDeviceListPresente
                     intent.putExtra("bean", (Serializable) bean);
                     startActivity(intent);
                 } else {
-//                    _mActivity.start(DeviceOnOffFragment.newInstance(bean, selectRoom));
+                    _mActivity.start(DeviceOnOffFragment.newInstance(bean/*, selectRoom*/));
                 }
             }
         });

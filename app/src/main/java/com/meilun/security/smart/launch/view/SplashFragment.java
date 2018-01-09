@@ -1,23 +1,17 @@
 package com.meilun.security.smart.launch.view;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.Player.web.response.ResponseCommon;
-import com.Player.web.websocket.ClientCore;
-import com.meilun.security.smart.App;
 import com.meilun.security.smart.R;
 import com.meilun.security.smart.common.ApiService;
 import com.meilun.security.smart.common.Constants;
 import com.meilun.security.smart.common.UserHelper;
-import com.meilun.security.smart.common.sdk.Utility;
 import com.meilun.security.smart.login.LoginActivity;
 import com.meilun.security.smart.main.MainActivity;
 import com.meilun.security.smart.utils.CameraHelper;
@@ -77,7 +71,6 @@ public class SplashFragment extends BaseFragment {
                                     go2Login();
                                 }
                             });
-
                         }, throwable -> {
                             ALog.e(throwable);
                             go2Main();

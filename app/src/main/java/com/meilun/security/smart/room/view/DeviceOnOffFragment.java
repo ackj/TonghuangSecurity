@@ -52,11 +52,11 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
     private DeviceListBean.DataBean.SubDevicesBean bean;
     private RoomsBean.DataBean.RoomListBean selectRoom;
 
-    public static DeviceOnOffFragment newInstance(DeviceListBean.DataBean.SubDevicesBean bean, RoomsBean.DataBean.RoomListBean selectRoom) {
+    public static DeviceOnOffFragment newInstance(DeviceListBean.DataBean.SubDevicesBean bean/*, RoomsBean.DataBean.RoomListBean selectRoom*/) {
         DeviceOnOffFragment fragment = new DeviceOnOffFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("bean", bean);
-        bundle.putSerializable("selectRoom", selectRoom);
+//        bundle.putSerializable("selectRoom", selectRoom);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -65,7 +65,7 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bean = (DeviceListBean.DataBean.SubDevicesBean) getArguments().getSerializable("bean");
-        selectRoom = (RoomsBean.DataBean.RoomListBean) getArguments().getSerializable("selectRoom");
+//        selectRoom = (RoomsBean.DataBean.RoomListBean) getArguments().getSerializable("selectRoom");
     }
 
     @NonNull
@@ -105,7 +105,7 @@ public class DeviceOnOffFragment extends BaseFragment<DeviceOnOffContract.Presen
         toolbarMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                _mActivity.startForResult(AddDeviceFragment.newInstance(bean, selectRoom), 100);
+                _mActivity.startForResult(AddDeviceFragment.newInstance(bean/*, selectRoom*/), 100);
             }
         });
     }

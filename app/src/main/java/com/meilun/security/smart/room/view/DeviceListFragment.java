@@ -84,7 +84,7 @@ public class DeviceListFragment extends BaseFragment<DeviceListPresenter> {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         unbinder = ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
-        return attachToSwipeBack(view);
+        return view;
     }
 
     @Override

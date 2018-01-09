@@ -310,13 +310,13 @@ public class MonitorFragment extends BaseFragment<MonitorPresenter> {
         if (isPlaying()) {
             if (mPlayerCore.GetIsVoicePause()) {
                 mPlayerCore.OpenAudio();
-                Drawable drawableTop = ContextCompat.getDrawable(_mActivity, R.drawable.ic_sound_black_150px);
+                Drawable drawableTop = ContextCompat.getDrawable(_mActivity, R.drawable.ic_shengyinquan_blue_180px);
                 drawableTop.setBounds(0, 0, drawableTop.getMinimumWidth(), drawableTop.getMinimumHeight());
                 tvSound.setCompoundDrawables(null, drawableTop, null, null);
                 tvSound.setText("静音");
             } else {
                 mPlayerCore.CloseAudio();
-                Drawable drawableTop = ContextCompat.getDrawable(_mActivity, R.drawable.ic_no_voice_black_150_150);
+                Drawable drawableTop = ContextCompat.getDrawable(_mActivity, R.drawable.ic_labaquan_blue_180px);
                 drawableTop.setBounds(0, 0, drawableTop.getMinimumWidth(), drawableTop.getMinimumHeight());
                 tvSound.setCompoundDrawables(null, drawableTop, null, null);
                 tvSound.setText("扬声");
@@ -331,7 +331,7 @@ public class MonitorFragment extends BaseFragment<MonitorPresenter> {
             if (mPlayerCore.GetIsSnapVideo()) {
                 mPlayerCore.SetSnapVideo(false);
                 tvRec.setVisibility(View.GONE);
-                Drawable drawableTop = ContextCompat.getDrawable(_mActivity, R.drawable.ic_video_black_150px);
+                Drawable drawableTop = ContextCompat.getDrawable(_mActivity, R.drawable.ic_videoquan_180px);
                 drawableTop.setBounds(0, 0, drawableTop.getMinimumWidth(), drawableTop.getMinimumHeight());
                 tvVideo.setCompoundDrawables(null, drawableTop, null, null);
                 tvVideo.setText("录像");
@@ -339,7 +339,7 @@ public class MonitorFragment extends BaseFragment<MonitorPresenter> {
             } else {
                 mPlayerCore.SetSnapVideo(true);
                 tvRec.setVisibility(View.VISIBLE);
-                Drawable drawableTop = ContextCompat.getDrawable(_mActivity, R.drawable.ic_video_stop_brown_150_150);
+                Drawable drawableTop = ContextCompat.getDrawable(_mActivity, R.drawable.ic_stop_play_brown_150_150);
                 drawableTop.setBounds(0, 0, drawableTop.getMinimumWidth(), drawableTop.getMinimumHeight());
                 tvVideo.setCompoundDrawables(null, drawableTop, null, null);
                 tvVideo.setText("录像中…");
