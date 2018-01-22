@@ -356,7 +356,9 @@ public class Security2Fragment extends BaseFragment<SecurityPresenter> implement
     @Override
     public void responseSwichGateway(BaseBean baseBean) {
         DialogHelper.successSnackbar(getView(), baseBean.getOther().getMessage());
-        ptrFrameLayout.autoRefresh();
+//        ptrFrameLayout.autoRefresh();
+        defenseFragment.onRefresh();
+        controlFragment.onRefresh();
         EventBus.getDefault().post(new EventSwitchHost());
     }
 

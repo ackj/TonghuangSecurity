@@ -108,9 +108,9 @@ public class SecurityControlFragment extends BaseFragment<RoomDeviceListPresente
     @Override
     public void onRefresh() {
         if (mPresenter != null) {
+        }
             mPresenter.requestDeviceList(params);
         }
-    }
 
     private void initData() {
         params.roomId = -1;
