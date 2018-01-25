@@ -32,13 +32,13 @@ public class SmartHomeMallModel extends BaseModel implements SmartHomeMallContra
     @Override
     public Observable<GoodsBean> requestGoodsList(Params params) {
         return HttpHelper.getService(ApiService.class).requestGoodsList(
-                ApiService.requestGoodsList,params.token,params.appType,params.secondCategoryId)
+                ApiService.requestGoodsList,params.token,params.appType,params.secondCategoryId,Constants.fromPoint)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<FirstLevelBean> requestFirstLevel(Params params) {
-        return HttpHelper.getService(ApiService.class).requestFirstLevel(ApiService.requestFirstLevel,params.keywords, Constants.payFrom)
+        return HttpHelper.getService(ApiService.class).requestFirstLevel(ApiService.requestFirstLevel,params.keywords, Constants.fromPoint)
                 .subscribeOn(Schedulers.io());
     }
 }

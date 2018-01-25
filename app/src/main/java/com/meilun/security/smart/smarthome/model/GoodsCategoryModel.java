@@ -26,7 +26,7 @@ public class GoodsCategoryModel extends BaseModel implements GoodsCategoryContra
 
     @Override
     public Observable<FirstLevelBean> requestFirstLevel(Params params) {
-        return HttpHelper.getService(ApiService.class).requestFirstLevel(ApiService.requestFirstLevel,params.keywords, Constants.payFrom)
+        return HttpHelper.getService(ApiService.class).requestFirstLevel(ApiService.requestFirstLevel,params.keywords, Constants.fromPoint)
                 .subscribeOn(Schedulers.io());
     }
 }
